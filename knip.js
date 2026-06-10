@@ -20,6 +20,6 @@ export default {
     "sh/compile_i18n.js",
     "sh/gen_formula_svg.js",
   ],
-  ignore: ["demo/**", "lib/**", "plugin/*/lib/**", "plugin/*/src/*.d.ts"],
+  ignore: ["demo/**", "lib/**", "plugin/*/lib/**", "plugin/*/src/*.d.ts", "./conf/**"],
   ignoreDependencies: ["@mathjax/mathjax-mhchem-font-extension", "oxfmt", "oxlint", "@1-/mdcheck"],
 };
