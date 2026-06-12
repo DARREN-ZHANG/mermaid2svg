@@ -6,7 +6,7 @@ const read = (path) => readFileSync(path, "utf8");
 
 test("init loop package script points at workflow loop entry", () => {
   const pkg = JSON.parse(read("package.json"));
-  assert.equal(pkg.scripts["agent:init"], "tsx workflow/loops/init/init-loop.ts");
+  assert.match(pkg.scripts["agent:init"], /^tsx(?: --env-file=\.env)? workflow\/loops\/init\/init-loop\.ts$/);
 });
 
 test("init loop config uses workflow state, parent docs, and parent references", () => {
@@ -53,5 +53,17 @@ test("init agent requires subagent-driven development for concrete tasks", () =>
     assert.match(text, /fresh subagent per task/i);
     assert.match(text, /spec compliance/i);
     assert.match(text, /code quality/i);
+  }
+});
+
+test("init agent requires frequent conventional commits", () => {
+  const config = JSON.parse(read("opencode.jsonc")),
+    agent = read(".opencode/agents/init-agent.md"),
+    prompt = config.agent["init-agent"].prompt;
+
+  for (const text of [agent, prompt]) {
+    assert.match(text, /conventional commits/i);
+    assert.match(text, /commit frequently/i);
+    assert.match(text, /small group of work/i);
   }
 });

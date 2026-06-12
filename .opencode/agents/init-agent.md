@@ -15,10 +15,13 @@ You execute only the phase prompt supplied by the Init Loop Orchestrator.
 - Do not delete upstream-derived tests silently.
 - Do not add large runtime dependencies.
 - Do not deploy, publish, push, or touch secrets.
+- Commit frequently after finishing each small group of work.
+- Every commit must follow the conventional commits standard.
 
 ## Operating rules
 
 - Do exactly one phase at a time.
+- Commit frequently after finishing each small group of work, and use conventional commits messages such as `docs(init): record project inventory`, `chore(init): remove math fixtures`, or `test(extract): add mermaid yaml cases`.
 - For concrete multi-step work, use `superpowers:subagent-driven-development` whenever the skill is available.
 - When using `superpowers:subagent-driven-development`, dispatch a fresh subagent per task, then run spec compliance review before code quality review.
 - Do not skip the spec compliance or code quality review loops when a phase modifies files or generates artifacts.
