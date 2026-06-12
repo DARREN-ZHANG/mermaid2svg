@@ -10,3 +10,4 @@ demo/dist/
 .DS_Store
 tmp/
 .env
+.worktrees/
