@@ -1,13 +1,8 @@
 export default {
   entry: [
-    "sh/bench/*.js",
     "dev.js",
-    "dist.js",
     "minify.js",
-    "extract/run.js",
     "sh/check.js",
-    "sh/stringAnalyze.js",
-    "sh/unicodeUnescape.js",
     "test/compare.test.js",
     "plugin/serve.js",
     "plugin/markdown-it/src/index.js",
@@ -16,9 +11,7 @@ export default {
     "plugin/marked/test.js",
     "plugin/remark/src/index.js",
     "plugin/remark/test.js",
-    "sh/bench/self.js",
     "sh/compile_i18n.js",
-    "sh/gen_formula_svg.js",
   ],
   ignore: ["demo/**", "lib/**", "plugin/*/lib/**", "plugin/*/src/*.d.ts", "./conf/**"],
   ignoreDependencies: ["@mathjax/mathjax-mhchem-font-extension", "oxfmt", "oxlint", "@1-/mdcheck"],
