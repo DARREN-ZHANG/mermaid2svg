@@ -76,7 +76,7 @@
     "zx": "^8.8.5"
   },
   "lint-staged": {
-    "**/*.svg": "bun sh/hook/svg.js",
-    "**/*.styl": "bun sh/hook/styl.js"
+    "**/*.svg": "node sh/hook/svg.js",
+    "**/*.styl": "node sh/hook/styl.js"
   }
 }

@@ -1,5 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
-bun x lint-staged
-./test.sh
-git add -u
+pnpm exec lint-staged
+node --test workflow/loops/init/init-loop.test.mjs workflow/hooks/pre-commit.test.mjs
