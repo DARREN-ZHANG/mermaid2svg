@@ -42,3 +42,16 @@ test("opencode config pins zhipu coding plan GLM-5.1", () => {
   assert.equal(config.provider["zhipuai-coding-plan"].models["glm-5.1"].name, "GLM-5.1");
   assert.equal(config.agent["init-agent"].model, "zhipuai-coding-plan/glm-5.1");
 });
+
+test("init agent requires subagent-driven development for concrete tasks", () => {
+  const config = JSON.parse(read("opencode.jsonc")),
+    agent = read(".opencode/agents/init-agent.md"),
+    prompt = config.agent["init-agent"].prompt;
+
+  for (const text of [agent, prompt]) {
+    assert.match(text, /superpowers:subagent-driven-development/);
+    assert.match(text, /fresh subagent per task/i);
+    assert.match(text, /spec compliance/i);
+    assert.match(text, /code quality/i);
+  }
+});

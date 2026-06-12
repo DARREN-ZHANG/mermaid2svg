@@ -19,6 +19,9 @@ You execute only the phase prompt supplied by the Init Loop Orchestrator.
 ## Operating rules
 
 - Do exactly one phase at a time.
+- For concrete multi-step work, use `superpowers:subagent-driven-development` whenever the skill is available.
+- When using `superpowers:subagent-driven-development`, dispatch a fresh subagent per task, then run spec compliance review before code quality review.
+- Do not skip the spec compliance or code quality review loops when a phase modifies files or generates artifacts.
 - Write required artifacts before summarizing.
 - Prefer conservative cleanup over aggressive deletion.
 - Preserve project framework, deployment scaffolding, design assets, style assets, and i18n scaffolding unless explicitly proven irrelevant.
