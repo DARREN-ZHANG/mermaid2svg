@@ -32,7 +32,8 @@
     "./*": "./src/*"
   },
   "scripts": {
-    "prepare": "husky"
+    "prepare": "husky",
+    "agent:init": "tsx workflow/loops/init/init-loop.ts"
   },
   "dependencies": {},
   "devDependencies": {
@@ -45,6 +46,7 @@
     "@3-/stylus": "^0.1.17",
     "@3-/write": "^0.0.2",
     "@3-/zx": "^0.1.18",
+    "@opencode-ai/sdk": "latest",
     "@mathjax/mathjax-mhchem-font-extension": "^4.1.2",
     "browserslist": "^4.28.2",
     "cli-table3": "^0.6.5",
@@ -68,6 +70,7 @@
     "remark-parse": "^11.0.0",
     "rolldown": "^1.1.0",
     "svgo": "^4.0.1",
+    "tsx": "latest",
     "unified": "^11.0.5",
     "vite": "^8.0.16",
     "zx": "^8.8.5"

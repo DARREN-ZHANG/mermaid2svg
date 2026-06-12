@@ -1,0 +1,36 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "share": "disabled",
+  "autoupdate": "notify",
+  "instructions": [
+    "AGENTS.md",
+    "../docs/mermaid-svg-spec.md",
+    "../docs/acceptance-criteria.md",
+    "../docs/mermaid-svg-architecture.md",
+    ".opencode/agents/init-agent.md"
+  ],
+  "agent": {
+    "init-agent": {
+      "description": "Executes the automated Init Loop for the Mermaid to SVG project baseline.",
+      "mode": "primary",
+      "prompt": "You are the init agent for a minimal Mermaid to SVG project. Execute only the phase prompt given by the orchestrator. Never modify canonical parent docs or references. Never implement the converter during initialization. Prefer small, reversible changes. Document uncertainty instead of making irreversible decisions.",
+      "permission": {
+        "edit": "allow",
+        "bash": "allow"
+      }
+    }
+  },
+  "default_agent": "init-agent",
+  "watcher": {
+    "ignore": [
+      "node_modules/**",
+      "dist/**",
+      "build/**",
+      ".next/**",
+      ".git/**",
+      "../references/**/.git/**",
+      "workflow/runs/**"
+    ]
+  },
+  "snapshot": true
+}
