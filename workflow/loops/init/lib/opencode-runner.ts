@@ -13,7 +13,7 @@ export async function runOpenCodePhase(input: OpenCodePhaseInput): Promise<void>
   await mkdir(input.logDir, { recursive: true });
 
   const opencode = await createOpencode({
-    timeout: Number(process.env.OPENCODE_SERVER_TIMEOUT_MS ?? 10000),
+    timeout: Number(process.env.OPENCODE_SERVER_TIMEOUT_MS ?? 300000),
     config: {
       share: "disabled",
       autoupdate: "notify"
@@ -38,8 +38,10 @@ export async function runOpenCodePhase(input: OpenCodePhaseInput): Promise<void>
     };
     if (model) body.model = model;
 
+    const sessionId = session.data.id;
+
     const result = await opencode.client.session.prompt({
-      path: { id: session.id },
+      path: { id: sessionId },
       body: body as never
     });
 
@@ -50,7 +52,7 @@ export async function runOpenCodePhase(input: OpenCodePhaseInput): Promise<void>
     );
 
     const messages = await opencode.client.session.messages({
-      path: { id: session.id }
+      path: { id: sessionId }
     });
     await writeFile(
       path.join(input.logDir, `${input.phaseId}.messages.json`),

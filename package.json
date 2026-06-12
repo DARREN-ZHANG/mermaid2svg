@@ -33,11 +33,11 @@
   },
   "scripts": {
     "prepare": "husky",
-    "agent:init": "tsx workflow/loops/init/init-loop.ts"
+    "agent:init": "tsx --env-file=.env workflow/loops/init/init-loop.ts"
   },
   "dependencies": {},
   "devDependencies": {
-    "@1-/dist": "file:../npm/dist",
+    "@1-/dist": "^0.1.18",
     "@1-/findgit": "^0.1.2",
     "@1-/mdcheck": "^0.1.6",
     "@3-/log": "^0.1.9",

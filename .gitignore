@@ -9,3 +9,4 @@ demo/dist/
 .codegraph/
 .DS_Store
 tmp/
+.env
