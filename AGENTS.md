@@ -54,3 +54,123 @@
 
 - 加解密：强制使用原生的 Web Crypto API
 - 二进制数据：处理二进制时，尽量统一使用 `Uint8Array`
+
+---
+
+# Mermaid → SVG 项目规范
+
+## 项目目标
+
+在现有 `@webc.site/math` 项目基础上，实现一个**轻量、浏览器端、专注于 Mermaid → SVG 转换**的前端工具。用户可以在页面中输入 Mermaid 源文本，系统在浏览器端完成渲染，并展示 SVG 图像结果。
+
+## 非目标
+
+- 不自研 Mermaid Parser 或 layout engine
+- 不使用服务端 Mermaid 转换
+- 不引入数据库、队列、用户系统等后端基础设施
+- 不进行与 Mermaid → SVG 无关的大规模重构
+- 不删除上游项目的 MathML 库、plugin 集成、blog 内容
+- 当前版本不做 SVG 下载、渲染历史、自动补全、AI 生成等
+
+## Coding Agent 边界
+
+### 允许
+- 修改 `demo/` 目录下的页面代码（Pug、JS、Stylus）
+- 在 `demo/webc/` 下新增 Mermaid 组件
+- 修改 `demo/i18n/*.js` 添加 Mermaid 相关翻译 key
+- 重写 `extract/` 目录为 Mermaid 测试抽取
+- 在 `test/` 下新增 Mermaid YAML 测试和 test runner
+- 修改 `demo/const/` 添加 Mermaid 示例数据
+- 修改 `demo/svg/` 替换对比图表
+- 修改 `vite.config.js` 添加 Mermaid 相关构建配置
+- 新增 `workflow/reports/size-report.json` 和相关脚本
+- 新增 `workflow/reports/i18n-report.json`
+- 修改 `test.sh` 和 `sh/check.js` 以适配新测试
+- 添加 `mermaid` npm 依赖（仅 devDependencies 或浏览器端加载）
+
+### 禁止
+- 不修改 `src/` 目录（上游 TeX → MathML 库）
+- 不修改 `lib/` 目录（编译产物，由 `minify.js` 生成）
+- 不修改 `../docs/mermaid-svg-spec.md`
+- 不修改 `../docs/acceptance-criteria.md`
+- 不修改 `../docs/mermaid-svg-architecture.md`
+- 不修改 `../references/**`（上游参考仓库）
+- 不删除 `plugin/`、`blog/`、`readme/` 等上游项目资产
+- 不删除 `test/case/*.yml`（MathML 测试，属于上游项目）
+- 不删除 `demo/webc/Math.js`（上游组件）
+- 不修改 `.github/workflows/npm.yml`（上游 CI）
+
+## 受保护文件
+
+以下文件不得修改（除非明确要求）：
+- `src/**` — 上游 MathML 库
+- `lib/**` — 编译产物
+- `../docs/mermaid-svg-spec.md` — 项目规约
+- `../docs/acceptance-criteria.md` — 验收标准
+- `../docs/mermaid-svg-architecture.md` — 技术架构
+- `../references/**` — 参考仓库
+- `plugin/**` — markdown 插件集成
+- `blog/**` — 博客内容
+
+## 依赖策略
+
+- 运行时依赖：**零**（目标与上游一致，保持轻量）
+- `mermaid` 包通过浏览器端加载或 devDependencies 引入
+- 不引入大型运行时依赖（不用 chart.js、d3 等）
+- CSS 主题来自 `beautiful-mermaid`，需记录来源和版本
+- 不使用 `import * as x`，按需精准导入
+
+## 测试策略
+
+- `test/*.yml` — Mermaid YAML 测试文件（由 `extract/run.js` 生成）
+- `test/case/*.yml` — 上游 MathML 测试（保持不动）
+- `test/schema.yml` — YAML 测试 schema
+- `test.sh` — 主测试流程：check → oxfmt → minify → oxlint → bun test
+- 测试运行器：`bun test`
+- 新增 Mermaid 测试不应破坏现有 MathML 测试
+- 所有最终纳入执行的 YAML 测试必须通过
+
+## Repo 清理策略
+
+- 不主动删除文件。将疑似可移除的文件记录在 `docs/init/remove-candidates.md`
+- 保守清理优先，不确定的保留
+- 清理决策需经过人工确认
+
+## Human Gate 策略
+
+以下决策节点需要人工介入：
+1. Spec / 验收标准确认
+2. 测试抽取范围确认
+3. `extract/run.js` 重写方案确认
+4. demo 页面从 Math 改为 Mermaid 的改动范围确认
+5. i18n 新增 key 列表和 fallback 策略确认
+6. `beautiful-mermaid` 对比口径确认
+7. Cloudflare Pages 部署方式确认
+8. 最终 diff 确认
+
+以下不需要人工介入：
+- 单任务执行和局部代码修改
+- 测试失败后的自动重试修复
+- build 重跑
+- 文档更新
+
+## 项目结构速览
+
+```
+demo/            → Web Demo (Pug + JS + Stylus) — Mermaid 集成主战场
+  i18n/          → 75 种语言翻译文件 — 需新增 Mermaid key
+  webc/          → Web Components — 需新增 Mermaid 组件
+  svg/           → SVG 资源 — 需替换对比图
+  const/         → 静态数据 — 需新增 Mermaid 示例
+src/             → 上游 TeX → MathML 库 — 不动
+lib/             → 编译产物 — 不动
+extract/         → 测试抽取 — 需重写为 Mermaid
+test/            → 测试 — 需新增 Mermaid 测试
+test/case/       → MathML 测试 — 保持不动
+sh/              → 脚本 — 需适度扩展
+plugin/          → markdown 插件 — 不动
+blog/            → 博客 — 不动
+workflow/        → 自动化 workflow — 不动
+../references/   → 参考仓库 (maid, beautiful-mermaid, mermaid) — 不动
+../docs/         → 项目规约文档 — 不动
+```
