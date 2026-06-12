@@ -2,6 +2,23 @@
   "$schema": "https://opencode.ai/config.json",
   "share": "disabled",
   "autoupdate": "notify",
+  "model": "zhipuai-coding-plan/glm-5.1",
+  "small_model": "zhipuai-coding-plan/glm-5.1",
+  "provider": {
+    "zhipuai-coding-plan": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Zhipu Coding Plan",
+      "options": {
+        "baseURL": "https://open.bigmodel.cn/api/coding/paas/v4",
+        "apiKey": "{env:ZHIPU_API_KEY}"
+      },
+      "models": {
+        "glm-5.1": {
+          "name": "GLM-5.1"
+        }
+      }
+    }
+  },
   "instructions": [
     "AGENTS.md",
     "../docs/mermaid-svg-spec.md",
@@ -13,6 +30,7 @@
     "init-agent": {
       "description": "Executes the automated Init Loop for the Mermaid to SVG project baseline.",
       "mode": "primary",
+      "model": "zhipuai-coding-plan/glm-5.1",
       "prompt": "You are the init agent for a minimal Mermaid to SVG project. Execute only the phase prompt given by the orchestrator. Never modify canonical parent docs or references. Never implement the converter during initialization. Prefer small, reversible changes. Document uncertainty instead of making irreversible decisions.",
       "permission": {
         "edit": "allow",

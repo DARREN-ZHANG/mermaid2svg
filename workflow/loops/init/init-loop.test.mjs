@@ -31,3 +31,14 @@ test("init loop entry preflight verifies references instead of cloning them", ()
   assert.doesNotMatch(entry, /git clone/);
   assert.doesNotMatch(entry, /git checkout -b/);
 });
+
+test("opencode config pins zhipu coding plan GLM-5.1", () => {
+  const config = JSON.parse(read("opencode.jsonc"));
+  assert.equal(config.model, "zhipuai-coding-plan/glm-5.1");
+  assert.equal(config.small_model, "zhipuai-coding-plan/glm-5.1");
+  assert.equal(config.provider["zhipuai-coding-plan"].npm, "@ai-sdk/openai-compatible");
+  assert.equal(config.provider["zhipuai-coding-plan"].options.baseURL, "https://open.bigmodel.cn/api/coding/paas/v4");
+  assert.equal(config.provider["zhipuai-coding-plan"].options.apiKey, "{env:ZHIPU_API_KEY}");
+  assert.equal(config.provider["zhipuai-coding-plan"].models["glm-5.1"].name, "GLM-5.1");
+  assert.equal(config.agent["init-agent"].model, "zhipuai-coding-plan/glm-5.1");
+});
