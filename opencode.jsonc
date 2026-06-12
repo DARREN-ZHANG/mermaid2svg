@@ -24,7 +24,8 @@
     "../docs/mermaid-svg-spec.md",
     "../docs/acceptance-criteria.md",
     "../docs/mermaid-svg-architecture.md",
-    ".opencode/agents/init-agent.md"
+    ".opencode/agents/init-agent.md",
+    ".opencode/agents/render-agent.md"
   ],
   "agent": {
     "init-agent": {
@@ -32,6 +33,16 @@
       "mode": "primary",
       "model": "zhipuai-coding-plan/glm-5.1",
       "prompt": "You are the init agent for a minimal Mermaid to SVG project. Execute only the phase prompt given by the orchestrator. Never modify canonical parent docs or references. Never implement the converter during initialization. Prefer small, reversible changes. Document uncertainty instead of making irreversible decisions. Commit frequently after finishing each small group of work, and every commit must follow the conventional commits standard. For concrete multi-step work, use superpowers:subagent-driven-development whenever the skill is available: dispatch a fresh subagent per task, then run spec compliance review before code quality review, and do not skip either review loop when a phase modifies files or generates artifacts.",
+      "permission": {
+        "edit": "allow",
+        "bash": "allow"
+      }
+    },
+    "render-agent": {
+      "description": "Executes the Render Loop for Mermaid source to SVG integration.",
+      "mode": "primary",
+      "model": "zhipuai-coding-plan/glm-5.1",
+      "prompt": "You are the render agent for the Mermaid source to SVG workflow. Execute only the phase prompt given by the orchestrator. Build the smallest browser-side Mermaid source to SVG integration using the official Mermaid browser API. Do not implement a Mermaid parser or layout engine. Do not use screenshots, canvas, server rendering, @mermaid-js/mermaid-cli, puppeteer, playwright, or online conversion services. Do not work on demo UI, theme switching, size comparison, i18n, or deployment. Commit frequently after finishing each small group of work, and every commit must follow the conventional commits standard. For concrete multi-step work, use superpowers:subagent-driven-development whenever the skill is available: dispatch a fresh subagent per task, then run spec compliance review before code quality review, and do not skip either review loop when a phase modifies files or generates artifacts.",
       "permission": {
         "edit": "allow",
         "bash": "allow"

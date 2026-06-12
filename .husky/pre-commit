@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 
 pnpm exec lint-staged
-node --test workflow/loops/init/init-loop.test.mjs workflow/hooks/pre-commit.test.mjs
+node --test workflow/loops/init/init-loop.test.mjs workflow/hooks/pre-commit.test.mjs workflow/loops/render/render-loop.test.mjs

@@ -12,6 +12,7 @@ test("pre-commit hook uses installed node tooling instead of bun-only commands",
   assert.doesNotMatch(hook, /git add -u/);
   assert.match(hook, /pnpm exec lint-staged/);
   assert.match(hook, /node --test workflow\/loops\/init\/init-loop\.test\.mjs/);
+  assert.match(hook, /workflow\/loops\/render\/render-loop\.test\.mjs/);
 });
 
 test("lint-staged commands do not require bun", () => {

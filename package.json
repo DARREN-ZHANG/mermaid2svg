@@ -33,7 +33,8 @@
   },
   "scripts": {
     "prepare": "husky",
-    "agent:init": "tsx --env-file=.env workflow/loops/init/init-loop.ts"
+    "agent:init": "tsx --env-file=.env workflow/loops/init/init-loop.ts",
+    "agent:render": "tsx --env-file=.env workflow/loops/render/render-loop.ts"
   },
   "dependencies": {},
   "devDependencies": {
