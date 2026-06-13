@@ -68,6 +68,8 @@ test("opencode runner snapshots child sessions while a phase is running", () => 
   assert.match(runner, /\$\{input\.phaseId\}\.status\.json/);
   assert.match(runner, /session\.children/);
   assert.match(runner, /\$\{input\.phaseId\}\.child\.\$\{child\.id\}\.messages\.json/);
+  assert.match(runner, /toDiagnosticMessages/);
+  assert.match(runner, /omitted from diagnostics/);
 });
 
 test("reference directories are ignored by git and opencode watcher", () => {

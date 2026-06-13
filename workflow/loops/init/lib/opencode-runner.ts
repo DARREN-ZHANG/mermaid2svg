@@ -205,7 +205,10 @@ async function writeRuntimeDiagnostics(
         const messages = await opencode.client.session.messages({
           path: { id: child.id }
         });
-        await writeJson(path.join(input.logDir, `${input.phaseId}.child.${child.id}.messages.json`), messages);
+        await writeJson(
+          path.join(input.logDir, `${input.phaseId}.child.${child.id}.messages.json`),
+          toDiagnosticMessages(messages)
+        );
       } catch (error) {
         await writeJson(path.join(input.logDir, `${input.phaseId}.child.${child.id}.messages-error.json`), {
           childId: child.id,
@@ -222,6 +225,25 @@ async function writeRuntimeDiagnostics(
       failedAt: new Date().toISOString()
     });
   }
+}
+
+function toDiagnosticMessages(messages: unknown): unknown {
+  return omitLargeToolOutputs(messages);
+}
+
+function omitLargeToolOutputs(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map((item) => omitLargeToolOutputs(item));
+  if (!value || typeof value !== "object") return value;
+
+  const output: Record<string, unknown> = {};
+  for (const [key, entry] of Object.entries(value)) {
+    if (key === "output" && typeof entry === "string") {
+      output[key] = `[omitted from diagnostics: ${entry.length} chars]`;
+      continue;
+    }
+    output[key] = omitLargeToolOutputs(entry);
+  }
+  return output;
 }
 
 function serializeError(error: unknown) {
