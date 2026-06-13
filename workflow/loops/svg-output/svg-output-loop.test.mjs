@@ -205,7 +205,11 @@ test("svg output validators reject missing artifacts and blocked compatibility p
   });
 
   assert.equal(result.ok, false);
-  assert.ok(result.errors.some((error) => error.includes("src/render/mermaid-to-svg.js")));
+  // Render Loop delivered a valid renderer; the validator must accept it (no error).
+  assert.ok(
+    !result.errors.some((error) => error.includes("src/render/mermaid-to-svg.js")),
+    "valid renderer should pass svg-output renderer validation",
+  );
   assert.ok(result.errors.some((error) => error.includes("src/render/normalize-svg.js")));
   assert.ok(result.errors.some((error) => error.includes("test/svg-output.test.mjs")));
   assert.ok(

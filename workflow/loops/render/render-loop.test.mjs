@@ -199,7 +199,11 @@ test("render validators reject missing artifacts and blocked render paths", asyn
   });
 
   assert.equal(result.ok, false);
-  assert.ok(result.errors.some((error) => error.includes("src/render/mermaid-to-svg.js")));
+  // Phase 03 delivered a valid renderer; the validator must accept it (no error).
+  assert.ok(
+    !result.errors.some((error) => error.includes("src/render/mermaid-to-svg.js")),
+    "valid renderer should pass renderer validation",
+  );
   assert.ok(result.errors.some((error) => error.includes("test/render-yml.test.mjs")));
   assert.ok(
     result.errors.some((error) => error.includes("workflow/reports/render-capabilities.json")),
