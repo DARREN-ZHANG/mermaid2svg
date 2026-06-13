@@ -1,0 +1,1042 @@
+[
+  {
+    "id": "maid-001",
+    "sourceRepo": "maid",
+    "sourcePath": "test-fixtures/flowchart/valid/simple-flow.mmd",
+    "type": "flowchart",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "flowchart TD\n    Start --> Stop",
+    "reason": "最小的有效流程图：两个节点一条边，理想的冒烟测试。"
+  },
+  {
+    "id": "maid-002",
+    "sourceRepo": "maid",
+    "sourcePath": "test-fixtures/flowchart/valid/with-text.mmd",
+    "type": "flowchart",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "flowchart LR\n    A[Start Process] --> B{Decision}\n    B -->|Yes| C[Do something]\n    B -->|No| D[Do something else]\n    C --> E[End]\n    D --> E",
+    "reason": "经典决策分支：标签边 + 菱形节点 + 汇聚，覆盖面广。"
+  },
+  {
+    "id": "maid-003",
+    "sourceRepo": "maid",
+    "sourcePath": "test-fixtures/flowchart/valid/complex-shapes.mmd",
+    "type": "flowchart",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "flowchart TB\n    A[Rectangle] --> B((Circle))\n    B --> C{Diamond}\n    C -->|Link 1| D([Stadium])\n    C -->|Link 2| E[[Subroutine]]\n    D --> F[(Database)]\n    E --> F\n    F --> H{{Hexagon}}\n    F --> G[/Parallelogram/]\n    G --> H[\\Parallelogram Alt\\]\n    H --> I[/Trapezoid\\]\n    I --> J[\\Trapezoid Alt/]",
+    "reason": "单图覆盖全部节点形状语法（矩形/圆形/菱形/体育场/子程序/数据库/六边形/平行四边形/梯形）。"
+  },
+  {
+    "id": "maid-004",
+    "sourceRepo": "maid",
+    "sourcePath": "test-fixtures/flowchart/valid/link-styles.mmd",
+    "type": "flowchart",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "flowchart LR\n    A --> B\n    A -.-> C\n    A ==> D\n    A -.text.-> E\n    A ==text==> F\n    A -- text --> G\n    A -->|text| H",
+    "reason": "覆盖所有边/箭头样式变体（实线/虚线/粗线/带标签/管道符）。"
+  },
+  {
+    "id": "maid-005",
+    "sourceRepo": "maid",
+    "sourcePath": "test-fixtures/flowchart/valid/subgraphs.mmd",
+    "type": "flowchart",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "flowchart TD\n    subgraph one[One]\n        A --> B\n    end\n    subgraph two[Two]\n        C --> D\n    end\n    one --> two",
+    "reason": "两个带标签子图 + 跨子图连接边，测试簇渲染。"
+  },
+  {
+    "id": "maid-006",
+    "sourceRepo": "maid",
+    "sourcePath": "test-fixtures/flowchart/valid/nested-subgraphs.mmd",
+    "type": "flowchart",
+    "priority": "P1",
+    "classification": "minimal_core",
+    "input": "flowchart TD\n    subgraph outer[Outer]\n        subgraph inner[Inner]\n            A --> B\n        end\n        C --> D\n    end\n    outer --> E",
+    "reason": "嵌套子图 + 外部子图发出的边，测试深层簇嵌套。"
+  },
+  {
+    "id": "maid-007",
+    "sourceRepo": "maid",
+    "sourcePath": "test-fixtures/flowchart/valid/chained-connections.mmd",
+    "type": "flowchart",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "flowchart TD\n    A --> B --> C --> D\n    E & F --> G & H",
+    "reason": "链式边 + & 分叉/合并运算符，覆盖独特 Mermaid 语法。"
+  },
+  {
+    "id": "maid-008",
+    "sourceRepo": "maid",
+    "sourcePath": "test-fixtures/flowchart/valid/multidirectional-arrows.mmd",
+    "type": "flowchart",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "flowchart LR\n    A <--> B\n    C o--o D\n    E x--x F",
+    "reason": "双向、圆形、交叉链接箭头，验证特殊箭头头渲染。"
+  },
+  {
+    "id": "maid-009",
+    "sourceRepo": "maid",
+    "sourcePath": "test-fixtures/flowchart/valid/unicode-text.mmd",
+    "type": "flowchart",
+    "priority": "P1",
+    "classification": "minimal_core",
+    "input": "flowchart LR\n    A[Hello 世界]\n    B[Emoji 😀]\n    C[Symbols ★☆♦♠]\n    A --> B\n    B --> C",
+    "reason": "标签含 CJK/emoji/字形符号，测试 SVG 文本字体渲染鲁棒性。"
+  },
+  {
+    "id": "maid-010",
+    "sourceRepo": "maid",
+    "sourcePath": "test-fixtures/sequence/valid/basic.mmd",
+    "type": "sequenceDiagram",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "sequenceDiagram\n  participant Alice\n  participant Bob\n  Alice->>Bob: Hello Bob",
+    "reason": "最小参与者 + 消息时序图，基础冒烟测试。"
+  },
+  {
+    "id": "maid-011",
+    "sourceRepo": "maid",
+    "sourcePath": "test-fixtures/sequence/valid/notes.mmd",
+    "type": "sequenceDiagram",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "sequenceDiagram\n  participant Alice\n  participant Bob\n  Note right of Alice: Thinking...\n  Alice->>Bob: Hello\n  Note over Alice,Bob: A shared note",
+    "reason": "Note right of 和 Note over 跨度变体，覆盖注释渲染。"
+  },
+  {
+    "id": "maid-012",
+    "sourceRepo": "maid",
+    "sourcePath": "test-fixtures/sequence/valid/blocks-alt-opt-loop.mmd",
+    "type": "sequenceDiagram",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "sequenceDiagram\n  participant Alice\n  participant Bob\n  alt Is morning?\n    Alice->>Bob: Good morning\n  else Is evening?\n    Alice->>Bob: Good evening\n  end\n  opt Optional check\n    Bob-->>Alice: OK\n  end\n  loop Until done\n    Alice->>Bob: Step\n  end",
+    "reason": "组合 alt/else、opt、loop 框架，覆盖面广的块结构。"
+  },
+  {
+    "id": "maid-013",
+    "sourceRepo": "maid",
+    "sourcePath": "test-fixtures/sequence/valid/par-minimal.mmd",
+    "type": "sequenceDiagram",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "sequenceDiagram\n  par\n    A->>B: First\n  and\n    A->>C: Second\n  end",
+    "reason": "最小并行块 (par/and)，测试并行带状框架。"
+  },
+  {
+    "id": "maid-014",
+    "sourceRepo": "maid",
+    "sourcePath": "test-fixtures/sequence/valid/activation-suffix.mmd",
+    "type": "sequenceDiagram",
+    "priority": "P1",
+    "classification": "minimal_core",
+    "input": "sequenceDiagram\n  participant A\n  participant B\n  A->>+B: call activates B\n  B-->>-A: returns and deactivates A\n  activate A\n  deactivate A",
+    "reason": "激活标记 (+/-) 和显式 activate/deactivate，测试生命线激活条。"
+  },
+  {
+    "id": "maid-015",
+    "sourceRepo": "maid",
+    "sourcePath": "test-fixtures/class/valid/relations-all.mmd",
+    "type": "classDiagram",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "classDiagram\n  direction LR\n  class A\n  class B\n  class C\n  class D\n  A <|-- B : extends\n  A *-- C : has\n  A o-- D : owns\n  A ..> B : uses\n  A ..|> B : realizes",
+    "reason": "练习全部主要关系箭头（继承/组合/聚合/依赖/实现）。"
+  },
+  {
+    "id": "maid-016",
+    "sourceRepo": "maid",
+    "sourcePath": "test-fixtures/class/valid/inline-members-and-attrs.mmd",
+    "type": "classDiagram",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "classDiagram\nclass User {\n  +login(username: string, password: string): bool\n  -id: int\n  -name: string\n}",
+    "reason": "类框含可见性、类型成员和参数，验证成员解析与框布局。"
+  },
+  {
+    "id": "maid-017",
+    "sourceRepo": "maid",
+    "sourcePath": "test-fixtures/state/valid/simple.mmd",
+    "type": "stateDiagram",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "stateDiagram-v2\n[*] --> Idle\nIdle --> Running : start\nRunning --> [*] : stop",
+    "reason": "最小状态机含 [*] 起止标记和标签转换（stateDiagram-v2）。"
+  },
+  {
+    "id": "maid-018",
+    "sourceRepo": "maid",
+    "sourcePath": "test-fixtures/state/valid/markers-fork-join.mmd",
+    "type": "stateDiagram",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "stateDiagram-v2\nstate Split <<fork>>\n[*] --> Split\nSplit --> A : path=/a\nSplit --> B : path=/b\nstate Join <<join>>\nA --> Join\nB --> Join\nJoin --> [*]",
+    "reason": "Fork/join 伪状态 (<<fork>>/<<join>>), 测试特殊状态图标记形状。"
+  },
+  {
+    "id": "maid-019",
+    "sourceRepo": "maid",
+    "sourcePath": "test-fixtures/pie/valid/simple.mmd",
+    "type": "pie",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "pie\n  title \"Pets\"\n  \"Dogs\" : 10\n  \"Cats\" : 5",
+    "reason": "最小饼图含标题和两片切片，饼图类型基础测试。"
+  },
+  {
+    "id": "maid-020",
+    "sourceRepo": "maid",
+    "sourcePath": "test-fixtures/unsupported/gantt.mmd",
+    "type": "gantt",
+    "priority": "P1",
+    "classification": "minimal_core",
+    "input": "gantt\n  dateFormat  YYYY-MM-DD\n  title Adding GANTT diagram to mermaid\n  section A section\n  Completed task            :done,    des1, 2014-01-06,2014-01-08\n  Active task               :active,  des2, 2014-01-09, 3d",
+    "reason": "小型规范甘特图含 dateFormat/section/done/active 状态；maid 源仓库标记 unsupported 仅针对其 linter，对 Mermaid 浏览器渲染仍是合法输入。"
+  },
+  {
+    "id": "bm-001",
+    "sourceRepo": "beautiful-mermaid",
+    "sourcePath": "samples-data.ts",
+    "type": "flowchart",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "graph TD\nA[Start] --> B[Process] --> C[End]",
+    "reason": "极简线性流程图，结构化，覆盖基本节点 + 实线箭头。"
+  },
+  {
+    "id": "bm-002",
+    "sourceRepo": "beautiful-mermaid",
+    "sourcePath": "samples-data.ts",
+    "type": "flowchart",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "graph LR\nA[Rectangle] --> B(Rounded)\nB --> C{Diamond}\nC --> D([Stadium])\nD --> E((Circle))\nE --> F[[Subroutine]]\nF --> G(((Double Circle)))\nG --> H{{Hexagon}}\nH --> I[(Database)]\nI --> J>Flag]\nJ --> K[/Trapezoid\\]\nK --> L[\\Inverse Trap/]",
+    "reason": "单图覆盖 12 种流程图节点形状，结构化，语法广度极大。"
+  },
+  {
+    "id": "bm-003",
+    "sourceRepo": "beautiful-mermaid",
+    "sourcePath": "samples-data.ts",
+    "type": "flowchart",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "graph TD\nA[Source] -->|solid| B[Target 1]\nA -.->|dotted| C[Target 2]\nA ==>|thick| D[Target 3]",
+    "reason": "单图覆盖全部三种边样式（实线/虚线/粗线）含标签，结构化。"
+  },
+  {
+    "id": "bm-004",
+    "sourceRepo": "beautiful-mermaid",
+    "sourcePath": "samples-data.ts",
+    "type": "flowchart",
+    "priority": "P1",
+    "classification": "minimal_core",
+    "input": "flowchart TD\nA(Start) --> B{Is it sunny?}\nB -- Yes --> C[Go to the park]\nB -- No --> D[Stay indoors]\nC --> E[Finish]\nD --> E",
+    "reason": "使用 -- label --> 行内文本边标签语法 + 决策分支，结构化。"
+  },
+  {
+    "id": "bm-005",
+    "sourceRepo": "beautiful-mermaid",
+    "sourcePath": "samples-data.ts",
+    "type": "flowchart",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "graph TD\nsubgraph Frontend\n  A[React App] --> B[State Manager]\nend\nsubgraph Backend\n  C[API Server] --> D[Database]\nend\nB --> C",
+    "reason": "带标签子图 + 跨子图边，结构化核心布局功能。"
+  },
+  {
+    "id": "bm-006",
+    "sourceRepo": "beautiful-mermaid",
+    "sourcePath": "samples-data.ts",
+    "type": "flowchart",
+    "priority": "P1",
+    "classification": "useful_later",
+    "input": "graph TD\nA[Start] --> B{Decision}\nB -->|Yes| C[Accept]\nB -->|No| D[Reject]\nC --> E[Done]\nD --> E\nlinkStyle 0 stroke:#7aa2f7,stroke-width:3px\nlinkStyle 1 stroke:#9ece6a,stroke-width:2px\nlinkStyle 2 stroke:#f7768e,stroke-width:2px\nlinkStyle default stroke:#565f89",
+    "reason": "基于索引的 linkStyle + 默认边色，偏主题但验证链接样式解析健壮性。"
+  },
+  {
+    "id": "bm-007",
+    "sourceRepo": "beautiful-mermaid",
+    "sourcePath": "samples-data.ts",
+    "type": "stateDiagram",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "stateDiagram-v2\n[*] --> Idle\nIdle --> Active : start\nActive --> Idle : cancel\nActive --> Done : complete\nDone --> [*]",
+    "reason": "规范状态机含起止伪状态和标签转换（stateDiagram-v2），结构化。"
+  },
+  {
+    "id": "bm-008",
+    "sourceRepo": "beautiful-mermaid",
+    "sourcePath": "samples-data.ts",
+    "type": "stateDiagram",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "stateDiagram-v2\n[*] --> Idle\nIdle --> Processing : submit\nstate Processing {\n  parse --> validate\n  validate --> execute\n}\nProcessing --> Complete : done\nProcessing --> Error : fail\nError --> Idle : retry\nComplete --> [*]",
+    "reason": "复合嵌套状态含内部转换和外部出入口边，结构化。"
+  },
+  {
+    "id": "bm-009",
+    "sourceRepo": "beautiful-mermaid",
+    "sourcePath": "samples-data.ts",
+    "type": "stateDiagram",
+    "priority": "P1",
+    "classification": "minimal_core",
+    "input": "stateDiagram-v2\n[*] --> 空闲\n空闲 --> 处理中 : 提交\n处理中 --> 完成 : 成功\n处理中 --> 错误 : 失败\n错误 --> 空闲 : 重试\n完成 --> [*]",
+    "reason": "中文状态名 + 标签，结构化，测试 Unicode 标识符/文本渲染。"
+  },
+  {
+    "id": "bm-010",
+    "sourceRepo": "beautiful-mermaid",
+    "sourcePath": "samples-data.ts",
+    "type": "sequenceDiagram",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "sequenceDiagram\nAlice->>Bob: Hello Bob!\nBob-->>Alice: Hi Alice!",
+    "reason": "极简同步+返回时序图，结构化最小可行示例。"
+  },
+  {
+    "id": "bm-011",
+    "sourceRepo": "beautiful-mermaid",
+    "sourcePath": "samples-data.ts",
+    "type": "sequenceDiagram",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "sequenceDiagram\nparticipant A as Alice\nparticipant B as Bob\nparticipant C as Charlie\nA->>B: Hello\nB->>C: Forward\nC-->>A: Reply",
+    "reason": "participant ... as ... 别名 + 三方消息链，结构化。"
+  },
+  {
+    "id": "bm-012",
+    "sourceRepo": "beautiful-mermaid",
+    "sourcePath": "samples-data.ts",
+    "type": "sequenceDiagram",
+    "priority": "P1",
+    "classification": "useful_later",
+    "input": "sequenceDiagram\nparticipant C as Client\nparticipant S as Server\nC->>S: Login\nalt Valid credentials\n  S-->>C: 200 OK\nelse Invalid\n  S-->>C: 401 Unauthorized\nelse Account locked\n  S-->>C: 403 Forbidden\nend",
+    "reason": "多分支 alt/else 交互片段，结构化但稍大。"
+  },
+  {
+    "id": "bm-013",
+    "sourceRepo": "beautiful-mermaid",
+    "sourcePath": "samples-data.ts",
+    "type": "sequenceDiagram",
+    "priority": "P1",
+    "classification": "useful_later",
+    "input": "sequenceDiagram\nparticipant A as Alice\nparticipant B as Bob\nNote left of A: Alice prepares\nA->>B: Hello\nNote right of B: Bob thinks\nB-->>A: Reply\nNote over A,B: Conversation complete",
+    "reason": "Note left/right/over 全部放置模式，结构化。"
+  },
+  {
+    "id": "bm-014",
+    "sourceRepo": "beautiful-mermaid",
+    "sourcePath": "samples-data.ts",
+    "type": "classDiagram",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "classDiagram\nclass Animal {\n  +String name\n  +int age\n  +eat() void\n  +sleep() void\n}",
+    "reason": "单个类含属性、方法和可见性标记，规范 UML 类框。"
+  },
+  {
+    "id": "bm-015",
+    "sourceRepo": "beautiful-mermaid",
+    "sourcePath": "samples-data.ts",
+    "type": "classDiagram",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "classDiagram\nA <|-- B : inheritance\nC *-- D : composition\nE o-- F : aggregation\nG --> H : association\nI ..> J : dependency\nK ..|> L : realization",
+    "reason": "单图覆盖全部六种类关系标记，结构广度极大。"
+  },
+  {
+    "id": "bm-016",
+    "sourceRepo": "beautiful-mermaid",
+    "sourcePath": "samples-data.ts",
+    "type": "classDiagram",
+    "priority": "P1",
+    "classification": "minimal_core",
+    "input": "classDiagram\nclass Status {\n  <<enumeration>>\n  ACTIVE\n  INACTIVE\n  PENDING\n  DELETED\n}",
+    "reason": "<<enumeration>> 立体类型注释，结构化变体。"
+  },
+  {
+    "id": "bm-017",
+    "sourceRepo": "beautiful-mermaid",
+    "sourcePath": "samples-data.ts",
+    "type": "erDiagram",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "erDiagram\nCUSTOMER ||--o{ ORDER : places",
+    "reason": "单个经典一对多关系，最小可行 ER 图。"
+  },
+  {
+    "id": "bm-018",
+    "sourceRepo": "beautiful-mermaid",
+    "sourcePath": "samples-data.ts",
+    "type": "erDiagram",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "erDiagram\nORDER {\n  int id PK\n  int customer_id FK\n  string invoice_number UK\n  decimal total\n  date order_date\n  string status\n}",
+    "reason": "带 PK/FK/UK 键标记的类型化属性，覆盖属性 + 键约束渲染。"
+  },
+  {
+    "id": "bm-019",
+    "sourceRepo": "beautiful-mermaid",
+    "sourcePath": "samples-data.ts",
+    "type": "erDiagram",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "erDiagram\nA ||--|| B : one-to-one\nC ||--o{ D : one-to-many\nE |o--|{ F : opt-to-many\nG }|--o{ H : many-to-many",
+    "reason": "单图覆盖全部四组基数标记系列，结构广度极大。"
+  },
+  {
+    "id": "bm-020",
+    "sourceRepo": "beautiful-mermaid",
+    "sourcePath": "samples-data.ts",
+    "type": "other",
+    "priority": "P1",
+    "classification": "minimal_core",
+    "input": "xychart-beta\ntitle \"Product Sales\"\nx-axis [Widgets, Gadgets, Gizmos, Doodads, Thingamajigs]\nbar [150, 230, 180, 95, 310]",
+    "reason": "特殊类型 xychart-beta 小型规范条形图；官方 mermaid 支持渲染但属非核心。"
+  },
+  {
+    "id": "mm-fc-001",
+    "sourceRepo": "mermaid",
+    "sourcePath": "packages/mermaid/src/diagrams/flowchart/parser/flow-arrows.spec.js:16",
+    "type": "flowchart",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "graph TD\nA-->B",
+    "reason": "最小规范基本箭头边 (arrow_point)。"
+  },
+  {
+    "id": "mm-fc-002",
+    "sourceRepo": "mermaid",
+    "sourcePath": "packages/mermaid/src/diagrams/flowchart/parser/flow-edges.spec.js:71",
+    "type": "flowchart",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "graph TD\nA---B",
+    "reason": "覆盖开放边（无箭头, arrow_open）。"
+  },
+  {
+    "id": "mm-fc-003",
+    "sourceRepo": "mermaid",
+    "sourcePath": "packages/mermaid/src/diagrams/flowchart/parser/flow-lines.spec.js:155",
+    "type": "flowchart",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "graph TD\nA-.->B",
+    "reason": "覆盖点状描边箭头边。"
+  },
+  {
+    "id": "mm-fc-004",
+    "sourceRepo": "mermaid",
+    "sourcePath": "packages/mermaid/src/diagrams/flowchart/parser/flow-lines.spec.js:163",
+    "type": "flowchart",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "graph TD\nA==>B",
+    "reason": "覆盖粗线描边箭头边。"
+  },
+  {
+    "id": "mm-fc-005",
+    "sourceRepo": "mermaid",
+    "sourcePath": "packages/mermaid/src/diagrams/flowchart/parser/flow-arrows.spec.js:167",
+    "type": "flowchart",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "graph TD\nA<-->B",
+    "reason": "覆盖双向（双箭头）箭头。"
+  },
+  {
+    "id": "mm-fc-006",
+    "sourceRepo": "mermaid",
+    "sourcePath": "packages/mermaid/src/diagrams/flowchart/parser/flow-edges.spec.js:78",
+    "type": "flowchart",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "graph TD\nA--xB",
+    "reason": "覆盖十字末端箭头 (arrow_cross)。"
+  },
+  {
+    "id": "mm-fc-007",
+    "sourceRepo": "mermaid",
+    "sourcePath": "packages/mermaid/src/diagrams/flowchart/parser/flow-edges.spec.js:85",
+    "type": "flowchart",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "graph TD\nA--oB",
+    "reason": "覆盖圆形末端箭头 (arrow_circle)。"
+  },
+  {
+    "id": "mm-fc-008",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/flowchart/flowchart.spec.js:6",
+    "type": "flowchart",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "graph TD\nA[Christmas] -->|Get money| B(Go shopping)\nB --> C{Let me think}\nC -->|One| D[Laptop]\nC -->|Two| E[iPhone]\nC -->|Three| F[Car]",
+    "reason": "经典示例：管道标签边、矩形/圆角/菱形节点形状和分支。"
+  },
+  {
+    "id": "mm-fc-009",
+    "sourceRepo": "mermaid",
+    "sourcePath": "packages/mermaid/src/diagrams/flowchart/parser/flow-text.spec.js:80",
+    "type": "flowchart",
+    "priority": "P1",
+    "classification": "minimal_core",
+    "input": "graph TD\nA-- text including URL space and send -->B",
+    "reason": "覆盖行内文本边标签表示法（无管道，空格分隔）。"
+  },
+  {
+    "id": "mm-fc-010",
+    "sourceRepo": "mermaid",
+    "sourcePath": "packages/mermaid/src/diagrams/flowchart/parser/flow-singlenode.spec.js:59",
+    "type": "flowchart",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "graph TD\na[A]\nb(A)\nc{A}\nd((A))\ne{{A}}",
+    "reason": "紧凑单图覆盖矩形/圆角/菱形/圆形/六边形节点形状。"
+  },
+  {
+    "id": "mm-fc-011",
+    "sourceRepo": "mermaid",
+    "sourcePath": "packages/mermaid/src/diagrams/flowchart/parser/flow-text.spec.js:332",
+    "type": "flowchart",
+    "priority": "P1",
+    "classification": "minimal_core",
+    "input": "graph TD\nA[rect] --> B([stadium]) --> C[[subroutine]] --> D[(cylinder)]",
+    "reason": "覆盖体育场/子程序/圆柱体形状语法。"
+  },
+  {
+    "id": "mm-fc-012",
+    "sourceRepo": "mermaid",
+    "sourcePath": "packages/mermaid/src/diagrams/flowchart/parser/flow-singlenode.spec.js:185",
+    "type": "flowchart",
+    "priority": "P1",
+    "classification": "minimal_core",
+    "input": "graph TD\na(((A)))",
+    "reason": "覆盖双圆节点形状。"
+  },
+  {
+    "id": "mm-fc-013",
+    "sourceRepo": "mermaid",
+    "sourcePath": "packages/mermaid/src/diagrams/flowchart/parser/flow-text.spec.js:332",
+    "type": "flowchart",
+    "priority": "P1",
+    "classification": "useful_later",
+    "input": "graph TD\nA[/parallelogram/] --> B[\\trapezoid\\]\nA --> C[/inv trapezoid\\]",
+    "reason": "覆盖平行四边形和梯形（斜杠/反斜杠）形状，注意转义反斜杠。"
+  },
+  {
+    "id": "mm-fc-014",
+    "sourceRepo": "mermaid",
+    "sourcePath": "packages/mermaid/src/diagrams/flowchart/parser/flow-md-string.spec.js:16",
+    "type": "flowchart",
+    "priority": "P1",
+    "classification": "minimal_core",
+    "input": "flowchart\nA[\"`The cat in **the** hat`\"]-- \"`The *bat* in the chat`\" -->B[\"The dog in the hog\"]",
+    "reason": "覆盖反引号引用的 Markdown 字符串节点和边标签。"
+  },
+  {
+    "id": "mm-fc-015",
+    "sourceRepo": "mermaid",
+    "sourcePath": "packages/mermaid/src/diagrams/flowchart/parser/flow-direction.spec.js:31",
+    "type": "flowchart",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "flowchart TB\nsubgraph A\n  direction BT\n  a --> b\nend",
+    "reason": "覆盖子图内 direction 方向语句。"
+  },
+  {
+    "id": "mm-fc-016",
+    "sourceRepo": "mermaid",
+    "sourcePath": "packages/mermaid/src/diagrams/flowchart/parser/flow-style.spec.js:147",
+    "type": "flowchart",
+    "priority": "P1",
+    "classification": "minimal_core",
+    "input": "graph TD\nA[Christmas] -->|Get money| B(Go shopping)\nB --> C{Let me think}\nclassDef someclass fill:#f96;\nclass A someclass;\nclass C someclass;",
+    "reason": "覆盖 classDef 类定义和 class 应用到顶点。"
+  },
+  {
+    "id": "mm-fc-017",
+    "sourceRepo": "mermaid",
+    "sourcePath": "packages/mermaid/src/diagrams/flowchart/parser/flow-style.spec.js:303",
+    "type": "flowchart",
+    "priority": "P1",
+    "classification": "minimal_core",
+    "input": "graph TD\nA-->B\nlinkStyle 0 stroke:#f00,stroke-width:2px;",
+    "reason": "覆盖按索引的 linkStyle 边样式。"
+  },
+  {
+    "id": "mm-fc-018",
+    "sourceRepo": "mermaid",
+    "sourcePath": "packages/mermaid/src/diagrams/flowchart/parser/flow-vertice-chaining.spec.js:41",
+    "type": "flowchart",
+    "priority": "P1",
+    "classification": "minimal_core",
+    "input": "graph TD\nA & B --> C",
+    "reason": "覆盖 & 多源顶点链式调用。"
+  },
+  {
+    "id": "mm-fc-019",
+    "sourceRepo": "mermaid",
+    "sourcePath": "packages/mermaid/src/diagrams/flowchart/parser/flow-node-data.spec.js:46",
+    "type": "flowchart",
+    "priority": "P2",
+    "classification": "useful_later",
+    "input": "flowchart TB\nD@{ shape: rounded } --> E",
+    "reason": "覆盖更新的 @{ shape: ... } 元数据形状语法。"
+  },
+  {
+    "id": "mm-fc-020",
+    "sourceRepo": "mermaid",
+    "sourcePath": "demos/flowchart.html",
+    "type": "flowchart",
+    "priority": "P1",
+    "classification": "minimal_core",
+    "input": "graph LR\nA1[Multi<br>Line] -->|Multi<br>Line| B1(Multi<br>Line)",
+    "reason": "LR 方向覆盖 <br> 标签多行节点文本和边标签。"
+  },
+  {
+    "id": "mm-seq-001",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/sequence/sequencediagram.spec.js",
+    "type": "sequenceDiagram",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "sequenceDiagram\nAlice->>Bob: Hello\nBob-->>Alice: Hi",
+    "reason": "最小规范实线 (->>) 和虚线 (-->>) 箭头消息。"
+  },
+  {
+    "id": "mm-seq-002",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/sequence/sequencediagram.spec.js",
+    "type": "sequenceDiagram",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "sequenceDiagram\nAlice->>Bob: Hola\nNote left of Alice: A note here\nBob->>Alice: Hi",
+    "reason": "覆盖 Note left of 单参与者注释。"
+  },
+  {
+    "id": "mm-seq-003",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/sequence/sequencediagram.spec.js",
+    "type": "sequenceDiagram",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "sequenceDiagram\nautonumber\nAlice->>John: Hello John, how are you?\nloop Healthcheck\nJohn->>John: Fight against hypochondria\nend\nNote right of John: Rational thoughts!\nJohn-->>Alice: Great!",
+    "reason": "覆盖 autonumber、loop/end、Note right of 和自调用消息。"
+  },
+  {
+    "id": "mm-seq-004",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/sequence/sequencediagram.spec.js",
+    "type": "sequenceDiagram",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "sequenceDiagram\nactor Alice\nactor Bob\nAlice->>Bob: Hi Bob\nBob->>Alice: Hi Alice",
+    "reason": "覆盖 actor 关键字（人形符号）vs 隐式 participant。"
+  },
+  {
+    "id": "mm-seq-005",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/sequence/sequencediagram.spec.js",
+    "type": "sequenceDiagram",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "sequenceDiagram\nparticipant Alice\nparticipant Bob\nAlice->>Bob: Request\nalt yes\nAlice->>Bob: Yes\nelse no\nBob-->>Alice: No\nend",
+    "reason": "覆盖 alt/else/end 分支和显式 participant。"
+  },
+  {
+    "id": "mm-seq-006",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/sequence/sequencediagram-v2.spec.js",
+    "type": "sequenceDiagram",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "sequenceDiagram\nAlice->>Bob: Auth request\nactivate Bob\nBob-->>Alice: Auth response\ndeactivate Bob",
+    "reason": "最小 activate/deactivate 生命周期。"
+  },
+  {
+    "id": "mm-seq-007",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/sequence/sequencediagram.spec.js",
+    "type": "sequenceDiagram",
+    "priority": "P1",
+    "classification": "useful_later",
+    "input": "sequenceDiagram\npar this happens in parallel\nAlice-->>Bob: Message 1\nand\nAlice-->>John: Message 2\nend",
+    "reason": "覆盖 par/and/end 并行框架和虚线 -->>。"
+  },
+  {
+    "id": "mm-st-001",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/state/stateDiagram.spec.js",
+    "type": "stateDiagram",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "stateDiagram\n[*] --> State1\nState1 --> [*]",
+    "reason": "最小规范起止 ([*]) 状态转换（stateDiagram v1）。"
+  },
+  {
+    "id": "mm-st-002",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/state/stateDiagram.spec.js",
+    "type": "stateDiagram",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "stateDiagram\n[*] --> State1\nState1 --> State2 : Transition 1\nState1 --> State3 : Transition 2\nState1 --> [*]",
+    "reason": "覆盖标签转换 (A --> B : label) 和分支。"
+  },
+  {
+    "id": "mm-st-003",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/state/stateDiagram.spec.js",
+    "type": "stateDiagram",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "stateDiagram\n[*] --> S1\nstate \"Some long name\" as S1",
+    "reason": "覆盖描述性状态别名 state \"desc\" as id。"
+  },
+  {
+    "id": "mm-st-004",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/state/stateDiagram.spec.js",
+    "type": "stateDiagram",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "stateDiagram\nState1: The state with a note\nnote right of State1\nImportant information! You can write notes.\nend note",
+    "reason": "覆盖多行 note right of ... end note 和状态描述。"
+  },
+  {
+    "id": "mm-st-005",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/state/stateDiagram.spec.js",
+    "type": "stateDiagram",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "stateDiagram\n[*] --> NotShooting: Pacifist\nstate NotShooting {\n[*] --> Idle\nIdle --> Configuring : EvConfig\nConfiguring --> Idle : EvConfig\n}",
+    "reason": "覆盖复合/嵌套状态 state X { ... } 含内部起始节点。"
+  },
+  {
+    "id": "mm-st-006",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/state/stateDiagram.spec.js",
+    "type": "stateDiagram",
+    "priority": "P1",
+    "classification": "useful_later",
+    "input": "stateDiagram\n[*] --> Active\nstate Active {\n[*] --> NumLockOff\nNumLockOff --> NumLockOn : Press\n--\n[*] --> CapsLockOff\nCapsLockOff --> CapsLockOn : Press\n}",
+    "reason": "覆盖复合状态内 -- 分隔符的并发区域。"
+  },
+  {
+    "id": "mm-st-007",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/state/stateDiagram-v2.spec.js",
+    "type": "stateDiagram",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "stateDiagram-v2\n[*] --> Node\nNode --> Node: Self Edge",
+    "reason": "覆盖紧凑自环边（仅 v2）。"
+  },
+  {
+    "id": "mm-cls-001",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/platform/dev-diagrams/layout-tests/class-diagram.mmd",
+    "type": "classDiagram",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "classDiagram\nAnimal <|-- Duck\nAnimal <|-- Fish\nAnimal : +int age\nAnimal : +String gender\nAnimal: +isMammal()\nAnimal: +mate()\nclass Duck{\n+String beakColor\n+swim()\n+quack()\n}\nclass Fish{\n-int sizeInFeet\n-canEat()\n}",
+    "reason": "规范继承 (<|--)、class {} 块和可见性成员。"
+  },
+  {
+    "id": "mm-cls-002",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/class/classDiagram.spec.js",
+    "type": "classDiagram",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "classDiagram\nClass01 <|-- Class02\nClass03 *-- Class04\nClass05 o-- Class06\nClass07 .. Class08\nClass09 --> C2 : Where am i?\nClass11 ..> Class12",
+    "reason": "覆盖全部核心关系箭头：*--/o--/../-->/..>。"
+  },
+  {
+    "id": "mm-cls-003",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/class/classDiagram.spec.js",
+    "type": "classDiagram",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "classDiagram\nClass01 : -privateMethod()\nClass01 : +publicMethod()\nClass01 : #protectedMethod()\nClass01 : -int privateChimp\nClass01 : +int publicGorilla\nClass01 : #int protectedMarmoset",
+    "reason": "覆盖 +/-/# 可见性修饰符（方法和属性）。"
+  },
+  {
+    "id": "mm-cls-004",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/class/classDiagram.spec.js",
+    "type": "classDiagram",
+    "priority": "P1",
+    "classification": "useful_later",
+    "input": "classDiagram\nClass01 \"1\" <|--|> \"*\" Class02 : Cool\nClass03 \"1\" *-- \"*\" Class04\nClass05 \"1\" o-- \"many\" Class06",
+    "reason": "覆盖基数/多重性标签和 <|--|> 双向继承箭头。"
+  },
+  {
+    "id": "mm-cls-005",
+    "sourceRepo": "mermaid",
+    "sourcePath": "demos/classchart.html",
+    "type": "classDiagram",
+    "priority": "P1",
+    "classification": "useful_later",
+    "input": "classDiagram\ndirection LR\nAnimal ()-- Dog\nAnimal ()-- Cat\nDog : bark()\nDog : species()",
+    "reason": "覆盖 direction 关键字和 ()-- 聚合（圆形）链接类型。"
+  },
+  {
+    "id": "mm-cls-006",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/class/classDiagram.spec.js",
+    "type": "classDiagram",
+    "priority": "P1",
+    "classification": "useful_later",
+    "input": "classDiagram\nClass01 <|-- Class02 : Cool\nClass01 : someMethod()*\nClass01 : someMethod()$",
+    "reason": "覆盖抽象方法 ()* 和静态方法 ()$ 后缀。"
+  },
+  {
+    "id": "mm-cls-007",
+    "sourceRepo": "mermaid",
+    "sourcePath": "demos/classchart.html",
+    "type": "classDiagram",
+    "priority": "P1",
+    "classification": "useful_later",
+    "input": "classDiagram\nnamespace Company.Project.Module {\nclass Report {\n+generatePDF(data)\n+generateCSV(data)\n}\n}",
+    "reason": "覆盖 namespace 分组含嵌套 class 块。"
+  },
+  {
+    "id": "mm-other-001",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/er/erDiagram.spec.js",
+    "type": "erDiagram",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "erDiagram\nCUSTOMER ||--o{ ORDER : places\nORDER ||--|{ LINE-ITEM : contains",
+    "reason": "最小 2 关系标准 ER 图，标准基数标记，布局确定。"
+  },
+  {
+    "id": "mm-other-002",
+    "sourceRepo": "mermaid",
+    "sourcePath": "demos/er.html",
+    "type": "erDiagram",
+    "priority": "P1",
+    "classification": "useful_later",
+    "input": "erDiagram\nCAR ||--o{ NAMED-DRIVER : allows\nCAR {\n  string registrationNumber PK\n  string make\n  string model\n  string[] parts\n}\nPERSON ||--o{ NAMED-DRIVER : is\nPERSON {\n  string driversLicense PK \"The license #\"\n  string(99) firstName \"Only 99 characters are allowed\"\n  string lastName\n  string phone UK\n  int age\n}\nNAMED-DRIVER {\n  string carRegistrationNumber PK, FK\n  string driverLicence PK,FK\n}\nMANUFACTURER only one to zero or more CAR : makes",
+    "reason": "标准但更大的 ER 图，含完整属性块、键注解和单词基数。"
+  },
+  {
+    "id": "mm-other-003",
+    "sourceRepo": "mermaid",
+    "sourcePath": "demos/gantt.html",
+    "type": "gantt",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "gantt\ntitle A Gantt Diagram\ndateFormat  YYYY-MM-DD\nsection Section\nA task           :a1, 2014-01-01, 30d\nAnother task     :after a1  , 20d\nsection Another\nTask in sec      :2014-01-12  , 12d\nanother task      : 24d",
+    "reason": "最小标准甘特图含 dateFormat、两个 section 和简单任务依赖，完全确定。"
+  },
+  {
+    "id": "mm-other-004",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/gantt/gantt.spec.js",
+    "type": "gantt",
+    "priority": "P1",
+    "classification": "useful_later",
+    "input": "gantt\ndateFormat  YYYY-MM-DD\naxisFormat  %d/%m\ntitle Adding GANTT diagram to mermaid\nsection A section\nCompleted task            :done,    des1, 2014-01-06,2014-01-08\nActive task               :active,  des2, 2014-01-09, 3d\nFuture task               :         des3, after des2, 5d\nsection Critical tasks\nCompleted task in the critical line :crit, done, 2014-01-06,24h\nCreate tests for parser             :crit, active, 3d",
+    "reason": "标准但更大的甘特图，涵盖 done/active/crit 状态标志。"
+  },
+  {
+    "id": "mm-other-005",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/pie/pie.spec.ts",
+    "type": "pie",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "pie title Sports in Sweden\n  \"Bandy\": 40\n  \"Ice-Hockey\": 80\n  \"Football\": 90",
+    "reason": "最小 3 片标准饼图，SVG 输出稳定无外部依赖。"
+  },
+  {
+    "id": "mm-other-006",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/pie/pie.spec.ts",
+    "type": "pie",
+    "priority": "P1",
+    "classification": "useful_later",
+    "input": "pie title NETFLIX\n  \"Time spent looking for movie\": 90\n  \"Time spent watching it\": 10",
+    "reason": "2 片变体饼图，有助覆盖长标签渲染。"
+  },
+  {
+    "id": "mm-other-007",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/user-journey/journey.spec.js",
+    "type": "other",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "journey\ntitle My working day\nsection Go to work\n  Make tea: 5: Me\n  Go upstairs: 3: Me\n  Do work: 1: Me, Cat\nsection Go home\n  Go downstairs: 5: Me\n  Sit down: 3: Me",
+    "reason": "journey 类型：标准 2 section 用户旅程含评分和参与者，确定性强。"
+  },
+  {
+    "id": "mm-other-008",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/git/gitGraph.spec.js",
+    "type": "other",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "gitGraph\n commit id: \"1\"\n commit id: \"2\"\n commit id: \"3\"",
+    "reason": "gitGraph 类型：主分支最小 3 次提交图，输出高度确定。"
+  },
+  {
+    "id": "mm-other-009",
+    "sourceRepo": "mermaid",
+    "sourcePath": "demos/git.html",
+    "type": "other",
+    "priority": "P1",
+    "classification": "useful_later",
+    "input": "gitGraph\ncommit\nbranch newbranch\ncheckout newbranch\ncommit\ncheckout main\nmerge newbranch",
+    "reason": "gitGraph 类型：标准分支+合并形态，覆盖 branch/checkout/merge 动词。"
+  },
+  {
+    "id": "mm-other-010",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/mindmap/mindmap.spec.ts",
+    "type": "other",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "mindmap\nroot",
+    "reason": "mindmap 类型：绝对最小（仅根节点），使用确定性 dagre 布局。"
+  },
+  {
+    "id": "mm-other-011",
+    "sourceRepo": "mermaid",
+    "sourcePath": "demos/mindmap.html",
+    "type": "other",
+    "priority": "P1",
+    "classification": "useful_later",
+    "input": "mindmap\nroot\n  child1((Circle))\n    grandchild 1\n    grandchild 2\n  child2(Round rectangle)\n    grandchild 3\n    grandchild 4\n  child3[Square]",
+    "reason": "mindmap 类型：标准多级树含形状语法，已移除依赖网络的 ::icon() 调用。"
+  },
+  {
+    "id": "mm-other-012",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/timeline/timeline.spec.ts",
+    "type": "other",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "timeline\ntitle History of Social Media Platform\n2002 : LinkedIn\n2004 : Facebook : Google\n2005 : YouTube\n2006 : Twitter",
+    "reason": "timeline 类型：最小无 section 时间轴，布局确定无外部依赖。"
+  },
+  {
+    "id": "mm-other-013",
+    "sourceRepo": "mermaid",
+    "sourcePath": "demos/timeline.html",
+    "type": "other",
+    "priority": "P1",
+    "classification": "useful_later",
+    "input": "timeline\ntitle My day\nsection Go to work\n  1930 : first step : second step\n       : third step\n  1940 : fourth step : fifth step",
+    "reason": "timeline 类型：标准分段时间轴每时间点多事件，确定性但稍专业化。"
+  },
+  {
+    "id": "mm-other-014",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/quadrant-chart/quadrantChart.spec.js",
+    "type": "other",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "quadrantChart\n  title Reach and engagement of campaigns\n  x-axis Low Reach --> High Reach\n  y-axis Low Engagement --> High Engagement\n  quadrant-1 We should expand\n  quadrant-2 Need to promote\n  quadrant-3 Re-evaluate\n  quadrant-4 May be improved\n  Campaign A: [0.3, 0.6]\n  Campaign B: [0.45, 0.23]",
+    "reason": "quadrantChart 类型：标准完整象限图含轴/象限标签/点，输出确定。"
+  },
+  {
+    "id": "mm-other-015",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/xychart/xyChart.spec.js",
+    "type": "other",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "xychart\n  line [10, 30, 20]",
+    "reason": "xychart 类型：绝对最小图表（仅一行），确定。"
+  },
+  {
+    "id": "mm-other-016",
+    "sourceRepo": "mermaid",
+    "sourcePath": "demos/xychart.html",
+    "type": "other",
+    "priority": "P1",
+    "classification": "useful_later",
+    "input": "xychart\ntitle \"Sales Revenue (in $)\"\nx-axis [jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec]\ny-axis \"Revenue (in $)\" 4000 --> 11000\nbar [5000, 6000, 7500, 8200, 9500, 10500, 11000, 10200, 9200, 8500, 7000, 6000]\nline [5000, 6000, 7500, 8200, 9500, 10500, 11000, 10200, 9200, 8500, 7000, 6000]",
+    "reason": "xychart 类型：标准完整图表含 bar 和 line 系列，但较大。"
+  },
+  {
+    "id": "mm-other-017",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/requirement/requirement.spec.js",
+    "type": "other",
+    "priority": "P0",
+    "classification": "minimal_core",
+    "input": "requirementDiagram\n\nrequirement test_req {\nid: 1\ntext: the test text.\nrisk: high\nverifymethod: test\n}\n\nelement test_entity {\ntype: simulation\n}\n\ntest_entity - satisfies -> test_req",
+    "reason": "requirementDiagram 类型：最小标准需求示例含 1 需求/1 元素/1 关系，确定性 d3 布局。"
+  },
+  {
+    "id": "mm-other-018",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/c4/c4.spec.js",
+    "type": "other",
+    "priority": "P1",
+    "classification": "useful_later",
+    "input": "C4Context\ntitle System Context diagram\n\nPerson(customerA, \"Banking Customer A\", \"A customer of the bank, with personal bank accounts.\")\n\nSystem(SystemAA, \"Internet Banking System\", \"Allows customers to view information about their bank accounts, and make payments.\")\n\nSystem_Ext(SystemC, \"E-mail system\", \"The internal Microsoft Exchange e-mail system.\")\n\nBiRel(customerA, SystemAA, \"Uses\")\nRel(SystemAA, SystemC, \"Sends e-mails\", \"SMTP\")",
+    "reason": "C4Context 类型：精简到最小值的标准上下文图，稳定但本质冗长特殊 DSL。"
+  },
+  {
+    "id": "mm-other-019",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/c4/c4.spec.js",
+    "type": "other",
+    "priority": "P1",
+    "classification": "useful_later",
+    "input": "C4Container\ntitle Container diagram\n\nSystem_Ext(email_system, \"E-Mail System\", \"The internal Microsoft Exchange system\")\nPerson(customer, Customer, \"A customer of the bank, with personal bank accounts\")\n\nContainer_Boundary(c1, \"Internet Banking\") {\n    Container(spa, \"Single-Page App\", \"JavaScript, Angular\", \"Provides all the Internet banking functionality to customers via their web browser\")\n}\n\nRel(customer, spa, \"Uses\", \"HTTPS\")",
+    "reason": "C4Container 类型：带边界的最小容器级图，稳定但专业化。"
+  },
+  {
+    "id": "mm-other-020",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/sankey/sankey.spec.ts",
+    "type": "other",
+    "priority": "P2",
+    "classification": "unsupported_candidate",
+    "input": "sankey-beta\n\nsourceNode,targetNode,10",
+    "reason": "sankey 类型：最小流图，但使用 d3-sankey 迭代布局可能因浮点坐标引入像素舍入不确定性。"
+  },
+  {
+    "id": "mm-other-021",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/block/block.spec.js",
+    "type": "other",
+    "priority": "P2",
+    "classification": "unsupported_candidate",
+    "input": "block-beta\ncolumns 2\nblock\n  id2[\"I am a wide one\"]\n  id1\nend\nid[\"Next row\"]",
+    "reason": "block 类型：最小块图，但为较新实验性外部图表带自有布局求解器，确定性待验证。"
+  },
+  {
+    "id": "mm-other-022",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/architecture/architecture.spec.ts",
+    "type": "other",
+    "priority": "P2",
+    "classification": "unsupported_candidate",
+    "input": "architecture-beta\n  group api(cloud)[API]\n\n  service db(database)[Database] in api\n  service server(server)[Server] in api\n  service gateway(internet)[Gateway]\n\n  db:L -- R:server\n  server:T -- B:gateway",
+    "reason": "architecture 类型：最小架构图（已去图标包），但实验性；自定义图标需网络 fetch 离线渲染回退到占位符。"
+  },
+  {
+    "id": "mm-other-023",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/packet/packet.spec.ts",
+    "type": "other",
+    "priority": "P2",
+    "classification": "unsupported_candidate",
+    "input": "packet\ntitle Hello world\n0-10: \"hello\"",
+    "reason": "packet 类型：最小数据包结构，但为较新实验性外部图表，支持矩阵未知。"
+  }
+]
