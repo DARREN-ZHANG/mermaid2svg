@@ -32,6 +32,15 @@ test("init loop entry preflight verifies references instead of cloning them", ()
   assert.doesNotMatch(entry, /git checkout -b/);
 });
 
+test("opencode runner preserves diagnostics when a phase fails before completion", () => {
+  const runner = read("workflow/loops/init/lib/opencode-runner.ts");
+  assert.match(runner, /\$\{input\.phaseId\}\.session\.json/);
+  assert.match(runner, /sessionId/);
+  assert.match(runner, /\$\{input\.phaseId\}\.failure\.json/);
+  assert.match(runner, /opencode\.client\.session\.messages/);
+  assert.match(runner, /\$\{input\.phaseId\}\.messages\.json/);
+});
+
 test("opencode config pins zhipu coding plan GLM-5.1", () => {
   const config = JSON.parse(read("opencode.jsonc"));
   assert.equal(config.model, "zhipuai-coding-plan/glm-5.1");
