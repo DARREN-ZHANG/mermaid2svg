@@ -145,12 +145,6 @@ main
   h2
     margin 0
 
-  .Btn
-    font-size 13px
-    font-weight 600
-    --btnBg linear-gradient(180deg, #f5f5f580, #f5f5f5b3)
-    --btnPadding 6px 16px
-
 .tag
   align-items center
   background-color var(--accent-glow)
@@ -172,10 +166,13 @@ main
     color #ffffff
     transform translateY(-1px)
 
+// ===== 编辑器卡片 =====
+
 .editor-card
   display flex
   flex-direction column
   gap 20px
+  grid-column 1 / -1
 
 .editor-header
   display flex
@@ -190,18 +187,23 @@ main
   font-weight 300
   margin 0
 
-#formula-input
+.editor-body
+  display flex
+  gap 20px
+  width 100%
+
+#mermaid-input
   background-color #f8fafc
   border 1px solid var(--border-color)
   border-radius 10px
   box-sizing border-box
   color var(--text-color)
   field-sizing content
+  flex 1
   font-family c, monospace
   font-size 18px
-  height auto
   line-height 1.6
-  min-height 80px
+  min-height 200px
   outline none
   padding 20px
   resize none
@@ -213,21 +215,39 @@ main
     border-color var(--accent-color)
     box-shadow 0 0 0 3px var(--accent-glow)
 
-.math-display
-  align-items center
-  border-radius 16px
+.svg-preview-wrap
   display flex
+  flex 1
+  flex-direction column
+  gap 8px
+
+#svg-preview
+  align-items center
+  background-color #f8fafc
+  border 1px solid var(--border-color)
+  border-radius 12px
+  display flex
+  flex 1
   justify-content center
-  min-height 100px
-  overflow-x auto
-  padding 32px 0
+  min-height 200px
+  overflow auto
+  padding 24px
 
-math
-  color var(--text-color)
-  font-family m, t, math, sans-serif
-  font-size 30px
+  svg
+    height auto
+    max-width 100%
 
-.formulas-section
+.render-status
+  color var(--text-muted)
+  font-size 14px
+  min-height 20px
+
+  &.error
+    color #dc2626
+
+// ===== 示例图库 =====
+
+.examples-section
   display flex
   flex-direction column
   gap 24px
@@ -238,12 +258,12 @@ math
     font-weight 700
     margin 0
 
-.formulas-grid
+.examples-grid
   position relative
   transition height 0.3s ease
   width 100%
 
-  .formula-card
+  .example-card
     border-radius 16px
     box-shadow 0 4px 6px -1px #0000000d, 0 2px 4px -1px #00000008
     box-sizing border-box
@@ -259,19 +279,13 @@ math
       box-shadow 0 12px 20px -3px #00000014, 0 4px 6px -2px #00000008
       transform translateY(-4px)
 
-      &::before
-        background linear-gradient(180deg, #f5f5f580, #f5f5f5b3)
-
-      &::after
-        background-image linear-gradient(180deg, var(--accent-color), #2563eb4d)
-
     h3
       color var(--text-color)
       font-size 18px
       font-weight 600
       margin 0
 
-    .tex-code
+    .mermaid-code
       background-color var(--bg-color)
       border 1px solid var(--border-color)
       border-radius 8px
@@ -280,9 +294,10 @@ math
       font-size 14px
       overflow-x auto
       padding 12px 16px
-      white-space nowrap
+      white-space pre-wrap
+      word-break break-all
 
-    .rendered-math
+    .rendered-svg
       align-items center
       background-color #f8fafc
       border 1px solid var(--border-color)
@@ -293,8 +308,11 @@ math
       overflow hidden
       padding 24px
 
-      math
-        display inline-block
+      svg
+        height auto
+        max-width 100%
+
+// ===== 代码块 =====
 
 .code-block
   background-color #f8fafc
@@ -312,28 +330,19 @@ math
     font-weight 300
     line-height 1.6
 
+// ===== 主网格布局 =====
+
 .main-grid
   display grid
   gap 40px
   grid-template-columns 1fr 360px
   width 100%
 
+// ===== 对比图占位 =====
+
 .benchmark-card
   display flex
   flex-direction column
-
-.benchmark-img-container
-  align-items center
-  display flex
-  flex 1
-  flex-direction column
-  justify-content center
-  padding 16px 0
-
-  img
-    height auto
-    max-width 100%
-    width 100%
 
 .benchmark-header
   align-items baseline
@@ -343,7 +352,6 @@ math
   justify-content space-between
   margin-bottom 12px
 
-.benchmark-card
   h2
     color var(--text-color)
     font-size 22px
@@ -353,6 +361,8 @@ math
   .tip
     color var(--text-muted)
     font-size 14px
+
+// ===== 响应式 =====
 
 @media (max-width 768px)
   header
@@ -382,11 +392,11 @@ math
   .usage-card
     order 1
 
-  .size-card
+  .benchmark-card
     order 2
 
-  .speed-card
+  .editor-card
     order 3
 
-  .editor-card
-    order 4
+  .editor-body
+    flex-direction column

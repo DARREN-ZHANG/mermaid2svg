@@ -1,9 +1,9 @@
 doctype html
-html(lang="zh")
+html(lang="en")
   head
     meta(charset="UTF-8")
     meta(name="viewport" content="width=device-width, initial-scale=1.0")
-    title @webc.site/math
+    title Mermaid → SVG
     link(rel="stylesheet" href="https://registry.npmmirror.com/18s/0.2.24/files/_.css")
     link(rel="stylesheet" href="./style.css")
   body
@@ -11,9 +11,6 @@ html(lang="zh")
       header
         .header-controls
           c-i18n
-          a.BtnC.npm-link(href="https://www.npmjs.com/package/@webc.site/math" target="_blank" aria-label="NPM Package")
-            i.Ico
-              include svg/npm.svg
           a.BtnC.github-link(href="https://github.com/webc-site/math" target="_blank" aria-label="GitHub Repository")
             i.Ico
               include svg/github.svg
@@ -21,38 +18,39 @@ html(lang="zh")
         .container
           .header-main
             h1
-              a#ui-title(href="https://www.npmjs.com/package/@webc.site/math" target="_blank") @webc.site/math
-            p#ui-subtitle.subtitle 全球最小最快的网页Markdown公式渲染器
+              // TODO(i18n-loop): extract to key
+              a#ui-title(href="https://github.com/webc-site/math" target="_blank") Mermaid → SVG
+            // TODO(i18n-loop): extract to key
+            p#ui-subtitle.subtitle Browser-side Mermaid to SVG converter
           .main-grid
             .card.usage-card.Lg
               .card-header
-                h2#ui-usage-title 使用示例
-                a#ui-source-link.Btn(href="https://github.com/webc-site/math/blob/dev/src/lib.js" target="_blank") 源代码
+                // TODO(i18n-loop): extract to key
+                h2#ui-usage-title Usage
               pre.code-block
                 code#ui-usage-code
 
-            .card.benchmark-card.size-card.Lg
+            .card.benchmark-card.Lg
+              // TODO(size-loop): wire size/gzip comparison SVG bar chart here
               .benchmark-header
-                h2#ui-benchmark-size-title
-                span#ui-benchmark-size-tip.tip
-              .benchmark-img-container
-                img(src="./size.svg" alt="Size Comparison")
+                // TODO(i18n-loop): extract to key
+                h2#ui-benchmark-title Size Comparison
+                // TODO(i18n-loop): extract to key
+                span#ui-benchmark-tip.tip performance proxy, not a runtime benchmark
 
             .card.editor-card.Lg
               .editor-header
-                h2#ui-editor-title 交互式编辑器
-                p#ui-editor-tip.tip 输入 LaTeX 公式（例如：使用 $公式$ 或 $$公式$$ 包裹）
-              textarea#formula-input(placeholder="在此输入带有公式的文本...")
-              c-math#math-preview.math-display
-
-            .card.benchmark-card.speed-card.Lg
-              .benchmark-header
-                h2#ui-benchmark-speed-title
-                span#ui-benchmark-speed-tip.tip
-              .benchmark-img-container
-                img(src="./speed.svg" alt="Speed Comparison")
-
-          .formulas-section
-            h2#ui-formulas-title 经典公式
-            #formulas-grid.formulas-grid
+                // TODO(i18n-loop): extract to key
+                h2#ui-editor-title Interactive Editor
+                // TODO(i18n-loop): extract to key
+                p#ui-editor-tip.tip Enter Mermaid source text to render SVG
+              .editor-body
+                textarea#mermaid-input(placeholder="Enter Mermaid source here...")
+                .svg-preview-wrap
+                  #svg-preview
+                  #render-status.render-status
+          .examples-section
+            // TODO(i18n-loop): extract to key
+            h2#ui-examples-title Examples
+            #examples-grid.examples-grid
       script(type="module" src="./index.js")

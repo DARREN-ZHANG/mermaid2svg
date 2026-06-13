@@ -1,41 +1,84 @@
-import FORMULAS from "./const/formulas.js";
-import LANG_CODES from "./webc/I18n/CODE.js";
+import MERMAID_EXAMPLES from "./const/mermaidExamples.js";
+import { renderMermaidToSvg, OK as RENDER_OK, ERR_EMPTY, ERR_PARSE, ERR_RENDER, ERR_TIMEOUT } from "../src/render/mermaid-to-svg.js";
+import { normalizeSvg, OK as NORM_OK } from "../src/render/normalize-svg.js";
 import "./webc/Scroll.js";
 import "./webc/I18n.js";
-import "./webc/Math.js";
 import { onLang } from "./webc/js/i18n.js";
 
-let current_translation;
-
-const input = document.getElementById("formula-input"),
-  preview = document.getElementById("math-preview"),
-  grid = document.getElementById("formulas-grid"),
+// 组合渲染 + 归一化，返回 [0, svg, type] | [errCode, msg]
+const renderToSvg = async (mermaidText) => {
+    const [code, raw, diagramType] = await renderMermaidToSvg(mermaidText);
+    if (code !== RENDER_OK) return [code, raw];
+    const [nCode, normalized] = normalizeSvg(raw);
+    if (nCode !== NORM_OK) return [nCode, normalized];
+    return [RENDER_OK, normalized, diagramType];
+  },
+  // 错误码 → 英文提示
+  errMsg = (code, msg) => {
+    if (code === ERR_PARSE) return "Parse error: " + msg;
+    if (code === ERR_RENDER) return "Render error: " + msg;
+    if (code === ERR_TIMEOUT) return "Render timed out";
+    return "Output error: " + msg;
+  },
+  input = document.getElementById("mermaid-input"),
+  preview = document.getElementById("svg-preview"),
+  status = document.getElementById("render-status"),
+  grid = document.getElementById("examples-grid"),
   adjustHeight = () => {
     const { style, scrollHeight } = input;
     style.height = "auto";
     style.height = scrollHeight + "px";
   },
-  renderMath = (val) => {
-    preview.setAttribute("tex", val);
+  // TODO(i18n-loop): extract to key
+  EMPTY_HINT = "Enter Mermaid source to see SVG preview",
+  renderInput = async () => {
+    const [code, svg] = await renderToSvg(input.value);
+    if (code === RENDER_OK) {
+      preview.innerHTML = svg;
+      status.textContent = "";
+      status.classList.remove("error");
+    } else if (code === ERR_EMPTY) {
+      preview.innerHTML = "";
+      status.textContent = EMPTY_HINT;
+      status.classList.remove("error");
+    } else {
+      preview.innerHTML = "";
+      status.textContent = errMsg(code, svg);
+      status.classList.add("error");
+    }
   },
-  selectFormula = (formula) => {
-    input.value = formula;
-    renderMath(formula);
+  selectExample = (src) => {
+    input.value = src;
+    renderInput();
     adjustHeight();
+    input.scrollIntoView({ behavior: "smooth", block: "center" });
     input.focus();
-    input.setSelectionRange(formula.length, formula.length);
+    input.setSelectionRange(src.length, src.length);
   },
-  i18n_modules = import.meta.glob("./i18n/*.js"),
-  loadLang = async (code) => {
-    const path = "./i18n/" + code + ".js",
-      load = i18n_modules[path] || i18n_modules["./i18n/en.js"],
-      mod = await load();
-    return mod.default();
+  buildCard = (entry) => {
+    const [, name, src] = entry,
+      card = document.createElement("div"),
+      h3 = document.createElement("h3"),
+      code_div = document.createElement("div"),
+      svg_box = document.createElement("div");
+
+    card.className = "example-card Lg";
+    card.onclick = () => selectExample(src);
+
+    h3.textContent = name;
+
+    code_div.className = "mermaid-code";
+    code_div.textContent = src;
+
+    svg_box.className = "rendered-svg";
+
+    card.append(h3, code_div, svg_box);
+    return [card, svg_box];
   },
   layoutWaterfall = () => {
     const { clientWidth: container_width } = grid,
       gap = 24,
-      cards = grid.querySelectorAll(".formula-card");
+      cards = grid.querySelectorAll(".example-card");
 
     let num_cols = 1;
     if (container_width > 968) {
@@ -60,112 +103,53 @@ const input = document.getElementById("formula-input"),
       style.left = min_col * (card_width + gap) + "px";
       style.top = col_heights[min_col] + "px";
 
-      // c-math auto-handles scaling and scrolling
-
       col_heights[min_col] += card.offsetHeight + gap;
     });
 
     grid.style.height = Math.max(...col_heights) + "px";
   },
-  updateUI = () => {
-    const {
-        title,
-        subtitle,
-        formulas_title,
-        benchmark_size_title,
-        benchmark_size_tip,
-        benchmark_speed_title,
-        benchmark_speed_tip,
-        editor_title,
-        editor_tip,
-        usage_title,
-        source_code,
-        editor_placeholder,
-        names,
-        comment_import,
-        comment_compile,
-        usage_formula,
-      } = current_translation,
-      usage_code =
-        "// " +
-        comment_compile +
-        " (@webc.site/math/md.js)\n" +
-        "import mdMath from '@webc.site/math/md.js';\n" +
-        "import mathml from '@webc.site/math';\n" +
-        "const html1 = mdMath('" +
-        usage_formula.replace(/\\/g, "\\\\") +
-        "', mathml);\n\n" +
-        "// " +
-        comment_import +
-        " (@webc.site/math)\n" +
-        "import math from '@webc.site/math';\n" +
-        "const html2 = math('e^{i\\\\pi} + 1 = 0', true);";
-
-    [
-      ["ui-title", title],
-      ["ui-formulas-title", formulas_title],
-      ["ui-editor-title", editor_title],
-      ["ui-editor-tip", editor_tip],
-      ["ui-usage-title", usage_title],
-      ["ui-source-link", source_code],
-      ["ui-usage-code", usage_code],
-      ["ui-benchmark-size-title", benchmark_size_title],
-      ["ui-benchmark-size-tip", benchmark_size_tip],
-      ["ui-benchmark-speed-title", benchmark_speed_title],
-      ["ui-benchmark-speed-tip", benchmark_speed_tip],
-    ].forEach(([id, txt]) => {
-      const el = document.getElementById(id);
-      if (el) el.textContent = txt;
-    });
-
-    const subtitle_el = document.getElementById("ui-subtitle");
-    if (subtitle_el) subtitle_el.innerHTML = subtitle;
-
-    input.placeholder = editor_placeholder;
-
-    const cards = FORMULAS.map((formula, idx) => {
-      const tex = "$$" + formula + "$$",
-        card = document.createElement("div"),
-        h3 = document.createElement("h3"),
-        code = document.createElement("div"),
-        render_box = document.createElement("c-math");
-
-      card.className = "formula-card Lg";
-      card.onclick = () => {
-        selectFormula(tex);
-        input.scrollIntoView({ behavior: "smooth", block: "center" });
-      };
-
-      h3.textContent = names[idx] || "Formula " + (idx + 1);
-
-      code.className = "tex-code";
-      code.textContent = tex;
-
-      render_box.className = "rendered-math";
-      render_box.setAttribute("tex", tex);
-
-      card.append(h3, code, render_box);
-      return card;
-    });
-
-    grid.innerHTML = "";
-    grid.append(...cards);
-    ro.disconnect();
-    cards.forEach((card) => ro.observe(card));
-  },
+  // TODO(i18n-loop): extract to key
+  usage_code =
+    "// Render Mermaid source to SVG in the browser\n" +
+    "import { renderMermaidToSvg } from './src/render/mermaid-to-svg.js'\n" +
+    "import { normalizeSvg } from './src/render/normalize-svg.js'\n" +
+    "\n" +
+    "const [code, raw, type] = await renderMermaidToSvg('graph TD\\n  A --> B')\n" +
+    "const [ok, svg] = normalizeSvg(raw)",
   init = async () => {
-    onLang(async (id) => {
-      const code = LANG_CODES[id];
-      if (code) {
-        current_translation = await loadLang(code);
-        updateUI();
-        setTimeout(layoutWaterfall, 50);
-      }
-    });
+    // 语言切换回调 —— 示例图与语言无关，仅注册保持 c-i18n 功能正常
+    onLang(() => {});
 
-    input.value = "$$" + FORMULAS[0] + "$$";
-    renderMath(input.value);
+    // 用法代码
+    document.getElementById("ui-usage-code").textContent = usage_code;
+
+    // 示例图库：构建卡片 + 异步渲染
+    grid.innerHTML = "";
+    ro.disconnect();
+
+    for (const entry of MERMAID_EXAMPLES) {
+      const [card, svg_box] = buildCard(entry),
+        src = entry[2];
+      grid.append(card);
+      ro.observe(card);
+      const [code, svg] = await renderToSvg(src);
+      if (code === RENDER_OK) svg_box.innerHTML = svg;
+    }
+
+    // 默认输入第一个示例
+    input.value = MERMAID_EXAMPLES[0][2];
+    await renderInput();
     adjustHeight();
+
+    // 防抖渲染
+    let timer;
+    input.oninput = () => {
+      adjustHeight();
+      clearTimeout(timer);
+      timer = setTimeout(renderInput, 250);
+    };
+
+    // 进入视口时聚焦
     const obs = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -179,18 +163,11 @@ const input = document.getElementById("formula-input"),
     );
     obs.observe(input);
 
-    input.oninput = () => {
-      renderMath(input.value);
-      adjustHeight();
-    };
-
-    // 字体/MathML 渲染完毕后重新布局
+    // 瀑布流布局
     setTimeout(layoutWaterfall, 50);
     setTimeout(layoutWaterfall, 300);
 
-    window.addEventListener("resize", () => {
-      layoutWaterfall();
-    });
+    window.addEventListener("resize", layoutWaterfall);
   };
 
 const ro = new ResizeObserver(() => {
