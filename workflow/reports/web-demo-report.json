@@ -1,0 +1,45 @@
+{
+  "generatedAt": "2026-06-13T18:05:00.000Z",
+  "loop": "web-demo-loop",
+  "pageEntry": "demo/index.html",
+  "renderer": "src/render/mermaid-to-svg.js",
+  "normalizer": "src/render/normalize-svg.js",
+  "exampleDataSource": "demo/const/mermaidExamples.js",
+  "exampleCount": 8,
+  "diagramTypes": [
+    "flowchart",
+    "sequenceDiagram",
+    "classDiagram",
+    "stateDiagram-v2",
+    "erDiagram",
+    "pie",
+    "gantt",
+    "xychart-beta"
+  ],
+  "integration": {
+    "composedRender": "renderMermaidToSvg -> normalizeSvg (reuse, no new render code)",
+    "errorHandling": "empty-state placeholder (ERR_EMPTY), visible recoverable errors (ERR_PARSE/ERR_RENDER/ERR_TIMEOUT/normalize 100-102)",
+    "languageSwitch": "c-i18n component kept functional via onLang registration"
+  },
+  "localBuild": {
+    "command": "bun run build",
+    "exitCode": 0,
+    "outputDir": "demo/dist",
+    "note": "build succeeds; mermaid bundle triggers a chunk-size warning, expected and tracked by the Size Loop"
+  },
+  "devServer": {
+    "command": "bun dev.js",
+    "port": 9999
+  },
+  "verification": {
+    "blockedPatternsAbsent": true,
+    "mathLeftoversAbsent": true,
+    "designReuse": "tokens, glassmorphism (.Lg), card base, code-block, waterfall grid, responsive media queries preserved"
+  },
+  "deferred": {
+    "theme": "Theme Loop (Beautiful Mermaid CSS theme switching)",
+    "sizeComparison": "Size Loop (size/gzip SVG bar chart wired to real data; benchmark shell placeholder kept)",
+    "i18n": "I18N Loop (new Mermaid copy uses hardcoded English marked with TODO(i18n-loop); keys to be propagated to all 75 locales)",
+    "deployment": "Deploy Loop (Cloudflare Pages deployment config)"
+  }
+}
