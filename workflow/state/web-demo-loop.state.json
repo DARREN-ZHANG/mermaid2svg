@@ -1,0 +1,10 @@
+{
+  "loop": "web-demo-loop",
+  "status": "pending",
+  "currentPhase": null,
+  "attempts": {},
+  "completedPhases": [],
+  "blockedReason": null,
+  "startedAt": null,
+  "finishedAt": null
+}

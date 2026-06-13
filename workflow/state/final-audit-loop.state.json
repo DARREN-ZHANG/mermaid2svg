@@ -1,0 +1,10 @@
+{
+  "loop": "final-audit-loop",
+  "status": "pending",
+  "currentPhase": null,
+  "attempts": {},
+  "completedPhases": [],
+  "blockedReason": null,
+  "startedAt": null,
+  "finishedAt": null
+}

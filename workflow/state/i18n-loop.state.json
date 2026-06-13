@@ -1,0 +1,10 @@
+{
+  "loop": "i18n-loop",
+  "status": "pending",
+  "currentPhase": null,
+  "attempts": {},
+  "completedPhases": [],
+  "blockedReason": null,
+  "startedAt": null,
+  "finishedAt": null
+}
