@@ -63,6 +63,11 @@ test("render loop config defines deterministic phase topology and artifacts", ()
   }
 });
 
+test("render loop names opencode sessions with the render loop title", () => {
+  const entry = read("workflow/loops/render/render-loop.ts");
+  assert.match(entry, /loopTitle: "Render Loop"/);
+});
+
 test("render loop prompts exist and enforce renderer constraints", () => {
   const prompts = [
     "workflow/loops/render/prompts/01-preflight.md",

@@ -13,6 +13,23 @@ export async function runRemainingLoop(
   phases: PhaseDefinition[],
   validatePhase: (phase: PhaseDefinition) => ValidationResult
 ) {
+  try {
+    await runRemainingLoopBody(config, phases, validatePhase);
+  } catch (error) {
+    const state = await loadState(config.stateFile, config.loopName);
+    state.status = "failed";
+    state.blockedReason = (error as Error).message;
+    state.finishedAt = new Date().toISOString();
+    await saveState(config.stateFile, state);
+    throw error;
+  }
+}
+
+async function runRemainingLoopBody(
+  config: RemainingLoopConfig,
+  phases: PhaseDefinition[],
+  validatePhase: (phase: PhaseDefinition) => ValidationResult
+) {
   await mkdir(config.logDir, { recursive: true });
   await mkdir(config.reportDir, { recursive: true });
   await mkdir(config.docsDir, { recursive: true });
@@ -36,7 +53,8 @@ export async function runRemainingLoop(
         await runOpenCodePhase({
           phaseId: phase.id,
           promptFile: phase.promptFile,
-          logDir: config.logDir
+          logDir: config.logDir,
+          loopTitle: config.title
         });
       }
 

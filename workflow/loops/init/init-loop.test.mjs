@@ -57,6 +57,12 @@ test("opencode runner treats a disappeared finished session as completed", () =>
   assert.match(runner, /lastStatus = "idle"/);
 });
 
+test("opencode runner accepts a loop title for diagnostics", () => {
+  const runner = read("workflow/loops/init/lib/opencode-runner.ts");
+  assert.match(runner, /loopTitle\?: string/);
+  assert.match(runner, /\$\{input\.loopTitle \?\? "Init Loop"\} \/ \$\{input\.phaseId\}/);
+});
+
 test("init loop clears stale failure fields when an attempt starts", () => {
   const state = read("workflow/loops/init/lib/state.ts");
   assert.match(state, /export function incrementAttempt[\s\S]*blockedReason:\s*null/);

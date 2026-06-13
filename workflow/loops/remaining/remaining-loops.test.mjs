@@ -162,6 +162,13 @@ test("remaining validators reject missing required inputs and outputs", async ()
   }
 });
 
+test("remaining loop runner records failed state and names opencode sessions by loop", () => {
+  const runner = read("workflow/loops/remaining/lib/runner.ts");
+  assert.match(runner, /state\.status = "failed"/);
+  assert.match(runner, /state\.blockedReason = \(error as Error\)\.message/);
+  assert.match(runner, /loopTitle: config\.title/);
+});
+
 test("pre-commit hook runs the remaining workflow loop contract test", () => {
   const hook = read(".husky/pre-commit");
   assert.match(hook, /workflow\/loops\/remaining\/remaining-loops\.test\.mjs/);

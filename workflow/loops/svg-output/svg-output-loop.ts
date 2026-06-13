@@ -33,7 +33,8 @@ async function main() {
         await runOpenCodePhase({
           phaseId: phase.id,
           promptFile: phase.promptFile,
-          logDir: SVG_OUTPUT_LOOP_CONFIG.logDir
+          logDir: SVG_OUTPUT_LOOP_CONFIG.logDir,
+          loopTitle: "SVG Output Loop"
         });
       }
 

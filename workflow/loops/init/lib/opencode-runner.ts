@@ -6,6 +6,7 @@ export type OpenCodePhaseInput = {
   phaseId: string;
   promptFile: string;
   logDir: string;
+  loopTitle?: string;
 };
 
 export async function runOpenCodePhase(input: OpenCodePhaseInput): Promise<void> {
@@ -32,7 +33,7 @@ export async function runOpenCodePhase(input: OpenCodePhaseInput): Promise<void>
   try {
     const session = await opencode.client.session.create({
       body: {
-        title: `Init Loop / ${input.phaseId}`
+        title: `${input.loopTitle ?? "Init Loop"} / ${input.phaseId}`
       }
     });
 

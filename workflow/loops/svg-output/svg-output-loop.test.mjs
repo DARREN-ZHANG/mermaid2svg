@@ -65,6 +65,11 @@ test("svg output loop config defines deterministic phase topology and artifacts"
   }
 });
 
+test("svg output loop names opencode sessions with the svg output loop title", () => {
+  const entry = read("workflow/loops/svg-output/svg-output-loop.ts");
+  assert.match(entry, /loopTitle: "SVG Output Loop"/);
+});
+
 test("svg output loop prompts exist and enforce output constraints", () => {
   const prompts = [
     "workflow/loops/svg-output/prompts/01-preflight.md",

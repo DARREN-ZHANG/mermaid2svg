@@ -33,7 +33,8 @@ async function main() {
         await runOpenCodePhase({
           phaseId: phase.id,
           promptFile: phase.promptFile,
-          logDir: RENDER_LOOP_CONFIG.logDir
+          logDir: RENDER_LOOP_CONFIG.logDir,
+          loopTitle: "Render Loop"
         });
       }
 
