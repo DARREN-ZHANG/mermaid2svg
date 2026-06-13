@@ -1,0 +1,25 @@
+id: maid-002
+source:
+  repo: probelabs/maid
+  path: test-fixtures/flowchart/valid/with-text.mmd
+  url: null
+diagram:
+  type: flowchart
+  title: null
+input:
+  mermaid: |-
+    flowchart LR
+        A[Start Process] --> B{Decision}
+        B -->|Yes| C[Do something]
+        B -->|No| D[Do something else]
+        C --> E[End]
+        D --> E
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

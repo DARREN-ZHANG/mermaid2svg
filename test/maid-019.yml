@@ -1,0 +1,23 @@
+id: maid-019
+source:
+  repo: probelabs/maid
+  path: test-fixtures/pie/valid/simple.mmd
+  url: null
+diagram:
+  type: pie
+  title: null
+input:
+  mermaid: |-
+    pie
+      title "Pets"
+      "Dogs" : 10
+      "Cats" : 5
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

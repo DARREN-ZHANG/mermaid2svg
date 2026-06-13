@@ -1,0 +1,23 @@
+id: mm-other-005
+source:
+  repo: mermaid-js/mermaid
+  path: cypress/integration/rendering/pie/pie.spec.ts
+  url: null
+diagram:
+  type: pie
+  title: null
+input:
+  mermaid: |-
+    pie title Sports in Sweden
+      "Bandy": 40
+      "Ice-Hockey": 80
+      "Football": 90
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

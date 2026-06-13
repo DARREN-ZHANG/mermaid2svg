@@ -1,0 +1,30 @@
+id: maid-015
+source:
+  repo: probelabs/maid
+  path: test-fixtures/class/valid/relations-all.mmd
+  url: null
+diagram:
+  type: classDiagram
+  title: null
+input:
+  mermaid: |-
+    classDiagram
+      direction LR
+      class A
+      class B
+      class C
+      class D
+      A <|-- B : extends
+      A *-- C : has
+      A o-- D : owns
+      A ..> B : uses
+      A ..|> B : realizes
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

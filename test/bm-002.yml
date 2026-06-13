@@ -1,0 +1,31 @@
+id: bm-002
+source:
+  repo: lukilabs/beautiful-mermaid
+  path: samples-data.ts
+  url: null
+diagram:
+  type: flowchart
+  title: null
+input:
+  mermaid: |-
+    graph LR
+    A[Rectangle] --> B(Rounded)
+    B --> C{Diamond}
+    C --> D([Stadium])
+    D --> E((Circle))
+    E --> F[[Subroutine]]
+    F --> G(((Double Circle)))
+    G --> H{{Hexagon}}
+    H --> I[(Database)]
+    I --> J>Flag]
+    J --> K[/Trapezoid\]
+    K --> L[\Inverse Trap/]
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

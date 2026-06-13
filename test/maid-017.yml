@@ -1,0 +1,23 @@
+id: maid-017
+source:
+  repo: probelabs/maid
+  path: test-fixtures/state/valid/simple.mmd
+  url: null
+diagram:
+  type: stateDiagram
+  title: null
+input:
+  mermaid: |-
+    stateDiagram-v2
+    [*] --> Idle
+    Idle --> Running : start
+    Running --> [*] : stop
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

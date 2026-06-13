@@ -1,0 +1,23 @@
+id: bm-020
+source:
+  repo: lukilabs/beautiful-mermaid
+  path: samples-data.ts
+  url: null
+diagram:
+  type: other
+  title: null
+input:
+  mermaid: |-
+    xychart-beta
+    title "Product Sales"
+    x-axis [Widgets, Gadgets, Gizmos, Doodads, Thingamajigs]
+    bar [150, 230, 180, 95, 310]
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

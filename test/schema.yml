@@ -1,0 +1,72 @@
+# Mermaid YAML 测试 Schema
+# 每条 test/*.yml 必须匹配此结构后才能进入渲染测试
+# 由 extract/run.js 生成，请勿手动修改
+
+type: object
+required: [id, source, diagram, input, expect, skip]
+properties:
+  id:
+    type: string
+    description: 稳定唯一测试编号
+  source:
+    type: object
+    required: [repo, path, url]
+    properties:
+      repo:
+        type: string
+        description: 来源仓库全名 (如 probelabs/maid)
+      path:
+        type: string
+        description: 来源文件相对路径
+      url:
+        type: [string, 'null']
+        description: 可追溯 URL，当前为 null
+  diagram:
+    type: object
+    required: [type, title]
+    properties:
+      type:
+        type: string
+        description: Mermaid diagram type (如 flowchart, sequenceDiagram)
+      title:
+        type: [string, 'null']
+        description: 图表标题，当前为 null
+  input:
+    type: object
+    required: [mermaid]
+    properties:
+      mermaid:
+        type: string
+        description: Mermaid 源文本
+  expect:
+    type: object
+    required: [render, svg]
+    properties:
+      render:
+        type: boolean
+        description: 是否预期渲染成功
+      svg:
+        type: object
+        required: [root, viewBox, containsText]
+        properties:
+          root:
+            type: boolean
+            description: SVG 是否包含合法根节点
+          viewBox:
+            type: boolean
+            description: SVG 是否包含 viewBox 属性
+          containsText:
+            type: array
+            items:
+              type: string
+            description: SVG 中应包含的文本片段列表
+  skip:
+    type: object
+    required: [enabled, reason]
+    properties:
+      enabled:
+        type: boolean
+        description: 是否跳过此测试
+      reason:
+        type: [string, 'null']
+        description: 跳过原因，仅在 enabled 为 true 时有值

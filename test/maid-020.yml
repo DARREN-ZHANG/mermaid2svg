@@ -1,0 +1,25 @@
+id: maid-020
+source:
+  repo: probelabs/maid
+  path: test-fixtures/unsupported/gantt.mmd
+  url: null
+diagram:
+  type: gantt
+  title: null
+input:
+  mermaid: |-
+    gantt
+      dateFormat  YYYY-MM-DD
+      title Adding GANTT diagram to mermaid
+      section A section
+      Completed task            :done,    des1, 2014-01-06,2014-01-08
+      Active task               :active,  des2, 2014-01-09, 3d
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

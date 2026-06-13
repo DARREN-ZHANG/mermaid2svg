@@ -1,0 +1,23 @@
+id: maid-010
+source:
+  repo: probelabs/maid
+  path: test-fixtures/sequence/valid/basic.mmd
+  url: null
+diagram:
+  type: sequenceDiagram
+  title: null
+input:
+  mermaid: |-
+    sequenceDiagram
+      participant Alice
+      participant Bob
+      Alice->>Bob: Hello Bob
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null
