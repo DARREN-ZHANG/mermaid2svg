@@ -35,7 +35,13 @@
     "prepare": "husky",
     "agent:init": "tsx --env-file=.env workflow/loops/init/init-loop.ts",
     "agent:render": "tsx --env-file=.env workflow/loops/render/render-loop.ts",
-    "agent:svg-output": "tsx --env-file=.env workflow/loops/svg-output/svg-output-loop.ts"
+    "agent:svg-output": "tsx --env-file=.env workflow/loops/svg-output/svg-output-loop.ts",
+    "agent:web-demo": "tsx --env-file=.env workflow/loops/web-demo/web-demo-loop.ts",
+    "agent:theme": "tsx --env-file=.env workflow/loops/theme/theme-loop.ts",
+    "agent:size": "tsx --env-file=.env workflow/loops/size/size-loop.ts",
+    "agent:i18n": "tsx --env-file=.env workflow/loops/i18n/i18n-loop.ts",
+    "agent:deploy": "tsx --env-file=.env workflow/loops/deploy/deploy-loop.ts",
+    "agent:final-audit": "tsx --env-file=.env workflow/loops/final-audit/final-audit-loop.ts"
   },
   "dependencies": {},
   "devDependencies": {
