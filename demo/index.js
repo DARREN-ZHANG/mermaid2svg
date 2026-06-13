@@ -1,5 +1,13 @@
 import MERMAID_EXAMPLES from "./const/mermaidExamples.js";
-import { renderMermaidToSvg, OK as RENDER_OK, ERR_EMPTY, ERR_PARSE, ERR_RENDER, ERR_TIMEOUT } from "../src/render/mermaid-to-svg.js";
+import THEMES, { DEFAULT_THEME, THEME_KEY, themeVars } from "./const/themes.js";
+import {
+  renderMermaidToSvg,
+  OK as RENDER_OK,
+  ERR_EMPTY,
+  ERR_PARSE,
+  ERR_RENDER,
+  ERR_TIMEOUT,
+} from "../src/render/mermaid-to-svg.js";
 import { normalizeSvg, OK as NORM_OK } from "../src/render/normalize-svg.js";
 import "./webc/Scroll.js";
 import "./webc/I18n.js";
@@ -24,6 +32,53 @@ const renderToSvg = async (mermaidText) => {
   preview = document.getElementById("svg-preview"),
   status = document.getElementById("render-status"),
   grid = document.getElementById("examples-grid"),
+  theme_switcher = document.getElementById("theme-switcher"),
+  root = document.documentElement,
+  // 主题切换: 在 <html> 设置 data-theme + 内联派生色变量，触发纯 CSS 覆盖层，无需重新渲染
+  // 切换到非默认主题时 setProperty 覆盖同名变量；切回默认时移除 data-theme，覆盖层规则失效，
+  // 残留的内联变量无人引用，无需逐个清理。
+  applyTheme = (id) => {
+    const active = THEMES.find(([tid]) => tid === id) ? id : DEFAULT_THEME,
+      vars = themeVars(active);
+    if (vars) {
+      root.setAttribute("data-theme", active);
+      for (const [k, v] of Object.entries(vars)) root.style.setProperty(k, v);
+    } else {
+      root.removeAttribute("data-theme");
+    }
+    try {
+      localStorage.setItem(THEME_KEY, active);
+    } catch (_) {}
+    theme_switcher.querySelectorAll(".theme-btn").forEach((btn) => {
+      btn.classList.toggle("active", btn.dataset.theme === active);
+    });
+  },
+  buildThemeButtons = () => {
+    // TODO(i18n-loop): extract label to key
+    const label = document.createElement("span");
+    label.className = "theme-switcher-label";
+    label.textContent = theme_switcher.dataset.themeLabel || "Theme";
+    theme_switcher.append(label);
+    for (const [id, name, palette] of THEMES) {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "theme-btn";
+      btn.dataset.theme = id;
+      btn.textContent = name;
+      if (palette) {
+        const sw = document.createElement("span");
+        sw.className = "theme-swatch";
+        sw.style.background = palette.bg;
+        sw.style.borderColor = palette.line || palette.fg;
+        sw.style.color = palette.fg;
+        btn.prepend(sw);
+      } else {
+        btn.classList.add("is-default");
+      }
+      btn.onclick = () => applyTheme(id);
+      theme_switcher.append(btn);
+    }
+  },
   adjustHeight = () => {
     const { style, scrollHeight } = input;
     style.height = "auto";
@@ -119,6 +174,14 @@ const renderToSvg = async (mermaidText) => {
   init = async () => {
     // 语言切换回调 —— 示例图与语言无关，仅注册保持 c-i18n 功能正常
     onLang(() => {});
+
+    // 主题切换器构建 + 恢复上次主题 (默认 Mermaid 原生外观)
+    buildThemeButtons();
+    let saved_theme = DEFAULT_THEME;
+    try {
+      saved_theme = localStorage.getItem(THEME_KEY) || DEFAULT_THEME;
+    } catch (_) {}
+    applyTheme(saved_theme);
 
     // 用法代码
     document.getElementById("ui-usage-code").textContent = usage_code;

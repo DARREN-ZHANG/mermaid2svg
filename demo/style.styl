@@ -181,6 +181,16 @@ main
   h2
     margin-bottom 4px
 
+.editor-title-row
+  align-items center
+  display flex
+  flex-wrap wrap
+  gap 12px
+  justify-content space-between
+
+  h2
+    margin 0
+
 .tip
   color var(--text-muted)
   font-size 15px
@@ -361,6 +371,98 @@ main
   .tip
     color var(--text-muted)
     font-size 14px
+
+// ===== 主题切换器 =====
+
+.theme-switcher
+  align-items center
+  display flex
+  flex-wrap wrap
+  gap 6px
+
+.theme-switcher-label
+  color var(--text-muted)
+  font-size 13px
+  font-weight 400
+  margin-right 4px
+
+.theme-btn
+  align-items center
+  background-color #ffffff
+  border 1px solid var(--border-color)
+  border-radius 9999px
+  box-shadow 0 1px 2px #0000000a
+  color var(--text-color)
+  cursor pointer
+  display inline-flex
+  font-size 13px
+  font-weight 500
+  gap 6px
+  padding 5px 12px
+  transition all 0.2s cubic-bezier(0.4, 0, 0.2, 1)
+  white-space nowrap
+
+  &:hover
+    border-color var(--accent-color)
+    color var(--accent-color)
+    transform translateY(-1px)
+
+  &.active
+    background-color var(--accent-color)
+    border-color var(--accent-color)
+    box-shadow 0 2px 6px -1px #2563eb40
+    color #ffffff
+
+    .theme-swatch
+      box-shadow 0 0 0 1px #ffffff80
+
+.theme-swatch
+  border 1px solid currentColor
+  border-radius 9999px
+  display inline-block
+  height 12px
+  width 12px
+
+._c_6_, ._c_7_, ._c_8_, ._c_9_, ._c_10_, ._c_11_, ._c_12_, ._c_13_, ._c_14_, ._c_15_, ._c_16_, ._c_17_, ._c_18_, ._c_19_, ._c_20_, // 画布背景 + 根文本填充
+
+[data-theme] #mermaid-svg
+  background var(--bg)
+  fill var(--m-text)
+
+// 主文本 (color/fill)
+
+[data-theme] #mermaid-svg
+  .label
+    color var(--m-text)
+
+  .label text, span
+    color var(--m-text)
+    fill var(--m-text)
+
+  .slice, .pieTitleText, .legend text, .messageText, .sectionTitle, .sectionTitle0, .sectionTitle1, .sectionTitle2, .sectionTitle3, .titleText, .vertText, .grid .tick text
+    fill var(--m-text)
+
+// 次要文本 (簇标签、边标签)
+
+[data-theme] #mermaid-svg .cluster text, [data-theme] #mermaid-svg .cluster-label text, [data-theme] #mermaid-svg .edgeLabel .label text
+  fill var(--m-sec)
+
+// 节点形状填充/描边 (flowchart/sequence/class/state/er)
+
+[data-theme] #mermaid-svg .node rect, [data-theme] #mermaid-svg .node circle, [data-theme] #mermaid-svg .node ellipse, [data-theme] #mermaid-svg .node polygon, [data-theme] #mermaid-svg .node path, [data-theme] #mermaid-svg .actor, [data-theme] #mermaid-svg .labelBox, [data-theme] #mermaid-svg .entityBox, [data-theme] #mermaid-svg g.classGroup rect, [data-theme] #mermaid-svg g.stateGroup rect, [data-theme] #mermaid-svg .statediagram-cluster rect
+  fill var(--m-surface)
+  stroke var(--m-border)
+
+// 边/连线
+
+[data-theme] #mermaid-svg .edgePath .path, [data-theme] #mermaid-svg .flowchart-link, [data-theme] #mermaid-svg .relationshipLine, [data-theme] #mermaid-svg .transition, [data-theme] #mermaid-svg .relation, [data-theme] #mermaid-svg .messageLine0, [data-theme] #mermaid-svg .messageLine1, [data-theme] #mermaid-svg .actor-line, [data-theme] #mermaid-svg .loopLine
+  stroke var(--m-line)
+
+// 箭头/标记
+
+[data-theme] #mermaid-svg .marker, [data-theme] #mermaid-svg .arrowheadPath, [data-theme] #mermaid-svg [id$="-barbEnd"]
+  fill var(--m-line)
+  stroke var(--m-line)
 
 // ===== 响应式 =====
 

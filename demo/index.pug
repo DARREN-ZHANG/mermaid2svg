@@ -40,8 +40,11 @@ html(lang="en")
 
             .card.editor-card.Lg
               .editor-header
-                // TODO(i18n-loop): extract to key
-                h2#ui-editor-title Interactive Editor
+                .editor-title-row
+                  // TODO(i18n-loop): extract to key
+                  h2#ui-editor-title Interactive Editor
+                  // TODO(i18n-loop): extract to key
+                  .theme-switcher#theme-switcher(data-theme-label="Theme")
                 // TODO(i18n-loop): extract to key
                 p#ui-editor-tip.tip Enter Mermaid source text to render SVG
               .editor-body
