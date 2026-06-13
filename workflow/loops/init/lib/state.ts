@@ -40,6 +40,8 @@ export function incrementAttempt(state: LoopState, phaseId: string): LoopState {
     ...state,
     currentPhase: phaseId,
     status: "running",
+    blockedReason: null,
+    finishedAt: null,
     attempts: {
       ...state.attempts,
       [phaseId]: (state.attempts[phaseId] ?? 0) + 1

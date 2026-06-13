@@ -49,6 +49,20 @@ test("opencode runner fails promptly when a running session disappears from stat
   assert.match(runner, /disappeared from status/);
 });
 
+test("opencode runner treats a disappeared finished session as completed", () => {
+  const runner = read("workflow/loops/init/lib/opencode-runner.ts");
+  assert.match(runner, /sessionFinishedWithStop/);
+  assert.match(runner, /messagesFinishedWithStop/);
+  assert.match(runner, /message\.info\.finish === "stop"/);
+  assert.match(runner, /lastStatus = "idle"/);
+});
+
+test("init loop clears stale failure fields when an attempt starts", () => {
+  const state = read("workflow/loops/init/lib/state.ts");
+  assert.match(state, /export function incrementAttempt[\s\S]*blockedReason:\s*null/);
+  assert.match(state, /export function incrementAttempt[\s\S]*finishedAt:\s*null/);
+});
+
 test("opencode runner snapshots child sessions while a phase is running", () => {
   const runner = read("workflow/loops/init/lib/opencode-runner.ts");
   assert.match(runner, /\$\{input\.phaseId\}\.status\.json/);

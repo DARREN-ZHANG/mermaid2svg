@@ -83,6 +83,11 @@ export async function runOpenCodePhase(input: OpenCodePhaseInput): Promise<void>
         }
       } else {
         missingStatusPolls++;
+        if (await sessionFinishedWithStop(opencode, sessionId)) {
+          lastStatus = "idle";
+          console.log(`  Session ${sessionId} completed (finish: stop)`);
+          break;
+        }
         if (missingStatusPolls >= 3) {
           throw new Error(`Phase ${input.phaseId} session ${sessionId} disappeared from status`);
         }
@@ -142,6 +147,29 @@ export async function runOpenCodePhase(input: OpenCodePhaseInput): Promise<void>
 
 async function writeJson(file: string, value: unknown): Promise<void> {
   await writeFile(file, JSON.stringify(value, null, 2), "utf8");
+}
+
+async function sessionFinishedWithStop(
+  opencode: Awaited<ReturnType<typeof createOpencode>>,
+  sessionId: string
+): Promise<boolean> {
+  const messages = await opencode.client.session.messages({
+    path: { id: sessionId }
+  });
+  return messagesFinishedWithStop(messages);
+}
+
+function messagesFinishedWithStop(messages: unknown): boolean {
+  const data = (messages as { data?: unknown }).data;
+  if (!Array.isArray(data)) return false;
+
+  for (let index = data.length - 1; index >= 0; index--) {
+    const message = data[index] as { info?: { role?: string; finish?: string } };
+    if (message.info?.role !== "assistant") continue;
+    return message.info.finish === "stop";
+  }
+
+  return false;
 }
 
 async function writeRuntimeDiagnostics(
