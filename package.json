@@ -76,6 +76,7 @@
     "oxc-parser": "^0.135.0",
     "oxfmt": "^0.54.0",
     "oxlint": "^1.69.0",
+    "playwright": "^1.60.0",
     "pug": "^3.0.4",
     "remark-html": "^16.0.1",
     "remark-math": "^6.0.0",
@@ -90,5 +91,8 @@
   "lint-staged": {
     "**/*.svg": "node sh/hook/svg.js",
     "**/*.styl": "node sh/hook/styl.js"
+  },
+  "dependencies": {
+    "mermaid": "^11.15.0"
   }
 }
