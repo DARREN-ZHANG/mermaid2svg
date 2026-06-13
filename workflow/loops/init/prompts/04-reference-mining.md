@@ -59,6 +59,38 @@ Write docs/init/test-candidates.json as a JSON array. Each item must include:
 - Mark browser-dependent, snapshot-heavy, theme-only, or layout-nondeterministic tests as useful_later or unsupported_candidate.
 - Do not silently discard interesting unsupported cases; classify them.
 
+## Exploration strategy (subagent-based)
+
+To avoid one context doing all repository comprehension, you MUST delegate exploration to subagents. Keep each subagent focused and ask it to return a compact structured summary rather than a complete dump of every file.
+
+Launch the following subagents in parallel:
+
+1. **Subagent A: maid explorer**
+   - Type: `explore`
+   - Prompt: Explore `../references/maid`. Find Mermaid examples, fixtures, and docs. Return up to 20 strongest candidates with source path, diagram type, compact source snippet, and why each is useful.
+
+2. **Subagent B: beautiful-mermaid explorer**
+   - Type: `explore`
+   - Prompt: Explore `../references/beautiful-mermaid`. Focus on sample data, README examples, and test fixtures. Return up to 20 strongest candidates with source path, diagram type, compact source snippet, and whether each is structural or theme-oriented.
+
+3. **Subagent C: mermaid flowchart explorer**
+   - Type: `explore`
+   - Prompt: Explore `../references/mermaid` focusing ONLY on flowchart and graph examples/tests. Return up to 20 small canonical flowchart candidates covering basic edges, labels, directions, subgraphs, and styling.
+
+4. **Subagent D: mermaid sequence/state/class explorer**
+   - Type: `explore`
+   - Prompt: Explore `../references/mermaid` focusing ONLY on sequenceDiagram, stateDiagram, and classDiagram examples/tests. Return up to 20 small canonical candidates grouped by type.
+
+5. **Subagent E: mermaid other types explorer**
+   - Type: `explore`
+   - Prompt: Explore `../references/mermaid` focusing ONLY on erDiagram, gantt, pie, and other non-standard diagram types. Return up to 20 compact candidates grouped by type and mark exotic/browser-heavy cases as useful_later or unsupported_candidate.
+
+After all subagents return, synthesize their findings into:
+- A unified candidate list for `docs/init/test-candidates.json`
+- `docs/init/reference-inventory.md`
+
+Apply the classification rules and mining rules to the synthesized results.
+
 ## docs/init/reference-inventory.md
 Include:
 - where examples/tests were found in each repo

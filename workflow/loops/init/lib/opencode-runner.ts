@@ -66,17 +66,25 @@ export async function runOpenCodePhase(input: OpenCodePhaseInput): Promise<void>
     const phaseTimeoutMs = Number(process.env.OPENCODE_PHASE_TIMEOUT_MS ?? 7_200_000); // 默认 2 小时
     const deadline = Date.now() + phaseTimeoutMs;
     let lastStatus = "unknown";
+    let missingStatusPolls = 0;
 
     while (Date.now() < deadline) {
       const statusResult = await opencode.client.session.status();
       const statusMap = statusResult.data as Record<string, { type: string }>;
       const sessionStatus = statusMap?.[sessionId];
+      await writeRuntimeDiagnostics(opencode, input, sessionId, lastStatus, statusMap);
 
       if (sessionStatus) {
+        missingStatusPolls = 0;
         lastStatus = sessionStatus.type;
         if (sessionStatus.type === "idle") {
           console.log(`  Session ${sessionId} completed (status: idle)`);
           break;
+        }
+      } else {
+        missingStatusPolls++;
+        if (missingStatusPolls >= 3) {
+          throw new Error(`Phase ${input.phaseId} session ${sessionId} disappeared from status`);
         }
       }
 
@@ -134,6 +142,58 @@ export async function runOpenCodePhase(input: OpenCodePhaseInput): Promise<void>
 
 async function writeJson(file: string, value: unknown): Promise<void> {
   await writeFile(file, JSON.stringify(value, null, 2), "utf8");
+}
+
+async function writeRuntimeDiagnostics(
+  opencode: Awaited<ReturnType<typeof createOpencode>>,
+  input: OpenCodePhaseInput,
+  sessionId: string,
+  lastStatus: string,
+  statusMap: Record<string, { type: string }>
+): Promise<void> {
+  try {
+    const childrenResult = await opencode.client.session.children({
+      path: { id: sessionId }
+    });
+    const children = Array.isArray(childrenResult.data) ? childrenResult.data : [];
+
+    await writeJson(path.join(input.logDir, `${input.phaseId}.status.json`), {
+      phaseId: input.phaseId,
+      sessionId,
+      lastStatus,
+      updatedAt: new Date().toISOString(),
+      statusMap,
+      children: children.map((child) => ({
+        id: child.id,
+        title: child.title,
+        agent: child.agent,
+        updated: child.time?.updated,
+        tokens: child.tokens
+      }))
+    });
+
+    for (const child of children) {
+      try {
+        const messages = await opencode.client.session.messages({
+          path: { id: child.id }
+        });
+        await writeJson(path.join(input.logDir, `${input.phaseId}.child.${child.id}.messages.json`), messages);
+      } catch (error) {
+        await writeJson(path.join(input.logDir, `${input.phaseId}.child.${child.id}.messages-error.json`), {
+          childId: child.id,
+          error: serializeError(error),
+          failedAt: new Date().toISOString()
+        });
+      }
+    }
+  } catch (error) {
+    await writeJson(path.join(input.logDir, `${input.phaseId}.status-error.json`), {
+      phaseId: input.phaseId,
+      sessionId,
+      error: serializeError(error),
+      failedAt: new Date().toISOString()
+    });
+  }
 }
 
 function serializeError(error: unknown) {

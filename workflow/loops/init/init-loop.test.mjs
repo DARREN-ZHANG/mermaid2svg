@@ -41,6 +41,26 @@ test("opencode runner preserves diagnostics when a phase fails before completion
   assert.match(runner, /\$\{input\.phaseId\}\.messages\.json/);
 });
 
+test("opencode runner fails promptly when a running session disappears from status", () => {
+  const runner = read("workflow/loops/init/lib/opencode-runner.ts");
+  assert.match(runner, /missingStatusPolls/);
+  assert.match(runner, /disappeared from status/);
+});
+
+test("opencode runner snapshots child sessions while a phase is running", () => {
+  const runner = read("workflow/loops/init/lib/opencode-runner.ts");
+  assert.match(runner, /\$\{input\.phaseId\}\.status\.json/);
+  assert.match(runner, /session\.children/);
+  assert.match(runner, /\$\{input\.phaseId\}\.child\.\$\{child\.id\}\.messages\.json/);
+});
+
+test("reference mining prompt keeps the explore subagent strategy", () => {
+  const prompt = read("workflow/loops/init/prompts/04-reference-mining.md");
+  assert.match(prompt, /subagent-based/i);
+  assert.match(prompt, /MUST delegate exploration to subagents/);
+  assert.match(prompt, /Type:\s*`explore`/);
+});
+
 test("opencode config pins zhipu coding plan GLM-5.1", () => {
   const config = JSON.parse(read("opencode.jsonc"));
   assert.equal(config.model, "zhipuai-coding-plan/glm-5.1");
