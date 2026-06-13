@@ -12,3 +12,4 @@ tmp/
 .env
 .worktrees/
 references/
+workflow/runs/

@@ -43,7 +43,6 @@
     "agent:deploy": "tsx --env-file=.env workflow/loops/deploy/deploy-loop.ts",
     "agent:final-audit": "tsx --env-file=.env workflow/loops/final-audit/final-audit-loop.ts"
   },
-  "dependencies": {},
   "devDependencies": {
     "@1-/dist": "^0.1.18",
     "@1-/findgit": "^0.1.2",
@@ -54,8 +53,8 @@
     "@3-/stylus": "^0.1.17",
     "@3-/write": "^0.0.2",
     "@3-/zx": "^0.1.18",
-    "@opencode-ai/sdk": "latest",
     "@mathjax/mathjax-mhchem-font-extension": "^4.1.2",
+    "@opencode-ai/sdk": "latest",
     "browserslist": "^4.28.2",
     "cli-table3": "^0.6.5",
     "env-paths": "^4.0.0",
