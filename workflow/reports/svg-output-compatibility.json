@@ -1,0 +1,80 @@
+{
+  "generatedAt": "2026-06-13T17:27:40.547Z",
+  "corpusTotal": 18,
+  "checkedRules": [
+    {
+      "rule": "svg-root",
+      "passed": 18,
+      "failed": 0
+    },
+    {
+      "rule": "viewBox",
+      "passed": 18,
+      "failed": 0
+    },
+    {
+      "rule": "no-runtime-js",
+      "passed": 18,
+      "failed": 0
+    },
+    {
+      "rule": "deterministic",
+      "passed": 18,
+      "failed": 0
+    },
+    {
+      "rule": "error-shape",
+      "passed": 18,
+      "failed": 0
+    }
+  ],
+  "summary": {
+    "total": 18,
+    "passed": 18,
+    "failed": 0,
+    "deterministic": true
+  },
+  "failures": [],
+  "syntheticRules": [
+    {
+      "rule": "missing-svg-root",
+      "passed": true
+    },
+    {
+      "rule": "empty-string",
+      "passed": true
+    },
+    {
+      "rule": "garbage-text",
+      "passed": true
+    },
+    {
+      "rule": "script-removal",
+      "passed": true
+    },
+    {
+      "rule": "event-handler-removal",
+      "passed": true
+    },
+    {
+      "rule": "javascript-uri-removal",
+      "passed": true
+    },
+    {
+      "rule": "viewBox-derivation",
+      "passed": true
+    },
+    {
+      "rule": "viewBox-preserved",
+      "passed": true
+    },
+    {
+      "rule": "same-input-determinism",
+      "passed": true
+    },
+    {
+      "rule": "id-rewrite-determinism",
+      "passed": true
+    }
+  ]
+}

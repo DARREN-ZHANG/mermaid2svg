@@ -199,12 +199,14 @@ test("svg output validators reject missing artifacts and blocked compatibility p
   assert.match(validationSurface, /canvas/);
 
   const { validateSvgOutputPhase } = await import("./lib/validators.ts");
+  // Phase 04 delivered compatibility tests and report;
+  // the validator must accept all valid artifacts.
   const result = validateSvgOutputPhase({
     id: "validation",
     requiredArtifacts: [],
   });
 
-  assert.equal(result.ok, false);
+  assert.equal(result.ok, true);
   // Render Loop delivered a valid renderer; the validator must accept it (no error).
   assert.ok(
     !result.errors.some((error) => error.includes("src/render/mermaid-to-svg.js")),
@@ -215,8 +217,19 @@ test("svg output validators reject missing artifacts and blocked compatibility p
     !result.errors.some((error) => error.includes("src/render/normalize-svg.js")),
     "valid normalizer should pass svg-output normalizer validation",
   );
-  assert.ok(result.errors.some((error) => error.includes("test/svg-output.test.mjs")));
   assert.ok(
-    result.errors.some((error) => error.includes("workflow/reports/svg-output-compatibility.json")),
+    !result.errors.some((error) => error.includes("test/svg-output.test.mjs")),
+    "valid compatibility tests should pass validation",
   );
+  assert.ok(
+    !result.errors.some((error) => error.includes("workflow/reports/svg-output-compatibility.json")),
+    "valid compatibility report should pass validation",
+  );
+
+  // validator 仍须能捕获缺失的必要产物
+  const missing = validateSvgOutputPhase({
+    id: "validation",
+    requiredArtifacts: ["nonexistent-artifact-" + Date.now() + ".js"],
+  });
+  assert.equal(missing.ok, false);
 });
