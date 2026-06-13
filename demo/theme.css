@@ -1,0 +1,93 @@
+/*
+ * Beautiful Mermaid CSS 主题覆盖层 (纯 CSS)
+ *
+ * 纯 CSS 覆盖层，不修改渲染流程 (src/**)。
+ * 调色板来源: references/beautiful-mermaid/src/theme.ts (commit 2ac8bbb, v1.1.3)。
+ *
+ * 为什么是独立的 .css 而非 .styl:
+ *   pre-commit hook (sh/hook/styl.js → @3-/stylfmt) 会改写 .styl 文件，
+ *   而本覆盖层引用的是 Mermaid 输出的内部类名 (.node/.label/.slice/...),
+ *   这些类名不能被重命名，否则无法匹配 Mermaid 渲染出的 SVG。.css 文件不被该 hook 处理。
+ *
+ * 派生色变量 (--bg/--fg/--m-text/--m-line/--m-surface/--m-border/...) 由
+ * demo/const/themes.js 按 sRGB 通道插值计算 (权重对齐 theme.ts 的 MIX)，
+ * 经 demo/index.js 的 applyTheme 内联设置到 <html data-theme>。
+ *
+ * 特异性: [data-theme] 属性选择器 (1 attr) + #mermaid-svg (1 id) 高于 Mermaid
+ * 内嵌 <style> 中的 #mermaid-svg 单 id 规则，覆盖层因此生效，无需 !important。
+ * mermaid-default 不设置 data-theme，自然回退为 Mermaid 原生外观。
+ */
+
+/* 画布背景 + 根文本填充 */
+[data-theme] #mermaid-svg {
+  background: var(--bg);
+  fill: var(--m-text);
+}
+
+/* 主文本 (color/fill) */
+[data-theme] #mermaid-svg .label {
+  color: var(--m-text);
+}
+[data-theme] #mermaid-svg .label text,
+[data-theme] #mermaid-svg span {
+  color: var(--m-text);
+  fill: var(--m-text);
+}
+[data-theme] #mermaid-svg .slice,
+[data-theme] #mermaid-svg .pieTitleText,
+[data-theme] #mermaid-svg .legend text,
+[data-theme] #mermaid-svg .messageText,
+[data-theme] #mermaid-svg .sectionTitle,
+[data-theme] #mermaid-svg .sectionTitle0,
+[data-theme] #mermaid-svg .sectionTitle1,
+[data-theme] #mermaid-svg .sectionTitle2,
+[data-theme] #mermaid-svg .sectionTitle3,
+[data-theme] #mermaid-svg .titleText,
+[data-theme] #mermaid-svg .vertText,
+[data-theme] #mermaid-svg .grid .tick text {
+  fill: var(--m-text);
+}
+
+/* 次要文本 (簇标签、边标签) */
+[data-theme] #mermaid-svg .cluster text,
+[data-theme] #mermaid-svg .cluster-label text,
+[data-theme] #mermaid-svg .edgeLabel .label text {
+  fill: var(--m-sec);
+}
+
+/* 节点形状填充/描边 (flowchart/sequence/class/state/er) */
+[data-theme] #mermaid-svg .node rect,
+[data-theme] #mermaid-svg .node circle,
+[data-theme] #mermaid-svg .node ellipse,
+[data-theme] #mermaid-svg .node polygon,
+[data-theme] #mermaid-svg .node path,
+[data-theme] #mermaid-svg .actor,
+[data-theme] #mermaid-svg .labelBox,
+[data-theme] #mermaid-svg .entityBox,
+[data-theme] #mermaid-svg g.classGroup rect,
+[data-theme] #mermaid-svg g.stateGroup rect,
+[data-theme] #mermaid-svg .statediagram-cluster rect {
+  fill: var(--m-surface);
+  stroke: var(--m-border);
+}
+
+/* 边/连线 */
+[data-theme] #mermaid-svg .edgePath .path,
+[data-theme] #mermaid-svg .flowchart-link,
+[data-theme] #mermaid-svg .relationshipLine,
+[data-theme] #mermaid-svg .transition,
+[data-theme] #mermaid-svg .relation,
+[data-theme] #mermaid-svg .messageLine0,
+[data-theme] #mermaid-svg .messageLine1,
+[data-theme] #mermaid-svg .actor-line,
+[data-theme] #mermaid-svg .loopLine {
+  stroke: var(--m-line);
+}
+
+/* 箭头/标记 */
+[data-theme] #mermaid-svg .marker,
+[data-theme] #mermaid-svg .arrowheadPath,
+[data-theme] #mermaid-svg [id$="-barbEnd"] {
+  fill: var(--m-line);
+  stroke: var(--m-line);
+}
