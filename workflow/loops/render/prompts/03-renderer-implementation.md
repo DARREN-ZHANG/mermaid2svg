@@ -35,8 +35,9 @@ The renderer must:
 - Use the official Mermaid browser API.
 - Do not implement a Mermaid parser.
 - Do not implement a Mermaid layout engine.
-- Do not use screenshots, canvas, image snapshots, or static SVG fixtures as a substitute for rendering.
-- Do not add `puppeteer`, `playwright`, `@mermaid-js/mermaid-cli`, or online renderer integrations.
+- Playwright may be used only as a real-browser test harness and may be added as a dev/test dependency for that purpose.
+- Do not use screenshots, image snapshots, canvas, pixel data, or static SVG fixtures as the primary pass/fail oracle or conversion output.
+- Do not add `puppeteer`, `@mermaid-js/mermaid-cli`, Playwright-as-renderer, or online renderer integrations.
 
 ## Verification
 

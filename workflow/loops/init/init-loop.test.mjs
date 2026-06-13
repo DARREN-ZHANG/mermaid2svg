@@ -102,6 +102,11 @@ test("opencode config pins zhipu coding plan GLM-5.1", () => {
   assert.equal(config.agent["init-agent"].model, "zhipuai-coding-plan/glm-5.1");
 });
 
+test("opencode config loads approved human gate decisions", () => {
+  const config = JSON.parse(read("opencode.jsonc"));
+  assert.ok(config.instructions.includes("workflow/human-gate-decisions.md"));
+});
+
 test("opencode config denies external directory prompts for headless loops", () => {
   const config = JSON.parse(read("opencode.jsonc"));
   assert.equal(config.permission.external_directory["*"], "deny");

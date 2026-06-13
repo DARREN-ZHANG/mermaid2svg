@@ -4,7 +4,7 @@
 
 ## 1. 最终状态
 
-**Partially Ready** — 核心产出全部健全，但存在环境工具链缺口和 7 项待 Human Gate 确认的决策。
+**Partially Ready** — 核心产出全部健全。7 项 Human Gate 决策已在后续人工 review 中确认，最新决策源为 `workflow/human-gate-decisions.md`。
 
 | 维度 | 状态 | 说明 |
 |---|---|---|
@@ -57,7 +57,7 @@ Mermaid → SVG 的页面改造集中在 `demo/` 目录：
 
 1. **mermaid 包引入方式**: mermaid 包体积较大（~1MB+），需确认是否浏览器端按需加载或 CDN
 2. **test.sh 兼容**: 当前 test.sh 含 `bun x oxfmt` 和 `bun minify.js`，Mermaid 测试需兼容
-3. **测试环境 DOM 方案**: Mermaid 浏览器端 API 需 DOM 环境，bun test 中需解决（禁止 puppeteer/playwright）
+3. **测试环境 DOM 方案**: Mermaid 浏览器端 API 需真实浏览器验证；已确认允许 Playwright 仅作为测试 harness，不作为渲染实现或截图 oracle
 4. **beautiful-mermaid 对比口径**: CDN JS 指哪个文件、版本如何固定需确认
 5. **Cloudflare Pages 构建**: 当前无配置，需确定构建命令和输出目录
 6. **devDependencies 冗余**: katex/mathjax/cli-table3 等已无用但尚未清理
@@ -264,15 +264,15 @@ devDependencies 中存在冗余的 MathML 依赖（katex, mathjax, oxc-parser, c
 
 ---
 
-## 10. 待 Human Gate 决策
+## 10. Human Gate 决策
 
-以下 7 项决策需要人工确认。不阻断任务图生成，但相关任务执行到对应 gate 时必须暂停：
+以下 7 项为 init-loop 识别出的 Human Gate。最新人工确认结果记录在 `workflow/human-gate-decisions.md`，后续 loop 应以该文件为准，不再因同一问题暂停：
 
 | 编号 | 决策项 | 关键问题 | 建议处置 |
 |---|---|---|---|
 | HG-1 | MVP 支持边界 | 是否接受 8 种类型？是否纳入 journey/gitGraph/mindmap？ | 先接受 8 种，高确定性类型作为 Phase 2 扩展 |
 | HG-2 | 测试配额策略 | 18 条是否足够？配额比例是否合理？ | 接受 18 条为初始 gate，Render Loop 后扩大 |
-| HG-3 | 测试环境 DOM 方案 | 用 jsdom / linkedom / happy-dom？（禁止 puppeteer/playwright） | Render Loop 前确认 |
+| HG-3 | 测试环境 DOM 方案 | 是否允许真实浏览器测试 harness？截图能否作为判定依据？ | 允许 Playwright 仅作为 test harness；SVG string/DOM 为主断言，截图仅作诊断 |
 | HG-4 | beautiful-mermaid 对比口径 | CDN JS 指哪个文件？版本如何固定？本项目对比哪个 build artifact？ | Size Loop 前确认 |
 | HG-5 | i18n 语言列表对齐 | 新增哪些 Mermaid key？fallback 策略？语言列表是否与原项目完全一致？ | I18N Loop 前确认 |
 | HG-6 | Cloudflare Pages 部署 | 构建命令？输出目录？SPA fallback？ | Deploy Loop 前确认 |
@@ -411,6 +411,6 @@ S5. Final Acceptance Audit
 - 安装 bun 运行时
 - 补齐 `test` / `build` / `extract` npm scripts
 
-**7 项 Human Gate 决策需在对应 loop 执行前确认**，但不阻断任务图生成。
+**7 项 Human Gate 决策已确认**，见 `workflow/human-gate-decisions.md`。剩余 loop 可按顺序连续执行；若出现新的事实性失败，再按 loop state 和 diagnostics 处理。
 
 **判定**: 可以进入 Formal Task Decomposition Loop。任务图应包含环境准备前置任务和 Human Gate 依赖标注。

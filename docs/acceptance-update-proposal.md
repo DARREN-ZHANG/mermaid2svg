@@ -347,17 +347,17 @@ properties:
 - [x] Spec 更新提案已撰写
 - [x] 验收标准更新提案已撰写
 
-#### 需 Human Gate 确认（至少记录待确认状态）
+#### Human Gate 决策状态
 
-- [ ] HG-1：MVP 支持边界确认（8 种类型）
-- [ ] HG-2：测试配额策略确认（18 条）
-- [ ] HG-3：测试环境 DOM 方案确认
-- [ ] HG-4：beautiful-mermaid 对比口径确认
-- [ ] HG-5：i18n 语言列表对齐确认
-- [ ] HG-6：Cloudflare Pages 部署方式确认
-- [ ] HG-7：extract/run.js 后续扩展方案确认
+- [x] HG-1：MVP 支持边界确认（8 种类型）
+- [x] HG-2：测试配额策略确认（18 条）
+- [x] HG-3：测试环境 DOM 方案确认（Playwright 仅作为真实浏览器 test harness；SVG string/DOM 为主断言）
+- [x] HG-4：beautiful-mermaid 对比口径确认
+- [x] HG-5：i18n 语言列表对齐确认
+- [x] HG-6：Cloudflare Pages 部署方式确认
+- [x] HG-7：extract/run.js 后续扩展方案确认
 
-**说明**：以上 Human Gate 确认不阻断任务分解的启动，但相关任务在执行到对应 gate 时必须暂停等待确认。任务图（task graph）可以在标注 gate 依赖的前提下提前生成。
+**说明**：以上 Human Gate 已确认，最新权威记录见 `workflow/human-gate-decisions.md`。剩余 loop 可按 `workflow/loop-execution-order.md` 顺序连续执行。
 
 ### 6.3 建议的任务分解顺序
 

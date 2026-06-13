@@ -38,7 +38,8 @@ The runner must:
 - Use the official Mermaid browser API through the project renderer.
 - Do not implement a Mermaid parser.
 - Do not implement a Mermaid layout engine.
-- Do not use screenshots, canvas, image snapshots, or static SVG fixtures as a substitute for rendering.
+- Playwright may be used only as a real-browser test harness that calls the project renderer.
+- Do not use screenshots, image snapshots, canvas, pixel data, or static SVG fixtures as the primary pass/fail oracle or conversion output.
 
 ## Verification
 

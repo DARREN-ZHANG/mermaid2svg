@@ -34,6 +34,8 @@ export const RENDER_LOOP_CONFIG = {
     "docs/render/render-validation.md",
     "docs/render-loop-report.md"
   ],
+  // Rejected inside runtime renderer source only. Playwright is allowed as a test harness
+  // by workflow/human-gate-decisions.md.
   blockedRenderPatterns: [
     "puppeteer",
     "playwright",

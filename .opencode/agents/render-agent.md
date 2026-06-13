@@ -11,8 +11,9 @@ Implement the smallest browser-side Mermaid source to SVG integration that satis
 - Use the official Mermaid browser API as the render engine.
 - Do not implement a Mermaid parser.
 - Do not implement a Mermaid layout engine.
-- Do not use screenshots, canvas, image snapshots, or static SVG fixtures as a substitute for rendering.
-- Do not use server-side rendering, online conversion services, `@mermaid-js/mermaid-cli`, `puppeteer`, or `playwright`.
+- Playwright is allowed only as a real-browser test harness that calls the project wrapper and asserts SVG string/DOM structure.
+- Do not use screenshots, image snapshots, canvas, pixel data, or static SVG fixtures as the primary pass/fail oracle or conversion output.
+- Do not use server-side rendering, online conversion services, `@mermaid-js/mermaid-cli`, `puppeteer`, or Playwright-as-renderer.
 - Do not work on demo UI, theme switching, size comparison, i18n, or deployment during this loop.
 - Do not modify parent canonical docs or files under `../references`.
 

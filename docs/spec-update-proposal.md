@@ -206,9 +206,9 @@
 ### 6.3 浏览器端 API 依赖
 
 - Mermaid 浏览器端渲染 API 依赖 DOM 环境
-- 测试运行器（bun test）需通过 jsdom 或类似方式提供 DOM 环境，或使用 Playwright/Puppeteer（但 spec 禁止 `@mermaid-js/mermaid-cli`/puppeteer/playwright 用于渲染）
+- 测试运行器可使用 Playwright 作为真实浏览器 harness，但必须通过项目 wrapper 获取 SVG string/DOM 并做结构断言；禁止把 Playwright/Puppeteer 作为渲染实现，禁止截图/canvas 作为主判定或输出来源
 - **风险**：在 Node.js 测试环境中调用 Mermaid 浏览器端 API 需要解决 DOM 依赖
-- **建议**：Render Loop 阶段确认测试环境 DOM 模拟方案，确保不违反 spec 技术边界
+- **已确认**：Playwright 可作为真实浏览器测试 harness；`happy-dom`/`linkedom` 仅作为轻量单元测试补充，不作为最终 render gate
 
 ### 6.4 d3-sankey / fcose 等布局引擎
 
@@ -247,9 +247,9 @@
 
 ---
 
-## 8. 待 Human Gate 决策
+## 8. Human Gate 决策
 
-以下决策节点需要人工确认，记录于此供人工 review：
+以下决策节点已由人工确认，最新权威记录见 `workflow/human-gate-decisions.md`：
 
 ### HG-1：MVP 支持边界确认
 
@@ -271,11 +271,14 @@
 
 ### HG-3：测试环境 DOM 方案确认
 
-Mermaid 浏览器端 API 需要 DOM 环境。在 bun test 中如何提供 DOM（jsdom / linkedom / happy-dom / Playwright 组件）需确认，且不得违反"禁止 puppeteer/playwright"的技术边界。
+Mermaid 浏览器端 API 需要真实浏览器环境验证。已确认 Playwright 可作为测试 harness，但不能作为渲染实现或截图 oracle。
 
-**需确认**：
-- 使用哪个 DOM 模拟方案？
-- 该方案是否足以支撑 Mermaid 渲染？
+**决策**：
+- 使用 Playwright 作为真实浏览器 test harness。
+- 测试必须调用项目 Mermaid-to-SVG wrapper。
+- 主要断言必须基于 SVG string / SVG DOM 结构。
+- 截图仅可作为失败诊断或人工 UI review 辅助。
+- 禁止 `@mermaid-js/mermaid-cli`、服务端渲染、在线转换服务、截图/canvas 作为转换输出。
 
 ### HG-4：beautiful-mermaid 对比口径确认
 
@@ -321,4 +324,4 @@ spec 要求对比 `beautiful-mermaid` CDN JS 文件大小 vs 本项目 build 后
 1. **spec 第 5 节"支持范围策略"**：spec 推荐 flowchart/sequence/class/state-v2/er/pie 为优先展示类型。本提案建议在此基础上增加 gantt 和 xychart-beta 为扩展支持，有实际测试覆盖。
 2. **spec 第 3.2 节"测试文件位置"**：spec 要求每条测试包含 7 项字段。当前 `test/schema.yml` 已覆盖全部 7 项，但 `source.url` 全部为 null（待补充可追溯 URL）。
 3. **spec 第 3.5 节"测试抽取报告"**：spec 要求报告包含"每条被跳过样例的来源路径和跳过原因"。当前 `extract/report.json` 的 `skippedSamples` 已包含此信息，但仅记录候选元数据（id/sourceRepo/sourcePath/type/priority/classification/reason），不包含完整 input。
-4. **spec 第 12 节"技术边界"**：spec 禁止 puppeteer/playwright。这约束了测试环境的 DOM 模拟方案选择，需在 HG-3 中确认替代方案。
+4. **spec 第 12 节"技术边界"**：Playwright/Puppeteer 仍不得作为渲染实现；Playwright 仅允许作为真实浏览器测试 harness。

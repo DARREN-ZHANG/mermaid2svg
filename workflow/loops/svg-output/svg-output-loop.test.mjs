@@ -19,6 +19,9 @@ test("opencode config defines svg output agent pinned to zhipu GLM-5.1", () => {
   assert.equal(agent.permission.edit, "allow");
   assert.equal(agent.permission.bash, "allow");
   assert.match(agent.prompt, /SVG Output Compatibility/i);
+  assert.match(agent.prompt, /Playwright is allowed only as a real-browser test harness/i);
+  assert.match(agent.prompt, /primary pass\/fail oracle/i);
+  assert.match(agent.prompt, /Playwright-as-renderer/i);
   assert.match(agent.prompt, /superpowers:subagent-driven-development/);
   assert.match(agent.prompt, /conventional commits/i);
 });
@@ -29,7 +32,9 @@ test("svg output agent instructions pin output compatibility boundaries", () => 
   assert.match(agent, /SVG Output Compatibility/i);
   assert.match(agent, /Normalize Mermaid renderer SVG output/i);
   assert.match(agent, /Do not implement a Mermaid parser/i);
-  assert.match(agent, /Do not use screenshots/i);
+  assert.match(agent, /Playwright is allowed only as a real-browser test harness/i);
+  assert.match(agent, /primary pass\/fail oracle/i);
+  assert.match(agent, /Playwright-as-renderer/i);
   assert.match(agent, /Do not work on demo UI/i);
   assert.match(agent, /Commit frequently/i);
   assert.match(agent, /conventional commits/i);
@@ -88,7 +93,8 @@ test("svg output loop prompts exist and enforce output constraints", () => {
     assert.match(text, /Verification/i, prompt);
     assert.match(text, /SVG Output Compatibility/i, prompt);
     assert.match(text, /Do not implement a Mermaid parser/i, prompt);
-    assert.match(text, /Do not use screenshots/i, prompt);
+    assert.match(text, /Playwright may be used only as a real-browser test harness/i, prompt);
+    assert.match(text, /primary pass\/fail oracle/i, prompt);
     assert.match(text, /Do not work on demo UI/i, prompt);
   }
 });

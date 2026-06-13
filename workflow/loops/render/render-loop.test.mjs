@@ -19,6 +19,9 @@ test("opencode config defines render agent pinned to zhipu GLM-5.1", () => {
   assert.equal(agent.permission.edit, "allow");
   assert.equal(agent.permission.bash, "allow");
   assert.match(agent.prompt, /Mermaid source to SVG/i);
+  assert.match(agent.prompt, /Playwright is allowed only as a real-browser test harness/i);
+  assert.match(agent.prompt, /primary pass\/fail oracle/i);
+  assert.match(agent.prompt, /Playwright-as-renderer/i);
   assert.match(agent.prompt, /superpowers:subagent-driven-development/);
   assert.match(agent.prompt, /conventional commits/i);
 });
@@ -29,7 +32,9 @@ test("render agent instructions pin execution boundaries", () => {
   assert.match(agent, /Mermaid source to SVG/i);
   assert.match(agent, /official Mermaid browser/i);
   assert.match(agent, /Do not implement a Mermaid parser/i);
-  assert.match(agent, /Do not use screenshots/i);
+  assert.match(agent, /Playwright is allowed only as a real-browser test harness/i);
+  assert.match(agent, /primary pass\/fail oracle/i);
+  assert.match(agent, /Playwright-as-renderer/i);
   assert.match(agent, /Commit frequently/i);
   assert.match(agent, /conventional commits/i);
 });
@@ -86,7 +91,8 @@ test("render loop prompts exist and enforce renderer constraints", () => {
     assert.match(text, /Verification/i, prompt);
     assert.match(text, /official Mermaid browser/i, prompt);
     assert.match(text, /Do not implement a Mermaid parser/i, prompt);
-    assert.match(text, /Do not use screenshots/i, prompt);
+    assert.match(text, /Playwright may be used only as a real-browser test harness/i, prompt);
+    assert.match(text, /primary pass\/fail oracle/i, prompt);
   }
 });
 

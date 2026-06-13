@@ -28,7 +28,8 @@ Verify that the render loop has enough inputs to start renderer work.
 - Use the official Mermaid browser API in later implementation phases.
 - Do not implement a Mermaid parser.
 - Do not implement a Mermaid layout engine.
-- Do not use screenshots, canvas, image snapshots, or static SVG fixtures as a substitute for rendering.
+- Playwright may be used only as a real-browser test harness.
+- Do not use screenshots, image snapshots, canvas, pixel data, or static SVG fixtures as the primary pass/fail oracle or conversion output.
 
 ## Verification
 

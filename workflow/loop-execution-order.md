@@ -39,6 +39,7 @@ init
 - `ZHIPU_API_KEY` must be available through `.env` or the environment.
 - Reference repositories must remain under `references/` inside the project root.
 - `opencode.jsonc` must keep `permission.external_directory["*"] = "deny"` for headless loop runs.
+- `workflow/human-gate-decisions.md` is the approved Human Gate decision source for all remaining loops.
 - Do not skip a loop unless the skipped loop's required output gate already exists and has been reviewed.
 
 ## Pause Points
@@ -58,5 +59,6 @@ runner skips completed phases and continues from the first incomplete phase.
 ## Existing Supporting References
 
 - `package.json`: executable `agent:*` script names.
+- `workflow/human-gate-decisions.md`: approved Human Gate decisions.
 - `workflow/loops/remaining/README.md`: short order for the six post-SVG-output loops.
 - `docs/init-loop-report.md`: init-loop report and downstream human-gate context.

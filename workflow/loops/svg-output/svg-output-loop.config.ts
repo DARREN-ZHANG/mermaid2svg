@@ -38,6 +38,8 @@ export const SVG_OUTPUT_LOOP_CONFIG = {
     "docs/svg-output/svg-output-validation.md",
     "docs/svg-output-loop-report.md"
   ],
+  // Rejected inside runtime SVG output source only. Playwright is allowed as a test
+  // harness by workflow/human-gate-decisions.md.
   blockedSvgOutputPatterns: [
     "puppeteer",
     "playwright",

@@ -31,7 +31,8 @@ Confirm the render-loop artifacts are present before SVG output work starts.
 - SVG Output Compatibility only.
 - Do not implement a Mermaid parser.
 - Do not implement a Mermaid layout engine.
-- Do not use screenshots, canvas, server rendering, or static SVG fixtures.
+- Playwright may be used only as a real-browser test harness.
+- Do not use screenshots, image snapshots, canvas, pixel data, server rendering, or static SVG fixtures as the primary pass/fail oracle or conversion output.
 - Do not work on demo UI, theme switching, size comparison, i18n, or deployment.
 
 ## Verification

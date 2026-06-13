@@ -33,7 +33,8 @@ Write the narrow implementation plan for normalizing Mermaid renderer SVG output
 - SVG Output Compatibility only.
 - Do not implement a Mermaid parser.
 - Do not implement a Mermaid layout engine.
-- Do not use screenshots, canvas, server rendering, or static SVG fixtures.
+- Playwright may be used only as a real-browser test harness that calls the project wrapper and asserts SVG string/DOM structure.
+- Do not use screenshots, image snapshots, canvas, pixel data, server rendering, or static SVG fixtures as the primary pass/fail oracle or conversion output.
 - Do not work on demo UI, theme switching, size comparison, i18n, or deployment.
 - Do not add fixture-specific local fixes. Use general SVG structural rules only.
 
