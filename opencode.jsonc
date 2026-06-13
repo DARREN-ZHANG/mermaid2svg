@@ -34,6 +34,11 @@
     ".opencode/agents/deploy-agent.md",
     ".opencode/agents/final-audit-agent.md"
   ],
+  "permission": {
+    "external_directory": {
+      "*": "deny"
+    }
+  },
   "agent": {
     "init-agent": {
       "description": "Executes the automated Init Loop for the Mermaid to SVG project baseline.",

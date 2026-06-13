@@ -69,6 +69,7 @@ test("opencode runner snapshots child sessions while a phase is running", () => 
   assert.match(runner, /session\.children/);
   assert.match(runner, /\$\{input\.phaseId\}\.child\.\$\{child\.id\}\.messages\.json/);
   assert.match(runner, /toDiagnosticMessages/);
+  assert.match(runner, /key === "patch"/);
   assert.match(runner, /omitted from diagnostics/);
 });
 
@@ -93,6 +94,11 @@ test("opencode config pins zhipu coding plan GLM-5.1", () => {
   assert.equal(config.provider["zhipuai-coding-plan"].options.apiKey, "{env:ZHIPU_API_KEY}");
   assert.equal(config.provider["zhipuai-coding-plan"].models["glm-5.1"].name, "GLM-5.1");
   assert.equal(config.agent["init-agent"].model, "zhipuai-coding-plan/glm-5.1");
+});
+
+test("opencode config denies external directory prompts for headless loops", () => {
+  const config = JSON.parse(read("opencode.jsonc"));
+  assert.equal(config.permission.external_directory["*"], "deny");
 });
 
 test("init agent requires subagent-driven development for concrete tasks", () => {

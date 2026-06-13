@@ -237,7 +237,7 @@ function omitLargeToolOutputs(value: unknown): unknown {
 
   const output: Record<string, unknown> = {};
   for (const [key, entry] of Object.entries(value)) {
-    if (key === "output" && typeof entry === "string") {
+    if ((key === "output" || key === "patch") && typeof entry === "string") {
       output[key] = `[omitted from diagnostics: ${entry.length} chars]`;
       continue;
     }
