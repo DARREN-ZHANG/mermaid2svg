@@ -3,10 +3,90 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 
 const read = (path) => readFileSync(path, "utf8");
+const readJsonc = (path) => parseJsonc(read(path));
+
+function parseJsonc(text) {
+  return JSON.parse(removeTrailingCommas(stripJsonComments(text)));
+}
+
+function stripJsonComments(text) {
+  let result = "";
+  let i = 0;
+  let inString = false;
+  while (i < text.length) {
+    if (inString) {
+      result += text[i];
+      if (text[i] === "\\" && i + 1 < text.length) {
+        result += text[i + 1];
+        i += 2;
+        continue;
+      }
+      if (text[i] === '"') inString = false;
+      i++;
+    } else if (text[i] === '"') {
+      inString = true;
+      result += text[i];
+      i++;
+    } else if (text[i] === "/" && text[i + 1] === "/") {
+      i += 2;
+      while (i < text.length && text[i] !== "\n") i++;
+    } else if (text[i] === "/" && text[i + 1] === "*") {
+      i += 2;
+      while (i < text.length - 1 && !(text[i] === "*" && text[i + 1] === "/")) i++;
+      i += 2;
+    } else {
+      result += text[i];
+      i++;
+    }
+  }
+  return result;
+}
+
+function removeTrailingCommas(text) {
+  let result = "";
+  let i = 0;
+  let inString = false;
+  while (i < text.length) {
+    if (inString) {
+      result += text[i];
+      if (text[i] === "\\" && i + 1 < text.length) {
+        result += text[i + 1];
+        i += 2;
+        continue;
+      }
+      if (text[i] === '"') inString = false;
+      i++;
+      continue;
+    }
+
+    if (text[i] === '"') {
+      inString = true;
+      result += text[i];
+      i++;
+      continue;
+    }
+
+    if (text[i] === ",") {
+      let j = i + 1;
+      while (j < text.length && /\s/.test(text[j])) j++;
+      if (text[j] === "}" || text[j] === "]") {
+        i++;
+        continue;
+      }
+    }
+
+    result += text[i];
+    i++;
+  }
+  return result;
+}
 
 test("init loop package script points at workflow loop entry", () => {
   const pkg = JSON.parse(read("package.json"));
-  assert.match(pkg.scripts["agent:init"], /^tsx(?: --env-file=\.env)? workflow\/loops\/init\/init-loop\.ts$/);
+  assert.match(
+    pkg.scripts["agent:init"],
+    /^tsx(?: --env-file=\.env)? workflow\/loops\/init\/init-loop\.ts$/,
+  );
 });
 
 test("init loop config uses workflow state, parent docs, and local references", () => {
@@ -92,28 +172,31 @@ test("reference mining prompt keeps the explore subagent strategy", () => {
 });
 
 test("opencode config pins zhipu coding plan GLM-5.1", () => {
-  const config = JSON.parse(read("opencode.jsonc"));
+  const config = readJsonc("opencode.jsonc");
   assert.equal(config.model, "zhipuai-coding-plan/glm-5.1");
   assert.equal(config.small_model, "zhipuai-coding-plan/glm-5.1");
   assert.equal(config.provider["zhipuai-coding-plan"].npm, "@ai-sdk/openai-compatible");
-  assert.equal(config.provider["zhipuai-coding-plan"].options.baseURL, "https://open.bigmodel.cn/api/coding/paas/v4");
+  assert.equal(
+    config.provider["zhipuai-coding-plan"].options.baseURL,
+    "https://open.bigmodel.cn/api/coding/paas/v4",
+  );
   assert.equal(config.provider["zhipuai-coding-plan"].options.apiKey, "{env:ZHIPU_API_KEY}");
   assert.equal(config.provider["zhipuai-coding-plan"].models["glm-5.1"].name, "GLM-5.1");
   assert.equal(config.agent["init-agent"].model, "zhipuai-coding-plan/glm-5.1");
 });
 
 test("opencode config loads approved human gate decisions", () => {
-  const config = JSON.parse(read("opencode.jsonc"));
+  const config = readJsonc("opencode.jsonc");
   assert.ok(config.instructions.includes("workflow/human-gate-decisions.md"));
 });
 
 test("opencode config denies external directory prompts for headless loops", () => {
-  const config = JSON.parse(read("opencode.jsonc"));
+  const config = readJsonc("opencode.jsonc");
   assert.equal(config.permission.external_directory["*"], "deny");
 });
 
 test("init agent requires subagent-driven development for concrete tasks", () => {
-  const config = JSON.parse(read("opencode.jsonc")),
+  const config = readJsonc("opencode.jsonc"),
     agent = read(".opencode/agents/init-agent.md"),
     prompt = config.agent["init-agent"].prompt;
 
@@ -126,7 +209,7 @@ test("init agent requires subagent-driven development for concrete tasks", () =>
 });
 
 test("init agent requires frequent conventional commits", () => {
-  const config = JSON.parse(read("opencode.jsonc")),
+  const config = readJsonc("opencode.jsonc"),
     agent = read(".opencode/agents/init-agent.md"),
     prompt = config.agent["init-agent"].prompt;
 

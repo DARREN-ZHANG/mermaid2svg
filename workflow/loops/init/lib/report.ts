@@ -7,7 +7,7 @@ export async function writePhaseFailure(
   logDir: string,
   phase: PhaseDefinition,
   attempt: number,
-  validation: ValidationResult
+  validation: ValidationResult,
 ) {
   await mkdir(logDir, { recursive: true });
   await writeFile(
@@ -21,16 +21,16 @@ export async function writePhaseFailure(
       ...validation.errors.map((item) => `- ${item}`),
       "",
       "## Warnings",
-      ...validation.warnings.map((item) => `- ${item}`)
+      ...validation.warnings.map((item) => `- ${item}`),
     ].join("\n"),
-    "utf8"
+    "utf8",
   );
 }
 
 export async function writeNeedsHuman(
   logDir: string,
   phase: PhaseDefinition,
-  gate: HumanGateResult
+  gate: HumanGateResult,
 ) {
   await mkdir(logDir, { recursive: true });
   await writeFile(
@@ -46,9 +46,9 @@ export async function writeNeedsHuman(
       ...gate.details.map((item) => `- ${item}`),
       "",
       "## What to do",
-      "Review the diff and either revert/adjust the risky change or explicitly update the orchestrator policy if this action is acceptable."
+      "Review the diff and either revert/adjust the risky change or explicitly update the orchestrator policy if this action is acceptable.",
     ].join("\n"),
-    "utf8"
+    "utf8",
   );
 }
 
@@ -69,8 +69,8 @@ export async function writeLoopSummary(logDir: string) {
       "## Git diff stat",
       "```",
       stat || "no diff",
-      "```"
+      "```",
     ].join("\n"),
-    "utf8"
+    "utf8",
   );
 }

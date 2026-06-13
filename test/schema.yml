@@ -19,7 +19,7 @@ properties:
         type: string
         description: 来源文件相对路径
       url:
-        type: [string, 'null']
+        type: [string, "null"]
         description: 可追溯 URL，当前为 null
   diagram:
     type: object
@@ -29,7 +29,7 @@ properties:
         type: string
         description: Mermaid diagram type (如 flowchart, sequenceDiagram)
       title:
-        type: [string, 'null']
+        type: [string, "null"]
         description: 图表标题，当前为 null
   input:
     type: object
@@ -68,5 +68,5 @@ properties:
         type: boolean
         description: 是否跳过此测试
       reason:
-        type: [string, 'null']
+        type: [string, "null"]
         description: 跳过原因，仅在 enabled 为 true 时有值

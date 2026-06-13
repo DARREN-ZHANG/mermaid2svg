@@ -3,9 +3,11 @@
 You are executing one phase of the Init Agent Loop.
 
 ## Goal
+
 Read the three local reference repositories and produce a structured inventory of reusable Mermaid test candidates.
 
 ## Inputs to read
+
 - references/maid
 - references/beautiful-mermaid
 - references/mermaid
@@ -14,11 +16,13 @@ Read the three local reference repositories and produce a structured inventory o
 - AGENTS.md
 
 ## Allowed writes
+
 - docs/init/reference-inventory.md
 - docs/init/test-candidates.json
 
 ## Forbidden actions
-- Do not modify references/**.
+
+- Do not modify references/\*\*.
 - Do not modify ../docs/mermaid-svg-spec.md.
 - Do not modify ../docs/acceptance-criteria.md.
 - Do not generate YAML tests in this phase.
@@ -27,13 +31,16 @@ Read the three local reference repositories and produce a structured inventory o
 - Do not deploy.
 
 ## Candidate classification
+
 Every candidate must use one of these classifications:
+
 - minimal_core
 - useful_later
 - unsupported_candidate
 - invalid_or_non_deterministic
 
 ## Candidate JSON schema
+
 Write docs/init/test-candidates.json as a JSON array. Each item must include:
 
 ```json
@@ -50,6 +57,7 @@ Write docs/init/test-candidates.json as a JSON array. Each item must include:
 ```
 
 ## Mining rules
+
 - Prefer small canonical examples over large examples.
 - Prefer syntactic breadth over high volume.
 - Include at least 5 minimal_core candidates if available.
@@ -86,13 +94,16 @@ Launch the following subagents in parallel:
    - Prompt: Explore `references/mermaid` focusing ONLY on erDiagram, gantt, pie, and other non-standard diagram types. Return up to 20 compact candidates grouped by type and mark exotic/browser-heavy cases as useful_later or unsupported_candidate.
 
 After all subagents return, synthesize their findings into:
+
 - A unified candidate list for `docs/init/test-candidates.json`
 - `docs/init/reference-inventory.md`
 
 Apply the classification rules and mining rules to the synthesized results.
 
 ## docs/init/reference-inventory.md
+
 Include:
+
 - where examples/tests were found in each repo
 - useful directories/files
 - candidate counts by repo and diagram type
@@ -100,4 +111,5 @@ Include:
 - notable gaps
 
 ## Completion rule
+
 Stop after writing reference-inventory.md and test-candidates.json.

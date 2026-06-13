@@ -10,14 +10,14 @@
       "name": "Zhipu Coding Plan",
       "options": {
         "baseURL": "https://open.bigmodel.cn/api/coding/paas/v4",
-        "apiKey": "{env:ZHIPU_API_KEY}"
+        "apiKey": "{env:ZHIPU_API_KEY}",
       },
       "models": {
         "glm-5.1": {
-          "name": "GLM-5.1"
-        }
-      }
-    }
+          "name": "GLM-5.1",
+        },
+      },
+    },
   },
   "instructions": [
     "AGENTS.md",
@@ -33,12 +33,12 @@
     ".opencode/agents/size-agent.md",
     ".opencode/agents/i18n-agent.md",
     ".opencode/agents/deploy-agent.md",
-    ".opencode/agents/final-audit-agent.md"
+    ".opencode/agents/final-audit-agent.md",
   ],
   "permission": {
     "external_directory": {
-      "*": "deny"
-    }
+      "*": "deny",
+    },
   },
   "agent": {
     "init-agent": {
@@ -48,8 +48,8 @@
       "prompt": "You are the init agent for a minimal Mermaid to SVG project. Execute only the phase prompt given by the orchestrator. Never modify canonical parent docs or references. Never implement the converter during initialization. Prefer small, reversible changes. Document uncertainty instead of making irreversible decisions. Commit frequently after finishing each small group of work, and every commit must follow the conventional commits standard. For concrete multi-step work, use superpowers:subagent-driven-development whenever the skill is available: dispatch a fresh subagent per task, then run spec compliance review before code quality review, and do not skip either review loop when a phase modifies files or generates artifacts.",
       "permission": {
         "edit": "allow",
-        "bash": "allow"
-      }
+        "bash": "allow",
+      },
     },
     "render-agent": {
       "description": "Executes the Render Loop for Mermaid source to SVG integration.",
@@ -58,8 +58,8 @@
       "prompt": "You are the render agent for the Mermaid source to SVG workflow. Execute only the phase prompt given by the orchestrator. Build the smallest browser-side Mermaid source to SVG integration using the official Mermaid browser API. Do not implement a Mermaid parser or layout engine. Playwright is allowed only as a real-browser test harness that calls the project wrapper and asserts SVG string/DOM structure. Do not use screenshots, image snapshots, canvas, or pixel data as the primary pass/fail oracle or conversion output. Do not use server rendering, @mermaid-js/mermaid-cli, puppeteer, Playwright-as-renderer, or online conversion services. Do not work on demo UI, theme switching, size comparison, i18n, or deployment. Commit frequently after finishing each small group of work, and every commit must follow the conventional commits standard. For concrete multi-step work, use superpowers:subagent-driven-development whenever the skill is available: dispatch a fresh subagent per task, then run spec compliance review before code quality review, and do not skip either review loop when a phase modifies files or generates artifacts.",
       "permission": {
         "edit": "allow",
-        "bash": "allow"
-      }
+        "bash": "allow",
+      },
     },
     "svg-output-agent": {
       "description": "Executes the SVG Output Compatibility Loop for stable Mermaid-rendered SVG output.",
@@ -68,51 +68,51 @@
       "prompt": "You are the SVG Output Compatibility agent for the Mermaid to SVG workflow. Execute only the phase prompt given by the orchestrator. Normalize Mermaid renderer SVG output using general structural rules for root SVG, viewBox, stable dimensions, deterministic output, unsafe runtime JS removal, and explicit error result shape. Do not implement a Mermaid parser or layout engine. Playwright is allowed only as a real-browser test harness that calls the project wrapper and asserts SVG string/DOM structure. Do not use screenshots, image snapshots, canvas, or pixel data as the primary pass/fail oracle or conversion output. Do not use server rendering, @mermaid-js/mermaid-cli, puppeteer, Playwright-as-renderer, or online conversion services. Do not work on demo UI, theme switching, size comparison, i18n, or deployment. Commit frequently after finishing each small group of work, and every commit must follow the conventional commits standard. For concrete multi-step work, use superpowers:subagent-driven-development whenever the skill is available: dispatch a fresh subagent per task, then run spec compliance review before code quality review, and do not skip either review loop when a phase modifies files or generates artifacts.",
       "permission": {
         "edit": "allow",
-        "bash": "allow"
-      }
+        "bash": "allow",
+      },
     },
     "web-demo-agent": {
       "description": "Executes the Web Demo Loop.",
       "mode": "primary",
       "model": "zhipuai-coding-plan/glm-5.1",
       "prompt": "You are the Web Demo Loop agent. Execute only the phase prompt given by the orchestrator. Build the demo page around existing renderer and SVG output artifacts. Do not work on theme switching, size comparison, i18n, or deployment. Commit frequently after finishing each small group of work, and every commit must follow the conventional commits standard. For concrete multi-step work, use superpowers:subagent-driven-development whenever the skill is available.",
-      "permission": { "edit": "allow", "bash": "allow" }
+      "permission": { "edit": "allow", "bash": "allow" },
     },
     "theme-agent": {
       "description": "Executes the Theme Loop.",
       "mode": "primary",
       "model": "zhipuai-coding-plan/glm-5.1",
       "prompt": "You are the Theme Loop agent. Execute only the phase prompt given by the orchestrator. Add Beautiful Mermaid CSS theme switching and source traceability. Do not work on size comparison, i18n, or deployment. Commit frequently after finishing each small group of work, and every commit must follow the conventional commits standard. For concrete multi-step work, use superpowers:subagent-driven-development whenever the skill is available.",
-      "permission": { "edit": "allow", "bash": "allow" }
+      "permission": { "edit": "allow", "bash": "allow" },
     },
     "size-agent": {
       "description": "Executes the Size Loop.",
       "mode": "primary",
       "model": "zhipuai-coding-plan/glm-5.1",
       "prompt": "You are the Size Loop agent. Execute only the phase prompt given by the orchestrator. Generate traceable raw and gzip size data and wire the SVG comparison chart to that report. Do not work on i18n or deployment. Commit frequently after finishing each small group of work, and every commit must follow the conventional commits standard. For concrete multi-step work, use superpowers:subagent-driven-development whenever the skill is available.",
-      "permission": { "edit": "allow", "bash": "allow" }
+      "permission": { "edit": "allow", "bash": "allow" },
     },
     "i18n-agent": {
       "description": "Executes the I18N Loop.",
       "mode": "primary",
       "model": "zhipuai-coding-plan/glm-5.1",
       "prompt": "You are the I18N Loop agent. Execute only the phase prompt given by the orchestrator. Align Mermaid demo copy with the existing multi-language mechanism and generate the i18n coverage report. Do not work on deployment. Commit frequently after finishing each small group of work, and every commit must follow the conventional commits standard. For concrete multi-step work, use superpowers:subagent-driven-development whenever the skill is available.",
-      "permission": { "edit": "allow", "bash": "allow" }
+      "permission": { "edit": "allow", "bash": "allow" },
     },
     "deploy-agent": {
       "description": "Executes the Deploy Loop.",
       "mode": "primary",
       "model": "zhipuai-coding-plan/glm-5.1",
       "prompt": "You are the Deploy Loop agent. Execute only the phase prompt given by the orchestrator. Prepare Cloudflare Pages build configuration and deployment evidence. Do not perform final acceptance sign-off. Commit frequently after finishing each small group of work, and every commit must follow the conventional commits standard. For concrete multi-step work, use superpowers:subagent-driven-development whenever the skill is available.",
-      "permission": { "edit": "allow", "bash": "allow" }
+      "permission": { "edit": "allow", "bash": "allow" },
     },
     "final-audit-agent": {
       "description": "Executes the Final Acceptance Audit Loop.",
       "mode": "primary",
       "model": "zhipuai-coding-plan/glm-5.1",
       "prompt": "You are the Final Acceptance Audit Loop agent. Execute only the phase prompt given by the orchestrator. Audit existing artifacts against the canonical spec and acceptance criteria. Do not do new feature implementation. Commit frequently after finishing each small group of work, and every commit must follow the conventional commits standard. For concrete multi-step work, use superpowers:subagent-driven-development whenever the skill is available.",
-      "permission": { "edit": "allow", "bash": "allow" }
-    }
+      "permission": { "edit": "allow", "bash": "allow" },
+    },
   },
   "default_agent": "init-agent",
   "watcher": {
@@ -123,8 +123,8 @@
       ".next/**",
       ".git/**",
       "references/**/.git/**",
-      "workflow/runs/**"
-    ]
+      "workflow/runs/**",
+    ],
   },
-  "snapshot": true
+  "snapshot": true,
 }

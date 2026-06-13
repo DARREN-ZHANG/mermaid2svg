@@ -17,15 +17,15 @@ export async function runOpenCodePhase(input: OpenCodePhaseInput): Promise<void>
   // 如果只传部分配置，会覆盖 opencode.jsonc 中的 provider/model 等，导致 AI 调用失败
   const configPath = path.resolve("opencode.jsonc");
   const rawConfig = await readFile(configPath, "utf8");
-  const fullConfig = JSON.parse(stripJsonComments(rawConfig));
+  const fullConfig = parseJsonc(rawConfig);
 
   const opencode = await createOpencode({
     timeout: Number(process.env.OPENCODE_SERVER_TIMEOUT_MS ?? 300000),
     config: {
       ...fullConfig,
       share: "disabled",
-      autoupdate: "notify"
-    }
+      autoupdate: "notify",
+    },
   });
 
   let sessionId: string | null = null;
@@ -33,8 +33,8 @@ export async function runOpenCodePhase(input: OpenCodePhaseInput): Promise<void>
   try {
     const session = await opencode.client.session.create({
       body: {
-        title: `${input.loopTitle ?? "Init Loop"} / ${input.phaseId}`
-      }
+        title: `${input.loopTitle ?? "Init Loop"} / ${input.phaseId}`,
+      },
     });
 
     const model = buildModelOverride();
@@ -42,9 +42,9 @@ export async function runOpenCodePhase(input: OpenCodePhaseInput): Promise<void>
       parts: [
         {
           type: "text",
-          text: prompt
-        }
-      ]
+          text: prompt,
+        },
+      ],
     };
     if (model) body.model = model;
 
@@ -53,13 +53,13 @@ export async function runOpenCodePhase(input: OpenCodePhaseInput): Promise<void>
       phaseId: input.phaseId,
       promptFile: input.promptFile,
       sessionId,
-      startedAt: new Date().toISOString()
+      startedAt: new Date().toISOString(),
     });
 
     // 使用 promptAsync 立即返回，避免同步等待导致的 HeadersTimeoutError
     await opencode.client.session.promptAsync({
       path: { id: sessionId },
-      body: body as never
+      body: body as never,
     });
 
     // 轮询 session 状态直到 idle（AI 处理完成）
@@ -99,7 +99,7 @@ export async function runOpenCodePhase(input: OpenCodePhaseInput): Promise<void>
 
     if (lastStatus !== "idle") {
       throw new Error(
-        `Phase ${input.phaseId} timed out after ${phaseTimeoutMs / 1000}s (last status: ${lastStatus})`
+        `Phase ${input.phaseId} timed out after ${phaseTimeoutMs / 1000}s (last status: ${lastStatus})`,
       );
     }
 
@@ -107,24 +107,24 @@ export async function runOpenCodePhase(input: OpenCodePhaseInput): Promise<void>
     await writeFile(
       path.join(input.logDir, `${input.phaseId}.opencode-result.json`),
       JSON.stringify({ status: "completed", sessionId }, null, 2),
-      "utf8"
+      "utf8",
     );
 
     // 获取 session 消息
     const messages = await opencode.client.session.messages({
-      path: { id: sessionId }
+      path: { id: sessionId },
     });
     await writeFile(
       path.join(input.logDir, `${input.phaseId}.messages.json`),
       JSON.stringify(messages, null, 2),
-      "utf8"
+      "utf8",
     );
   } catch (error) {
     let messagesError: unknown = null;
     if (sessionId) {
       try {
         const messages = await opencode.client.session.messages({
-          path: { id: sessionId }
+          path: { id: sessionId },
         });
         await writeJson(path.join(input.logDir, `${input.phaseId}.messages.json`), messages);
       } catch (messagesFetchError) {
@@ -138,7 +138,7 @@ export async function runOpenCodePhase(input: OpenCodePhaseInput): Promise<void>
       sessionId,
       failedAt: new Date().toISOString(),
       error: serializeError(error),
-      messagesError: messagesError ? serializeError(messagesError) : null
+      messagesError: messagesError ? serializeError(messagesError) : null,
     });
     throw error;
   } finally {
@@ -152,10 +152,10 @@ async function writeJson(file: string, value: unknown): Promise<void> {
 
 async function sessionFinishedWithStop(
   opencode: Awaited<ReturnType<typeof createOpencode>>,
-  sessionId: string
+  sessionId: string,
 ): Promise<boolean> {
   const messages = await opencode.client.session.messages({
-    path: { id: sessionId }
+    path: { id: sessionId },
   });
   return messagesFinishedWithStop(messages);
 }
@@ -178,11 +178,11 @@ async function writeRuntimeDiagnostics(
   input: OpenCodePhaseInput,
   sessionId: string,
   lastStatus: string,
-  statusMap: Record<string, { type: string }>
+  statusMap: Record<string, { type: string }>,
 ): Promise<void> {
   try {
     const childrenResult = await opencode.client.session.children({
-      path: { id: sessionId }
+      path: { id: sessionId },
     });
     const children = Array.isArray(childrenResult.data) ? childrenResult.data : [];
 
@@ -197,25 +197,28 @@ async function writeRuntimeDiagnostics(
         title: child.title,
         agent: child.agent,
         updated: child.time?.updated,
-        tokens: child.tokens
-      }))
+        tokens: child.tokens,
+      })),
     });
 
     for (const child of children) {
       try {
         const messages = await opencode.client.session.messages({
-          path: { id: child.id }
+          path: { id: child.id },
         });
         await writeJson(
           path.join(input.logDir, `${input.phaseId}.child.${child.id}.messages.json`),
-          toDiagnosticMessages(messages)
+          toDiagnosticMessages(messages),
         );
       } catch (error) {
-        await writeJson(path.join(input.logDir, `${input.phaseId}.child.${child.id}.messages-error.json`), {
-          childId: child.id,
-          error: serializeError(error),
-          failedAt: new Date().toISOString()
-        });
+        await writeJson(
+          path.join(input.logDir, `${input.phaseId}.child.${child.id}.messages-error.json`),
+          {
+            childId: child.id,
+            error: serializeError(error),
+            failedAt: new Date().toISOString(),
+          },
+        );
       }
     }
   } catch (error) {
@@ -223,7 +226,7 @@ async function writeRuntimeDiagnostics(
       phaseId: input.phaseId,
       sessionId,
       error: serializeError(error),
-      failedAt: new Date().toISOString()
+      failedAt: new Date().toISOString(),
     });
   }
 }
@@ -252,12 +255,12 @@ function serializeError(error: unknown) {
     return {
       name: error.name,
       message: error.message,
-      stack: error.stack
+      stack: error.stack,
     };
   }
   return {
     name: "NonError",
-    message: String(error)
+    message: String(error),
   };
 }
 
@@ -269,6 +272,14 @@ function buildModelOverride(): { providerID: string; modelID: string } | null {
 }
 
 /** 去除 JSONC 中的单行和多行注释，保留字符串内部内容 */
+function parseJsonc(text: string): Record<string, unknown> {
+  const value = JSON.parse(removeTrailingCommas(stripJsonComments(text)));
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    throw new Error("opencode.jsonc must contain a JSON object");
+  }
+  return value as Record<string, unknown>;
+}
+
 function stripJsonComments(text: string): string {
   let result = "";
   let i = 0;
@@ -298,6 +309,45 @@ function stripJsonComments(text: string): string {
       result += text[i];
       i++;
     }
+  }
+  return result;
+}
+
+function removeTrailingCommas(text: string): string {
+  let result = "";
+  let i = 0;
+  let inString = false;
+  while (i < text.length) {
+    if (inString) {
+      result += text[i];
+      if (text[i] === "\\" && i + 1 < text.length) {
+        result += text[i + 1];
+        i += 2;
+        continue;
+      }
+      if (text[i] === '"') inString = false;
+      i++;
+      continue;
+    }
+
+    if (text[i] === '"') {
+      inString = true;
+      result += text[i];
+      i++;
+      continue;
+    }
+
+    if (text[i] === ",") {
+      let j = i + 1;
+      while (j < text.length && /\s/.test(text[j])) j++;
+      if (text[j] === "}" || text[j] === "]") {
+        i++;
+        continue;
+      }
+    }
+
+    result += text[i];
+    i++;
   }
   return result;
 }

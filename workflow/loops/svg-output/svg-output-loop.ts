@@ -34,7 +34,7 @@ async function main() {
           phaseId: phase.id,
           promptFile: phase.promptFile,
           logDir: SVG_OUTPUT_LOOP_CONFIG.logDir,
-          loopTitle: "SVG Output Loop"
+          loopTitle: "SVG Output Loop",
         });
       }
 
@@ -64,7 +64,9 @@ async function main() {
   state.finishedAt = new Date().toISOString();
   await saveState(SVG_OUTPUT_LOOP_CONFIG.stateFile, state);
   await writeSvgOutputLoopSummary();
-  console.log("SVG Output Loop completed. Stable SVG output compatibility artifacts should be ready for demo work.");
+  console.log(
+    "SVG Output Loop completed. Stable SVG output compatibility artifacts should be ready for demo work.",
+  );
 }
 
 async function runPreflightPhase(_phase: PhaseDefinition) {
@@ -76,10 +78,17 @@ async function runPreflightPhase(_phase: PhaseDefinition) {
     if (!existsSync(file)) throw new Error(`Missing svg-output-loop input: ${file}`);
   }
 
-  const tree = await runShell("find src test workflow/loops/svg-output workflow/reports -maxdepth 3 -type f | sort", {
-    logFile: path.join(SVG_OUTPUT_LOOP_CONFIG.logDir, "preflight.tree.log")
-  });
-  await writeFile(path.join(SVG_OUTPUT_LOOP_CONFIG.logDir, "preflight.files.txt"), tree.stdout, "utf8");
+  const tree = await runShell(
+    "find src test workflow/loops/svg-output workflow/reports -maxdepth 3 -type f | sort",
+    {
+      logFile: path.join(SVG_OUTPUT_LOOP_CONFIG.logDir, "preflight.tree.log"),
+    },
+  );
+  await writeFile(
+    path.join(SVG_OUTPUT_LOOP_CONFIG.logDir, "preflight.files.txt"),
+    tree.stdout,
+    "utf8",
+  );
 }
 
 async function validatePhaseWithPreflight(phase: PhaseDefinition): Promise<ValidationResult> {
@@ -108,9 +117,9 @@ async function writeSvgOutputLoopSummary() {
       "## Git diff stat",
       "```",
       stat.stdout.trim() || "no diff",
-      "```"
+      "```",
     ].join("\n"),
-    "utf8"
+    "utf8",
   );
 }
 

@@ -22,7 +22,7 @@ async function main() {
   await writeFile(
     path.join(INIT_LOOP_CONFIG.snapshotDir, "baseline.json"),
     JSON.stringify(baseline, null, 2),
-    "utf8"
+    "utf8",
   );
 
   for (const phase of INIT_LOOP_PHASES) {
@@ -43,7 +43,7 @@ async function main() {
         await runOpenCodePhase({
           phaseId: phase.id,
           promptFile: phase.promptFile,
-          logDir: INIT_LOOP_CONFIG.logDir
+          logDir: INIT_LOOP_CONFIG.logDir,
         });
       }
 
@@ -53,7 +53,9 @@ async function main() {
         state.status = "needs_human";
         state.blockedReason = humanGate.reason;
         await saveState(INIT_LOOP_CONFIG.stateFile, state);
-        console.error(`Human gate triggered during ${phase.id}. See ${INIT_LOOP_CONFIG.logDir}/needs-human.md`);
+        console.error(
+          `Human gate triggered during ${phase.id}. See ${INIT_LOOP_CONFIG.logDir}/needs-human.md`,
+        );
         process.exit(2);
       }
 
@@ -95,11 +97,12 @@ async function runPreflightPhase(_phase: PhaseDefinition) {
   await appendCommandLog(`# preflight ${new Date().toISOString()}`);
 
   for (const repo of INIT_LOOP_CONFIG.referenceRepos) {
-    if (!existsSync(repo.dir)) throw new Error(`Missing local reference repo: ${repo.dir}. Expected ${repo.url}`);
+    if (!existsSync(repo.dir))
+      throw new Error(`Missing local reference repo: ${repo.dir}. Expected ${repo.url}`);
   }
 
   const tree = await runShell("find . -maxdepth 3 -type f | sort | sed 's#^./##' | head -1000", {
-    logFile: path.join(INIT_LOOP_CONFIG.logDir, "preflight.tree.log")
+    logFile: path.join(INIT_LOOP_CONFIG.logDir, "preflight.tree.log"),
   });
   await writeFile(path.join(INIT_LOOP_CONFIG.snapshotDir, "initial-tree.txt"), tree.stdout, "utf8");
 }
@@ -112,7 +115,7 @@ async function appendCommandLog(line: string) {
 
 async function validatePhaseWithPreflight(
   phase: PhaseDefinition,
-  baseline: BaselineSnapshot
+  baseline: BaselineSnapshot,
 ): Promise<ValidationResult> {
   if (phase.id === "preflight") {
     const errors: string[] = [];

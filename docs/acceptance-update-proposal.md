@@ -18,6 +18,7 @@
 - 若某个来源仓库 accepted 数量为 0，必须在报告中说明原因（当前三仓库均有 accepted，此项暂不触发）
 
 **验收方式**：
+
 - 执行 `./extract/run.js`
 - 检查 `extract/report.json` 可解析
 - 检查三个来源仓库均出现在 `sources` 中
@@ -39,6 +40,7 @@
 - commit hash 需在抽取脚本中记录或从 `references/` 的 git log 读取
 
 **验收方式**：
+
 - 检查 `test/*.yml` 中 `source.url` 不为 null
 - 检查 URL 格式正确且指向真实文件
 
@@ -57,6 +59,7 @@
 - 脚本清理范围仅限 `test/*.yml`（排除 `schema.yml` 和 `case/`），不得删除上游 MathML 测试
 
 **验收方式**：
+
 - 连续执行 `./extract/run.js` 两次
 - 对比两次输出的 `test/*.yml` 文件列表和内容一致
 
@@ -78,6 +81,7 @@
 - 测试失败时必须暴露真实错误信息
 
 **验收方式**：
+
 - 执行测试命令
 - 确认全部 18 条非 skip 测试通过
 - 检查测试报告中无隐藏的失败
@@ -95,6 +99,7 @@
 - 从错误输入切换回合法输入后：恢复正常渲染
 
 **验收方式**：
+
 - 构造空输入测试用例
 - 构造非法语法测试用例（如 `invalid syntax {{{`)
 - 验证错误提示可见
@@ -114,6 +119,7 @@
 - 测试命令应在 schema 校验失败时以非 0 退出
 
 **验收方式**：
+
 - 执行测试命令
 - 检查退出码
 - 故意破坏一条 YAML 的 schema，验证测试在 schema 校验阶段失败
@@ -124,37 +130,37 @@
 
 ### 2.1 当前测试数量
 
-| 指标 | 数量 |
-|---|---|
-| 已生成 YAML 测试 | 18 |
-| skip.enabled = false（预期执行） | 18 |
-| skip.enabled = true（预期跳过） | 0 |
-| 覆盖 diagram type | 8 |
-| 覆盖来源仓库 | 3/3 |
+| 指标                             | 数量 |
+| -------------------------------- | ---- |
+| 已生成 YAML 测试                 | 18   |
+| skip.enabled = false（预期执行） | 18   |
+| skip.enabled = true（预期跳过）  | 0    |
+| 覆盖 diagram type                | 8    |
+| 覆盖来源仓库                     | 3/3  |
 
 ### 2.2 必需覆盖矩阵
 
 以下为 MVP 阶段必须覆盖的 diagram type 及其最小测试数要求：
 
-| diagram type | 最小测试数 | 实际测试数 | 状态 |
-|---|---|---|---|
-| flowchart / graph | ≥ 3 | 5 | PASS |
-| sequenceDiagram | ≥ 1 | 3 | PASS |
-| classDiagram | ≥ 1 | 2 | PASS |
-| stateDiagram (-v2) | ≥ 1 | 2 | PASS |
-| erDiagram | ≥ 1 | 2 | PASS |
-| pie | ≥ 1 | 2 | PASS |
-| gantt | ≥ 1 | 1 | PASS |
-| other (xychart-beta) | ≥ 1 | 1 | PASS |
-| **总计** | **≥ 10** | **18** | **PASS** |
+| diagram type         | 最小测试数 | 实际测试数 | 状态     |
+| -------------------- | ---------- | ---------- | -------- |
+| flowchart / graph    | ≥ 3        | 5          | PASS     |
+| sequenceDiagram      | ≥ 1        | 3          | PASS     |
+| classDiagram         | ≥ 1        | 2          | PASS     |
+| stateDiagram (-v2)   | ≥ 1        | 2          | PASS     |
+| erDiagram            | ≥ 1        | 2          | PASS     |
+| pie                  | ≥ 1        | 2          | PASS     |
+| gantt                | ≥ 1        | 1          | PASS     |
+| other (xychart-beta) | ≥ 1        | 1          | PASS     |
+| **总计**             | **≥ 10**   | **18**     | **PASS** |
 
 ### 2.3 来源多样性要求
 
-| 来源仓库 | 最小入选数 | 实际入选数 | 状态 |
-|---|---|---|---|
-| probelabs/maid | ≥ 1 | 7 | PASS |
-| lukilabs/beautiful-mermaid | ≥ 1 | 7 | PASS |
-| mermaid-js/mermaid | ≥ 1 | 4 | PASS |
+| 来源仓库                   | 最小入选数 | 实际入选数 | 状态 |
+| -------------------------- | ---------- | ---------- | ---- |
+| probelabs/maid             | ≥ 1        | 7          | PASS |
+| lukilabs/beautiful-mermaid | ≥ 1        | 7          | PASS |
+| mermaid-js/mermaid         | ≥ 1        | 4          | PASS |
 
 ### 2.4 测试集扩展路径
 
@@ -185,13 +191,13 @@ properties:
     properties:
       repo: string
       path: string
-      url: [string, 'null']
+      url: [string, "null"]
   diagram:
     type: object
     required: [type, title]
     properties:
       type: string
-      title: [string, 'null']
+      title: [string, "null"]
   input:
     type: object
     required: [mermaid]
@@ -214,7 +220,7 @@ properties:
     required: [enabled, reason]
     properties:
       enabled: boolean
-      reason: [string, 'null']
+      reason: [string, "null"]
 ```
 
 ### 3.2 Schema 校验规则
@@ -241,18 +247,19 @@ properties:
 ### 4.1 定义
 
 `unsupported_candidate` 是指语法正确但因以下原因暂不纳入测试集的候选：
+
 - 实验性图表类型（beta 标记）
 - 布局引擎确定性风险（浮点坐标、力导向种子依赖）
 - 支持矩阵未知或上游不稳定
 
 ### 4.2 当前 unsupported_candidate（4 个）
 
-| ID | type | 风险说明 |
-|---|---|---|
-| mm-other-020 | sankey-beta | d3-sankey 迭代布局，浮点坐标像素舍入不确定性 |
-| mm-other-021 | block-beta | 较新实验性外部图表，带自有布局求解器 |
-| mm-other-022 | architecture-beta | 实验性，fcose 力导向布局种子依赖 |
-| mm-other-023 | packet | 较新实验性外部图表，支持矩阵未知 |
+| ID           | type              | 风险说明                                     |
+| ------------ | ----------------- | -------------------------------------------- |
+| mm-other-020 | sankey-beta       | d3-sankey 迭代布局，浮点坐标像素舍入不确定性 |
+| mm-other-021 | block-beta        | 较新实验性外部图表，带自有布局求解器         |
+| mm-other-022 | architecture-beta | 实验性，fcose 力导向布局种子依赖             |
+| mm-other-023 | packet            | 较新实验性外部图表，支持矩阵未知             |
 
 ### 4.3 处理规则
 
@@ -280,9 +287,9 @@ properties:
 
 以下测试属于上游 MathML 项目，**严禁删除或修改**：
 
-| 位置 | 说明 |
-|---|---|
-| `test/case/*.yml` | 上游 MathML 测试用例 |
+| 位置              | 说明                                            |
+| ----------------- | ----------------------------------------------- |
+| `test/case/*.yml` | 上游 MathML 测试用例                            |
 | `test/schema.yml` | 当前 schema（由 `extract/run.js` 生成，非上游） |
 
 ### 5.2 删除保护规则
@@ -301,6 +308,7 @@ properties:
 - 保留 `test/case/` 目录及其下所有文件
 
 **验收方式**：
+
 - 在 `test/case/` 中放置标记文件
 - 运行 `./extract/run.js`
 - 确认标记文件仍然存在
@@ -313,23 +321,23 @@ properties:
 
 以下产出已就绪，可作为正式任务分解（Codex Task Decomposition）的输入：
 
-| 产出 | 位置 | 状态 |
-|---|---|---|
-| 项目盘点 | `docs/init/project-inventory.md` | 已完成 |
-| 保留清单 | `docs/init/preserve-list.md` | 已完成 |
-| 移除候选清单 | `docs/init/remove-candidates.md` | 已完成 |
-| 清理风险评估 | `docs/init/cleanup-risk.md` | 已完成 |
-| 清理执行计划 | `docs/init/cleanup-plan.md` | 已完成 |
-| 清理执行记录 | `docs/init/cleanup-execution.md` | 已完成 |
-| 参考仓库挖掘清单 | `docs/init/reference-inventory.md` | 已完成 |
-| 测试候选数据 | `docs/init/test-candidates.json` | 已完成（127 候选） |
-| 测试清单 | `docs/test-inventory.md` | 已完成（18 条） |
-| 抽取脚本 | `extract/run.js` | 已完成 |
-| 抽取报告 | `extract/report.json` | 已完成 |
-| 测试 Schema | `test/schema.yml` | 已完成 |
-| 测试文件 | `test/*.yml` | 已完成（18 个文件） |
-| Spec 更新提案 | `docs/spec-update-proposal.md` | 当前文件 |
-| 验收标准更新提案 | `docs/acceptance-update-proposal.md` | 当前文件 |
+| 产出             | 位置                                 | 状态                |
+| ---------------- | ------------------------------------ | ------------------- |
+| 项目盘点         | `docs/init/project-inventory.md`     | 已完成              |
+| 保留清单         | `docs/init/preserve-list.md`         | 已完成              |
+| 移除候选清单     | `docs/init/remove-candidates.md`     | 已完成              |
+| 清理风险评估     | `docs/init/cleanup-risk.md`          | 已完成              |
+| 清理执行计划     | `docs/init/cleanup-plan.md`          | 已完成              |
+| 清理执行记录     | `docs/init/cleanup-execution.md`     | 已完成              |
+| 参考仓库挖掘清单 | `docs/init/reference-inventory.md`   | 已完成              |
+| 测试候选数据     | `docs/init/test-candidates.json`     | 已完成（127 候选）  |
+| 测试清单         | `docs/test-inventory.md`             | 已完成（18 条）     |
+| 抽取脚本         | `extract/run.js`                     | 已完成              |
+| 抽取报告         | `extract/report.json`                | 已完成              |
+| 测试 Schema      | `test/schema.yml`                    | 已完成              |
+| 测试文件         | `test/*.yml`                         | 已完成（18 个文件） |
+| Spec 更新提案    | `docs/spec-update-proposal.md`       | 当前文件            |
+| 验收标准更新提案 | `docs/acceptance-update-proposal.md` | 当前文件            |
 
 ### 6.2 就绪条件
 
@@ -394,19 +402,19 @@ S5. Final Acceptance Audit
 
 Codex 进行任务分解时应读取以下文件作为输入：
 
-| 文件 | 用途 |
-|---|---|
-| `../docs/mermaid-svg-spec.md` | 项目需求冻结版本 |
-| `../docs/acceptance-criteria.md` | 验收门来源 |
-| `../docs/mermaid-svg-architecture.md` | 技术架构和 loop 设计 |
-| `docs/spec-update-proposal.md` | 基于实际挖掘的 spec 调整建议 |
-| `docs/acceptance-update-proposal.md` | 基于实际抽取的验收标准补充 |
-| `docs/init/test-candidates.json` | 完整候选清单（127 条） |
-| `docs/test-inventory.md` | 已入选测试清单（18 条） |
-| `docs/init/reference-inventory.md` | 参考仓库特征和抽取启示 |
-| `docs/init/project-inventory.md` | 项目结构和受保护文件 |
-| `docs/init/preserve-list.md` | 保留清单 |
-| `docs/init/remove-candidates.md` | 移除候选清单 |
+| 文件                                  | 用途                         |
+| ------------------------------------- | ---------------------------- |
+| `../docs/mermaid-svg-spec.md`         | 项目需求冻结版本             |
+| `../docs/acceptance-criteria.md`      | 验收门来源                   |
+| `../docs/mermaid-svg-architecture.md` | 技术架构和 loop 设计         |
+| `docs/spec-update-proposal.md`        | 基于实际挖掘的 spec 调整建议 |
+| `docs/acceptance-update-proposal.md`  | 基于实际抽取的验收标准补充   |
+| `docs/init/test-candidates.json`      | 完整候选清单（127 条）       |
+| `docs/test-inventory.md`              | 已入选测试清单（18 条）      |
+| `docs/init/reference-inventory.md`    | 参考仓库特征和抽取启示       |
+| `docs/init/project-inventory.md`      | 项目结构和受保护文件         |
+| `docs/init/preserve-list.md`          | 保留清单                     |
+| `docs/init/remove-candidates.md`      | 移除候选清单                 |
 
 ---
 

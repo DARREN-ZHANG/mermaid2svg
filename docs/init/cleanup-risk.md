@@ -13,6 +13,7 @@
 **影响范围**：`test.sh` 和 `knip.js` 的 entry 列表。
 
 **缓解措施**：
+
 - 删除前检查 `test.sh` 是否直接调用 `extract/run.js`
 - 删除后立即更新 `knip.js` 移除已不存在的 entry 路径
 - `extract/run.js` 的 Mermaid 版本应在下一个 Phase 编写，不会留下空目录
@@ -26,6 +27,7 @@
 **影响范围**：`knip.js` 配置。
 
 **缓解措施**：
+
 - 删除 `sh/bench/` 后同步更新 `knip.js`，移除 `sh/bench/*.js` entry
 - 无其他文件 import bench 目录中的模块
 
@@ -38,6 +40,7 @@
 **影响范围**：`knip.js` 的 entry 列表中包含 `dist.js`。
 
 **缓解措施**：
+
 - 删除后更新 `knip.js`
 - `minify.js` 保持独立，不受影响
 - Mermaid 项目不需要 npm 发布功能
@@ -51,6 +54,7 @@
 **影响范围**：`demo/index.pug` 或 `demo/index.js` 中的 SVG 引用。
 
 **缓解措施**：
+
 - 删除前检查 `demo/index.pug` 和 `demo/index.js` 是否引用这些 SVG
 - 这些 demo 截图 SVG 仅用于展示 MathML 效果，Mermaid 版改写页面时会移除相关引用
 - 如果 pug 模板仍引用，应在改写页面时同步清理，而非在 cleanup 阶段
@@ -66,11 +70,13 @@
 ### 2.1 test.sh 执行链
 
 当前 `test.sh` 执行流程：
+
 ```
 check → oxfmt → minify → oxlint → bun test
 ```
 
 **风险分析**：
+
 - `check`（`sh/check.js`）：检查 i18n key 一致性 → **保留**，无影响
 - `oxfmt`：代码格式化 → **保留**，无影响
 - `minify`（`minify.js`）：`src/` → `lib/` → **保留**，无影响
@@ -82,6 +88,7 @@ check → oxfmt → minify → oxlint → bun test
 ### 2.2 Vite 构建
 
 当前 Vite 构建依赖：
+
 - `vite.config.js` → 保留
 - `demo/index.pug` → 保留（待改写）
 - `demo/style.styl` → 保留
@@ -90,6 +97,7 @@ check → oxfmt → minify → oxlint → bun test
 **风险**：如果删除的 SVG 仍被 `demo/index.pug` 或 `demo/style.styl` 引用，构建会报 `file not found`。
 
 **缓解措施**：
+
 - `vite.config.js` 中的 `scanSvgs()` 函数扫描整个 `demo/` 目录下的 SVG 文件用于 CSS 内联
 - 删除未被 CSS 引用的 SVG 不会影响构建
 - `demo.svg/demo.zh.svg` 和 `demo.svg/demo.en.svg` 很可能在 pug 模板中被引用
@@ -102,6 +110,7 @@ check → oxfmt → minify → oxlint → bun test
 **风险**：删除文件后 `bun.lock` 不需要更新，因为删除的是源文件而非依赖声明。但如果 `package.json` 中的 `lint-staged` 配置引用了被删除的脚本，git commit 时 hook 可能失败。
 
 **缓解措施**：
+
 - 当前 `lint-staged` 配置仅引用 `sh/hook/svg.js` 和 `sh/hook/styl.js` → 保留
 - 无风险
 
@@ -113,20 +122,20 @@ check → oxfmt → minify → oxlint → bun test
 
 以下设计资产必须保留以确保 Mermaid 页面可以复用 `math.webc.site` 风格：
 
-| 资产 | 风险等级 | 说明 |
-|------|----------|------|
-| `demo/svg/bg.svg` | 无风险 | 保留，页面背景 |
-| `demo/style.styl` | 无风险 | 保留，核心样式 |
-| `demo/webc/Box/`, `BoxX/`, `Btn/`, `Lg/`, `Scroll/` | 无风险 | 保留，布局组件 |
-| `demo/svg/npm.svg`, `github.svg`, `i18n.svg` | 无风险 | 保留，图标 |
+| 资产                                                | 风险等级 | 说明           |
+| --------------------------------------------------- | -------- | -------------- |
+| `demo/svg/bg.svg`                                   | 无风险   | 保留，页面背景 |
+| `demo/style.styl`                                   | 无风险   | 保留，核心样式 |
+| `demo/webc/Box/`, `BoxX/`, `Btn/`, `Lg/`, `Scroll/` | 无风险   | 保留，布局组件 |
+| `demo/svg/npm.svg`, `github.svg`, `i18n.svg`        | 无风险   | 保留，图标     |
 
 ### 3.2 可替换设计资产
 
-| 资产 | 风险等级 | 说明 |
-|------|----------|------|
-| `demo/size.svg` | 低风险 | 需替换为 Mermaid 版对比图，暂缓处理 |
-| `demo/speed.svg` | 低风险 | 可能不再需要，暂缓处理 |
-| `demo/const/formulas.js` | 低风险 | 需替换为 Mermaid 示例数据，暂缓处理 |
+| 资产                     | 风险等级 | 说明                                |
+| ------------------------ | -------- | ----------------------------------- |
+| `demo/size.svg`          | 低风险   | 需替换为 Mermaid 版对比图，暂缓处理 |
+| `demo/speed.svg`         | 低风险   | 可能不再需要，暂缓处理              |
+| `demo/const/formulas.js` | 低风险   | 需替换为 Mermaid 示例数据，暂缓处理 |
 
 **结论**：cleanup 计划不会破坏任何需要保留的设计资产。
 
@@ -138,17 +147,17 @@ check → oxfmt → minify → oxlint → bun test
 
 以下 `package.json` 中的 `devDependencies` 在 Mermaid 项目中可能不再需要：
 
-| 依赖 | 当前用途 | Mermaid 项目是否需要 |
-|------|----------|---------------------|
-| `katex` | TeX 公式渲染对比 | 不需要（extract/katex.js 被删除） |
-| `mathjax` | TeX 公式渲染和 SVG 生成 | 不需要（gen_formula_svg.js 被删除） |
-| `@mathjax/mathjax-mhchem-font-extension` | MathJax 化学方程式字体 | 不需要 |
-| `markdown-it` | Markdown 插件测试 | 保留（plugin/ 保留） |
-| `marked` | Markdown 插件测试 | 保留（plugin/ 保留） |
-| `remark-math`, `remark-parse`, `remark-html`, `unified` | Markdown 插件测试 | 保留（plugin/ 保留） |
-| `html-minifier` | HTML 压缩 | 需确认用途 |
-| `oxc-parser` | AST 解析（stringAnalyze.js） | 不需要（stringAnalyze.js 被删除） |
-| `cli-table3` | 表格输出（bench/chart.js） | 不需要（bench/ 被删除） |
+| 依赖                                                    | 当前用途                     | Mermaid 项目是否需要                |
+| ------------------------------------------------------- | ---------------------------- | ----------------------------------- |
+| `katex`                                                 | TeX 公式渲染对比             | 不需要（extract/katex.js 被删除）   |
+| `mathjax`                                               | TeX 公式渲染和 SVG 生成      | 不需要（gen_formula_svg.js 被删除） |
+| `@mathjax/mathjax-mhchem-font-extension`                | MathJax 化学方程式字体       | 不需要                              |
+| `markdown-it`                                           | Markdown 插件测试            | 保留（plugin/ 保留）                |
+| `marked`                                                | Markdown 插件测试            | 保留（plugin/ 保留）                |
+| `remark-math`, `remark-parse`, `remark-html`, `unified` | Markdown 插件测试            | 保留（plugin/ 保留）                |
+| `html-minifier`                                         | HTML 压缩                    | 需确认用途                          |
+| `oxc-parser`                                            | AST 解析（stringAnalyze.js） | 不需要（stringAnalyze.js 被删除）   |
+| `cli-table3`                                            | 表格输出（bench/chart.js）   | 不需要（bench/ 被删除）             |
 
 **策略**：不在 cleanup 阶段修改 `package.json`。依赖清理应作为独立步骤，在确认所有保留文件不再依赖这些包后再执行。建议在下一个 Phase 末尾由人工确认后统一清理。
 
@@ -186,6 +195,7 @@ check → oxfmt → minify → oxlint → bun test
 5. **Step E**：删除 `demo/svg/demo.zh.svg` + `demo.svg/demo.en.svg` + `demo/svg/x.svg`
 
 每步执行后：
+
 - 运行 `./test.sh` 确认测试通过
 - 运行 `bun dev.js` 确认 dev server 正常
 - 运行 `bun demo/build.js` 确认构建通过
@@ -193,6 +203,7 @@ check → oxfmt → minify → oxlint → bun test
 ### 5.4 不回滚的情况
 
 以下情况不需要回滚，直接修复即可：
+
 - `knip.js` entry 路径过期 → 更新 `knip.js`
 - `package.json` 中的 `lint-staged` 引用过期 → 更新配置
 
@@ -200,12 +211,12 @@ check → oxfmt → minify → oxlint → bun test
 
 ## 6. 总结
 
-| 风险类别 | 严重程度 | 可回滚性 |
-|----------|----------|----------|
-| 测试流程中断 | 低 | git revert |
-| Vite 构建报错 | 中（需检查 SVG 引用） | git revert |
-| 设计资产丢失 | 无（全部保留） | N/A |
-| 依赖断裂 | 低 | 更新 knip.js |
-| devDependencies 冗余 | 低（不影响功能） | 后续清理 |
+| 风险类别             | 严重程度              | 可回滚性     |
+| -------------------- | --------------------- | ------------ |
+| 测试流程中断         | 低                    | git revert   |
+| Vite 构建报错        | 中（需检查 SVG 引用） | git revert   |
+| 设计资产丢失         | 无（全部保留）        | N/A          |
+| 依赖断裂             | 低                    | 更新 knip.js |
+| devDependencies 冗余 | 低（不影响功能）      | 后续清理     |
 
 **总体评估**：cleanup 计划风险可控。所有删除操作可通过 git revert 回滚。建议分步执行，每步验证。

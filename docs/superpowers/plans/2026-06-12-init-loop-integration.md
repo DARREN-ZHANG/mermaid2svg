@@ -13,6 +13,7 @@
 ### Task 1: Lock Workflow Contract
 
 **Files:**
+
 - Create: `workflow/loops/init/init-loop.test.mjs`
 
 - [x] **Step 1: Write the failing test**
@@ -27,6 +28,7 @@ Expected: FAIL because `workflow/loops/init/init-loop.config.ts` does not exist 
 ### Task 2: Move Init Loop Into Workflow
 
 **Files:**
+
 - Create: `workflow/loops/init/**`
 - Create: `workflow/state/init-loop.state.json`
 - Modify: `package.json`
@@ -42,6 +44,7 @@ Set `scripts.agent:init` to `tsx workflow/loops/init/init-loop.ts`.
 ### Task 3: Align Config, Validators, and Prompts
 
 **Files:**
+
 - Modify: `workflow/loops/init/init-loop.config.ts`
 - Modify: `workflow/loops/init/init-loop.ts`
 - Modify: `workflow/loops/init/lib/*.ts`
@@ -67,6 +70,7 @@ Preflight should verify local references exist and block clearly if they do not.
 ### Task 4: Verify and Commit
 
 **Files:**
+
 - All modified files
 
 - [x] **Step 1: Run workflow contract test**

@@ -3,7 +3,84 @@ import { existsSync, readFileSync } from "node:fs";
 import test from "node:test";
 
 const read = (path) => readFileSync(path, "utf8");
-const readJson = (path) => JSON.parse(read(path));
+const readJson = (path) =>
+  path.endsWith(".jsonc") ? parseJsonc(read(path)) : JSON.parse(read(path));
+
+function parseJsonc(text) {
+  return JSON.parse(removeTrailingCommas(stripJsonComments(text)));
+}
+
+function stripJsonComments(text) {
+  let result = "";
+  let i = 0;
+  let inString = false;
+  while (i < text.length) {
+    if (inString) {
+      result += text[i];
+      if (text[i] === "\\" && i + 1 < text.length) {
+        result += text[i + 1];
+        i += 2;
+        continue;
+      }
+      if (text[i] === '"') inString = false;
+      i++;
+    } else if (text[i] === '"') {
+      inString = true;
+      result += text[i];
+      i++;
+    } else if (text[i] === "/" && text[i + 1] === "/") {
+      i += 2;
+      while (i < text.length && text[i] !== "\n") i++;
+    } else if (text[i] === "/" && text[i + 1] === "*") {
+      i += 2;
+      while (i < text.length - 1 && !(text[i] === "*" && text[i + 1] === "/")) i++;
+      i += 2;
+    } else {
+      result += text[i];
+      i++;
+    }
+  }
+  return result;
+}
+
+function removeTrailingCommas(text) {
+  let result = "";
+  let i = 0;
+  let inString = false;
+  while (i < text.length) {
+    if (inString) {
+      result += text[i];
+      if (text[i] === "\\" && i + 1 < text.length) {
+        result += text[i + 1];
+        i += 2;
+        continue;
+      }
+      if (text[i] === '"') inString = false;
+      i++;
+      continue;
+    }
+
+    if (text[i] === '"') {
+      inString = true;
+      result += text[i];
+      i++;
+      continue;
+    }
+
+    if (text[i] === ",") {
+      let j = i + 1;
+      while (j < text.length && /\s/.test(text[j])) j++;
+      if (text[j] === "}" || text[j] === "]") {
+        i++;
+        continue;
+      }
+    }
+
+    result += text[i];
+    i++;
+  }
+  return result;
+}
 
 const loops = [
   {
@@ -11,9 +88,17 @@ const loops = [
     script: "agent:web-demo",
     agent: "web-demo-agent",
     title: "Web Demo Loop",
-    requiredInputs: ["src/render/mermaid-to-svg.js", "src/render/normalize-svg.js", "workflow/reports/svg-output-compatibility.json"],
-    requiredOutputs: ["demo", "workflow/reports/web-demo-report.json", "docs/web-demo-loop-report.md"],
-    forbiddenScope: "theme switching, size comparison, i18n, or deployment"
+    requiredInputs: [
+      "src/render/mermaid-to-svg.js",
+      "src/render/normalize-svg.js",
+      "workflow/reports/svg-output-compatibility.json",
+    ],
+    requiredOutputs: [
+      "demo",
+      "workflow/reports/web-demo-report.json",
+      "docs/web-demo-loop-report.md",
+    ],
+    forbiddenScope: "theme switching, size comparison, i18n, or deployment",
   },
   {
     id: "theme",
@@ -22,7 +107,7 @@ const loops = [
     title: "Theme Loop",
     requiredInputs: ["workflow/reports/web-demo-report.json", "src/render/normalize-svg.js"],
     requiredOutputs: ["workflow/reports/theme-css-report.json", "docs/theme-loop-report.md"],
-    forbiddenScope: "size comparison, i18n, or deployment"
+    forbiddenScope: "size comparison, i18n, or deployment",
   },
   {
     id: "size",
@@ -31,7 +116,7 @@ const loops = [
     title: "Size Loop",
     requiredInputs: ["workflow/reports/theme-css-report.json", "demo"],
     requiredOutputs: ["workflow/reports/size-report.json", "docs/size-loop-report.md"],
-    forbiddenScope: "i18n or deployment"
+    forbiddenScope: "i18n or deployment",
   },
   {
     id: "i18n",
@@ -39,27 +124,43 @@ const loops = [
     agent: "i18n-agent",
     title: "I18N Loop",
     requiredInputs: ["workflow/reports/size-report.json", "demo"],
-    requiredOutputs: ["workflow/reports/i18n-report.json", "docs/i18n-language-map.md", "docs/i18n-loop-report.md"],
-    forbiddenScope: "deployment"
+    requiredOutputs: [
+      "workflow/reports/i18n-report.json",
+      "docs/i18n-language-map.md",
+      "docs/i18n-loop-report.md",
+    ],
+    forbiddenScope: "deployment",
   },
   {
     id: "deploy",
     script: "agent:deploy",
     agent: "deploy-agent",
     title: "Deploy Loop",
-    requiredInputs: ["workflow/reports/i18n-report.json", "workflow/reports/size-report.json", "demo"],
+    requiredInputs: [
+      "workflow/reports/i18n-report.json",
+      "workflow/reports/size-report.json",
+      "demo",
+    ],
     requiredOutputs: ["workflow/reports/deployment-report.json", "docs/deploy-loop-report.md"],
-    forbiddenScope: "final acceptance sign-off"
+    forbiddenScope: "final acceptance sign-off",
   },
   {
     id: "final-audit",
     script: "agent:final-audit",
     agent: "final-audit-agent",
     title: "Final Acceptance Audit Loop",
-    requiredInputs: ["workflow/reports/deployment-report.json", "workflow/reports/i18n-report.json", "workflow/reports/size-report.json"],
-    requiredOutputs: ["workflow/reports/final-report.md", "workflow/reports/final-acceptance-checklist.json", "docs/dev-workflow.md"],
-    forbiddenScope: "new feature implementation"
-  }
+    requiredInputs: [
+      "workflow/reports/deployment-report.json",
+      "workflow/reports/i18n-report.json",
+      "workflow/reports/size-report.json",
+    ],
+    requiredOutputs: [
+      "workflow/reports/final-report.md",
+      "workflow/reports/final-acceptance-checklist.json",
+      "docs/dev-workflow.md",
+    ],
+    forbiddenScope: "new feature implementation",
+  },
 ];
 
 test("remaining workflow loops expose package scripts in execution order", () => {
@@ -68,8 +169,10 @@ test("remaining workflow loops expose package scripts in execution order", () =>
   for (const loop of loops) {
     assert.match(
       pkg.scripts[loop.script],
-      new RegExp(`^tsx(?: --env-file=\\.env)? workflow\\/loops\\/${loop.id}\\/${loop.id}-loop\\.ts$`),
-      loop.id
+      new RegExp(
+        `^tsx(?: --env-file=\\.env)? workflow\\/loops\\/${loop.id}\\/${loop.id}-loop\\.ts$`,
+      ),
+      loop.id,
     );
   }
 });
@@ -108,15 +211,29 @@ test("remaining loop configs define deterministic topology and artifacts", () =>
     const config = read(`workflow/loops/${loop.id}/${loop.id}-loop.config.ts`);
 
     assert.match(config, new RegExp(`loopName:\\s*"${loop.id}-loop"`), loop.id);
-    assert.match(config, new RegExp(`stateFile:\\s*"workflow\\/state\\/${loop.id}-loop\\.state\\.json"`), loop.id);
+    assert.match(
+      config,
+      new RegExp(`stateFile:\\s*"workflow\\/state\\/${loop.id}-loop\\.state\\.json"`),
+      loop.id,
+    );
     assert.match(config, new RegExp(`logDir:\\s*"workflow\\/runs\\/${loop.id}"`), loop.id);
     assert.match(config, /reportDir:\s*"workflow\/reports"/, loop.id);
     assert.match(config, /\.\.\/docs\/mermaid-svg-spec\.md/, loop.id);
     assert.match(config, /\.\.\/docs\/acceptance-criteria\.md/, loop.id);
     assert.match(config, /\.\.\/docs\/mermaid-svg-architecture\.md/, loop.id);
 
-    for (const input of loop.requiredInputs) assert.match(config, new RegExp(input.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")), `${loop.id} input ${input}`);
-    for (const output of loop.requiredOutputs) assert.match(config, new RegExp(output.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")), `${loop.id} output ${output}`);
+    for (const input of loop.requiredInputs)
+      assert.match(
+        config,
+        new RegExp(input.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")),
+        `${loop.id} input ${input}`,
+      );
+    for (const output of loop.requiredOutputs)
+      assert.match(
+        config,
+        new RegExp(output.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")),
+        `${loop.id} output ${output}`,
+      );
 
     for (const phase of ["preflight", "plan", "implementation", "verification", "final-report"]) {
       assert.match(config, new RegExp(`id:\\s*"${phase}"`), `${loop.id} phase ${phase}`);
@@ -131,7 +248,7 @@ test("remaining loop prompts exist and enforce scope boundaries", () => {
       `workflow/loops/${loop.id}/prompts/02-plan.md`,
       `workflow/loops/${loop.id}/prompts/03-implementation.md`,
       `workflow/loops/${loop.id}/prompts/04-verification.md`,
-      `workflow/loops/${loop.id}/prompts/05-final-report.md`
+      `workflow/loops/${loop.id}/prompts/05-final-report.md`,
     ]) {
       assert.ok(existsSync(prompt), `${prompt} must exist`);
       const text = read(prompt);
@@ -148,17 +265,27 @@ test("remaining validators reject missing required inputs and outputs", async ()
   for (const loop of loops) {
     const validators = read(`workflow/loops/${loop.id}/lib/validators.ts`);
     assert.match(validators, /validateRemainingLoopPhase/, loop.id);
-    assert.match(validators, new RegExp(loop.requiredOutputs[0].replace(/[.*+?^${}()|[\]\\]/g, "\\$&")), loop.id);
+    assert.match(
+      validators,
+      new RegExp(loop.requiredOutputs[0].replace(/[.*+?^${}()|[\]\\]/g, "\\$&")),
+      loop.id,
+    );
 
     const module = await import(`../${loop.id}/lib/validators.ts`);
     const result = module.validateRemainingLoopPhase({
       id: "final-report",
-      requiredArtifacts: []
+      requiredArtifacts: [],
     });
 
     assert.equal(result.ok, false, loop.id);
-    assert.ok(result.errors.some((error) => error.includes(loop.requiredInputs[0])), `${loop.id} must require first input`);
-    assert.ok(result.errors.some((error) => error.includes(loop.requiredOutputs[0])), `${loop.id} must require first output`);
+    assert.ok(
+      result.errors.some((error) => error.includes(loop.requiredInputs[0])),
+      `${loop.id} must require first input`,
+    );
+    assert.ok(
+      result.errors.some((error) => error.includes(loop.requiredOutputs[0])),
+      `${loop.id} must require first output`,
+    );
   }
 });
 

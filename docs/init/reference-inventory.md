@@ -7,33 +7,33 @@
 
 本阶段通过 5 个并行 explore 子代理分别挖掘三个参考仓库，共产出 **104 个候选**。随后进行第二轮 5 子代理审计：**逐条验证现有候选的 sourcePath 与 input 与源文件字节级一致**（无错误），并定位了真实存在的语法广度缺口。在此基础上补录 **23 个经源文件验证的新候选**，最终共 **127 个候选**。
 
-| 来源仓库 | 初始候选 | 审计补录 | 合计 |
-|---|---|---|---|
-| `probelabs/maid` | 20 | +5 | 25 |
-| `lukilabs/beautiful-mermaid` | 20 | +5 | 25 |
-| `mermaid-js/mermaid` | 64 | +13 | 77 |
+| 来源仓库                     | 初始候选 | 审计补录 | 合计 |
+| ---------------------------- | -------- | -------- | ---- |
+| `probelabs/maid`             | 20       | +5       | 25   |
+| `lukilabs/beautiful-mermaid` | 20       | +5       | 25   |
+| `mermaid-js/mermaid`         | 64       | +13      | 77   |
 
 候选按 diagram type 分布：
 
-| type | 数量 |
-|---|---|
-| flowchart | 41 |
-| sequenceDiagram | 22 |
-| classDiagram | 14 |
-| stateDiagram | 16 |
-| erDiagram | 8 |
-| gantt | 4 |
-| pie | 4 |
-| other | 18 |
+| type            | 数量 |
+| --------------- | ---- |
+| flowchart       | 41   |
+| sequenceDiagram | 22   |
+| classDiagram    | 14   |
+| stateDiagram    | 16   |
+| erDiagram       | 8    |
+| gantt           | 4    |
+| pie             | 4    |
+| other           | 18   |
 
 候选按 classification 分布：
 
-| classification | 数量 |
-|---|---|
-| minimal_core | 101 |
-| useful_later | 22 |
-| unsupported_candidate | 4 |
-| invalid_or_non_deterministic | 0 |
+| classification               | 数量 |
+| ---------------------------- | ---- |
+| minimal_core                 | 101  |
+| useful_later                 | 22   |
+| unsupported_candidate        | 4    |
+| invalid_or_non_deterministic | 0    |
 
 挖掘规则达成情况：
 
@@ -56,16 +56,16 @@
 
 ### 补录的语法维度（补录前缺失）
 
-| 维度 | 补录来源 | 代表候选 |
-|---|---|---|
-| 序列异步/开放箭头 `-)`/`--)`/`<<->>` | maid + beautiful-mermaid | maid-021, bm-022 |
-| 序列 `box` 分组 / `opt` 片段 / `critical` 框架 / `Note over A,B` | maid + beautiful-mermaid + mermaid | maid-022, bm-023, mm-seq-008/009 |
-| 状态图 `[[choice]]` / `<<fork>>`/`<<join>>` / 历史态 `[H]` / `direction` | maid + mermaid | maid-023, mm-st-008/009, bm-025 |
-| 类图泛型 `~T~` / `<<interface>>` 构造型 / `note for` | maid + mermaid | maid-025, mm-cls-008 |
-| 流程图自环 / 组合边 / `%%` 注释 / `subgraph id[Title]` / `:::` 简写 | mermaid + beautiful-mermaid | mm-fc-021~025, bm-024 |
-| ER 虚线 `..` / 属性注释 / 单词基数 | beautiful-mermaid + mermaid | bm-021, mm-other-024/025 |
-| gantt `milestone`+`todayMarker`+`excludes` | mermaid | mm-other-026 |
-| pie `showData` + 小数值 | maid | maid-024 |
+| 维度                                                                     | 补录来源                           | 代表候选                         |
+| ------------------------------------------------------------------------ | ---------------------------------- | -------------------------------- |
+| 序列异步/开放箭头 `-)`/`--)`/`<<->>`                                     | maid + beautiful-mermaid           | maid-021, bm-022                 |
+| 序列 `box` 分组 / `opt` 片段 / `critical` 框架 / `Note over A,B`         | maid + beautiful-mermaid + mermaid | maid-022, bm-023, mm-seq-008/009 |
+| 状态图 `[[choice]]` / `<<fork>>`/`<<join>>` / 历史态 `[H]` / `direction` | maid + mermaid                     | maid-023, mm-st-008/009, bm-025  |
+| 类图泛型 `~T~` / `<<interface>>` 构造型 / `note for`                     | maid + mermaid                     | maid-025, mm-cls-008             |
+| 流程图自环 / 组合边 / `%%` 注释 / `subgraph id[Title]` / `:::` 简写      | mermaid + beautiful-mermaid        | mm-fc-021~025, bm-024            |
+| ER 虚线 `..` / 属性注释 / 单词基数                                       | beautiful-mermaid + mermaid        | bm-021, mm-other-024/025         |
+| gantt `milestone`+`todayMarker`+`excludes`                               | mermaid                            | mm-other-026                     |
+| pie `showData` + 小数值                                                  | maid                               | maid-024                         |
 
 ---
 
@@ -73,26 +73,26 @@
 
 ### 示例/测试位置
 
-| 目录/文件 | 说明 |
-|---|---|
+| 目录/文件                        | 说明                                                                        |
+| -------------------------------- | --------------------------------------------------------------------------- |
 | `test-fixtures/flowchart/valid/` | **最丰富的单一来源**（约 45 个图），含 `VALID_DIAGRAMS.md` 嵌入全部源字符串 |
-| `test-fixtures/sequence/valid/` | 约 22 个图，块/注释/激活/box 覆盖面强 |
-| `test-fixtures/class/valid/` | 约 16 个图，关系多样性好 |
-| `test-fixtures/state/valid/` | 约 6 个图，小而规范 |
-| `test-fixtures/pie/valid/` | 约 6 个图，小而规范 |
-| `test-fixtures/unsupported/` | 2 个图（gantt、journey），唯一"其他"类型来源 |
-| `docs/QUICK_REFERENCE.md` | 节点形状目录、箭头目录（与 maid-003/004 重叠） |
+| `test-fixtures/sequence/valid/`  | 约 22 个图，块/注释/激活/box 覆盖面强                                       |
+| `test-fixtures/class/valid/`     | 约 16 个图，关系多样性好                                                    |
+| `test-fixtures/state/valid/`     | 约 6 个图，小而规范                                                         |
+| `test-fixtures/pie/valid/`       | 约 6 个图，小而规范                                                         |
+| `test-fixtures/unsupported/`     | 2 个图（gantt、journey），唯一"其他"类型来源                                |
+| `docs/QUICK_REFERENCE.md`        | 节点形状目录、箭头目录（与 maid-003/004 重叠）                              |
 
 ### 该仓库候选统计
 
-| type | 数量 |
-|---|---|
-| flowchart | 9 |
+| type            | 数量                             |
+| --------------- | -------------------------------- |
+| flowchart       | 9                                |
 | sequenceDiagram | 7（+2 补录：异步箭头、box 分组） |
-| classDiagram | 3（+1 补录：note for） |
-| stateDiagram | 3（+1 补录：历史态 [H]） |
-| pie | 2（+1 补录：showData 小数） |
-| gantt | 1 |
+| classDiagram    | 3（+1 补录：note for）           |
+| stateDiagram    | 3（+1 补录：历史态 [H]）         |
+| pie             | 2（+1 补录：showData 小数）      |
+| gantt           | 1                                |
 
 > 审计补录 5 个（maid-021~025），均直接读取 `test-fixtures/.../*.mmd` 验证。maid 的 `sourcePath` 全部为真实文件名（非标准化），input 与文件字节一致。
 
@@ -115,25 +115,25 @@
 
 ### 示例/测试位置
 
-| 目录/文件 | 说明 |
-|---|---|
-| `samples-data.ts` | **最丰富的单一来源**（约 1300 行 `Sample[]` 数组），按类别组织；全部 20 个候选均来自此处 |
-| `xychart-samples-data.ts` | 约 100 个 xychart 变体（条形/线条/组合/水平/边缘情况）；基本为 P2 体量变体 |
-| `src/__tests__/*.test.ts` | 微小嵌入图片段，但碎片化且与 samples-data 重叠 |
-| `editor/js/init.js` | 默认编辑器图，备选最小流程图 |
-| `examples/*.svg` | 预渲染 SVG 产物（非源码），已跳过 |
-| `README.md` | 示例与 samples-data 子集重叠，无独特输入 |
+| 目录/文件                 | 说明                                                                                     |
+| ------------------------- | ---------------------------------------------------------------------------------------- |
+| `samples-data.ts`         | **最丰富的单一来源**（约 1300 行 `Sample[]` 数组），按类别组织；全部 20 个候选均来自此处 |
+| `xychart-samples-data.ts` | 约 100 个 xychart 变体（条形/线条/组合/水平/边缘情况）；基本为 P2 体量变体               |
+| `src/__tests__/*.test.ts` | 微小嵌入图片段，但碎片化且与 samples-data 重叠                                           |
+| `editor/js/init.js`       | 默认编辑器图，备选最小流程图                                                             |
+| `examples/*.svg`          | 预渲染 SVG 产物（非源码），已跳过                                                        |
+| `README.md`               | 示例与 samples-data 子集重叠，无独特输入                                                 |
 
 ### 该仓库候选统计
 
-| type | 数量 |
-|---|---|
-| flowchart | 7（+1 补录：::: 简写） |
-| stateDiagram | 4（+1 补录：direction LR） |
+| type            | 数量                                |
+| --------------- | ----------------------------------- |
+| flowchart       | 7（+1 补录：::: 简写）              |
+| stateDiagram    | 4（+1 补录：direction LR）          |
 | sequenceDiagram | 6（+2 补录：异步箭头、critical 框） |
-| classDiagram | 3 |
-| erDiagram | 4（+1 补录：虚线 .. 关系） |
-| other (xychart) | 1 |
+| classDiagram    | 3                                   |
+| erDiagram       | 4（+1 补录：虚线 .. 关系）          |
+| other (xychart) | 1                                   |
 
 > 审计确认 samples-data.ts 共 85 条样本（flowchart 24 / sequence 16 / class 16 / er 14 / xychart 10 / state 5），仅覆盖 6 种类型，README 与 init.js 无独特输入。补录 5 个（bm-021~025），全部直接读取 samples-data.ts 对应行验证。
 
@@ -159,22 +159,22 @@
 
 #### 示例/测试位置
 
-| 目录/文件 | 说明 |
-|---|---|
-| `packages/mermaid/src/diagrams/flowchart/parser/*.spec.js` | **解析器单元测试金矿**，按语法维度组织（箭头/边/线/方向/样式/文本/单节点/子图/顶点链/Markdown 字符串/节点数据） |
-| `cypress/integration/rendering/flowchart/flowchart.spec.js` | 渲染级 e2e 测试（1051 行），集成示例好但多为像素快照 |
-| `demos/flowchart.html` | 22+ 样本，演示每种节点形状/样式/标签变体 |
-| `cypress/platform/dev-diagrams/layout-tests/*.mmd` | 独立 `.mmd` 固件文件（`shapes.mmd`、`edge-types.mmd`、`nested-subgraphs.mmd`、`self-loop.mmd`），对文件路径式测试提取最实用 |
+| 目录/文件                                                   | 说明                                                                                                                        |
+| ----------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `packages/mermaid/src/diagrams/flowchart/parser/*.spec.js`  | **解析器单元测试金矿**，按语法维度组织（箭头/边/线/方向/样式/文本/单节点/子图/顶点链/Markdown 字符串/节点数据）             |
+| `cypress/integration/rendering/flowchart/flowchart.spec.js` | 渲染级 e2e 测试（1051 行），集成示例好但多为像素快照                                                                        |
+| `demos/flowchart.html`                                      | 22+ 样本，演示每种节点形状/样式/标签变体                                                                                    |
+| `cypress/platform/dev-diagrams/layout-tests/*.mmd`          | 独立 `.mmd` 固件文件（`shapes.mmd`、`edge-types.mmd`、`nested-subgraphs.mmd`、`self-loop.mmd`），对文件路径式测试提取最实用 |
 
 ### 3b. sequenceDiagram / stateDiagram / classDiagram（26 个：初始 21 + 补录 5）
 
 #### 示例/测试位置
 
-| 类型 | 最丰富来源 |
-|---|---|
+| 类型            | 最丰富来源                                                                                                     |
+| --------------- | -------------------------------------------------------------------------------------------------------------- |
 | sequenceDiagram | `cypress/integration/rendering/sequence/sequencediagram.spec.js` 及 `sequencediagram-v2.spec.js`（语法最密集） |
-| stateDiagram | `cypress/integration/rendering/state/stateDiagram.spec.js`（经典）及 `stateDiagram-v2.spec.js`（v2 特性） |
-| classDiagram | `cypress/integration/rendering/class/classDiagram.spec.js`（关系/可见性覆盖） |
+| stateDiagram    | `cypress/integration/rendering/state/stateDiagram.spec.js`（经典）及 `stateDiagram-v2.spec.js`（v2 特性）      |
+| classDiagram    | `cypress/integration/rendering/class/classDiagram.spec.js`（关系/可见性覆盖）                                  |
 
 辅助来源：`demos/sequence.html`、`demos/state.html`、`demos/classchart.html`、`cypress/platform/dev-diagrams/layout-tests/{class-diagram,state-diagram}.mmd`。
 
@@ -184,44 +184,44 @@
 
 #### 示例/测试位置
 
-| 类型 | 最丰富来源 |
-|---|---|
-| erDiagram | `cypress/integration/rendering/er/erDiagram.spec.js`、`demos/er.html` |
-| gantt | `cypress/integration/rendering/gantt/gantt.spec.js`、`demos/gantt.html` |
-| pie | `cypress/integration/rendering/pie/pie.spec.ts`、`demos/pie.html` |
-| journey | `cypress/integration/rendering/user-journey/journey.spec.js` |
-| gitGraph | `cypress/integration/rendering/git/gitGraph.spec.js`（2182 行，最大） |
-| mindmap | `cypress/integration/rendering/mindmap/mindmap.spec.ts`、`demos/mindmap.html` |
-| timeline | `cypress/integration/rendering/timeline/timeline.spec.ts` |
-| quadrantChart | `cypress/integration/rendering/quadrant-chart/quadrantChart.spec.js` |
-| xychart | `cypress/integration/rendering/xychart/xyChart.spec.js`（1031 行） |
-| requirementDiagram | `cypress/integration/rendering/requirement/requirement.spec.js` |
-| C4 | `cypress/integration/rendering/c4/c4.spec.js` |
-| sankey / block / architecture / packet | 各自 `cypress/integration/rendering/<type>/` 下的 spec 文件 |
+| 类型                                   | 最丰富来源                                                                    |
+| -------------------------------------- | ----------------------------------------------------------------------------- |
+| erDiagram                              | `cypress/integration/rendering/er/erDiagram.spec.js`、`demos/er.html`         |
+| gantt                                  | `cypress/integration/rendering/gantt/gantt.spec.js`、`demos/gantt.html`       |
+| pie                                    | `cypress/integration/rendering/pie/pie.spec.ts`、`demos/pie.html`             |
+| journey                                | `cypress/integration/rendering/user-journey/journey.spec.js`                  |
+| gitGraph                               | `cypress/integration/rendering/git/gitGraph.spec.js`（2182 行，最大）         |
+| mindmap                                | `cypress/integration/rendering/mindmap/mindmap.spec.ts`、`demos/mindmap.html` |
+| timeline                               | `cypress/integration/rendering/timeline/timeline.spec.ts`                     |
+| quadrantChart                          | `cypress/integration/rendering/quadrant-chart/quadrantChart.spec.js`          |
+| xychart                                | `cypress/integration/rendering/xychart/xyChart.spec.js`（1031 行）            |
+| requirementDiagram                     | `cypress/integration/rendering/requirement/requirement.spec.js`               |
+| C4                                     | `cypress/integration/rendering/c4/c4.spec.js`                                 |
+| sankey / block / architecture / packet | 各自 `cypress/integration/rendering/<type>/` 下的 spec 文件                   |
 
 #### 不支持/风险类别（标记为 unsupported_candidate）
 
-| 类型 | 原因 |
-|---|---|
-| **sankey** | 使用 d3-sankey 迭代求解器；节点位置为浮点值，像素舍入可能引入不确定性 |
-| **block** | 较新实验性外部图表，带自有布局引擎，确定性特征不明 |
+| 类型             | 原因                                                                              |
+| ---------------- | --------------------------------------------------------------------------------- |
+| **sankey**       | 使用 d3-sankey 迭代求解器；节点位置为浮点值，像素舍入可能引入不确定性             |
+| **block**        | 较新实验性外部图表，带自有布局引擎，确定性特征不明                                |
 | **architecture** | 实验性；自定义图标包需运行时 `fetch('https://unpkg.com/...')`，离线渲染回退占位符 |
-| **packet** | 较新实验性外部图表，小众，支持矩阵未知 |
+| **packet**       | 较新实验性外部图表，小众，支持矩阵未知                                            |
 
 这些类型未被丢弃，而是显式分类记录，符合"不静默丢弃有趣的不支持用例"规则。
 
 ### 该仓库候选统计
 
-| type | 数量 |
-|---|---|
-| flowchart | 25（+5 补录：自环、组合边、注释、subgraph id、重复边） |
-| sequenceDiagram | 9（+2 补录：opt 片段、Note over） |
-| stateDiagram | 9（+2 补录：[[choice]]、<<fork>>/<<join>>） |
-| classDiagram | 8（+1 补录：泛型 ~T~） |
-| erDiagram | 4（+2 补录：单词基数、属性注释） |
-| gantt | 3（+1 补录：milestone+todayMarker） |
-| pie | 2 |
-| other | 17 |
+| type            | 数量                                                   |
+| --------------- | ------------------------------------------------------ |
+| flowchart       | 25（+5 补录：自环、组合边、注释、subgraph id、重复边） |
+| sequenceDiagram | 9（+2 补录：opt 片段、Note over）                      |
+| stateDiagram    | 9（+2 补录：[[choice]]、<<fork>>/<<join>>）            |
+| classDiagram    | 8（+1 补录：泛型 ~T~）                                 |
+| erDiagram       | 4（+2 补录：单词基数、属性注释）                       |
+| gantt           | 3（+1 补录：milestone+todayMarker）                    |
+| pie             | 2                                                      |
+| other           | 17                                                     |
 
 > 审计补录 13 个（mm-fc-021~025, mm-seq-008/009, mm-st-008/009, mm-cls-008, mm-other-024/025/026），input 全部直接读取 spec/`.mmd` 源文件验证，HTML 实体已解码（`&lt;&lt;fork&gt;&gt;` → `<<fork>>`）。
 

@@ -34,7 +34,8 @@
   "scripts": {
     "prepare": "husky",
     "test": "bash test.sh",
-    "build": "bun minify.js",
+    "build": "bun demo/build.js",
+    "build:lib": "bun minify.js",
     "extract": "node extract/run.js",
     "dev": "bun dev.js",
     "agent:init": "tsx --env-file=.env workflow/loops/init/init-loop.ts",

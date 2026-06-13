@@ -3,9 +3,11 @@
 You are executing one phase of the Init Agent Loop.
 
 ## Goal
+
 Create the repeatable test extraction entrypoint and use it to generate a minimal Mermaid YAML test set.
 
 ## Inputs to read
+
 - docs/init/test-candidates.json
 - docs/init/reference-inventory.md
 - ../docs/mermaid-svg-spec.md
@@ -13,22 +15,25 @@ Create the repeatable test extraction entrypoint and use it to generate a minima
 - AGENTS.md
 
 ## Allowed writes
+
 - extract/run.js
 - extract/report.json
 - test/schema.yml
-- test/*.yml
+- test/\*.yml
 - docs/test-inventory.md
 
 ## Forbidden actions
+
 - Do not modify ../docs/mermaid-svg-spec.md.
 - Do not modify ../docs/acceptance-criteria.md.
-- Do not modify references/**.
+- Do not modify references/\*\*.
 - Do not implement the converter.
 - Do not add dependencies.
 - Do not create permanent exclusion files.
 - Do not deploy.
 
 ## extract/run.js
+
 The script must:
 
 - read from local `references/maid`, `references/beautiful-mermaid`, and `references/mermaid`
@@ -39,6 +44,7 @@ The script must:
 - avoid mutating `references/**`
 
 ## YAML test schema
+
 Every generated test file must follow this shape:
 
 ```yaml
@@ -65,6 +71,7 @@ skip:
 ```
 
 ## Extraction rules
+
 - Generate a small, high-signal set suitable for manual review.
 - Prefer minimal_core candidates.
 - Include at least 5 tests if candidates allow.
@@ -77,7 +84,9 @@ skip:
 - Do not invent inputs unrelated to the candidates unless the candidate is too large and can be reduced while preserving its intent.
 
 ## docs/test-inventory.md
+
 Include:
+
 - generated tests table
 - source repo/path for each test
 - diagram type coverage
@@ -86,7 +95,9 @@ Include:
 - recommended MVP syntax boundary implied by the tests
 
 ## extract/report.json
+
 Include:
+
 - `sources.probelabs/maid`
 - `sources.lukilabs/beautiful-mermaid`
 - `sources.mermaid-js/mermaid`
@@ -98,4 +109,5 @@ Include:
 - skipped sample source paths and reasons
 
 ## Completion rule
+
 Stop after writing `extract/run.js`, running it, and writing generated YAML tests, `test/schema.yml`, `extract/report.json`, and `docs/test-inventory.md`.

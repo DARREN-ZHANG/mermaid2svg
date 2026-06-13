@@ -10,23 +10,23 @@ export const INIT_LOOP_CONFIG = {
     {
       name: "maid",
       url: "https://github.com/probelabs/maid.git",
-      dir: "references/maid"
+      dir: "references/maid",
     },
     {
       name: "beautiful-mermaid",
       url: "https://github.com/lukilabs/beautiful-mermaid.git",
-      dir: "references/beautiful-mermaid"
+      dir: "references/beautiful-mermaid",
     },
     {
       name: "mermaid",
       url: "https://github.com/mermaid-js/mermaid.git",
-      dir: "references/mermaid"
-    }
+      dir: "references/mermaid",
+    },
   ],
   canonicalDocs: [
     "../docs/mermaid-svg-spec.md",
     "../docs/acceptance-criteria.md",
-    "../docs/mermaid-svg-architecture.md"
+    "../docs/mermaid-svg-architecture.md",
   ],
   protectedPaths: [
     "../docs/mermaid-svg-spec.md",
@@ -35,14 +35,14 @@ export const INIT_LOOP_CONFIG = {
     "references/**",
     ".git/**",
     ".env",
-    ".env.*"
+    ".env.*",
   ],
   protectedAssetPatterns: [
     "public/**",
     "demo/public/**",
     "demo/assets/**",
     "assets/**",
-    "static/**"
+    "static/**",
   ],
   dangerousCommandPatterns: [
     "git push",
@@ -55,7 +55,7 @@ export const INIT_LOOP_CONFIG = {
     "cloudflare pages deploy",
     "rm -rf /",
     "rm -rf ~",
-    "sudo rm"
+    "sudo rm",
   ],
   forbiddenRuntimeDependencies: [
     "mermaid",
@@ -66,7 +66,7 @@ export const INIT_LOOP_CONFIG = {
     "dagre",
     "elkjs",
     "cytoscape",
-    "d3"
+    "d3",
   ],
   deletionThreshold: 80,
   requiredFinalArtifacts: [
@@ -85,8 +85,8 @@ export const INIT_LOOP_CONFIG = {
     "docs/spec-update-proposal.md",
     "docs/acceptance-update-proposal.md",
     "docs/init/verification.md",
-    "docs/init-loop-report.md"
-  ]
+    "docs/init-loop-report.md",
+  ],
 } as const;
 
 export const INIT_LOOP_PHASES: PhaseDefinition[] = [
@@ -96,7 +96,7 @@ export const INIT_LOOP_PHASES: PhaseDefinition[] = [
     description: "Create directories, snapshots, and verify local parent reference repos.",
     maxAttempts: 1,
     promptFile: null,
-    requiredArtifacts: []
+    requiredArtifacts: [],
   },
   {
     id: "project-cognition",
@@ -108,8 +108,8 @@ export const INIT_LOOP_PHASES: PhaseDefinition[] = [
       "AGENTS.md",
       "docs/init/project-inventory.md",
       "docs/init/preserve-list.md",
-      "docs/init/remove-candidates.md"
-    ]
+      "docs/init/remove-candidates.md",
+    ],
   },
   {
     id: "repo-cleanup-plan",
@@ -117,10 +117,7 @@ export const INIT_LOOP_PHASES: PhaseDefinition[] = [
     description: "Create a cleanup plan that separates keep/remove/defer/human_gate items.",
     maxAttempts: 2,
     promptFile: "workflow/loops/init/prompts/02-repo-cleanup-plan.md",
-    requiredArtifacts: [
-      "docs/init/cleanup-plan.md",
-      "docs/init/cleanup-risk.md"
-    ]
+    requiredArtifacts: ["docs/init/cleanup-plan.md", "docs/init/cleanup-risk.md"],
   },
   {
     id: "repo-cleanup-execute",
@@ -128,9 +125,7 @@ export const INIT_LOOP_PHASES: PhaseDefinition[] = [
     description: "Execute only non-human-gate cleanup from the approved cleanup plan.",
     maxAttempts: 2,
     promptFile: "workflow/loops/init/prompts/03-repo-cleanup-execute.md",
-    requiredArtifacts: [
-      "docs/init/cleanup-execution.md"
-    ]
+    requiredArtifacts: ["docs/init/cleanup-execution.md"],
   },
   {
     id: "reference-mining",
@@ -138,10 +133,7 @@ export const INIT_LOOP_PHASES: PhaseDefinition[] = [
     description: "Read reference repos and produce structured Mermaid test candidates.",
     maxAttempts: 2,
     promptFile: "workflow/loops/init/prompts/04-reference-mining.md",
-    requiredArtifacts: [
-      "docs/init/reference-inventory.md",
-      "docs/init/test-candidates.json"
-    ]
+    requiredArtifacts: ["docs/init/reference-inventory.md", "docs/init/test-candidates.json"],
   },
   {
     id: "test-extraction",
@@ -154,8 +146,8 @@ export const INIT_LOOP_PHASES: PhaseDefinition[] = [
       "extract/report.json",
       "test/schema.yml",
       "docs/test-inventory.md",
-      "test"
-    ]
+      "test",
+    ],
   },
   {
     id: "spec-feedback",
@@ -163,10 +155,7 @@ export const INIT_LOOP_PHASES: PhaseDefinition[] = [
     description: "Write spec/acceptance update proposals without modifying canonical docs.",
     maxAttempts: 2,
     promptFile: "workflow/loops/init/prompts/06-spec-feedback.md",
-    requiredArtifacts: [
-      "docs/spec-update-proposal.md",
-      "docs/acceptance-update-proposal.md"
-    ]
+    requiredArtifacts: ["docs/spec-update-proposal.md", "docs/acceptance-update-proposal.md"],
   },
   {
     id: "verification",
@@ -174,9 +163,7 @@ export const INIT_LOOP_PHASES: PhaseDefinition[] = [
     description: "Run available verification commands and record honest results.",
     maxAttempts: 2,
     promptFile: "workflow/loops/init/prompts/07-verification.md",
-    requiredArtifacts: [
-      "docs/init/verification.md"
-    ]
+    requiredArtifacts: ["docs/init/verification.md"],
   },
   {
     id: "final-report",
@@ -184,8 +171,6 @@ export const INIT_LOOP_PHASES: PhaseDefinition[] = [
     description: "Produce the final init loop report.",
     maxAttempts: 2,
     promptFile: "workflow/loops/init/prompts/08-final-report.md",
-    requiredArtifacts: [
-      "docs/init-loop-report.md"
-    ]
-  }
+    requiredArtifacts: ["docs/init-loop-report.md"],
+  },
 ];

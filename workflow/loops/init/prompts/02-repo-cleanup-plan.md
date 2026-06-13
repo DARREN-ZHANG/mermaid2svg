@@ -3,9 +3,11 @@
 You are executing one phase of the Init Agent Loop.
 
 ## Goal
+
 Create a deterministic cleanup plan for turning the original repo into a lean Mermaid-to-SVG project baseline.
 
 ## Inputs to read
+
 - AGENTS.md
 - ../docs/mermaid-svg-spec.md
 - ../docs/acceptance-criteria.md
@@ -16,15 +18,17 @@ Create a deterministic cleanup plan for turning the original repo into a lean Me
 - current repository tree
 
 ## Allowed writes
+
 - docs/init/cleanup-plan.md
 - docs/init/cleanup-risk.md
 
 ## Forbidden actions
+
 - Do not delete files.
 - Do not modify source code.
 - Do not modify ../docs/mermaid-svg-spec.md.
 - Do not modify ../docs/acceptance-criteria.md.
-- Do not modify references/**.
+- Do not modify references/\*\*.
 - Do not implement the converter.
 - Do not add dependencies.
 - Do not deploy.
@@ -50,6 +54,7 @@ Write docs/init/cleanup-plan.md with four sections:
 ## Required cleanup-risk structure
 
 Write docs/init/cleanup-risk.md with:
+
 - possible breakages from cleanup
 - build/test risks
 - design asset preservation risks
@@ -57,6 +62,7 @@ Write docs/init/cleanup-risk.md with:
 - recommended rollback strategy
 
 ## Planning rules
+
 - Preserve demo scaffolding if it can host the Mermaid playground.
 - Preserve CSS/style/design assets if they help match math.webc.site style.
 - Preserve deployment config if reusable for Cloudflare Pages.
@@ -65,4 +71,5 @@ Write docs/init/cleanup-risk.md with:
 - Never plan to modify reference repos.
 
 ## Completion rule
+
 Stop after writing the cleanup plan and risk document. Do not execute the cleanup.

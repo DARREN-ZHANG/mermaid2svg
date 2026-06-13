@@ -6,7 +6,7 @@ cd "$DIR"
 set -x
 
 ./sh/check.js
-bun x oxfmt
+bun x oxfmt --check '!lib/**'
 bun minify.js
 bun x oxlint
 bun test test/compare.test.js --only-failures

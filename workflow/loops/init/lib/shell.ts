@@ -10,7 +10,7 @@ export async function runShell(
     logFile?: string;
     env?: NodeJS.ProcessEnv;
     timeoutMs?: number;
-  } = {}
+  } = {},
 ): Promise<ShellResult> {
   const cwd = options.cwd ?? process.cwd();
   const timeoutMs = options.timeoutMs ?? 10 * 60 * 1000;
@@ -19,7 +19,7 @@ export async function runShell(
     const child = spawn(command, {
       cwd,
       shell: true,
-      env: { ...process.env, ...options.env }
+      env: { ...process.env, ...options.env },
     });
 
     let stdout = "";
@@ -34,7 +34,7 @@ export async function runShell(
           command,
           code: 124,
           stdout,
-          stderr: `${stderr}\nCommand timed out after ${timeoutMs}ms.`
+          stderr: `${stderr}\nCommand timed out after ${timeoutMs}ms.`,
         };
         void persistLog(options.logFile, result).finally(() => resolve(result));
       }
@@ -71,8 +71,8 @@ async function persistLog(logFile: string | undefined, result: ShellResult) {
       result.stdout,
       "",
       "--- stderr ---",
-      result.stderr
+      result.stderr,
     ].join("\n"),
-    "utf8"
+    "utf8",
   );
 }

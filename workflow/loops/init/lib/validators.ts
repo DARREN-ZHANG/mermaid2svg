@@ -7,7 +7,7 @@ import type { BaselineSnapshot, PhaseDefinition, ValidationResult } from "./type
 
 export async function validatePhase(
   phase: PhaseDefinition,
-  baseline: BaselineSnapshot
+  baseline: BaselineSnapshot,
 ): Promise<ValidationResult> {
   const errors: string[] = [];
   const warnings: string[] = [];
@@ -126,7 +126,9 @@ function validateReferenceMiningArtifacts(): string[] {
     if (!candidates.some((item) => item.classification === "minimal_core")) {
       errors.push("Expected at least one minimal_core test candidate.");
     }
-    if (!candidates.some((item) => /flowchart|graph/i.test(String(item.type ?? item.input ?? "")))) {
+    if (
+      !candidates.some((item) => /flowchart|graph/i.test(String(item.type ?? item.input ?? "")))
+    ) {
       errors.push("Expected at least one flowchart/graph candidate.");
     }
   } catch (error) {
@@ -165,7 +167,8 @@ function validateGeneratedYamlTests(dir: string): ValidationResult {
     if (!/root:\s*true/.test(raw)) {
       warnings.push(`${file} does not explicitly assert svg.root true.`);
     }
-    if (/type:\s*(flowchart|graph)/i.test(raw) || /graph\s+(TD|LR|BT|RL)/.test(raw)) flowchartCount++;
+    if (/type:\s*(flowchart|graph)/i.test(raw) || /graph\s+(TD|LR|BT|RL)/.test(raw))
+      flowchartCount++;
     if (/sequenceDiagram/.test(raw)) sequenceCount++;
     if (/classDiagram|stateDiagram/.test(raw)) classOrStateCount++;
     if (/input:\s*\|\s*\n\s*($|expect:)/m.test(raw)) {
@@ -173,9 +176,14 @@ function validateGeneratedYamlTests(dir: string): ValidationResult {
     }
   }
 
-  if (flowchartCount < 3) errors.push(`Expected at least 3 flowchart tests, got ${flowchartCount}.`);
-  if (sequenceCount < 1) warnings.push("No sequenceDiagram test generated. Acceptable only if no candidate exists.");
-  if (classOrStateCount < 1) warnings.push("No classDiagram/stateDiagram test generated. Acceptable only if no candidate exists.");
+  if (flowchartCount < 3)
+    errors.push(`Expected at least 3 flowchart tests, got ${flowchartCount}.`);
+  if (sequenceCount < 1)
+    warnings.push("No sequenceDiagram test generated. Acceptable only if no candidate exists.");
+  if (classOrStateCount < 1)
+    warnings.push(
+      "No classDiagram/stateDiagram test generated. Acceptable only if no candidate exists.",
+    );
 
   return { ok: errors.length === 0, errors, warnings };
 }

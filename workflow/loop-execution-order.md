@@ -7,17 +7,17 @@
 
 按下面顺序执行：
 
-| Step | Loop | Command | State file | Main output gate |
-|---|---|---|---|---|
-| 1 | Init Loop | `pnpm run agent:init` | `workflow/state/init-loop.state.json` | `docs/init-loop-report.md` |
-| 2 | Render Loop | `pnpm run agent:render` | `workflow/state/render-loop.state.json` | `workflow/reports/render-capabilities.json` |
-| 3 | SVG Output Loop | `pnpm run agent:svg-output` | `workflow/state/svg-output-loop.state.json` | `workflow/reports/svg-output-compatibility.json` |
-| 4 | Web Demo Loop | `pnpm run agent:web-demo` | `workflow/state/web-demo-loop.state.json` | `workflow/reports/web-demo-report.json` |
-| 5 | Theme Loop | `pnpm run agent:theme` | `workflow/state/theme-loop.state.json` | `workflow/reports/theme-css-report.json` |
-| 6 | Size Loop | `pnpm run agent:size` | `workflow/state/size-loop.state.json` | `workflow/reports/size-report.json` |
-| 7 | I18N Loop | `pnpm run agent:i18n` | `workflow/state/i18n-loop.state.json` | `workflow/reports/i18n-report.json` |
-| 8 | Deploy Loop | `pnpm run agent:deploy` | `workflow/state/deploy-loop.state.json` | `workflow/reports/deployment-report.json` |
-| 9 | Final Audit Loop | `pnpm run agent:final-audit` | `workflow/state/final-audit-loop.state.json` | `workflow/reports/final-report.md` |
+| Step | Loop             | Command                      | State file                                   | Main output gate                                 |
+| ---- | ---------------- | ---------------------------- | -------------------------------------------- | ------------------------------------------------ |
+| 1    | Init Loop        | `pnpm run agent:init`        | `workflow/state/init-loop.state.json`        | `docs/init-loop-report.md`                       |
+| 2    | Render Loop      | `pnpm run agent:render`      | `workflow/state/render-loop.state.json`      | `workflow/reports/render-capabilities.json`      |
+| 3    | SVG Output Loop  | `pnpm run agent:svg-output`  | `workflow/state/svg-output-loop.state.json`  | `workflow/reports/svg-output-compatibility.json` |
+| 4    | Web Demo Loop    | `pnpm run agent:web-demo`    | `workflow/state/web-demo-loop.state.json`    | `workflow/reports/web-demo-report.json`          |
+| 5    | Theme Loop       | `pnpm run agent:theme`       | `workflow/state/theme-loop.state.json`       | `workflow/reports/theme-css-report.json`         |
+| 6    | Size Loop        | `pnpm run agent:size`        | `workflow/state/size-loop.state.json`        | `workflow/reports/size-report.json`              |
+| 7    | I18N Loop        | `pnpm run agent:i18n`        | `workflow/state/i18n-loop.state.json`        | `workflow/reports/i18n-report.json`              |
+| 8    | Deploy Loop      | `pnpm run agent:deploy`      | `workflow/state/deploy-loop.state.json`      | `workflow/reports/deployment-report.json`        |
+| 9    | Final Audit Loop | `pnpm run agent:final-audit` | `workflow/state/final-audit-loop.state.json` | `workflow/reports/final-report.md`               |
 
 ## Dependency Chain
 

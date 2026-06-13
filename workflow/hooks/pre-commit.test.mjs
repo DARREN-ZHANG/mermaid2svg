@@ -25,3 +25,19 @@ test("lint-staged commands do not require bun", () => {
     assert.match(command, /^node sh\/hook\/.+\.js$/, pattern);
   }
 });
+
+test("npm test checks formatting without rewriting tracked files", () => {
+  const script = read("test.sh");
+
+  assert.match(script, /bun x oxfmt --check '!lib\/\*\*'/);
+  assert.doesNotMatch(script, /\bbun x oxfmt\s*$/m);
+  assert.doesNotMatch(script, /\bbun x oxfmt --write\b/);
+});
+
+test("package scripts expose separate deploy demo and library build entries", () => {
+  const pkg = JSON.parse(read("package.json"));
+
+  assert.equal(pkg.scripts.build, "bun demo/build.js");
+  assert.equal(pkg.scripts["build:lib"], "bun minify.js");
+  assert.equal(pkg.scripts.extract, "node extract/run.js");
+});

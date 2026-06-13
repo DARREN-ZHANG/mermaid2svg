@@ -13,11 +13,13 @@
 ### Task 1: Render Loop Contract Tests
 
 **Files:**
+
 - Create: `workflow/loops/render/render-loop.test.mjs`
 
 - [ ] **Step 1: Write failing tests**
 
 Create tests that assert:
+
 - `package.json` has `agent:render` pointing to `tsx --env-file=.env workflow/loops/render/render-loop.ts` or the same command without `--env-file=.env`.
 - `opencode.jsonc` includes `.opencode/agents/render-agent.md`, defines `render-agent`, pins it to `zhipuai-coding-plan/glm-5.1`, and makes it the default only if the project intentionally chooses that later.
 - `workflow/loops/render/render-loop.config.ts` uses `workflow/state/render-loop.state.json`, `workflow/runs/render`, parent canonical docs, `test/*.yml`, `test/schema.yml`, `extract/report.json`, and required final artifacts.
@@ -36,6 +38,7 @@ Expected: fail because `workflow/loops/render` does not exist.
 ### Task 2: Render Loop Orchestrator Skeleton
 
 **Files:**
+
 - Create: `workflow/loops/render/render-loop.ts`
 - Create: `workflow/loops/render/render-loop.config.ts`
 - Create: `workflow/state/render-loop.state.json`
@@ -71,6 +74,7 @@ Expected: pass for structure/config assertions.
 ### Task 3: Deterministic Render Validators
 
 **Files:**
+
 - Create: `workflow/loops/render/lib/validators.ts`
 - Modify: `workflow/loops/render/render-loop.ts`
 - Modify: `workflow/loops/render/render-loop.test.mjs`
@@ -78,6 +82,7 @@ Expected: pass for structure/config assertions.
 - [ ] **Step 1: Write failing validator tests**
 
 Extend contract tests to assert validators reject:
+
 - missing `test/schema.yml`
 - no executable `test/*.yml`
 - missing renderer entry such as `src/render/mermaid-to-svg.js`
@@ -102,6 +107,7 @@ Expected: pass.
 ### Task 4: Render Phase Prompts
 
 **Files:**
+
 - Create: `workflow/loops/render/prompts/01-preflight.md`
 - Create: `workflow/loops/render/prompts/02-renderer-plan.md`
 - Create: `workflow/loops/render/prompts/03-renderer-implementation.md`
@@ -126,6 +132,7 @@ Expected: pass with prompt coverage assertions.
 ### Task 5: Final Verification And Commit
 
 **Files:**
+
 - All files above
 
 - [ ] **Step 1: Run full contract test suite**

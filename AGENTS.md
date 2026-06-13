@@ -75,6 +75,7 @@
 ## Coding Agent 边界
 
 ### 允许
+
 - 修改 `demo/` 目录下的页面代码（Pug、JS、Stylus）
 - 在 `demo/webc/` 下新增 Mermaid 组件
 - 修改 `demo/i18n/*.js` 添加 Mermaid 相关翻译 key
@@ -89,6 +90,7 @@
 - 添加 `mermaid` npm 依赖（仅 devDependencies 或浏览器端加载）
 
 ### 禁止
+
 - 不修改 `src/` 目录（上游 TeX → MathML 库）
 - 不修改 `lib/` 目录（编译产物，由 `minify.js` 生成）
 - 不修改 `../docs/mermaid-svg-spec.md`
@@ -103,6 +105,7 @@
 ## 受保护文件
 
 以下文件不得修改（除非明确要求）：
+
 - `src/**` — 上游 MathML 库
 - `lib/**` — 编译产物
 - `../docs/mermaid-svg-spec.md` — 项目规约
@@ -139,6 +142,7 @@
 ## Human Gate 策略
 
 以下决策节点需要人工介入：
+
 1. Spec / 验收标准确认
 2. 测试抽取范围确认
 3. `extract/run.js` 重写方案确认
@@ -149,6 +153,7 @@
 8. 最终 diff 确认
 
 以下不需要人工介入：
+
 - 单任务执行和局部代码修改
 - 测试失败后的自动重试修复
 - build 重跑

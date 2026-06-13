@@ -9,12 +9,7 @@ export type PhaseDefinition = {
   requiredArtifacts: string[];
 };
 
-export type LoopStatus =
-  | "pending"
-  | "running"
-  | "needs_human"
-  | "failed"
-  | "completed";
+export type LoopStatus = "pending" | "running" | "needs_human" | "failed" | "completed";
 
 export type LoopState = {
   loop: string;

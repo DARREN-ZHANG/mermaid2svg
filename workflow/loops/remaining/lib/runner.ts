@@ -11,7 +11,7 @@ import type { RemainingLoopConfig } from "./types.ts";
 export async function runRemainingLoop(
   config: RemainingLoopConfig,
   phases: PhaseDefinition[],
-  validatePhase: (phase: PhaseDefinition) => ValidationResult
+  validatePhase: (phase: PhaseDefinition) => ValidationResult,
 ) {
   try {
     await runRemainingLoopBody(config, phases, validatePhase);
@@ -28,7 +28,7 @@ export async function runRemainingLoop(
 async function runRemainingLoopBody(
   config: RemainingLoopConfig,
   phases: PhaseDefinition[],
-  validatePhase: (phase: PhaseDefinition) => ValidationResult
+  validatePhase: (phase: PhaseDefinition) => ValidationResult,
 ) {
   await mkdir(config.logDir, { recursive: true });
   await mkdir(config.reportDir, { recursive: true });
@@ -54,7 +54,7 @@ async function runRemainingLoopBody(
           phaseId: phase.id,
           promptFile: phase.promptFile,
           logDir: config.logDir,
-          loopTitle: config.title
+          loopTitle: config.title,
         });
       }
 
@@ -92,7 +92,7 @@ async function runPreflightPhase(config: RemainingLoopConfig) {
   if (docErrors.length > 0) throw new Error(docErrors.join("\n"));
 
   const tree = await runShell("find workflow docs demo src test -maxdepth 3 -type f | sort", {
-    logFile: path.join(config.logDir, "preflight.tree.log")
+    logFile: path.join(config.logDir, "preflight.tree.log"),
   });
   await writeFile(path.join(config.logDir, "preflight.files.txt"), tree.stdout, "utf8");
 }
@@ -113,8 +113,8 @@ async function writeLoopSummary(config: RemainingLoopConfig) {
       "## Git diff stat",
       "```",
       stat.stdout.trim() || "no diff",
-      "```"
+      "```",
     ].join("\n"),
-    "utf8"
+    "utf8",
   );
 }

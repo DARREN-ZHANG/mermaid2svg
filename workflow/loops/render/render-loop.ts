@@ -34,7 +34,7 @@ async function main() {
           phaseId: phase.id,
           promptFile: phase.promptFile,
           logDir: RENDER_LOOP_CONFIG.logDir,
-          loopTitle: "Render Loop"
+          loopTitle: "Render Loop",
         });
       }
 
@@ -64,7 +64,9 @@ async function main() {
   state.finishedAt = new Date().toISOString();
   await saveState(RENDER_LOOP_CONFIG.stateFile, state);
   await writeRenderLoopSummary();
-  console.log("Render Loop completed. Mermaid source to SVG integration should be ready for SVG compatibility work.");
+  console.log(
+    "Render Loop completed. Mermaid source to SVG integration should be ready for SVG compatibility work.",
+  );
 }
 
 async function runPreflightPhase(_phase: PhaseDefinition) {
@@ -76,9 +78,12 @@ async function runPreflightPhase(_phase: PhaseDefinition) {
     if (!existsSync(file)) throw new Error(`Missing render-loop input: ${file}`);
   }
 
-  const tree = await runShell("find test extract workflow/loops/render -maxdepth 3 -type f | sort", {
-    logFile: path.join(RENDER_LOOP_CONFIG.logDir, "preflight.tree.log")
-  });
+  const tree = await runShell(
+    "find test extract workflow/loops/render -maxdepth 3 -type f | sort",
+    {
+      logFile: path.join(RENDER_LOOP_CONFIG.logDir, "preflight.tree.log"),
+    },
+  );
   await writeFile(path.join(RENDER_LOOP_CONFIG.logDir, "preflight.files.txt"), tree.stdout, "utf8");
 }
 
@@ -108,9 +113,9 @@ async function writeRenderLoopSummary() {
       "## Git diff stat",
       "```",
       stat.stdout.trim() || "no diff",
-      "```"
+      "```",
     ].join("\n"),
-    "utf8"
+    "utf8",
   );
 }
 

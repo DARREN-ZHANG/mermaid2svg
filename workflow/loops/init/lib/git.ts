@@ -47,9 +47,7 @@ export async function getChangedFiles(): Promise<string[]> {
 
 export async function getDeletedFiles(): Promise<string[]> {
   const lines = await gitDiffNameStatus();
-  return lines
-    .filter((line) => line.startsWith("D\t"))
-    .map((line) => line.replace(/^D\t/, ""));
+  return lines.filter((line) => line.startsWith("D\t")).map((line) => line.replace(/^D\t/, ""));
 }
 
 export function createBaselineSnapshot(): BaselineSnapshot {
@@ -58,7 +56,7 @@ export function createBaselineSnapshot(): BaselineSnapshot {
     specHash: hashFile("../docs/mermaid-svg-spec.md"),
     acceptanceHash: hashFile("../docs/acceptance-criteria.md"),
     architectureHash: hashFile("../docs/mermaid-svg-architecture.md"),
-    fileList: listFilesRecursive(".")
+    fileList: listFilesRecursive("."),
   };
 }
 
@@ -72,6 +70,6 @@ export function readPackageSnapshot(): PackageSnapshot | null {
   return {
     dependencies: pkg.dependencies ?? {},
     devDependencies: pkg.devDependencies ?? {},
-    optionalDependencies: pkg.optionalDependencies ?? {}
+    optionalDependencies: pkg.optionalDependencies ?? {},
   };
 }

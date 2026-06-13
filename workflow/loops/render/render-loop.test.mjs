@@ -3,11 +3,91 @@ import { existsSync, readFileSync } from "node:fs";
 import test from "node:test";
 
 const read = (path) => readFileSync(path, "utf8");
-const readJson = (path) => JSON.parse(read(path));
+const readJson = (path) =>
+  path.endsWith(".jsonc") ? parseJsonc(read(path)) : JSON.parse(read(path));
+
+function parseJsonc(text) {
+  return JSON.parse(removeTrailingCommas(stripJsonComments(text)));
+}
+
+function stripJsonComments(text) {
+  let result = "";
+  let i = 0;
+  let inString = false;
+  while (i < text.length) {
+    if (inString) {
+      result += text[i];
+      if (text[i] === "\\" && i + 1 < text.length) {
+        result += text[i + 1];
+        i += 2;
+        continue;
+      }
+      if (text[i] === '"') inString = false;
+      i++;
+    } else if (text[i] === '"') {
+      inString = true;
+      result += text[i];
+      i++;
+    } else if (text[i] === "/" && text[i + 1] === "/") {
+      i += 2;
+      while (i < text.length && text[i] !== "\n") i++;
+    } else if (text[i] === "/" && text[i + 1] === "*") {
+      i += 2;
+      while (i < text.length - 1 && !(text[i] === "*" && text[i + 1] === "/")) i++;
+      i += 2;
+    } else {
+      result += text[i];
+      i++;
+    }
+  }
+  return result;
+}
+
+function removeTrailingCommas(text) {
+  let result = "";
+  let i = 0;
+  let inString = false;
+  while (i < text.length) {
+    if (inString) {
+      result += text[i];
+      if (text[i] === "\\" && i + 1 < text.length) {
+        result += text[i + 1];
+        i += 2;
+        continue;
+      }
+      if (text[i] === '"') inString = false;
+      i++;
+      continue;
+    }
+
+    if (text[i] === '"') {
+      inString = true;
+      result += text[i];
+      i++;
+      continue;
+    }
+
+    if (text[i] === ",") {
+      let j = i + 1;
+      while (j < text.length && /\s/.test(text[j])) j++;
+      if (text[j] === "}" || text[j] === "]") {
+        i++;
+        continue;
+      }
+    }
+
+    result += text[i];
+    i++;
+  }
+  return result;
+}
 
 test("render loop package script points at workflow loop entry", () => {
   const pkg = readJson("package.json");
-  assert.match(pkg.scripts["agent:render"], /^tsx(?: --env-file=\.env)? workflow\/loops\/render\/render-loop\.ts$/);
+  assert.match(
+    pkg.scripts["agent:render"],
+    /^tsx(?: --env-file=\.env)? workflow\/loops\/render\/render-loop\.ts$/,
+  );
 });
 
 test("opencode config defines render agent pinned to zhipu GLM-5.1", () => {
@@ -62,7 +142,7 @@ test("render loop config defines deterministic phase topology and artifacts", ()
     "renderer-implementation",
     "render-test-runner",
     "validation",
-    "final-report"
+    "final-report",
   ]) {
     assert.match(config, new RegExp(`id:\\s*"${phase}"`));
   }
@@ -80,7 +160,7 @@ test("render loop prompts exist and enforce renderer constraints", () => {
     "workflow/loops/render/prompts/03-renderer-implementation.md",
     "workflow/loops/render/prompts/04-render-test-runner.md",
     "workflow/loops/render/prompts/05-validation.md",
-    "workflow/loops/render/prompts/06-final-report.md"
+    "workflow/loops/render/prompts/06-final-report.md",
   ];
 
   for (const prompt of prompts) {
@@ -115,11 +195,13 @@ test("render validators reject missing artifacts and blocked render paths", asyn
   const { validateRenderPhase } = await import("./lib/validators.ts");
   const result = validateRenderPhase({
     id: "validation",
-    requiredArtifacts: []
+    requiredArtifacts: [],
   });
 
   assert.equal(result.ok, false);
   assert.ok(result.errors.some((error) => error.includes("src/render/mermaid-to-svg.js")));
   assert.ok(result.errors.some((error) => error.includes("test/render-yml.test.mjs")));
-  assert.ok(result.errors.some((error) => error.includes("workflow/reports/render-capabilities.json")));
+  assert.ok(
+    result.errors.some((error) => error.includes("workflow/reports/render-capabilities.json")),
+  );
 });

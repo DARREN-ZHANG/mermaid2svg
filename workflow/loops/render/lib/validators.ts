@@ -3,12 +3,15 @@ import path from "node:path";
 import { RENDER_LOOP_CONFIG } from "../render-loop.config.ts";
 import type { PhaseDefinition, ValidationResult } from "../../init/lib/types.ts";
 
-export function validateRenderPhase(phase: Pick<PhaseDefinition, "id" | "requiredArtifacts">): ValidationResult {
+export function validateRenderPhase(
+  phase: Pick<PhaseDefinition, "id" | "requiredArtifacts">,
+): ValidationResult {
   const errors: string[] = [];
   const warnings: string[] = [];
 
   for (const artifact of phase.requiredArtifacts) {
-    if (!existsSync(artifact)) errors.push(`Missing required artifact for ${phase.id}: ${artifact}`);
+    if (!existsSync(artifact))
+      errors.push(`Missing required artifact for ${phase.id}: ${artifact}`);
   }
 
   if (phase.id === "preflight") {
@@ -16,7 +19,11 @@ export function validateRenderPhase(phase: Pick<PhaseDefinition, "id" | "require
     errors.push(...validateExtractionInputs());
   }
 
-  if (["renderer-implementation", "render-test-runner", "validation", "final-report"].includes(phase.id)) {
+  if (
+    ["renderer-implementation", "render-test-runner", "validation", "final-report"].includes(
+      phase.id,
+    )
+  ) {
     errors.push(...validateRendererEntry());
   }
 
@@ -43,7 +50,9 @@ export function validateCanonicalDocsExist(): string[] {
   for (const doc of RENDER_LOOP_CONFIG.canonicalDocs) {
     if (existsSync(doc)) continue;
     const basename = path.basename(doc);
-    const fallback = RENDER_LOOP_CONFIG.canonicalDocFallbacks.find((candidate) => path.basename(candidate) === basename);
+    const fallback = RENDER_LOOP_CONFIG.canonicalDocFallbacks.find(
+      (candidate) => path.basename(candidate) === basename,
+    );
     if (!fallback || !existsSync(fallback)) errors.push(`Missing canonical doc: ${doc}`);
   }
   return errors;
@@ -53,7 +62,8 @@ export function validateExtractionInputs(): string[] {
   const errors: string[] = [];
   if (!existsSync("test/schema.yml")) errors.push("Missing test/schema.yml.");
   if (!existsSync("extract/report.json")) errors.push("Missing extract/report.json.");
-  if (listYamlTests("test").length === 0) errors.push("Missing executable YAML tests matching test/*.yml.");
+  if (listYamlTests("test").length === 0)
+    errors.push("Missing executable YAML tests matching test/*.yml.");
   errors.push(...validateExtractReport());
   return errors;
 }
@@ -97,7 +107,8 @@ function validateRenderTestRunner(): string[] {
   const source = readFileSync(file, "utf8");
   const errors: string[] = [];
   for (const required of ["test/schema.yml", "mermaid-to-svg", "viewBox", "<svg"]) {
-    if (!source.includes(required)) errors.push(`${file} missing required assertion reference: ${required}`);
+    if (!source.includes(required))
+      errors.push(`${file} missing required assertion reference: ${required}`);
   }
   return errors;
 }
@@ -110,7 +121,8 @@ function validateRenderCapabilities(): string[] {
     const errors: string[] = [];
     if (!Array.isArray(report.supported)) errors.push(`${file} must include supported array.`);
     if (!Array.isArray(report.unsupported)) errors.push(`${file} must include unsupported array.`);
-    if (!report.summary || typeof report.summary !== "object") errors.push(`${file} must include summary object.`);
+    if (!report.summary || typeof report.summary !== "object")
+      errors.push(`${file} must include summary object.`);
     return errors;
   } catch (error) {
     return [`Invalid render capabilities report: ${(error as Error).message}`];

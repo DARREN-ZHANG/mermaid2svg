@@ -5,13 +5,14 @@ import type { RemainingLoopConfig } from "./types.ts";
 
 export function validateRemainingPhase(
   config: RemainingLoopConfig,
-  phase: Pick<PhaseDefinition, "id" | "requiredArtifacts">
+  phase: Pick<PhaseDefinition, "id" | "requiredArtifacts">,
 ): ValidationResult {
   const errors: string[] = [];
   const warnings: string[] = [];
 
   for (const artifact of phase.requiredArtifacts) {
-    if (!existsSync(artifact)) errors.push(`Missing required artifact for ${phase.id}: ${artifact}`);
+    if (!existsSync(artifact))
+      errors.push(`Missing required artifact for ${phase.id}: ${artifact}`);
   }
 
   if (phase.id === "preflight") {
@@ -37,7 +38,9 @@ export function validateCanonicalDocsExist(config: RemainingLoopConfig): string[
   for (const doc of config.canonicalDocs) {
     if (existsSync(doc)) continue;
     const basename = path.basename(doc);
-    const fallback = config.canonicalDocFallbacks.find((candidate) => path.basename(candidate) === basename);
+    const fallback = config.canonicalDocFallbacks.find(
+      (candidate) => path.basename(candidate) === basename,
+    );
     if (!fallback || !existsSync(fallback)) errors.push(`Missing canonical doc: ${doc}`);
   }
   return errors;

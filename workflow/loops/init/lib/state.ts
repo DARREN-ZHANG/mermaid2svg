@@ -12,7 +12,7 @@ export function defaultState(loopName: string): LoopState {
     completedPhases: [],
     blockedReason: null,
     startedAt: null,
-    finishedAt: null
+    finishedAt: null,
   };
 }
 
@@ -31,7 +31,7 @@ export function markPhaseComplete(state: LoopState, phaseId: string): LoopState 
   return {
     ...state,
     currentPhase: null,
-    completedPhases: [...new Set([...state.completedPhases, phaseId])]
+    completedPhases: [...new Set([...state.completedPhases, phaseId])],
   };
 }
 
@@ -44,8 +44,8 @@ export function incrementAttempt(state: LoopState, phaseId: string): LoopState {
     finishedAt: null,
     attempts: {
       ...state.attempts,
-      [phaseId]: (state.attempts[phaseId] ?? 0) + 1
+      [phaseId]: (state.attempts[phaseId] ?? 0) + 1,
     },
-    startedAt: state.startedAt ?? new Date().toISOString()
+    startedAt: state.startedAt ?? new Date().toISOString(),
   };
 }

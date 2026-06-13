@@ -23,7 +23,9 @@ export async function evaluateHumanGate(phase: PhaseDefinition): Promise<HumanGa
   }
 
   if (deleted.length > INIT_LOOP_CONFIG.deletionThreshold) {
-    details.push(`Deleted file count ${deleted.length} exceeds threshold ${INIT_LOOP_CONFIG.deletionThreshold}.`);
+    details.push(
+      `Deleted file count ${deleted.length} exceeds threshold ${INIT_LOOP_CONFIG.deletionThreshold}.`,
+    );
   }
 
   for (const deletedPath of deleted) {
@@ -46,7 +48,7 @@ export async function evaluateHumanGate(phase: PhaseDefinition): Promise<HumanGa
   return {
     blocked: details.length > 0,
     reason: details.length > 0 ? `Human gate triggered during phase ${phase.id}` : null,
-    details
+    details,
   };
 }
 
@@ -70,7 +72,8 @@ function detectDangerousCommandLogRisk(): string[] {
   if (!existsSync(logFile)) return risks;
   const raw = readFileSync(logFile, "utf8");
   for (const pattern of INIT_LOOP_CONFIG.dangerousCommandPatterns) {
-    if (raw.includes(pattern)) risks.push(`Dangerous command pattern found in command log: ${pattern}`);
+    if (raw.includes(pattern))
+      risks.push(`Dangerous command pattern found in command log: ${pattern}`);
   }
   return risks;
 }
@@ -80,7 +83,7 @@ function detectPermanentExclusionRisk(): string[] {
   const knownRiskFiles = [
     "test/exclusions.yml",
     "test/exclusions.yaml",
-    "docs/init/test-exclusions.md"
+    "docs/init/test-exclusions.md",
   ];
   for (const file of knownRiskFiles) {
     if (existsSync(file)) {
