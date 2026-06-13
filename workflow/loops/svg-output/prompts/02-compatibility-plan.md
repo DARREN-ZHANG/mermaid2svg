@@ -14,7 +14,7 @@ Write the narrow implementation plan for normalizing Mermaid renderer SVG output
 ## Blocked files
 
 - `../docs/**`
-- `../references/**`
+- `references/**`
 - `demo/**`
 - `src/**`
 - `test/**`

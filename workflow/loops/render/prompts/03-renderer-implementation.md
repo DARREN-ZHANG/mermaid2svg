@@ -12,7 +12,7 @@ Implement the minimal Mermaid source to SVG renderer.
 ## Blocked files
 
 - `../docs/**`
-- `../references/**`
+- `references/**`
 - `demo/**`
 - `test/*.yml`
 - `extract/**`

@@ -10,17 +10,17 @@ export const INIT_LOOP_CONFIG = {
     {
       name: "maid",
       url: "https://github.com/probelabs/maid.git",
-      dir: "../references/maid"
+      dir: "references/maid"
     },
     {
       name: "beautiful-mermaid",
       url: "https://github.com/lukilabs/beautiful-mermaid.git",
-      dir: "../references/beautiful-mermaid"
+      dir: "references/beautiful-mermaid"
     },
     {
       name: "mermaid",
       url: "https://github.com/mermaid-js/mermaid.git",
-      dir: "../references/mermaid"
+      dir: "references/mermaid"
     }
   ],
   canonicalDocs: [
@@ -32,7 +32,7 @@ export const INIT_LOOP_CONFIG = {
     "../docs/mermaid-svg-spec.md",
     "../docs/acceptance-criteria.md",
     "../docs/mermaid-svg-architecture.md",
-    "../references/**",
+    "references/**",
     ".git/**",
     ".env",
     ".env.*"

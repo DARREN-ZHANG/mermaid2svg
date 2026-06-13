@@ -17,7 +17,7 @@ export async function evaluateHumanGate(phase: PhaseDefinition): Promise<HumanGa
     ) {
       details.push(`Canonical requirement file changed: ${file}`);
     }
-    if (file.startsWith("../references/")) {
+    if (file.startsWith("references/")) {
       details.push(`Reference repository was modified: ${file}`);
     }
   }

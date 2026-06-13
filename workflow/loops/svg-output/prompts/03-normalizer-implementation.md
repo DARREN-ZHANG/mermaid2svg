@@ -16,7 +16,7 @@ Implement the smallest general SVG output normalization API around the renderer 
 ## Blocked files
 
 - `../docs/**`
-- `../references/**`
+- `references/**`
 - `demo/**`
 - `test/*.yml`
 - `extract/**`

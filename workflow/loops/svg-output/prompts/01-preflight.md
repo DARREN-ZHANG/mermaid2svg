@@ -13,7 +13,7 @@ Confirm the render-loop artifacts are present before SVG output work starts.
 ## Blocked files
 
 - `../docs/**`
-- `../references/**`
+- `references/**`
 - `src/**`
 - `test/**`
 - `demo/**`

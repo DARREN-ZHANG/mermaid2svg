@@ -39,9 +39,9 @@ The loop reads canonical planning documents from the parent workspace:
 It reads reference repositories from:
 
 ```txt
-../references/maid
-../references/beautiful-mermaid
-../references/mermaid
+references/maid
+references/beautiful-mermaid
+references/mermaid
 ```
 
 Preflight fails if those references are missing. It does not clone or mutate them.

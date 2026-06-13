@@ -9,16 +9,18 @@ test("init loop package script points at workflow loop entry", () => {
   assert.match(pkg.scripts["agent:init"], /^tsx(?: --env-file=\.env)? workflow\/loops\/init\/init-loop\.ts$/);
 });
 
-test("init loop config uses workflow state, parent docs, and parent references", () => {
+test("init loop config uses workflow state, parent docs, and local references", () => {
   const config = read("workflow/loops/init/init-loop.config.ts");
   assert.match(config, /stateFile:\s*"workflow\/state\/init-loop\.state\.json"/);
   assert.match(config, /logDir:\s*"workflow\/runs\/init"/);
   assert.match(config, /\.\.\/docs\/mermaid-svg-spec\.md/);
   assert.match(config, /\.\.\/docs\/acceptance-criteria\.md/);
   assert.match(config, /\.\.\/docs\/mermaid-svg-architecture\.md/);
-  assert.match(config, /\.\.\/references\/maid/);
-  assert.match(config, /\.\.\/references\/beautiful-mermaid/);
-  assert.match(config, /\.\.\/references\/mermaid/);
+  assert.match(config, /dir:\s*"references\/maid"/);
+  assert.match(config, /dir:\s*"references\/beautiful-mermaid"/);
+  assert.match(config, /dir:\s*"references\/mermaid"/);
+  assert.match(config, /"references\/\*\*"/);
+  assert.doesNotMatch(config, /\.\.\/references/);
   assert.doesNotMatch(config, /test\/generated/);
   assert.match(config, /extract\/run\.js/);
   assert.match(config, /extract\/report\.json/);
@@ -52,6 +54,11 @@ test("opencode runner snapshots child sessions while a phase is running", () => 
   assert.match(runner, /\$\{input\.phaseId\}\.status\.json/);
   assert.match(runner, /session\.children/);
   assert.match(runner, /\$\{input\.phaseId\}\.child\.\$\{child\.id\}\.messages\.json/);
+});
+
+test("reference directories are ignored by git and opencode watcher", () => {
+  assert.match(read(".gitignore"), /^references\/$/m);
+  assert.match(read("opencode.jsonc"), /references\/\*\*\/\.git\/\*\*/);
 });
 
 test("reference mining prompt keeps the explore subagent strategy", () => {

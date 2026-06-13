@@ -22,7 +22,7 @@ Create the repeatable test extraction entrypoint and use it to generate a minima
 ## Forbidden actions
 - Do not modify ../docs/mermaid-svg-spec.md.
 - Do not modify ../docs/acceptance-criteria.md.
-- Do not modify ../references/**.
+- Do not modify references/**.
 - Do not implement the converter.
 - Do not add dependencies.
 - Do not create permanent exclusion files.
@@ -31,12 +31,12 @@ Create the repeatable test extraction entrypoint and use it to generate a minima
 ## extract/run.js
 The script must:
 
-- read from local `../references/maid`, `../references/beautiful-mermaid`, and `../references/mermaid`
+- read from local `references/maid`, `references/beautiful-mermaid`, and `references/mermaid`
 - generate all accepted tests into `test/*.yml`
 - generate `test/schema.yml`
 - generate `extract/report.json`
 - record skipped candidates with reasons
-- avoid mutating `../references/**`
+- avoid mutating `references/**`
 
 ## YAML test schema
 Every generated test file must follow this shape:

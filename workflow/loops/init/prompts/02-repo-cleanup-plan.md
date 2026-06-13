@@ -24,7 +24,7 @@ Create a deterministic cleanup plan for turning the original repo into a lean Me
 - Do not modify source code.
 - Do not modify ../docs/mermaid-svg-spec.md.
 - Do not modify ../docs/acceptance-criteria.md.
-- Do not modify ../references/**.
+- Do not modify references/**.
 - Do not implement the converter.
 - Do not add dependencies.
 - Do not deploy.

@@ -19,7 +19,7 @@ Run available project checks honestly and record the results. Do not fake succes
 ## Forbidden actions
 - Do not modify ../docs/mermaid-svg-spec.md.
 - Do not modify ../docs/acceptance-criteria.md.
-- Do not modify ../references/**.
+- Do not modify references/**.
 - Do not implement the converter.
 - Do not add runtime dependencies.
 - Do not deploy.

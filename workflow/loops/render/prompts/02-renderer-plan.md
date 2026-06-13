@@ -10,7 +10,7 @@ Create a narrow implementation plan for the Mermaid source to SVG renderer and Y
 ## Blocked files
 
 - `../docs/**`
-- `../references/**`
+- `references/**`
 - `demo/**`
 - `src/**`
 - `test/**`

@@ -94,7 +94,7 @@
 - 不修改 `../docs/mermaid-svg-spec.md`
 - 不修改 `../docs/acceptance-criteria.md`
 - 不修改 `../docs/mermaid-svg-architecture.md`
-- 不修改 `../references/**`（上游参考仓库）
+- 不修改 `references/**`（上游参考仓库）
 - 不删除 `plugin/`、`blog/`、`readme/` 等上游项目资产
 - 不删除 `test/case/*.yml`（MathML 测试，属于上游项目）
 - 不删除 `demo/webc/Math.js`（上游组件）
@@ -108,7 +108,7 @@
 - `../docs/mermaid-svg-spec.md` — 项目规约
 - `../docs/acceptance-criteria.md` — 验收标准
 - `../docs/mermaid-svg-architecture.md` — 技术架构
-- `../references/**` — 参考仓库
+- `references/**` — 参考仓库
 - `plugin/**` — markdown 插件集成
 - `blog/**` — 博客内容
 
@@ -171,6 +171,6 @@ sh/              → 脚本 — 需适度扩展
 plugin/          → markdown 插件 — 不动
 blog/            → 博客 — 不动
 workflow/        → 自动化 workflow — 不动
-../references/   → 参考仓库 (maid, beautiful-mermaid, mermaid) — 不动
+references/   → 参考仓库 (maid, beautiful-mermaid, mermaid) — 不动
 ../docs/         → 项目规约文档 — 不动
 ```

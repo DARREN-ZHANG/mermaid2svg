@@ -20,7 +20,7 @@ Execute only the non-human-gate cleanup from docs/init/cleanup-plan.md.
 - Do not remove anything listed under keep, defer, or human_gate.
 - Do not modify ../docs/mermaid-svg-spec.md.
 - Do not modify ../docs/acceptance-criteria.md.
-- Do not modify ../references/**.
+- Do not modify references/**.
 - Do not delete design/static assets.
 - Do not add runtime dependencies.
 - Do not implement the converter.

@@ -15,7 +15,7 @@ Run the render and SVG output verification commands, refresh the compatibility r
 ## Blocked files
 
 - `../docs/**`
-- `../references/**`
+- `references/**`
 - `demo/**`
 - `extract/**`
 - Theme, size, i18n, and deployment files

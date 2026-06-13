@@ -10,7 +10,7 @@ Verify that the render loop has enough inputs to start renderer work.
 ## Blocked files
 
 - `../docs/**`
-- `../references/**`
+- `references/**`
 - `demo/**`
 - `src/**`
 - `test/**`

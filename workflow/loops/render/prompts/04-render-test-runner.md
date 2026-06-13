@@ -13,7 +13,7 @@ Implement automated render tests for extracted YAML cases.
 ## Blocked files
 
 - `../docs/**`
-- `../references/**`
+- `references/**`
 - `demo/**`
 - `test/*.yml`
 - `test/schema.yml`

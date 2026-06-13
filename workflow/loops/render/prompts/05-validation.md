@@ -11,7 +11,7 @@ Run render validation and record honest results.
 ## Blocked files
 
 - `../docs/**`
-- `../references/**`
+- `references/**`
 - `demo/**`
 - `src/**`
 - `test/*.yml`

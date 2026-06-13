@@ -14,7 +14,7 @@ Write the final SVG Output Compatibility Loop report from deterministic artifact
 ## Blocked files
 
 - `../docs/**`
-- `../references/**`
+- `references/**`
 - `demo/**`
 - `extract/**`
 - Theme, size, i18n, and deployment files

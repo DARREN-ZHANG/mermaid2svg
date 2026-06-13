@@ -24,7 +24,7 @@ Build project cognition for a minimal-fast Mermaid-to-SVG project. This phase is
 - Do not modify source code.
 - Do not modify ../docs/mermaid-svg-spec.md.
 - Do not modify ../docs/acceptance-criteria.md.
-- Do not modify ../references/**.
+- Do not modify references/**.
 - Do not implement the converter.
 - Do not add dependencies.
 - Do not deploy.

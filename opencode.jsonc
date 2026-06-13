@@ -116,7 +116,7 @@
       "build/**",
       ".next/**",
       ".git/**",
-      "../references/**/.git/**",
+      "references/**/.git/**",
       "workflow/runs/**"
     ]
   },

@@ -10,7 +10,7 @@ Write the final render loop report from machine-readable artifacts.
 ## Blocked files
 
 - `../docs/**`
-- `../references/**`
+- `references/**`
 - `demo/**`
 - `src/**`
 - `test/**`

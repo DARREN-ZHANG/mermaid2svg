@@ -20,7 +20,7 @@ Write spec and acceptance update proposals based on the actual reference mining 
 ## Forbidden actions
 - Do not modify ../docs/mermaid-svg-spec.md.
 - Do not modify ../docs/acceptance-criteria.md.
-- Do not modify ../references/**.
+- Do not modify references/**.
 - Do not modify generated tests in this phase.
 - Do not implement the converter.
 - Do not add dependencies.

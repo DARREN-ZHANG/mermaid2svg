@@ -16,7 +16,7 @@ Add tests and a machine-readable report proving SVG output compatibility rules.
 ## Blocked files
 
 - `../docs/**`
-- `../references/**`
+- `references/**`
 - `demo/**`
 - `test/*.yml`
 - `extract/**`
