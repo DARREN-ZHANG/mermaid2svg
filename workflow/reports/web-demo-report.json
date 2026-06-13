@@ -1,7 +1,10 @@
 {
-  "generatedAt": "2026-06-13T18:05:00.000Z",
+  "generatedAt": "2026-06-13T19:10:00.000Z",
+  "phase": "verification",
   "loop": "web-demo-loop",
   "pageEntry": "demo/index.html",
+  "pageTemplate": "demo/index.pug",
+  "pageScript": "demo/index.js",
   "renderer": "src/render/mermaid-to-svg.js",
   "normalizer": "src/render/normalize-svg.js",
   "exampleDataSource": "demo/const/mermaidExamples.js",
@@ -21,25 +24,136 @@
     "errorHandling": "empty-state placeholder (ERR_EMPTY), visible recoverable errors (ERR_PARSE/ERR_RENDER/ERR_TIMEOUT/normalize 100-102)",
     "languageSwitch": "c-i18n component kept functional via onLang registration"
   },
-  "localBuild": {
-    "command": "bun run build",
-    "exitCode": 0,
-    "outputDir": "demo/dist",
-    "note": "build succeeds; mermaid bundle triggers a chunk-size warning, expected and tracked by the Size Loop"
-  },
-  "devServer": {
-    "command": "bun dev.js",
-    "port": 9999
-  },
   "verification": {
-    "blockedPatternsAbsent": true,
-    "mathLeftoversAbsent": true,
-    "designReuse": "tokens, glassmorphism (.Lg), card base, code-block, waterfall grid, responsive media queries preserved"
+    "input": {
+      "acRef": "AC-UI-001",
+      "element": "textarea#mermaid-input",
+      "features": {
+        "multiline": true,
+        "editable": true,
+        "clearable": true,
+        "pasteSupport": true,
+        "debounceMs": 250,
+        "autoHeight": "adjustHeight() via field-sizing + scrollHeight",
+        "focusOnVisible": "IntersectionObserver threshold 1.0"
+      },
+      "status": "pass"
+    },
+    "svgPreview": {
+      "acRef": "AC-UI-002",
+      "element": "div#svg-preview",
+      "pipeline": "renderMermaidToSvg -> normalizeSvg -> innerHTML",
+      "realRender": true,
+      "noStaticFallback": true,
+      "updatesOnInput": true,
+      "status": "pass"
+    },
+    "examples": {
+      "acRef": "AC-UI-003",
+      "grid": "div#examples-grid",
+      "layout": "waterfall (layoutWaterfall: 1-3 columns by container width)",
+      "renderMode": "each example rendered via renderToSvg (real Mermaid, not static)",
+      "clickToLoad": "selectExample(src) loads source into editor and re-renders",
+      "status": "pass"
+    },
+    "errorStates": {
+      "acRef": "AC-UI-004",
+      "empty": {
+        "code": "ERR_EMPTY (1)",
+        "behavior": "clears preview, shows EMPTY_HINT, no error class"
+      },
+      "parseError": {
+        "code": "ERR_PARSE (2)",
+        "behavior": "clears preview, shows 'Parse error: <msg>' with .error class"
+      },
+      "renderError": {
+        "code": "ERR_RENDER (3)",
+        "behavior": "clears preview, shows 'Render error: <msg>' with .error class"
+      },
+      "timeout": {
+        "code": "ERR_TIMEOUT (4)",
+        "behavior": "clears preview, shows 'Render timed out' with .error class"
+      },
+      "normalizeError": {
+        "codes": "100-102 (ERR_NO_SVG/ERR_VIEWBOX/ERR_PARSE)",
+        "behavior": "clears preview, shows 'Output error: <msg>' with .error class"
+      },
+      "recovery": "switching to valid input clears error state and renders SVG",
+      "status": "pass"
+    },
+    "designReuse": {
+      "acRef": "AC-DESIGN-001",
+      "evidence": {
+        "designTokens": ":root CSS custom properties in demo/style.styl (--accent-color, --text-color, --card-bg, etc.)",
+        "glassmorphism": ".Lg class via demo/webc/Lg/theme.styl (backdrop-filter blur(8px) saturate(150%))",
+        "cardBase": ".card class shared across usage-card, benchmark-card, editor-card",
+        "codeBlock": ".code-block class with monospace font",
+        "waterfallGrid": "layoutWaterfall() function with ResizeObserver + absolute positioning",
+        "responsiveMedia": "@media (max-width 768px) breakpoint in demo/style.styl",
+        "mainGrid": ".main-grid CSS grid (1fr 360px)"
+      },
+      "status": "pass"
+    },
+    "blockedPatternsAbsent": {
+      "patterns": ["database", "queue", "server API", "Cloudflare deployment"],
+      "checkedFiles": ["demo/index.pug", "demo/index.js"],
+      "found": 0,
+      "status": "pass"
+    },
+    "mathLeftoversAbsent": {
+      "checkedFiles": ["demo/index.pug", "demo/index.js", "demo/const/mermaidExamples.js", "demo/style.styl"],
+      "found": 0,
+      "note": "upstream i18n files (demo/i18n/*.js) still contain Math keys; deferred to I18N Loop",
+      "status": "pass"
+    }
+  },
+  "commands": {
+    "build": {
+      "command": "bun run build",
+      "exitCode": 0,
+      "outputDir": "demo/dist",
+      "outputFiles": ["index.html", "assets/", "webc/"],
+      "warning": "chunk-size warning (>500kB); expected and tracked by Size Loop",
+      "status": "pass"
+    },
+    "devServer": {
+      "command": "bun dev.js",
+      "port": 9999,
+      "httpStatus": 200,
+      "indexJsLoaded": true,
+      "status": "pass"
+    },
+    "tests": [
+      {
+        "command": "bun test test/svg-output.test.mjs",
+        "passed": 29,
+        "failed": 0,
+        "status": "pass"
+      },
+      {
+        "command": "bun test test/render-yml.test.mjs",
+        "passed": 19,
+        "failed": 0,
+        "status": "pass"
+      },
+      {
+        "command": "bun test test/compare.test.js",
+        "passed": 421,
+        "failed": 0,
+        "status": "pass"
+      }
+    ]
+  },
+  "summary": {
+    "totalChecks": 8,
+    "passed": 8,
+    "failed": 0,
+    "overall": "pass"
   },
   "deferred": {
     "theme": "Theme Loop (Beautiful Mermaid CSS theme switching)",
     "sizeComparison": "Size Loop (size/gzip SVG bar chart wired to real data; benchmark shell placeholder kept)",
-    "i18n": "I18N Loop (new Mermaid copy uses hardcoded English marked with TODO(i18n-loop); keys to be propagated to all 75 locales)",
+    "i18n": "I18N Loop (new Mermaid copy uses hardcoded English marked with TODO(i18n-loop); keys to be propagated to all 75 locales; upstream i18n Math keys retained pending I18N Loop cleanup)",
     "deployment": "Deploy Loop (Cloudflare Pages deployment config)"
   }
 }
