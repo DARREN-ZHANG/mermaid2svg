@@ -5,42 +5,67 @@
 
 ## 概览
 
-本阶段通过 5 个并行 explore 子代理分别挖掘三个参考仓库，共产出 **104 个候选**。
+本阶段通过 5 个并行 explore 子代理分别挖掘三个参考仓库，共产出 **104 个候选**。随后进行第二轮 5 子代理审计：**逐条验证现有候选的 sourcePath 与 input 与源文件字节级一致**（无错误），并定位了真实存在的语法广度缺口。在此基础上补录 **23 个经源文件验证的新候选**，最终共 **127 个候选**。
 
-| 来源仓库 | 候选数 |
-|---|---|
-| `probelabs/maid` | 20 |
-| `lukilabs/beautiful-mermaid` | 20 |
-| `mermaid-js/mermaid` | 64 |
+| 来源仓库 | 初始候选 | 审计补录 | 合计 |
+|---|---|---|---|
+| `probelabs/maid` | 20 | +5 | 25 |
+| `lukilabs/beautiful-mermaid` | 20 | +5 | 25 |
+| `mermaid-js/mermaid` | 64 | +13 | 77 |
 
 候选按 diagram type 分布：
 
 | type | 数量 |
 |---|---|
-| flowchart | 35 |
-| sequenceDiagram | 16 |
-| classDiagram | 12 |
-| stateDiagram | 12 |
-| erDiagram | 5 |
-| gantt | 3 |
-| pie | 3 |
+| flowchart | 41 |
+| sequenceDiagram | 22 |
+| classDiagram | 14 |
+| stateDiagram | 16 |
+| erDiagram | 8 |
+| gantt | 4 |
+| pie | 4 |
 | other | 18 |
 
 候选按 classification 分布：
 
 | classification | 数量 |
 |---|---|
-| minimal_core | 80 |
-| useful_later | 20 |
+| minimal_core | 101 |
+| useful_later | 22 |
 | unsupported_candidate | 4 |
 | invalid_or_non_deterministic | 0 |
 
 挖掘规则达成情况：
 
-- minimal_core ≥ 5：**80**（PASS）
-- flowchart ≥ 3：**35**（PASS）
-- sequenceDiagram 找到：**16**（PASS）
-- classDiagram / stateDiagram 找到：**24**（PASS）
+- minimal_core ≥ 5：**101**（PASS）
+- flowchart ≥ 3：**41**（PASS）
+- sequenceDiagram 找到：**22**（PASS）
+- classDiagram / stateDiagram 找到：**30**（PASS）
+
+---
+
+## 0. 第二轮审计验证（5 子代理复核）
+
+为避免单次挖掘遗漏，本阶段在初次产出后追加 5 个并行 explore 子代理，分别复核三个仓库的候选准确性与覆盖缺口。
+
+### 审计结论
+
+- **准确性**：现有候选的 `sourcePath` 全部指向真实文件，`input` 与源文件**字节级一致**（maid 的 5 个抽样文件、beautiful-mermaid 的 20 条 samples-data、mermaid 的 spec/`.mmd` 来源均确认无误）。
+- **覆盖缺口**：审计定位到 **23 个真实语法广度缺口**，全部经直接读取源文件验证后补录（见各仓库章节）。
+- **未发现误判**：无错误归属、无内容损坏、无虚构路径。
+
+### 补录的语法维度（补录前缺失）
+
+| 维度 | 补录来源 | 代表候选 |
+|---|---|---|
+| 序列异步/开放箭头 `-)`/`--)`/`<<->>` | maid + beautiful-mermaid | maid-021, bm-022 |
+| 序列 `box` 分组 / `opt` 片段 / `critical` 框架 / `Note over A,B` | maid + beautiful-mermaid + mermaid | maid-022, bm-023, mm-seq-008/009 |
+| 状态图 `[[choice]]` / `<<fork>>`/`<<join>>` / 历史态 `[H]` / `direction` | maid + mermaid | maid-023, mm-st-008/009, bm-025 |
+| 类图泛型 `~T~` / `<<interface>>` 构造型 / `note for` | maid + mermaid | maid-025, mm-cls-008 |
+| 流程图自环 / 组合边 / `%%` 注释 / `subgraph id[Title]` / `:::` 简写 | mermaid + beautiful-mermaid | mm-fc-021~025, bm-024 |
+| ER 虚线 `..` / 属性注释 / 单词基数 | beautiful-mermaid + mermaid | bm-021, mm-other-024/025 |
+| gantt `milestone`+`todayMarker`+`excludes` | mermaid | mm-other-026 |
+| pie `showData` + 小数值 | maid | maid-024 |
 
 ---
 
@@ -63,11 +88,13 @@
 | type | 数量 |
 |---|---|
 | flowchart | 9 |
-| sequenceDiagram | 5 |
-| classDiagram | 2 |
-| stateDiagram | 2 |
-| pie | 1 |
+| sequenceDiagram | 7（+2 补录：异步箭头、box 分组） |
+| classDiagram | 3（+1 补录：note for） |
+| stateDiagram | 3（+1 补录：历史态 [H]） |
+| pie | 2（+1 补录：showData 小数） |
 | gantt | 1 |
+
+> 审计补录 5 个（maid-021~025），均直接读取 `test-fixtures/.../*.mmd` 验证。maid 的 `sourcePath` 全部为真实文件名（非标准化），input 与文件字节一致。
 
 ### 不支持/风险类别
 
@@ -101,12 +128,14 @@
 
 | type | 数量 |
 |---|---|
-| flowchart | 6 |
-| stateDiagram | 3 |
-| sequenceDiagram | 4 |
+| flowchart | 7（+1 补录：::: 简写） |
+| stateDiagram | 4（+1 补录：direction LR） |
+| sequenceDiagram | 6（+2 补录：异步箭头、critical 框） |
 | classDiagram | 3 |
-| erDiagram | 3 |
+| erDiagram | 4（+1 补录：虚线 .. 关系） |
 | other (xychart) | 1 |
+
+> 审计确认 samples-data.ts 共 85 条样本（flowchart 24 / sequence 16 / class 16 / er 14 / xychart 10 / state 5），仅覆盖 6 种类型，README 与 init.js 无独特输入。补录 5 个（bm-021~025），全部直接读取 samples-data.ts 对应行验证。
 
 ### 不支持/风险类别
 
@@ -124,9 +153,9 @@
 
 ## 3. references/mermaid（mermaid-js/mermaid）
 
-这是候选最大的来源（64 个），分三个子代理按类型维度并行挖掘。
+这是候选最大的来源（初始 64 个 + 审计补录 13 个 = 77 个），分三个子代理按类型维度并行挖掘。
 
-### 3a. flowchart / graph（20 个）
+### 3a. flowchart / graph（25 个：初始 20 + 补录 5）
 
 #### 示例/测试位置
 
@@ -137,7 +166,7 @@
 | `demos/flowchart.html` | 22+ 样本，演示每种节点形状/样式/标签变体 |
 | `cypress/platform/dev-diagrams/layout-tests/*.mmd` | 独立 `.mmd` 固件文件（`shapes.mmd`、`edge-types.mmd`、`nested-subgraphs.mmd`、`self-loop.mmd`），对文件路径式测试提取最实用 |
 
-### 3b. sequenceDiagram / stateDiagram / classDiagram（21 个）
+### 3b. sequenceDiagram / stateDiagram / classDiagram（26 个：初始 21 + 补录 5）
 
 #### 示例/测试位置
 
@@ -149,9 +178,9 @@
 
 辅助来源：`demos/sequence.html`、`demos/state.html`、`demos/classchart.html`、`cypress/platform/dev-diagrams/layout-tests/{class-diagram,state-diagram}.mmd`。
 
-候选分布：sequenceDiagram 7、stateDiagram 7（含 v2）、classDiagram 7。
+候选分布：sequenceDiagram 9、stateDiagram 9（含 v2）、classDiagram 8。
 
-### 3c. erDiagram / gantt / pie / 其他类型（23 个）
+### 3c. erDiagram / gantt / pie / 其他类型（26 个：初始 23 + 补录 3）
 
 #### 示例/测试位置
 
@@ -185,14 +214,16 @@
 
 | type | 数量 |
 |---|---|
-| flowchart | 20 |
-| sequenceDiagram | 7 |
-| stateDiagram | 7 |
-| classDiagram | 7 |
-| erDiagram | 2 |
-| gantt | 2 |
+| flowchart | 25（+5 补录：自环、组合边、注释、subgraph id、重复边） |
+| sequenceDiagram | 9（+2 补录：opt 片段、Note over） |
+| stateDiagram | 9（+2 补录：[[choice]]、<<fork>>/<<join>>） |
+| classDiagram | 8（+1 补录：泛型 ~T~） |
+| erDiagram | 4（+2 补录：单词基数、属性注释） |
+| gantt | 3（+1 补录：milestone+todayMarker） |
 | pie | 2 |
 | other | 17 |
+
+> 审计补录 13 个（mm-fc-021~025, mm-seq-008/009, mm-st-008/009, mm-cls-008, mm-other-024/025/026），input 全部直接读取 spec/`.mmd` 源文件验证，HTML 实体已解码（`&lt;&lt;fork&gt;&gt;` → `<<fork>>`）。
 
 ---
 
@@ -200,14 +231,19 @@
 
 1. **maid 仓库覆盖面最窄**：仅覆盖 maid linter 实现的类型（flowchart/sequence/class/state/pie/gantt/journey），无 erDiagram 和全部新型图。
 2. **beautiful-mermaid 覆盖 6 种类型**：缺 pie/gantt/journey/gitGraph/mindmap/timeline 等，需靠 mermaid 仓库补充。
-3. **erDiagram 来源集中**：仅 beautiful-mermaid（3）和 mermaid（2），maid 无贡献。
+3. **erDiagram 来源已扩展**：审计补录后 erDiagram 候选从 5 增至 8（beautiful-mermaid 4 + mermaid 4），maid 仍无贡献。
 4. **mermaid 仓库无 `.mmd` 固件覆盖"其他"类型**：er/gantt/pie/journey/gitGraph/mindmap/timeline/quadrant/xychart/C4/requirement/sankey/block/architecture/packet 的可重用输入存在于 `.spec.*` 和 `demos/*.html`，抽取脚本需解析这些文件而非仅扫 `.mmd`。
 5. **无 invalid_or_non_deterministic 候选**：三个仓库中故意损坏的输入（maid 的 invalid/ 固件）未纳入，因为它们对渲染测试无价值且会制造噪音。
+6. **审计遗留待议项（sankey/block/architecture/packet）**：审计子代理指出这 4 类在 mermaid 上游均有 `imgSnapshotTest` 像素快照基线（说明上游认为输出足够稳定可做 CI 回归）。当前分类为 `unsupported_candidate` 的理由偏弱：
+   - **sankey**：d3-sankey 对相同输入收敛到一致布局，浮点仅影响像素精确差异，不影响 SVG 结构有效性。
+   - **block / packet**：上游已快照化，确定性"已验证"而非"未知"。
+   - **architecture**：内置图标（cloud/database/server/internet）为打包 SVG 路径（`registerIconPacks` 本地注册），**无 unpkg fetch**；真正风险是 fcose 力导向布局的种子依赖。
+   - **处置**：本阶段保持 `unsupported_candidate` 不变（保守），但已记录证据。后续 Render Loop 若实测可稳定渲染，可由该 loop 决定提升为 minimal_core。
 
 ## 抽取脚本启示（供后续 Phase 参考）
 
 - **maid**：`test-fixtures/` 下 `.mmd` 文件路径清晰，最易按文件路径提取；`VALID_DIAGRAMS.md` 嵌入全部源字符串也可解析。
-- **beautiful-mermaid**：`samples-data.ts` 是结构化 `Sample[]` 数组，可解析 TypeScript 模板字符串提取。
+- **beautiful-mermaid**：`samples-data.ts` 是结构化 `Sample[]` 数组（共 85 条），可解析 TypeScript 模板字符串提取。
 - **mermaid**：需混合策略——解析 `.spec.*` 中 `imgSnapshotTest`/`renderGraph` 调用的嵌入字符串，以及 `demos/*.html` 中 `<pre class="mermaid">` 块，以及 `cypress/platform/dev-diagrams/layout-tests/*.mmd` 独立文件。
-- **去噪要点**：移除 `::icon()` 调用（mindmap）、移除 `click ... call/href`（gantt）、剥离 FontAwesome 图标语法（`fa:fa-*`）、剥离 MathJax（`$$...$$`）、剥离 `UpdateRelStyle`（C4）。
-- **最小核心优先**：80 个 minimal_core 候选已远超 5 个下限，为后续测试生成提供了充分的语法广度。
+- **去噪要点**：移除 `::icon()` 调用（mindmap）、移除 `click ... call/href`（gantt）、剥离 FontAwesome 图标语法（`fa:fa-*`）、剥离 MathJax（`$$...$$`）、剥离 `UpdateRelStyle`（C4）、解码 HTML 实体（`&lt;`/`&gt;`/`&amp;`，常见于 class/state spec）。
+- **最小核心优先**：101 个 minimal_core 候选已远超 5 个下限，为后续测试生成提供了充分的语法广度。

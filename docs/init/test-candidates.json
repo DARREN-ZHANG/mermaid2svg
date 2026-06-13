@@ -1038,5 +1038,235 @@
     "classification": "unsupported_candidate",
     "input": "packet\ntitle Hello world\n0-10: \"hello\"",
     "reason": "packet 类型：最小数据包结构，但为较新实验性外部图表，支持矩阵未知。"
+  },
+  {
+    "id": "maid-021",
+    "sourceRepo": "maid",
+    "sourcePath": "test-fixtures/sequence/valid/bidir-and-async-arrows.mmd",
+    "type": "sequenceDiagram",
+    "priority": "P1",
+    "classification": "minimal_core",
+    "input": "sequenceDiagram\n  participant A\n  participant B\n  A<<->>B: Duplex async\n  A<<-->>B: Duplex async dotted\n  A->>B: Async\n  A-->>B: Async dotted\n  A->B: Solid\n  A-->B: Dotted\n  A-x B: Cross\n  A--x B: Cross dotted\n  A-) B: Open\n  A--) B: Open dotted",
+    "reason": "单文件覆盖 8+ 种序列箭头变体（双工/异步/开放/十字），现有清单仅含 ->>/-->>。"
+  },
+  {
+    "id": "maid-022",
+    "sourceRepo": "maid",
+    "sourcePath": "test-fixtures/sequence/valid/box-groups.mmd",
+    "type": "sequenceDiagram",
+    "priority": "P1",
+    "classification": "minimal_core",
+    "input": "sequenceDiagram\n  box LightBlue System A\n    participant A1\n    participant A2\n  end\n  box LightGreen System B\n    participant B1\n    participant B2\n  end\n  A1->>B1: Sync\n  A2-->>B2: Async",
+    "reason": "box ... end 参与者分组语法，清单中完全缺失。"
+  },
+  {
+    "id": "maid-023",
+    "sourceRepo": "maid",
+    "sourcePath": "test-fixtures/state/valid/history-states.mmd",
+    "type": "stateDiagram",
+    "priority": "P1",
+    "classification": "minimal_core",
+    "input": "stateDiagram-v2\n  state Composite {\n    [*] --> S1\n    S1 --> [H]\n    [H*] --> S2\n  }\n  [*] --> Composite\n  Composite --> [*]",
+    "reason": "[H]/[H*] 历史伪状态标记 + 复合状态，清单中未覆盖。"
+  },
+  {
+    "id": "maid-024",
+    "sourceRepo": "maid",
+    "sourcePath": "test-fixtures/pie/valid/showdata-header.mmd",
+    "type": "pie",
+    "priority": "P1",
+    "classification": "minimal_core",
+    "input": "pie showData\n  title Key elements in Product X\n  \"Calcium\" : 42.96\n  \"Potassium\" : 50.05\n  \"Magnesium\" : 10.01\n  \"Iron\" : 5",
+    "reason": "pie showData 指令 + 小数切片值，现有 pie 候选仅整数且无 showData。"
+  },
+  {
+    "id": "maid-025",
+    "sourceRepo": "maid",
+    "sourcePath": "test-fixtures/class/valid/notes-on-class.mmd",
+    "type": "classDiagram",
+    "priority": "P1",
+    "classification": "minimal_core",
+    "input": "classDiagram\nclass Order\nnote for Order \"Domain aggregate\"\nclass Customer\nnote for Customer \"Preferred\"",
+    "reason": "note for <Class> 单行类注释（v2 语法），清单中无类注释覆盖。"
+  },
+  {
+    "id": "bm-021",
+    "sourceRepo": "beautiful-mermaid",
+    "sourcePath": "samples-data.ts (ER: Non-Identifying Relationship, ~L1068)",
+    "type": "erDiagram",
+    "priority": "P1",
+    "classification": "minimal_core",
+    "input": "erDiagram\n  USER ||..o{ LOG_ENTRY : generates\n  USER ||..o{ SESSION : opens",
+    "reason": "||..o{ 虚线（非标识）ER 关系语法，现有 ER 候选仅用实线 ||--。"
+  },
+  {
+    "id": "bm-022",
+    "sourceRepo": "beautiful-mermaid",
+    "sourcePath": "samples-data.ts (Sequence: Arrow Types, ~L453)",
+    "type": "sequenceDiagram",
+    "priority": "P1",
+    "classification": "minimal_core",
+    "input": "sequenceDiagram\n  A->>B: Solid arrow (sync)\n  B-->>A: Dashed arrow (return)\n  A-)B: Open arrow (async)\n  B--)A: Open dashed arrow",
+    "reason": "-)/--) 开放异步箭头类型，现有序列候选仅 ->>/-->>。"
+  },
+  {
+    "id": "bm-023",
+    "sourceRepo": "beautiful-mermaid",
+    "sourcePath": "samples-data.ts (Sequence: Critical Block, ~L555)",
+    "type": "sequenceDiagram",
+    "priority": "P1",
+    "classification": "minimal_core",
+    "input": "sequenceDiagram\n  participant A as App\n  participant DB as Database\n  A->>DB: BEGIN\n  critical Transaction\n    A->>DB: UPDATE accounts\n    A->>DB: INSERT log\n  end\n  A->>DB: COMMIT",
+    "reason": "critical ... end 交互框架，清单中完全缺失（仅有 alt/opt/par/loop）。"
+  },
+  {
+    "id": "bm-024",
+    "sourceRepo": "beautiful-mermaid",
+    "sourcePath": "samples-data.ts (::: Class Shorthand, ~L266)",
+    "type": "flowchart",
+    "priority": "P1",
+    "classification": "minimal_core",
+    "input": "graph TD\n  A[Normal]:::default --> B[Highlighted]:::highlight --> C[Error]:::error\n  classDef default fill:#f4f4f5,stroke:#a1a1aa\n  classDef highlight fill:#fbbf24,stroke:#d97706\n  classDef error fill:#ef4444,stroke:#dc2626",
+    "reason": "::: 内联类绑定简写语法，现有清单仅覆盖 class A someclass 语句形式。"
+  },
+  {
+    "id": "bm-025",
+    "sourceRepo": "beautiful-mermaid",
+    "sourcePath": "samples-data.ts (Hero sample, ~L30)",
+    "type": "stateDiagram",
+    "priority": "P1",
+    "classification": "minimal_core",
+    "input": "stateDiagram-v2\n    direction LR\n    [*] --> Input\n    Input --> Parse: DSL\n    Parse --> Layout: AST\n    Layout --> SVG: Vector\n    SVG --> Theme\n    Theme --> Output\n    Output --> [*]",
+    "reason": "状态图体内的 direction LR 关键字，现有状态图候选均无方向覆盖。"
+  },
+  {
+    "id": "mm-fc-021",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/platform/dev-diagrams/layout-tests/self-loop.mmd",
+    "type": "flowchart",
+    "priority": "P1",
+    "classification": "minimal_core",
+    "input": "flowchart\n  A[hello] --> A",
+    "reason": "最小流程图自环，现有清单仅状态图含自环，流程图无。"
+  },
+  {
+    "id": "mm-fc-022",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/platform/dev-diagrams/layout-tests/edge-types.mmd",
+    "type": "flowchart",
+    "priority": "P1",
+    "classification": "minimal_core",
+    "input": "flowchart TD\n  L1 --- L2\n  L2 --- C\n  M1 ---> C\n  R1 .-> R2\n  R2 <.-> C\n  C -->|Label 1| E1\n  C <-- Label 2 ---> E2\n  C ----> E3\n  C <-...-> E4\n  C ======> E5",
+    "reason": "组合边变体（<-.-> 双向、<-- label ---> 带标签双向、加长 ---->/======>），现有候选未覆盖。"
+  },
+  {
+    "id": "mm-fc-023",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/platform/dev-diagrams/layout-tests/multiple-edges.mmd",
+    "type": "flowchart",
+    "priority": "P2",
+    "classification": "useful_later",
+    "input": "flowchart\n  a --> b\n  b --> c\n  b --> d\n  c --> a\n  a --> b\n  a --> b\n  b --> a",
+    "reason": "同节点对重复/反向边的布局去重测试，属布局边缘情况，归 useful_later。"
+  },
+  {
+    "id": "mm-fc-024",
+    "sourceRepo": "mermaid",
+    "sourcePath": "packages/mermaid/src/diagrams/flowchart/parser/flow-comments.spec.js (L18)",
+    "type": "flowchart",
+    "priority": "P1",
+    "classification": "minimal_core",
+    "input": "graph TD;\n%% Comment\n A-->B;",
+    "reason": "%% 注释剥离鲁棒性，纯静态 SVG 无浏览器依赖，现有清单完全未覆盖注释。"
+  },
+  {
+    "id": "mm-fc-025",
+    "sourceRepo": "mermaid",
+    "sourcePath": "packages/mermaid/src/diagrams/flowchart/parser/subgraph.spec.js (L53)",
+    "type": "flowchart",
+    "priority": "P1",
+    "classification": "minimal_core",
+    "input": "graph TB\nsubgraph some-id[Some Title]\n\ta1-->a2\nend",
+    "reason": "subgraph id[Title] 记法（id 与显示标题分离），现有子图候选仅用 label[Title]。"
+  },
+  {
+    "id": "mm-seq-008",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/sequence/sequencediagram.spec.js (~L1276)",
+    "type": "sequenceDiagram",
+    "priority": "P1",
+    "classification": "minimal_core",
+    "input": "sequenceDiagram\n  participant Alice\n  participant Bob\n  opt Outer\n    alt Command A\n      Alice->>Bob: Request A\n    else Command B\n      Alice->>Bob: Request B\n    end\n  end",
+    "reason": "opt 控制片段（4 个核心片段中唯一缺失），并与 alt 嵌套增加语法广度。"
+  },
+  {
+    "id": "mm-seq-009",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/sequence/sequencediagram.spec.js (~L200)",
+    "type": "sequenceDiagram",
+    "priority": "P1",
+    "classification": "minimal_core",
+    "input": "sequenceDiagram\n  participant Alice\n  participant Bob\n  participant John\n  Alice->>Bob: Hello\n  Note over Alice,Bob: Spanning note\n  Bob->>John: Hi\n  Note over Alice,John: Full span",
+    "reason": "Note over A,B 跨参与者注释，现有清单仅覆盖 Note left of/right of 单参与者注释。"
+  },
+  {
+    "id": "mm-st-008",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/state/stateDiagram-v2.spec.js (~L335)",
+    "type": "stateDiagram",
+    "priority": "P1",
+    "classification": "minimal_core",
+    "input": "stateDiagram-v2\n  [*] --> Off\n  Off --> On\n  state MyChoice [[choice]]\n  On --> MyChoice\n  MyChoice --> Washing\n  MyChoice --> Drying\n  Washing --> Finished\n  Finished --> [*]",
+    "reason": "[[choice]] 伪状态决策节点（v2 独有语法），清单中无任何候选覆盖。"
+  },
+  {
+    "id": "mm-st-009",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/state/stateDiagram-v2.spec.js (~L278)",
+    "type": "stateDiagram",
+    "priority": "P1",
+    "classification": "minimal_core",
+    "input": "stateDiagram-v2\n  state fork_state <<fork>>\n  [*] --> fork_state\n  fork_state --> State2\n  fork_state --> State3\n  state join_state <<join>>\n  State2 --> join_state\n  State3 --> join_state\n  join_state --> State4\n  State4 --> [*]",
+    "reason": "<<fork>>/<<join>> 伪状态关键字语法（区别于 mm-st-006 的 -- 并发分隔形式）。"
+  },
+  {
+    "id": "mm-cls-008",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/class/classDiagram.spec.js (~L137)",
+    "type": "classDiagram",
+    "priority": "P1",
+    "classification": "minimal_core",
+    "input": "classDiagram\n  class Class01~T~\n  Class01 : size()\n  Class01 : int chimp\n  Class01 : int gorilla\n  Class08 <--> C2: Cool label\n  class Class10~T~ {\n    <<service>>\n    int id\n    test()\n  }",
+    "reason": "泛型类型参数 ~T~ + 行内 <<service>> 构造型，清单中完全未覆盖。"
+  },
+  {
+    "id": "mm-other-024",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/er/erDiagram.spec.js (~L319)",
+    "type": "erDiagram",
+    "priority": "P2",
+    "classification": "useful_later",
+    "input": "erDiagram\n  T1 one or zero to one or more T2 : test\n  T2 one or many optionally to zero or one T3 : test\n  T3 zero or more to zero or many T4 : test\n  T6 only one optionally to only one T1 : test\n  T4 0+ to 1+ T6 : test",
+    "reason": "英文单词基数短语 + 0+/1+ 简写形式，独立解析分支，语法独特但偏冷门，归 useful_later。"
+  },
+  {
+    "id": "mm-other-025",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/er/erDiagram.spec.js (~L300)",
+    "type": "erDiagram",
+    "priority": "P1",
+    "classification": "minimal_core",
+    "input": "erDiagram\n  AUTHOR_WITH_LONG_ENTITY_NAME {\n    string name PK \"comment\"\n  }\n  AUTHOR_WITH_LONG_ENTITY_NAME }|..|{ BOOK : writes\n  BOOK {\n    float price \"price comment\"\n    string title PK \"title comment\"\n    string author FK\n  }",
+    "reason": "属性行内 \"注释\" 字符串 + 虚线 }|..|{ 关系，现有 ER 候选有 PK/FK 但无属性注释。"
+  },
+  {
+    "id": "mm-other-026",
+    "sourceRepo": "mermaid",
+    "sourcePath": "cypress/integration/rendering/gantt/gantt.spec.js (~L98)",
+    "type": "gantt",
+    "priority": "P1",
+    "classification": "minimal_core",
+    "input": "gantt\n  dateFormat  YYYY-MM-DD\n  axisFormat  %d/%m\n  title Adding GANTT diagram to mermaid\n  excludes weekdays 2014-01-10\n  todayMarker off\n  section team's critical event\n  deadline A           :milestone, crit, deadlineA, 2024-02-01, 0\n  deadline B           :milestone, crit, deadlineB, 2024-02-15, 0",
+    "reason": "milestone 状态 + todayMarker off + excludes 关键字，现有 gantt 候选仅 done/active/crit。"
   }
 ]
