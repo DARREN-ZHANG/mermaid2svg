@@ -1,8 +1,20 @@
 import assert from "node:assert/strict";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import test from "node:test";
 
 const read = (path) => readFileSync(path, "utf8");
+
+// 并行测试时 render-yml.test.mjs 可能尚未生成 capabilities report，
+// 确保存在最小有效报告以保证 validator 测试确定性
+const ensureCapabilitiesReport = () => {
+  const file = "workflow/reports/render-capabilities.json";
+  if (existsSync(file)) return;
+  mkdirSync("workflow/reports", { recursive: true });
+  writeFileSync(file, JSON.stringify({
+    supported: [], unsupported: [],
+    summary: { total: 0, supported: 0, unsupported: 0 },
+  }));
+};
 const readJson = (path) =>
   path.endsWith(".jsonc") ? parseJsonc(read(path)) : JSON.parse(read(path));
 
@@ -176,7 +188,7 @@ test("render loop prompts exist and enforce renderer constraints", () => {
   }
 });
 
-test("render validators reject missing artifacts and blocked render paths", async () => {
+test("render validators accept delivered artifacts and still reject missing ones", async () => {
   const validators = read("workflow/loops/render/lib/validators.ts");
   const config = read("workflow/loops/render/render-loop.config.ts");
   const validationSurface = `${validators}\n${config}`;
@@ -192,20 +204,34 @@ test("render validators reject missing artifacts and blocked render paths", asyn
   assert.match(validationSurface, /screenshot/);
   assert.match(validationSurface, /canvas/);
 
+  ensureCapabilitiesReport();
+
   const { validateRenderPhase } = await import("./lib/validators.ts");
+  // Phase 04 delivered renderer, test runner, and capabilities report;
+  // the validator must accept all valid artifacts.
   const result = validateRenderPhase({
     id: "validation",
     requiredArtifacts: [],
   });
 
-  assert.equal(result.ok, false);
-  // Phase 03 delivered a valid renderer; the validator must accept it (no error).
+  assert.equal(result.ok, true);
   assert.ok(
     !result.errors.some((error) => error.includes("src/render/mermaid-to-svg.js")),
     "valid renderer should pass renderer validation",
   );
-  assert.ok(result.errors.some((error) => error.includes("test/render-yml.test.mjs")));
   assert.ok(
-    result.errors.some((error) => error.includes("workflow/reports/render-capabilities.json")),
+    !result.errors.some((error) => error.includes("test/render-yml.test.mjs")),
+    "valid test runner should pass validation",
   );
+  assert.ok(
+    !result.errors.some((error) => error.includes("workflow/reports/render-capabilities.json")),
+    "valid capabilities report should pass validation",
+  );
+
+  // validator 仍须能捕获缺失的必要产物
+  const missing = validateRenderPhase({
+    id: "validation",
+    requiredArtifacts: ["nonexistent-artifact-" + Date.now() + ".js"],
+  });
+  assert.equal(missing.ok, false);
 });

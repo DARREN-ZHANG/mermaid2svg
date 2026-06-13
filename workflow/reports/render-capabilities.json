@@ -1,0 +1,136 @@
+{
+  "generatedAt": "2026-06-13T16:39:16.968Z",
+  "supported": [
+    {
+      "id": "bm-001",
+      "diagramType": "flowchart",
+      "source": "lukilabs/beautiful-mermaid"
+    },
+    {
+      "id": "bm-002",
+      "diagramType": "flowchart",
+      "source": "lukilabs/beautiful-mermaid"
+    },
+    {
+      "id": "bm-007",
+      "diagramType": "stateDiagram",
+      "source": "lukilabs/beautiful-mermaid"
+    },
+    {
+      "id": "bm-010",
+      "diagramType": "sequenceDiagram",
+      "source": "lukilabs/beautiful-mermaid"
+    },
+    {
+      "id": "bm-014",
+      "diagramType": "classDiagram",
+      "source": "lukilabs/beautiful-mermaid"
+    },
+    {
+      "id": "bm-017",
+      "diagramType": "erDiagram",
+      "source": "lukilabs/beautiful-mermaid"
+    },
+    {
+      "id": "bm-020",
+      "diagramType": "other",
+      "source": "lukilabs/beautiful-mermaid"
+    },
+    {
+      "id": "maid-001",
+      "diagramType": "flowchart",
+      "source": "probelabs/maid"
+    },
+    {
+      "id": "maid-002",
+      "diagramType": "flowchart",
+      "source": "probelabs/maid"
+    },
+    {
+      "id": "maid-010",
+      "diagramType": "sequenceDiagram",
+      "source": "probelabs/maid"
+    },
+    {
+      "id": "maid-015",
+      "diagramType": "classDiagram",
+      "source": "probelabs/maid"
+    },
+    {
+      "id": "maid-017",
+      "diagramType": "stateDiagram",
+      "source": "probelabs/maid"
+    },
+    {
+      "id": "maid-019",
+      "diagramType": "pie",
+      "source": "probelabs/maid"
+    },
+    {
+      "id": "maid-020",
+      "diagramType": "gantt",
+      "source": "probelabs/maid"
+    },
+    {
+      "id": "mm-fc-001",
+      "diagramType": "flowchart",
+      "source": "mermaid-js/mermaid"
+    },
+    {
+      "id": "mm-other-001",
+      "diagramType": "erDiagram",
+      "source": "mermaid-js/mermaid"
+    },
+    {
+      "id": "mm-other-005",
+      "diagramType": "pie",
+      "source": "mermaid-js/mermaid"
+    },
+    {
+      "id": "mm-seq-001",
+      "diagramType": "sequenceDiagram",
+      "source": "mermaid-js/mermaid"
+    }
+  ],
+  "unsupported": [],
+  "byDiagramType": {
+    "flowchart": {
+      "supported": 5,
+      "unsupported": 0
+    },
+    "stateDiagram": {
+      "supported": 2,
+      "unsupported": 0
+    },
+    "sequenceDiagram": {
+      "supported": 3,
+      "unsupported": 0
+    },
+    "classDiagram": {
+      "supported": 2,
+      "unsupported": 0
+    },
+    "erDiagram": {
+      "supported": 2,
+      "unsupported": 0
+    },
+    "other": {
+      "supported": 1,
+      "unsupported": 0
+    },
+    "pie": {
+      "supported": 2,
+      "unsupported": 0
+    },
+    "gantt": {
+      "supported": 1,
+      "unsupported": 0
+    }
+  },
+  "summary": {
+    "total": 18,
+    "supported": 18,
+    "unsupported": 0,
+    "skipped": 0
+  }
+}
