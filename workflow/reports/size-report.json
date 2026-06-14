@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-14T13:27:28.121Z",
+  "generatedAt": "2026-06-14T13:32:56.845Z",
   "loop": "size-loop",
   "beautifulMermaid": {
     "source": {
@@ -11,12 +11,20 @@
     "contentSha256": "54acbb8c0d458bfed51bd5e116eb64d475390ac1893bc25a31148646fd9a2c39"
   },
   "ours": {
-    "entry": "demo/dist/assets/index-oOltL5a-.js",
-    "rawBytes": 218564,
-    "gzipBytes": 70534
+    "entry": "demo/dist/assets/index-1YLhm5sA.js",
+    "rawBytes": 218617,
+    "gzipBytes": 70539,
+    "contentSha256": "4129e015e552a10481044feac3e279dad4513b11fd8eb888df162f657af17a7f"
   },
   "verification": {
     "beautifulMermaidFromCdn": true,
-    "ourEntryFromRealBuild": true
+    "ourEntryFromRealBuild": true,
+    "pageChartUsesReport": true,
+    "sizeDataMatchesReport": true,
+    "commands": [
+      "bun run build",
+      "bun sh/size-report.js",
+      "node -e \"const fs=require('fs'); const r=JSON.parse(fs.readFileSync('workflow/reports/size-report.json','utf8')); if(!fs.existsSync(r.ours.entry)) process.exit(1); if(!r.verification.pageChartUsesReport) process.exit(1); console.log(r.ours.gzipBytes)\""
+    ]
   }
 }
