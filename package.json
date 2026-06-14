@@ -48,6 +48,9 @@
     "agent:deploy": "tsx --env-file=.env workflow/loops/deploy/deploy-loop.ts",
     "agent:final-audit": "tsx --env-file=.env workflow/loops/final-audit/final-audit-loop.ts"
   },
+  "dependencies": {
+    "mermaid": "^11.15.0"
+  },
   "devDependencies": {
     "@1-/dist": "^0.1.18",
     "@1-/findgit": "^0.1.2",
@@ -91,8 +94,5 @@
   "lint-staged": {
     "**/*.svg": "node sh/hook/svg.js",
     "**/*.styl": "node sh/hook/styl.js"
-  },
-  "dependencies": {
-    "mermaid": "^11.15.0"
   }
 }

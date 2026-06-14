@@ -80,14 +80,14 @@ const compilePug = () => {
   fs.writeFileSync(path.resolve("demo/index.html"), html);
 };
 
-const pugPlugin = () => ({
+const pugPlugin = (isBuild) => ({
     name: "vite-plugin-pug-compile",
     buildStart: () => {
       compileStyleStyl();
       compilePug();
     },
     closeBundle: () => {
-      cleanup();
+      if (isBuild) cleanup();
     },
     handleHotUpdate: async ({ file, server }) => {
       if (file.endsWith(".pug")) {
@@ -155,19 +155,23 @@ const pugPlugin = () => ({
     },
   });
 
-export default defineConfig({
-  root: "demo",
-  plugins: [pugPlugin(), sourcemapHeaderPlugin(), stylusPlugin()],
-  css: {
-    lightningcss: {
-      targets: browserslistToTargets(browserslist("> 0.25%, not dead")),
+export default defineConfig(({ command }) => {
+  const isBuild = command === "build";
+  return {
+    root: "demo",
+    plugins: [pugPlugin(isBuild), sourcemapHeaderPlugin(), stylusPlugin()],
+    css: {
+      lightningcss: {
+        targets: browserslistToTargets(browserslist("> 0.25%, not dead")),
+      },
     },
-  },
-  build: {
-    cssMinify: "lightningcss",
-  },
-  server: {
-    port: 9999,
-    open: true,
-  },
+    build: {
+      cssMinify: "lightningcss",
+      chunkSizeWarningLimit: 1000,
+    },
+    server: {
+      port: 9999,
+      open: true,
+    },
+  };
 });
