@@ -22,13 +22,37 @@ export default () => ({
   copy_ok: "已复制",
   copy_fail: "复制失败",
   names: [
+    // flowchart
     "开始处理流程",
+    "订单审批流程",
+    "CI/CD 流水线",
+    // sequenceDiagram
     "问候对话",
+    "重试机制",
+    "OAuth 授权流程",
+    // classDiagram
     "动物类",
+    "动物分类",
+    "策略模式",
+    // stateDiagram-v2
     "基础状态",
+    "订单状态机",
+    "电梯调度",
+    // erDiagram
     "客户订单",
+    "电商核心",
+    "银行系统",
+    // pie
     "宠物分布",
+    "设备占比",
+    "浏览器市场",
+    // gantt
     "基础任务",
+    "软件项目",
+    "季度规划",
+    // xychart-beta
     "产品销量",
+    "多组数据",
+    "季度营收",
   ],
 });

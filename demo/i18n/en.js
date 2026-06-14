@@ -22,13 +22,37 @@ export default () => ({
   copy_ok: "Copied",
   copy_fail: "Copy failed",
   names: [
+    // flowchart
     "Start Process",
+    "Order Approval",
+    "CI/CD Pipeline",
+    // sequenceDiagram
     "Greeting",
+    "Retry Mechanism",
+    "OAuth Flow",
+    // classDiagram
     "Animal Class",
+    "Animal Hierarchy",
+    "Strategy Pattern",
+    // stateDiagram-v2
     "Basic States",
+    "Order State Machine",
+    "Elevator Dispatch",
+    // erDiagram
     "Customer-Order",
+    "E-commerce Core",
+    "Banking System",
+    // pie
     "Pets",
+    "Device Share",
+    "Browser Market",
+    // gantt
     "Simple Tasks",
+    "Software Project",
+    "Quarterly Plan",
+    // xychart-beta
     "Product Sales",
+    "Multi-series Chart",
+    "Quarterly Revenue",
   ],
 });
