@@ -1,82 +1,39 @@
 // Mermaid 渲染速度基准测试
-// 复用 render-yml.test.mjs 的 Vite + Playwright 测试架构，
+// 复用 renderHarness 的 Vite + Playwright 测试架构，
 // 在同一浏览器页面内逐条测量 YAML 用例的 renderMermaidToSvg 与 normalizeSvg 耗时。
 // 仅记录用例内耗时，不把服务器启动、模块加载、浏览器启动计入单条生成速度。
 
 import assert from "node:assert/strict";
-import { readFileSync, readdirSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
-import { createServer as createHttpServer } from "node:http";
+import { writeFileSync, mkdirSync, existsSync } from "node:fs";
 import path from "node:path";
-import yaml from "js-yaml";
-import { chromium } from "playwright";
-import { createServer as createViteServer } from "vite";
 import { test, describe, before, after } from "node:test";
+import { cases } from "./lib/schema.js";
+import { openHarness } from "./lib/renderHarness.mjs";
 
 const OK = 0,
-  TEST_DIR = "test",
   REPORT_DIR = "workflow/reports",
   REPORT_FILE = path.join(REPORT_DIR, "render-speed-report.json"),
   RENDERER_PATH = "/demo/render/mermaid-to-svg.js",
-  NORMALIZER_PATH = "/demo/render/normalize-svg.js",
-  HARNESS_PATH = "/__render_speed_test__";
-
-// 读取所有测试用例 (排除 schema.yml)，按文件名排序
-const allCases = readdirSync(TEST_DIR)
-  .filter((f) => f.endsWith(".yml") && f !== "schema.yml")
-  .sort()
-  .map((f) => ({ file: f, data: yaml.load(readFileSync(path.join(TEST_DIR, f), "utf8")) }));
+  NORMALIZER_PATH = "/demo/render/normalize-svg.js";
 
 // 仅测量非 skipped 用例
-const measurableCases = allCases.filter((c) => !(c.data.skip && c.data.skip.enabled));
+const measurableCases = cases.filter((c) => !(c.data.skip && c.data.skip.enabled));
 
 // 每条用例的速度记录
 const speedRecords = [];
-let browser, page, httpServer, vite;
+let page, closeHarness;
 
 describe("render-speed", () => {
   before(async () => {
-    // 用 vite 中间件处理 mermaid 及其依赖的模块解析
-    vite = await createViteServer({
-      root: ".",
-      server: { middlewareMode: true },
-      logLevel: "error",
-      appType: "custom",
-      optimizeDeps: { include: ["mermaid"] },
-    });
-
-    // 包裹 vite 中间件，附加测试 harness 页面路由
-    httpServer = createHttpServer((req, res) => {
-      const url = (req.url || "/").split("?")[0];
-      if (url === HARNESS_PATH) {
-        res.setHeader("Content-Type", "text/html");
-        res.end("<!DOCTYPE html><html><body></body></html>");
-        return;
-      }
-      vite.middlewares(req, res);
-    });
-
-    await new Promise((resolve) => httpServer.listen(0, "127.0.0.1", resolve));
-    const port = httpServer.address().port,
-      baseUrl = "http://127.0.0.1:" + port;
-
-    browser = await chromium.launch();
-    page = await browser.newPage();
-    await page.goto(baseUrl + HARNESS_PATH);
-
-    // 预加载渲染器和归一化模块到页面全局
-    await page.evaluate(
-      async (urls) => {
-        window.__m2s = await import(urls.renderer);
-        window.__norm = await import(urls.normalizer);
-      },
-      { renderer: baseUrl + RENDERER_PATH, normalizer: baseUrl + NORMALIZER_PATH },
-    );
+    const [, p, close] = await openHarness([RENDERER_PATH, NORMALIZER_PATH]);
+    page = p;
+    closeHarness = close;
 
     // JIT 预热：Mermaid 首次渲染会触发懒加载与代码编译，
     // 即便 optimizeDeps 已预打包也无法完全消除。
     // 在测量循环前做一次丢弃结果的预热渲染，避免首个用例被 JIT 开销污染。
     await page.evaluate(async () => {
-      await window.__m2s.renderMermaidToSvg("graph LR\n  A-->B");
+      await window.__mods[0].renderMermaidToSvg("graph LR\n  A-->B");
     });
 
     // 逐条测量可执行用例
@@ -85,7 +42,7 @@ describe("render-speed", () => {
       // 在页面内用 performance.now 分别测量 render 与 normalize 耗时
       const measured = await page.evaluate(async (text) => {
         const t0 = performance.now();
-        const renderOut = await window.__m2s.renderMermaidToSvg(text);
+        const renderOut = await window.__mods[0].renderMermaidToSvg(text);
         const t1 = performance.now();
         const renderMs = t1 - t0;
         const renderCode = renderOut[0],
@@ -102,7 +59,7 @@ describe("render-speed", () => {
           };
         }
         const t2 = performance.now();
-        const normOut = window.__norm.normalizeSvg(rawSvg);
+        const normOut = window.__mods[1].normalizeSvg(rawSvg);
         const t3 = performance.now();
         const normalizeMs = t3 - t2;
         return {
@@ -128,10 +85,7 @@ describe("render-speed", () => {
 
   after(async () => {
     writeSpeedReport();
-    await page?.close();
-    await browser?.close();
-    httpServer?.close();
-    await vite?.close();
+    await closeHarness?.();
   });
 
   // 断言速度记录已采集且字段完整
