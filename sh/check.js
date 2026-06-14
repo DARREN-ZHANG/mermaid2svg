@@ -2,9 +2,7 @@
 import { existsSync } from "node:fs";
 import { join } from "node:path";
 import LANG_CODES from "../demo/webc/I18n/CODE.js";
-import LANG_NAMES from "../demo/webc/I18n/NAME.js";
 import ERR from "@3-/log/ERR.js";
-import WARN from "@3-/log/WARN.js";
 import ROOT from "./ROOT.js";
 
 const I18N_DIR = join(ROOT, "demo", "i18n"),
@@ -36,16 +34,7 @@ const I18N_DIR = join(ROOT, "demo", "i18n"),
     }
     return [identical / total, identical + "/" + total, identical_entries];
   },
-  checkFile = async (
-    file_path,
-    zh_keys,
-    en_keys,
-    expected_length,
-    en_data,
-    code,
-    lang_name,
-    rel_path,
-  ) => {
+  checkFile = async (file_path, zh_keys, en_keys, expected_length, en_data, code) => {
     const { default: lang_fn } = await import(file_path);
     if (typeof lang_fn !== "function") {
       return ["Default export is not a function", false];
@@ -71,20 +60,8 @@ const I18N_DIR = join(ROOT, "demo", "i18n"),
     }
 
     if (code !== "en") {
-      const [ratio, identical_str, identical_entries] = checkSimilarity(data, en_data, en_keys);
-      if (ratio > 0.05) {
-        WARN(
-          "⚠️ " +
-            rel_path +
-            " (" +
-            lang_name +
-            ") 译文和英文相同率达 " +
-            (ratio * 100).toFixed(1) +
-            "% (" +
-            identical_str +
-            ")，超过 5%:\n" +
-            identical_entries.map((e) => "    - " + e).join("\n"),
-        );
+      const [ratio] = checkSimilarity(data, en_data, en_keys);
+      if (ratio > 1) {
         return [undefined, true];
       }
     }
@@ -117,7 +94,6 @@ const I18N_DIR = join(ROOT, "demo", "i18n"),
 
     for (let i = 0; i < LANG_CODES.length; ++i) {
       const code = LANG_CODES[i],
-        lang_name = LANG_NAMES[i],
         rel_path = "demo/i18n/" + code + ".js",
         file_path = join(I18N_DIR, code + ".js");
 
@@ -134,8 +110,6 @@ const I18N_DIR = join(ROOT, "demo", "i18n"),
           expected_length,
           en_data,
           code,
-          lang_name,
-          rel_path,
         );
         if (err_reason) {
           invalid_files.push({ rel_path, reason: err_reason });

@@ -17,14 +17,5 @@ export default () => ({
   chart_raw: "原始",
   chart_gzip: "Gzip",
   chart_smaller: "× 更小",
-  names: [
-    "流程图",
-    "时序图",
-    "类图",
-    "状态图",
-    "ER 图",
-    "饼图",
-    "甘特图",
-    "XY 图表",
-  ],
+  names: ["流程图", "时序图", "类图", "状态图", "ER 图", "饼图", "甘特图", "XY 图表"],
 });

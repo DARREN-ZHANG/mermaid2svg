@@ -114,7 +114,7 @@ const report = {
     description:
       "Languages without Mermaid-specific translations fall back to English text. All keys must exist in every locale file; missing keys are not acceptable.",
     fallbackLocale: "en",
-    translatedLocales: ["zh", "ja", "ko", "de", "fr", "es", "ru"],
+    translatedLocales: CODE.filter((c) => c !== "en"),
     translatedCount,
     fallbackCount,
   },

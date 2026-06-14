@@ -9,7 +9,7 @@ export default () => ({
   editor_placeholder: "여기에 Mermaid 소스를 입력...",
   examples_title: "예제",
   theme_label: "테마",
-  empty_hint: "SVG 미리보기를 보려면 Mermaid 소스를 입력하세요",
+  empty_hint: "SVG 미리보기를 볼려면 Mermaid 소스를 입력하세요",
   err_parse: "구문 분석 오류",
   err_render: "렌더링 오류",
   err_timeout: "렌더링 시간 초과",
@@ -20,7 +20,7 @@ export default () => ({
   names: [
     "순서도",
     "시퀀스 다이어그램",
-    "클래스 다이어그램",
+    "클스 다이어그램",
     "상태 다이어그램",
     "ER 다이어그램",
     "파이 차트",
