@@ -32,8 +32,8 @@ result is stable across runs.
 
 ## 2. Exit codes
 
-| Command                                                          | Exit code |
-| ---------------------------------------------------------------- | --------- |
+| Command                                                                           | Exit code |
+| --------------------------------------------------------------------------------- | --------- |
 | `node --test test/render-yml.test.mjs workflow/loops/render/render-loop.test.mjs` | **0**     |
 
 Exit code 0 means the Node test runner reported no failures.
@@ -44,16 +44,16 @@ Exit code 0 means the Node test runner reported no failures.
 
 Parsed from the captured TAP-style output:
 
-| Metric        | Value |
-| ------------- | ----- |
-| tests         | 26    |
-| suites        | 1     |
-| pass          | 26    |
-| fail          | 0     |
-| cancelled     | 0     |
-| skipped       | 0     |
-| todo          | 0     |
-| duration_ms   | ~709  |
+| Metric      | Value |
+| ----------- | ----- |
+| tests       | 26    |
+| suites      | 1     |
+| pass        | 26    |
+| fail        | 0     |
+| cancelled   | 0     |
+| skipped     | 0     |
+| todo        | 0     |
+| duration_ms | ~709  |
 
 The 26 tests break down as:
 
@@ -66,10 +66,10 @@ The 26 tests break down as:
 
 ## 4. YAML cases read
 
-| Item                              | Count |
-| --------------------------------- | ----- |
-| `test/*.yml` files total          | 19    |
-| `test/schema.yml` (schema itself) | 1     |
+| Item                              | Count  |
+| --------------------------------- | ------ |
+| `test/*.yml` files total          | 19     |
+| `test/schema.yml` (schema itself) | 1      |
 | **Executable YAML test cases**    | **18** |
 
 All 18 cases passed `test/schema.yml` schema validation before any rendering
@@ -78,12 +78,12 @@ render stage.
 
 Cases by source repository:
 
-| Source repo                  | Cases |
-| ---------------------------- | ----- |
-| `lukilabs/beautiful-mermaid` | 7     |
-| `probelabs/maid`             | 7     |
-| `mermaid-js/mermaid`         | 4     |
-| **Total**                    | **18**|
+| Source repo                  | Cases  |
+| ---------------------------- | ------ |
+| `lukilabs/beautiful-mermaid` | 7      |
+| `probelabs/maid`             | 7      |
+| `mermaid-js/mermaid`         | 4      |
+| **Total**                    | **18** |
 
 ---
 
@@ -139,16 +139,16 @@ HG-1 defines the MVP diagram boundary as eight types. The tagged `diagram.type`
 in the YAML uses the extract script's coarse categorization; the actual Mermaid
 source keyword is shown below to prove real coverage:
 
-| HG-1 MVP type       | Covered? | Mermaid source keyword    | Case IDs                                   |
-| ------------------- | -------- | ------------------------- | ------------------------------------------ |
-| `flowchart`         | yes      | `flowchart` / `graph`     | bm-001, bm-002, maid-001, maid-002, mm-fc-001 |
-| `sequenceDiagram`   | yes      | `sequenceDiagram`         | bm-010, maid-010, mm-seq-001               |
-| `classDiagram`      | yes      | `classDiagram`            | bm-014, maid-015                           |
-| `stateDiagram-v2`   | yes      | `stateDiagram-v2`         | bm-007, maid-017                           |
-| `erDiagram`         | yes      | `erDiagram`               | bm-017, mm-other-001                       |
-| `pie`               | yes      | `pie`                     | maid-019, mm-other-005                     |
-| `gantt`             | yes      | `gantt`                   | maid-020                                   |
-| `xychart-beta`      | yes      | `xychart-beta`            | bm-020 (tagged "other")                    |
+| HG-1 MVP type     | Covered? | Mermaid source keyword | Case IDs                                      |
+| ----------------- | -------- | ---------------------- | --------------------------------------------- |
+| `flowchart`       | yes      | `flowchart` / `graph`  | bm-001, bm-002, maid-001, maid-002, mm-fc-001 |
+| `sequenceDiagram` | yes      | `sequenceDiagram`      | bm-010, maid-010, mm-seq-001                  |
+| `classDiagram`    | yes      | `classDiagram`         | bm-014, maid-015                              |
+| `stateDiagram-v2` | yes      | `stateDiagram-v2`      | bm-007, maid-017                              |
+| `erDiagram`       | yes      | `erDiagram`            | bm-017, mm-other-001                          |
+| `pie`             | yes      | `pie`                  | maid-019, mm-other-005                        |
+| `gantt`           | yes      | `gantt`                | maid-020                                      |
+| `xychart-beta`    | yes      | `xychart-beta`         | bm-020 (tagged "other")                       |
 
 All eight HG-1 MVP diagram types are exercised by the rendered corpus.
 

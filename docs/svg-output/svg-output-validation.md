@@ -38,20 +38,20 @@ real Chromium instance per suite; run-to-run wall-clock duration varies slightly
 
 ## 2. Exit codes
 
-| Command                                                                                                                            | Exit code |
-| ---------------------------------------------------------------------------------------------------------------------------------- | --------- |
-| `node --test test/svg-output.test.mjs test/render-yml.test.mjs workflow/loops/svg-output/svg-output-loop.test.mjs` | **0**      |
+| Command                                                                                                            | Exit code |
+| ------------------------------------------------------------------------------------------------------------------ | --------- |
+| `node --test test/svg-output.test.mjs test/render-yml.test.mjs workflow/loops/svg-output/svg-output-loop.test.mjs` | **0**     |
 
 Exit code 0 means the Node test runner reported no failures.
 
 The command bundles three independent gate layers so a regression in any one
 fails the whole phase:
 
-| Layer                              | File                                              | Role                                                         |
-| ---------------------------------- | ------------------------------------------------- | ------------------------------------------------------------ |
-| SVG output compatibility           | `test/svg-output.test.mjs`                        | Asserts the SVG contract over the corpus + synthetic inputs  |
-| Render loop regression             | `test/render-yml.test.mjs`                        | Confirms render still passes (no regression from output loop)|
-| SVG output loop contract           | `workflow/loops/svg-output/svg-output-loop.test.mjs` | Static validator: artifacts exist, no blocked patterns      |
+| Layer                    | File                                                 | Role                                                          |
+| ------------------------ | ---------------------------------------------------- | ------------------------------------------------------------- |
+| SVG output compatibility | `test/svg-output.test.mjs`                           | Asserts the SVG contract over the corpus + synthetic inputs   |
+| Render loop regression   | `test/render-yml.test.mjs`                           | Confirms render still passes (no regression from output loop) |
+| SVG output loop contract | `workflow/loops/svg-output/svg-output-loop.test.mjs` | Static validator: artifacts exist, no blocked patterns        |
 
 ---
 
@@ -93,30 +93,30 @@ truth: `workflow/reports/svg-output-compatibility.json`.
 Each non-skipped YAML case is rendered in-page via Playwright, then normalized
 via `normalizeSvg`, then asserted against five general rules:
 
-| Rule            | Passed | Failed | What it asserts                                                                                            |
-| --------------- | ------ | ------ | ---------------------------------------------------------------------------------------------------------- |
-| `svg-root`      | 18     | 0      | Normalized output contains an `<svg` root node                                                             |
-| `viewBox`       | 18     | 0      | Normalized output contains a usable `viewBox`                                                              |
-| `no-runtime-js` | 18     | 0      | No `<script` element and no `on*=` handler attribute (unsafe runtime JS absent)                            |
+| Rule            | Passed | Failed | What it asserts                                                                                               |
+| --------------- | ------ | ------ | ------------------------------------------------------------------------------------------------------------- |
+| `svg-root`      | 18     | 0      | Normalized output contains an `<svg` root node                                                                |
+| `viewBox`       | 18     | 0      | Normalized output contains a usable `viewBox`                                                                 |
+| `no-runtime-js` | 18     | 0      | No `<script` element and no `on*=` handler attribute (unsafe runtime JS absent)                               |
 | `deterministic` | 18     | 0      | Volatile render-id token (`m2s-N`) is de-volatilized to canonical `mermaid-svg` across two successive renders |
-| `error-shape`   | 18     | 0      | Success result is always `[0, string]` (structured tuple, never a thrown exception or partial string)      |
+| `error-shape`   | 18     | 0      | Success result is always `[0, string]` (structured tuple, never a thrown exception or partial string)         |
 
 ### 4.2 Synthetic rule tests (10, all pass)
 
 Targeted inputs prove each normalization mechanism independently of Mermaid:
 
-| Synthetic test           | Passed | Input → expectation                                                            |
-| ------------------------ | ------ | ------------------------------------------------------------------------------ |
-| `missing-svg-root`       | yes    | `<div>not svg</div>` → `[ERR_NO_SVG(100), msg]`                                |
-| `empty-string`           | yes    | `""` → `[ERR_NO_SVG(100), msg]`                                                |
-| `garbage-text`           | yes    | `"hello world"` → `[ERR_NO_SVG(100), msg]`                                     |
-| `script-removal`         | yes    | `<svg>…<script>alert(1)</script>…` → no `<script` in output                    |
-| `event-handler-removal`  | yes    | `<rect onclick="bad()">` → no `onclick` in output                              |
-| `javascript-uri-removal` | yes    | `xlink:href="javascript:alert(1)"` → href dropped                             |
-| `viewBox-derivation`     | yes    | `<svg width="100" height="50">` → gains `viewBox="0 0 100 50"`                 |
-| `viewBox-preserved`      | yes    | existing `viewBox="0 0 10 10"` kept unchanged                                  |
-| `same-input-determinism` | yes    | normalizing the same SVG twice → byte-identical output                         |
-| `id-rewrite-determinism` | yes    | `<svg id="m2s-1">` vs `m2s-2` (+ matching internal refs) → identical output    |
+| Synthetic test           | Passed | Input → expectation                                                         |
+| ------------------------ | ------ | --------------------------------------------------------------------------- |
+| `missing-svg-root`       | yes    | `<div>not svg</div>` → `[ERR_NO_SVG(100), msg]`                             |
+| `empty-string`           | yes    | `""` → `[ERR_NO_SVG(100), msg]`                                             |
+| `garbage-text`           | yes    | `"hello world"` → `[ERR_NO_SVG(100), msg]`                                  |
+| `script-removal`         | yes    | `<svg>…<script>alert(1)</script>…` → no `<script` in output                 |
+| `event-handler-removal`  | yes    | `<rect onclick="bad()">` → no `onclick` in output                           |
+| `javascript-uri-removal` | yes    | `xlink:href="javascript:alert(1)"` → href dropped                           |
+| `viewBox-derivation`     | yes    | `<svg width="100" height="50">` → gains `viewBox="0 0 100 50"`              |
+| `viewBox-preserved`      | yes    | existing `viewBox="0 0 10 10"` kept unchanged                               |
+| `same-input-determinism` | yes    | normalizing the same SVG twice → byte-identical output                      |
+| `id-rewrite-determinism` | yes    | `<svg id="m2s-1">` vs `m2s-2` (+ matching internal refs) → identical output |
 
 These are general structural assertions, not fixture-specific patches tied to a
 single test id.
@@ -132,11 +132,11 @@ single test id.
 
 ## 5. Corpus coverage
 
-| Item                              | Count |
-| --------------------------------- | ----- |
-| `test/*.yml` files total          | 19    |
-| `test/schema.yml` (schema itself) | 1     |
-| **Executable YAML test cases**    | **18**|
+| Item                              | Count  |
+| --------------------------------- | ------ |
+| `test/*.yml` files total          | 19     |
+| `test/schema.yml` (schema itself) | 1      |
+| **Executable YAML test cases**    | **18** |
 
 All 18 cases passed `test/schema.yml` schema validation before any rendering.
 No YAML case is flagged `skip.enabled: true`, so all 18 entered both the render
@@ -144,12 +144,12 @@ and normalize stages.
 
 Cases by source repository:
 
-| Source repo                  | Cases |
-| ---------------------------- | ----- |
-| `lukilabs/beautiful-mermaid` | 7     |
-| `probelabs/maid`             | 7     |
-| `mermaid-js/mermaid`         | 4     |
-| **Total**                    | **18**|
+| Source repo                  | Cases  |
+| ---------------------------- | ------ |
+| `lukilabs/beautiful-mermaid` | 7      |
+| `probelabs/maid`             | 7      |
+| `mermaid-js/mermaid`         | 4      |
+| **Total**                    | **18** |
 
 ### 5.1 Diagram-type coverage vs HG-1 MVP scope
 
@@ -158,16 +158,16 @@ categorization. The actual Mermaid source keyword is shown to prove real
 coverage. All eight HG-1 MVP diagram types are exercised and normalized
 successfully:
 
-| HG-1 MVP type       | Covered? | Mermaid source keyword | Case IDs                                      |
-| ------------------- | -------- | ---------------------- | --------------------------------------------- |
-| `flowchart`         | yes      | `flowchart` / `graph`  | bm-001, bm-002, maid-001, maid-002, mm-fc-001 |
-| `sequenceDiagram`   | yes      | `sequenceDiagram`      | bm-010, maid-010, mm-seq-001                  |
-| `classDiagram`      | yes      | `classDiagram`         | bm-014, maid-015                              |
-| `stateDiagram-v2`   | yes      | `stateDiagram-v2`      | bm-007, maid-017 (tagged `stateDiagram`)      |
-| `erDiagram`         | yes      | `erDiagram`            | bm-017, mm-other-001                          |
-| `pie`               | yes      | `pie`                  | maid-019, mm-other-005                        |
-| `gantt`             | yes      | `gantt`                | maid-020                                      |
-| `xychart-beta`      | yes      | `xychart-beta`         | bm-020 (tagged `other`)                       |
+| HG-1 MVP type     | Covered? | Mermaid source keyword | Case IDs                                      |
+| ----------------- | -------- | ---------------------- | --------------------------------------------- |
+| `flowchart`       | yes      | `flowchart` / `graph`  | bm-001, bm-002, maid-001, maid-002, mm-fc-001 |
+| `sequenceDiagram` | yes      | `sequenceDiagram`      | bm-010, maid-010, mm-seq-001                  |
+| `classDiagram`    | yes      | `classDiagram`         | bm-014, maid-015                              |
+| `stateDiagram-v2` | yes      | `stateDiagram-v2`      | bm-007, maid-017 (tagged `stateDiagram`)      |
+| `erDiagram`       | yes      | `erDiagram`            | bm-017, mm-other-001                          |
+| `pie`             | yes      | `pie`                  | maid-019, mm-other-005                        |
+| `gantt`           | yes      | `gantt`                | maid-020                                      |
+| `xychart-beta`    | yes      | `xychart-beta`         | bm-020 (tagged `other`)                       |
 
 > Note: two tagged types differ from the literal HG-1 label. `stateDiagram` is
 > the resolved type for `stateDiagram-v2` input, and `bm-020` is tagged `other`
@@ -196,7 +196,7 @@ renders. The `deterministic` corpus rule therefore asserts the **volatile
 root-render-id** de-volatilization (the `m2s-N` token is replaced by the stable
 canonical `mermaid-svg`, covering root id, `#id` style selectors, marker/clip
 ids, and `url(#…)` references), which is exactly the normalization mechanism the
-SVG Output Loop owns. Byte-identical determinism of the *same SVG string*
+SVG Output Loop owns. Byte-identical determinism of the _same SVG string_
 normalized twice is independently proven by the `same-input-determinism` and
 `id-rewrite-determinism` synthetic tests. No fixture-specific patch is applied;
 the id rewrite is a single general token replacement.

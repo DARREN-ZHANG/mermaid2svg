@@ -16,6 +16,7 @@
 - 控制任务边界，避免单次执行范围过大。
 
 **不做的事**：
+
 - 不运行测试。
 - 不修复具体 bug。
 - 不判断最终是否通过验收。
@@ -32,6 +33,7 @@
 - 每完成一组修改即按 conventional commits 提交。
 
 **不做的事**：
+
 - 不做全局任务决策。
 - 不修改当前任务 phase prompt allowed files 之外的范围。
 - 不重新定义项目需求。
@@ -54,6 +56,7 @@ Orchestrator 是 TypeScript 编写的确定性状态机，位于 `workflow/loops
 8. acceptance checklist（`workflow/reports/final-acceptance-checklist.json`）
 
 Orchestrator 维护每个 loop 的状态文件（`workflow/state/<loop-name>.state.json`），记录：
+
 - 当前 phase（plan / execution / verification / done / blocked）
 - retry 次数
 - 验证结果
@@ -88,6 +91,7 @@ Gate 8. Final Acceptance Audit (final-acceptance-checklist.json, docs/dev-workfl
 ```
 
 拓扑约束：
+
 - 测试抽取必须早于渲染实现（渲染测试依赖抽取的 YAML）。
 - 渲染实现必须早于 SVG 规范化（normalize 依赖 render 输出）。
 - SVG 输出稳定性必须早于 demo 集成（demo 消费规范化 SVG）。
@@ -138,17 +142,18 @@ Gate 8. Final Acceptance Audit (final-acceptance-checklist.json, docs/dev-workfl
 
 每个任务最多 3 次自动 retry：
 
-| 次数 | 策略 |
-|------|------|
-| 第 1 次 | 使用原 task + 完整失败日志 |
+| 次数    | 策略                                     |
+| ------- | ---------------------------------------- |
+| 第 1 次 | 使用原 task + 完整失败日志               |
 | 第 2 次 | 只给当前失败测试 + 相关文件 + 最小上下文 |
-| 第 3 次 | 要求最小修复，禁止重构 |
+| 第 3 次 | 要求最小修复，禁止重构                   |
 
 超过 3 次后进入 `blocked` 状态。
 
 ### 4.2 Blocked 状态
 
 进入 `blocked` 的条件：
+
 - 达到最大 retry 次数（3 次）。
 - 失败原因超出当前 task 范围。
 - Agent 修改了禁止修改的文件。
@@ -157,6 +162,7 @@ Gate 8. Final Acceptance Audit (final-acceptance-checklist.json, docs/dev-workfl
 - 遇到 Human Gate 问题（见 §5）。
 
 Blocked 后的处理：
+
 - 记录 blocked 原因到 state.json。
 - 交由 Codex 重新拆解或人工 review。
 - 不自动推进。
@@ -164,6 +170,7 @@ Blocked 后的处理：
 ### 4.3 非 blocking 的 noted/deferred
 
 某些 finding 不阻塞当前 loop，但需要在最终审计中如实记录：
+
 - 方法论偏差（如 gzip level 6 vs 推荐 level 9，但两侧同方法）。
 - 聚合口径 gap（如 size 仅测 entry chunk 未聚合全部 chunk）。
 - 这些标注为 `status: acceptable` 或 `status: noted`，在 final-audit 中复核。
@@ -174,20 +181,21 @@ Blocked 后的处理：
 
 以下决策节点需要人工介入（来自 architecture §13 和 human-gate-decisions.md）：
 
-| # | 节点 | 触发时机 | 状态 |
-|---|------|----------|------|
-| 1 | Spec / Acceptance Criteria 确认 | Init Loop 开始前 | ✅ 已确认 |
-| 2 | 测试抽取范围确认 | Extract Loop 开始前 | ✅ 已确认 (HG-2: 18 tests accepted) |
-| 3 | Mermaid diagram 类型范围确认 | Extract/Render Loop | ✅ 已确认 (HG-1: 8 MVP types) |
-| 4 | 浏览器测试框架确认 | Render Loop | ✅ 已确认 (HG-3: Playwright as harness only) |
-| 5 | 核心转换器接入点确认 | Render Loop | ✅ 已确认 (src/render/) |
-| 6 | 页面 demo 风格方向确认 | Web Demo Loop | ✅ 已确认 (复用 math.webc.site) |
-| 7 | beautiful-mermaid 对比口径确认 | Size Loop | ✅ 已确认 (HG-4: local reference pinned) |
-| 8 | i18n 语言列表与 fallback 策略确认 | I18N Loop | ✅ 已确认 (HG-5: 75 locales, English fallback) |
-| 9 | Cloudflare Pages 部署方式确认 | Deploy Loop | ✅ 已确认 (HG-6: static site, no server runtime) |
-| 10 | Final diff 确认 | Final Audit | ⏳ 待人工 review |
+| #   | 节点                              | 触发时机            | 状态                                             |
+| --- | --------------------------------- | ------------------- | ------------------------------------------------ |
+| 1   | Spec / Acceptance Criteria 确认   | Init Loop 开始前    | ✅ 已确认                                        |
+| 2   | 测试抽取范围确认                  | Extract Loop 开始前 | ✅ 已确认 (HG-2: 18 tests accepted)              |
+| 3   | Mermaid diagram 类型范围确认      | Extract/Render Loop | ✅ 已确认 (HG-1: 8 MVP types)                    |
+| 4   | 浏览器测试框架确认                | Render Loop         | ✅ 已确认 (HG-3: Playwright as harness only)     |
+| 5   | 核心转换器接入点确认              | Render Loop         | ✅ 已确认 (src/render/)                          |
+| 6   | 页面 demo 风格方向确认            | Web Demo Loop       | ✅ 已确认 (复用 math.webc.site)                  |
+| 7   | beautiful-mermaid 对比口径确认    | Size Loop           | ✅ 已确认 (HG-4: local reference pinned)         |
+| 8   | i18n 语言列表与 fallback 策略确认 | I18N Loop           | ✅ 已确认 (HG-5: 75 locales, English fallback)   |
+| 9   | Cloudflare Pages 部署方式确认     | Deploy Loop         | ✅ 已确认 (HG-6: static site, no server runtime) |
+| 10  | Final diff 确认                   | Final Audit         | ⏳ 待人工 review                                 |
 
 **不需要人工介入的节点**：
+
 - 单任务执行和局部代码修改。
 - 普通测试失败后的自动重试修复。
 - build 重跑。
@@ -200,11 +208,11 @@ Blocked 后的处理：
 
 ### 6.1 使用的工具
 
-| 工具 | 角色 | 说明 |
-|------|------|------|
-| Codex (GLM-5.1 Planner) | 任务拆解 | 将 spec 拆解为任务 DAG，定义每个 loop 的验收标准 |
-| OpenCode (Executor Agent) | 执行与局部验证 | 按 phase prompt 执行代码修改，运行测试，产出 artifact |
-| Orchestrator (TypeScript 状态机) | 确定性调度 | 读取 state.json 和 report JSON，决定 pass/retry/blocked |
+| 工具                             | 角色           | 说明                                                    |
+| -------------------------------- | -------------- | ------------------------------------------------------- |
+| Codex (GLM-5.1 Planner)          | 任务拆解       | 将 spec 拆解为任务 DAG，定义每个 loop 的验收标准        |
+| OpenCode (Executor Agent)        | 执行与局部验证 | 按 phase prompt 执行代码修改，运行测试，产出 artifact   |
+| Orchestrator (TypeScript 状态机) | 确定性调度     | 读取 state.json 和 report JSON，决定 pass/retry/blocked |
 
 ### 6.2 Agent 类型
 
@@ -221,6 +229,7 @@ Blocked 后的处理：
 - `final-audit-agent.md` — 最终验收审计
 
 每个 agent 有明确的：
+
 - **Allowed files**：该 loop 允许修改的文件范围。
 - **Blocked files**：禁止修改的文件（canonical docs、references、上游代码等）。
 - **Mission**：该 loop 的具体目标。
@@ -229,6 +238,7 @@ Blocked 后的处理：
 ### 6.3 Phase Prompt 机制
 
 Orchestrator 为每个 loop 的每个阶段（plan/execution/verification）生成 phase prompt，其中包含：
+
 - Allowed files（白名单）
 - Blocked files（黑名单）
 - Mission（任务目标）
@@ -242,16 +252,16 @@ Agent 只执行 phase prompt 定义的范围，不越界。
 
 ### 7.1 各 Loop 的 Gate
 
-| Gate | Loop | 判据 |
-|------|------|------|
-| Gate 1 | Init | workflow scaffolding 存在，extract 脚手架就绪 |
-| Gate 2 | Extraction | extract/run.js 可重复执行，18 yml 生成，report 完整 |
-| Gate 3 | Render | 18/18 测试 pass，render-capabilities.json 无 unsupported |
-| Gate 4 | Demo | 页面可运行，输入/渲染/错误提示/示例可用 |
-| Gate 5 | Size | size-report.json 生成，数据可追溯，页面数据一致 |
-| Gate 6 | I18N | 75 locale × 19 key 无缺失，i18n-report 生成 |
-| Gate 7 | Deploy | 本地 build 通过，CF Pages 配置就绪 |
-| Gate 8 | Final Audit | 所有 M 项 pass，H 项有结论，final-report 生成 |
+| Gate   | Loop        | 判据                                                     |
+| ------ | ----------- | -------------------------------------------------------- |
+| Gate 1 | Init        | workflow scaffolding 存在，extract 脚手架就绪            |
+| Gate 2 | Extraction  | extract/run.js 可重复执行，18 yml 生成，report 完整      |
+| Gate 3 | Render      | 18/18 测试 pass，render-capabilities.json 无 unsupported |
+| Gate 4 | Demo        | 页面可运行，输入/渲染/错误提示/示例可用                  |
+| Gate 5 | Size        | size-report.json 生成，数据可追溯，页面数据一致          |
+| Gate 6 | I18N        | 75 locale × 19 key 无缺失，i18n-report 生成              |
+| Gate 7 | Deploy      | 本地 build 通过，CF Pages 配置就绪                       |
+| Gate 8 | Final Audit | 所有 M 项 pass，H 项有结论，final-report 生成            |
 
 ### 7.2 最终验收 Gate (Gate 8)
 
@@ -264,6 +274,7 @@ Agent 只执行 phase prompt 定义的范围，不越界。
 5. `final-acceptance-checklist.json` 和 `final-report.md` 写入。
 
 当前状态：
+
 - ✅ 所有 M 项 pass（44/44）。
 - ⏳ 6 项 H 项待人工 review。
 - ⏳ CF Pages 公网部署待执行。
@@ -276,15 +287,15 @@ Agent 只执行 phase prompt 定义的范围，不越界。
 
 以下决策在 Init Loop 阶段经人工确认，后续 loop 直接执行（详见 `workflow/human-gate-decisions.md`）：
 
-| Gate | 决策 |
-|------|------|
+| Gate | 决策                                                                                                        |
+| ---- | ----------------------------------------------------------------------------------------------------------- |
 | HG-1 | MVP diagram: flowchart, sequenceDiagram, classDiagram, stateDiagram-v2, erDiagram, pie, gantt, xychart-beta |
-| HG-2 | 初始 18 个 YAML 测试被接受为初始 gate |
-| HG-3 | Playwright 仅作为测试 harness；禁止作为 renderer；不用 screenshot/canvas 作为 pass/fail oracle |
-| HG-4 | beautiful-mermaid 对比使用本地 references/ 仓库，pin commit 2ac8bbbb |
-| HG-5 | 保持 75 locale 结构，所有 key 必须存在于每个 locale，英语 fallback 可接受 |
-| HG-6 | CF Pages 部署为静态站点，不引入 server runtime/database/queue |
-| HG-7 | 不在 Render Loop 前重写抽取系统 |
+| HG-2 | 初始 18 个 YAML 测试被接受为初始 gate                                                                       |
+| HG-3 | Playwright 仅作为测试 harness；禁止作为 renderer；不用 screenshot/canvas 作为 pass/fail oracle              |
+| HG-4 | beautiful-mermaid 对比使用本地 references/ 仓库，pin commit 2ac8bbbb                                        |
+| HG-5 | 保持 75 locale 结构，所有 key 必须存在于每个 locale，英语 fallback 可接受                                   |
+| HG-6 | CF Pages 部署为静态站点，不引入 server runtime/database/queue                                               |
+| HG-7 | 不在 Render Loop 前重写抽取系统                                                                             |
 
 ---
 
@@ -292,40 +303,40 @@ Agent 只执行 phase prompt 定义的范围，不越界。
 
 ### 9.1 核心代码
 
-| 文件 | Loop | 说明 |
-|------|------|------|
-| `extract/run.js` | Extraction | 测试抽取脚本 |
-| `src/render/mermaid-to-svg.js` | Render | 浏览器端 Mermaid → SVG 渲染 |
-| `src/render/normalize-svg.js` | SVG Output | SVG 规范化（viewBox, script 移除, 确定性 ID） |
-| `demo/index.pug` | Web Demo | 页面模板 |
-| `demo/index.js` | Web Demo | 页面逻辑（输入 → 渲染 → 预览） |
-| `demo/const/mermaidExamples.js` | Web Demo | 8 种 diagram 示例数据 |
-| `demo/const/themes.js` | Theme | 8 套 Beautiful Mermaid 主题色板 |
-| `demo/theme.css` | Theme | 主题 CSS overlay |
-| `sh/size-report.js` | Size | 体积测量脚本 |
-| `demo/const/sizeData.js` | Size | 对比图数据（来自 size-report.json） |
+| 文件                            | Loop       | 说明                                          |
+| ------------------------------- | ---------- | --------------------------------------------- |
+| `extract/run.js`                | Extraction | 测试抽取脚本                                  |
+| `src/render/mermaid-to-svg.js`  | Render     | 浏览器端 Mermaid → SVG 渲染                   |
+| `src/render/normalize-svg.js`   | SVG Output | SVG 规范化（viewBox, script 移除, 确定性 ID） |
+| `demo/index.pug`                | Web Demo   | 页面模板                                      |
+| `demo/index.js`                 | Web Demo   | 页面逻辑（输入 → 渲染 → 预览）                |
+| `demo/const/mermaidExamples.js` | Web Demo   | 8 种 diagram 示例数据                         |
+| `demo/const/themes.js`          | Theme      | 8 套 Beautiful Mermaid 主题色板               |
+| `demo/theme.css`                | Theme      | 主题 CSS overlay                              |
+| `sh/size-report.js`             | Size       | 体积测量脚本                                  |
+| `demo/const/sizeData.js`        | Size       | 对比图数据（来自 size-report.json）           |
 
 ### 9.2 机器可读报告
 
-| 文件 | Loop | 说明 |
-|------|------|------|
-| `extract/report.json` | Extraction | 三来源 scanned/candidate/accepted/skipped + skipReasons |
-| `test/schema.yml` | Extraction | YAML 测试 schema |
-| `workflow/reports/render-capabilities.json` | Render | 18 测试 support matrix |
-| `workflow/reports/svg-output-compatibility.json` | SVG Output | 5 条规则 × 18 corpus + 10 synthetic rules |
-| `workflow/reports/web-demo-report.json` | Web Demo | UI 功能验证 |
-| `workflow/reports/theme-css-report.json` | Theme | 主题验证 + CSS 来源追溯 |
-| `workflow/reports/size-report.json` | Size | bm/ours raw+gzip + verification |
-| `workflow/reports/i18n-report.json` | I18N | 75 locale × 19 key 覆盖 |
-| `workflow/reports/deployment-report.json` | Deploy | 本地 build + CF Pages 配置 |
-| `workflow/reports/final-acceptance-checklist.json` | Final Audit | 全 AC 验收矩阵 |
+| 文件                                               | Loop        | 说明                                                    |
+| -------------------------------------------------- | ----------- | ------------------------------------------------------- |
+| `extract/report.json`                              | Extraction  | 三来源 scanned/candidate/accepted/skipped + skipReasons |
+| `test/schema.yml`                                  | Extraction  | YAML 测试 schema                                        |
+| `workflow/reports/render-capabilities.json`        | Render      | 18 测试 support matrix                                  |
+| `workflow/reports/svg-output-compatibility.json`   | SVG Output  | 5 条规则 × 18 corpus + 10 synthetic rules               |
+| `workflow/reports/web-demo-report.json`            | Web Demo    | UI 功能验证                                             |
+| `workflow/reports/theme-css-report.json`           | Theme       | 主题验证 + CSS 来源追溯                                 |
+| `workflow/reports/size-report.json`                | Size        | bm/ours raw+gzip + verification                         |
+| `workflow/reports/i18n-report.json`                | I18N        | 75 locale × 19 key 覆盖                                 |
+| `workflow/reports/deployment-report.json`          | Deploy      | 本地 build + CF Pages 配置                              |
+| `workflow/reports/final-acceptance-checklist.json` | Final Audit | 全 AC 验收矩阵                                          |
 
 ### 9.3 文档
 
-| 文件 | 说明 |
-|------|------|
-| `docs/dev-workflow.md` | 本文件 |
-| `docs/final-audit/final-report.md` | 最终验收报告 |
-| `docs/i18n-language-map.md` | 国际化语言列表与 key 覆盖 |
-| `docs/<loop>-loop-report.md` × 8 | 各 loop 的人类可读验证报告 |
-| `docs/<loop>/<loop>-plan.md` × 9 | 各 loop 的执行计划 |
+| 文件                               | 说明                       |
+| ---------------------------------- | -------------------------- |
+| `docs/dev-workflow.md`             | 本文件                     |
+| `docs/final-audit/final-report.md` | 最终验收报告               |
+| `docs/i18n-language-map.md`        | 国际化语言列表与 key 覆盖  |
+| `docs/<loop>-loop-report.md` × 8   | 各 loop 的人类可读验证报告 |
+| `docs/<loop>/<loop>-plan.md` × 9   | 各 loop 的执行计划         |

@@ -6,13 +6,13 @@
 
 ## 1. 部署模型定性
 
-| 维度 | 结论 | 依据 |
-|---|---|---|
-| 站点类型 | 纯静态站点（SPA 单页入口） | `demo/dist/index.html` + 静态 JS/CSS/JSON 资源 |
-| 服务端运行能力 | **不需要** | 无 SSR、无 API route、无 Functions 依赖 |
-| 渲染引擎位置 | 浏览器端 | `import mermaid from "mermaid"` 在构建时打包进 JS chunk（`src/render/mermaid-to-svg.js`） |
-| 数据库 / 队列 / 云存储 | 无 | HG-6 明确禁止；构建产物中无相关引用 |
-| 多语言机制 | 客户端运行时切换 | 75 个 locale 模块经 `import.meta.glob` 打包；`webc/I18n/i18n/<code>/js.json` 运行时 fetch |
+| 维度                   | 结论                       | 依据                                                                                      |
+| ---------------------- | -------------------------- | ----------------------------------------------------------------------------------------- |
+| 站点类型               | 纯静态站点（SPA 单页入口） | `demo/dist/index.html` + 静态 JS/CSS/JSON 资源                                            |
+| 服务端运行能力         | **不需要**                 | 无 SSR、无 API route、无 Functions 依赖                                                   |
+| 渲染引擎位置           | 浏览器端                   | `import mermaid from "mermaid"` 在构建时打包进 JS chunk（`src/render/mermaid-to-svg.js`） |
+| 数据库 / 队列 / 云存储 | 无                         | HG-6 明确禁止；构建产物中无相关引用                                                       |
+| 多语言机制             | 客户端运行时切换           | 75 个 locale 模块经 `import.meta.glob` 打包；`webc/I18n/i18n/<code>/js.json` 运行时 fetch |
 
 **结论**：Cloudflare Pages 的静态托管能力即可满足全部需求，无需 Pages Functions、Workers 或服务端运行时。
 
@@ -38,13 +38,13 @@ bun install --frozen-lockfile && bun run build
 demo/dist
 ```
 
-| dist 顶层内容 | 来源 | 说明 |
-|---|---|---|
-| `index.html` | Vite + Pug 插件 | 单页入口 |
-| `assets/` | Vite | hashed JS chunk + 合并 CSS |
-| `webc/I18n/i18n/` | `build.js` cpSync | 75 语言 JSON（`<code>/js.json`） |
-| `webc/BoxX/i18n/` | `build.js` cpSync | BoxX 组件语言 JSON |
-| `favicon*`, `site.webmanifest` 等 | `demo/public/` | Vite 自动拷贝到 dist 根 |
+| dist 顶层内容                     | 来源              | 说明                             |
+| --------------------------------- | ----------------- | -------------------------------- |
+| `index.html`                      | Vite + Pug 插件   | 单页入口                         |
+| `assets/`                         | Vite              | hashed JS chunk + 合并 CSS       |
+| `webc/I18n/i18n/`                 | `build.js` cpSync | 75 语言 JSON（`<code>/js.json`） |
+| `webc/BoxX/i18n/`                 | `build.js` cpSync | BoxX 组件语言 JSON               |
+| `favicon*`, `site.webmanifest` 等 | `demo/public/`    | Vite 自动拷贝到 dist 根          |
 
 ### 2.3 所需环境变量
 
@@ -61,6 +61,7 @@ demo/dist
 **结论：不需要 `_redirects` 或 SPA fallback。**
 
 依据：
+
 1. 单一入口 `index.html`，无 history API 路由
 2. 多语言切换通过 `c-i18n` 组件在客户端 fetch JSON（`/webc/I18n/i18n/<code>/js.json`），不产生新的 URL 路径
 3. 所有资源路径为绝对路径（`/assets/...`、`/webc/...`），部署到根域即可直接命中
@@ -71,23 +72,23 @@ demo/dist
 
 ## 3. Cloudflare Pages 控制台配置
 
-| 字段 | 推荐值 |
-|---|---|
-| Framework preset | None（纯静态，无框架预设） |
-| Build command | `bun install --frozen-lockfile && bun run build` |
-| Build output directory | `demo/dist` |
-| Root directory | （留空，仓库根） |
-| Environment variables | 无必需；可选 `BUN_VERSION=1.3.14` |
-| Build watch paths | 默认（全仓库） |
+| 字段                   | 推荐值                                           |
+| ---------------------- | ------------------------------------------------ |
+| Framework preset       | None（纯静态，无框架预设）                       |
+| Build command          | `bun install --frozen-lockfile && bun run build` |
+| Build output directory | `demo/dist`                                      |
+| Root directory         | （留空，仓库根）                                 |
+| Environment variables  | 无必需；可选 `BUN_VERSION=1.3.14`                |
+| Build watch paths      | 默认（全仓库）                                   |
 
 ### 3.0 配置文件（机器可读）
 
 除控制台配置外，项目已提供以下 Cloudflare Pages 配置文件，供 Wrangler CLI / CI 部署与自动化验证使用：
 
-| 文件 | 位置 | 用途 |
-|---|---|---|
-| `wrangler.toml` | 项目根 | 声明 `pages_build_output_dir = "demo/dist"` 与 `compatibility_date`，供 `wrangler pages deploy` 使用 |
-| `_headers` | `demo/public/_headers` → 构建后拷贝到 `demo/dist/_headers` | 安全响应头（X-Content-Type-Options, X-Frame-Options, Referrer-Policy, Permissions-Policy）与缓存策略（hashed assets `1y immutable`, i18n JSON `1h`, HTML `no-cache`） |
+| 文件            | 位置                                                       | 用途                                                                                                                                                                  |
+| --------------- | ---------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `wrangler.toml` | 项目根                                                     | 声明 `pages_build_output_dir = "demo/dist"` 与 `compatibility_date`，供 `wrangler pages deploy` 使用                                                                  |
+| `_headers`      | `demo/public/_headers` → 构建后拷贝到 `demo/dist/_headers` | 安全响应头（X-Content-Type-Options, X-Frame-Options, Referrer-Policy, Permissions-Policy）与缓存策略（hashed assets `1y immutable`, i18n JSON `1h`, HTML `no-cache`） |
 
 - `_headers` 由 Vite 从 `demo/public/` 自动拷贝到 dist 根目录，CF Pages 自动识别，无需手动上传。
 - `wrangler.toml` 为项目根机器可读配置，CI 可直接调用 `wrangler pages deploy` 部署。
@@ -99,10 +100,10 @@ demo/dist
 - `demo/build.js` 为标准 ESM（`import { build } from "vite"`、`import { cpSync } from "node:fs"`），不依赖 bun 专属 API，理论上 `node demo/build.js` 亦可执行
 - Cloudflare Pages 构建镜像对 bun 的支持以平台为准；若镜像未预装 bun，可采用如下任一兜底：
 
-| 兜底方案 | 构建命令 | 说明 |
-|---|---|---|
-| A（推荐）安装 bun | `npm i -g bun && bun install --frozen-lockfile && bun run build` | 与本地工具链完全一致 |
-| B（Node 兜底） | `npm install && node demo/build.js` | `build.js` 为标准 ESM；npm 会做独立解析（无 `bun.lock`） |
+| 兜底方案          | 构建命令                                                         | 说明                                                     |
+| ----------------- | ---------------------------------------------------------------- | -------------------------------------------------------- |
+| A（推荐）安装 bun | `npm i -g bun && bun install --frozen-lockfile && bun run build` | 与本地工具链完全一致                                     |
+| B（Node 兜底）    | `npm install && node demo/build.js`                              | `build.js` 为标准 ESM；npm 会做独立解析（无 `bun.lock`） |
 
 > 不确定性记录：本 Deploy Loop 仅做本地构建验证，未在真实 Cloudflare Pages 环境跑通。bun 是否预装于镜像属部署期人工验证项（见 §6）。
 
@@ -113,6 +114,7 @@ demo/dist
 ### 4.1 绝对路径在根域部署下成立
 
 构建后的 `index.html` 引用：
+
 - `/assets/index-<hash>.js`、`/assets/index-<hash>.css` 等（Vite 默认 `base: '/'`）
 - 运行时 fetch `/webc/I18n/i18n/<code>/js.json`（见 `demo/webc/I18n/i18n.js`）
 
@@ -122,8 +124,8 @@ demo/dist
 
 ### 4.2 外部 CDN 依赖
 
-| 资源 | URL | 性质 | 降级 |
-|---|---|---|---|
+| 资源    | URL                                                     | 性质                         | 降级                                                                                                                    |
+| ------- | ------------------------------------------------------- | ---------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
 | `_.css` | `https://registry.npmmirror.com/18s/0.2.24/files/_.css` | 样式框架（`index.pug` head） | 加载失败不影响 Mermaid 渲染核心功能；默认主题（`mermaid-default`）本身无 overlay，不依赖任何 CDN（HG-4 / AC-THEME-003） |
 
 默认 Mermaid 渲染 + 默认主题不依赖外部 CDN，满足"默认主题不应依赖外部 CDN 才能正常显示"。
@@ -134,25 +136,25 @@ demo/dist
 
 > 以下数据由 Deploy Loop 重新验证（clean build，2026-06-14T08:52Z），机器可读证据见 `workflow/reports/deployment-report.json` 的 `reVerification` 块。
 
-| 项 | 值 |
-|---|---|
-| 命令 | `rm -rf demo/dist && bun run build` |
-| 退出码 | 0 |
-| 耗时 | ~432ms |
-| 输出目录 | `demo/dist` |
-| dist 总大小 | 3.9 MB (4008 KB) |
-| asset chunk 数 | 77 |
-| `_headers` 拷贝到 dist | 是（782 bytes） |
-| chunk-size 警告 | >500kB（预期，已由 Size Loop 记录为体积 proxy，非阻断） |
-| 机器可读证据 | `workflow/reports/deployment-report.json`（含 `reVerification` 块） |
+| 项                     | 值                                                                  |
+| ---------------------- | ------------------------------------------------------------------- |
+| 命令                   | `rm -rf demo/dist && bun run build`                                 |
+| 退出码                 | 0                                                                   |
+| 耗时                   | ~432ms                                                              |
+| 输出目录               | `demo/dist`                                                         |
+| dist 总大小            | 3.9 MB (4008 KB)                                                    |
+| asset chunk 数         | 77                                                                  |
+| `_headers` 拷贝到 dist | 是（782 bytes）                                                     |
+| chunk-size 警告        | >500kB（预期，已由 Size Loop 记录为体积 proxy，非阻断）             |
+| 机器可读证据           | `workflow/reports/deployment-report.json`（含 `reVerification` 块） |
 
 构建产物关键文件（本次 clean build 实测）：
 
-| 文件 | raw | gzip |
-|---|---|---|
-| `demo/dist/index.html` | 4.41 kB | 1.56 kB |
+| 文件                                          | raw       | gzip     |
+| --------------------------------------------- | --------- | -------- |
+| `demo/dist/index.html`                        | 4.41 kB   | 1.56 kB  |
 | `demo/dist/assets/index-CsSmk8RF.js`（entry） | 186.57 kB | 46.18 kB |
-| `demo/dist/assets/index-B_6EgLaf.css` | 31.85 kB | 6.03 kB |
+| `demo/dist/assets/index-B_6EgLaf.css`         | 31.85 kB  | 6.03 kB  |
 
 > 确定性说明：entry JS hash `index-CsSmk8RF.js` 与首次构建一致，证明构建可重复；gzip 字节因压缩实现差异略有波动属正常。体积对比口径以 Size Loop 报告为准；部署计划仅证明构建可重复且 exit 0。
 
@@ -162,15 +164,15 @@ demo/dist
 
 部署到 Cloudflare Pages 后，需逐项确认（公网 URL）：
 
-| 验收项 | 验证方式 | 对应 AC |
-|---|---|---|
-| Mermaid 输入 → SVG 预览 | 输入合法 flowchart，确认 SVG 出现 | AC-UI-001/002 |
-| 8 类示例图展示 | 滚动至 Examples，确认 SVG 渲染（非截图） | AC-UI-003 |
-| 主题切换 | 点击主题按钮，确认 SVG 样式变化、localStorage 持久 | AC-THEME-001/002 |
-| 体积对比 SVG 柱状图 | 确认 `#size-chart` 内 SVG 存在、数据与 size-report.json 一致 | AC-COMPARE-001/004 |
-| 多语言切换 | 切换 zh/ja/de 等，确认文案更新、功能不崩 | AC-I18N-001/002 |
-| 静态资源 200 | DevTools Network 无 404（`/assets/*`、`/webc/I18n/i18n/*`） | AC-DEPLOY-001 |
-| 无 hydration 错误 | Console 无 uncaught error | AC-DEPLOY-001 |
+| 验收项                  | 验证方式                                                     | 对应 AC            |
+| ----------------------- | ------------------------------------------------------------ | ------------------ |
+| Mermaid 输入 → SVG 预览 | 输入合法 flowchart，确认 SVG 出现                            | AC-UI-001/002      |
+| 8 类示例图展示          | 滚动至 Examples，确认 SVG 渲染（非截图）                     | AC-UI-003          |
+| 主题切换                | 点击主题按钮，确认 SVG 样式变化、localStorage 持久           | AC-THEME-001/002   |
+| 体积对比 SVG 柱状图     | 确认 `#size-chart` 内 SVG 存在、数据与 size-report.json 一致 | AC-COMPARE-001/004 |
+| 多语言切换              | 切换 zh/ja/de 等，确认文案更新、功能不崩                     | AC-I18N-001/002    |
+| 静态资源 200            | DevTools Network 无 404（`/assets/*`、`/webc/I18n/i18n/*`）  | AC-DEPLOY-001      |
+| 无 hydration 错误       | Console 无 uncaught error                                    | AC-DEPLOY-001      |
 
 ---
 
@@ -187,22 +189,22 @@ demo/dist
 
 ## 8. 约束遵守
 
-| 约束 | 状态 |
-|---|---|
-| 不新增服务端运行 / 数据库 / 队列 | 满足（纯静态） |
-| 不修改 `src/**`、`lib/**`、parent docs、`references/**` | 满足 |
-| 不做最终验收签发 | 满足（本 Loop 仅规划，不做 final sign-off） |
-| 改动范围限于 `docs/deploy/**`、`workflow/reports/deployment-report.json`、CF Pages 配置文件 | 满足 |
+| 约束                                                                                        | 状态                                        |
+| ------------------------------------------------------------------------------------------- | ------------------------------------------- |
+| 不新增服务端运行 / 数据库 / 队列                                                            | 满足（纯静态）                              |
+| 不修改 `src/**`、`lib/**`、parent docs、`references/**`                                     | 满足                                        |
+| 不做最终验收签发                                                                            | 满足（本 Loop 仅规划，不做 final sign-off） |
+| 改动范围限于 `docs/deploy/**`、`workflow/reports/deployment-report.json`、CF Pages 配置文件 | 满足                                        |
 
 ---
 
 ## 9. 交付物索引
 
-| 产物 | 路径 |
-|---|---|
-| 部署计划（本文件） | `docs/deploy/deploy-plan.md` |
-| Wrangler 配置 | `wrangler.toml` |
-| 安全头与缓存配置 | `demo/public/_headers`（→ `demo/dist/_headers`） |
+| 产物                     | 路径                                                 |
+| ------------------------ | ---------------------------------------------------- |
+| 部署计划（本文件）       | `docs/deploy/deploy-plan.md`                         |
+| Wrangler 配置            | `wrangler.toml`                                      |
+| 安全头与缓存配置         | `demo/public/_headers`（→ `demo/dist/_headers`）     |
 | 本地构建证据（机器可读） | `workflow/runs/deploy/run-1/local-build-result.json` |
-| 部署就绪报告（机器可读） | `workflow/reports/deployment-report.json` |
-| 部署 Loop 最终报告 | `workflow/runs/deploy/run-1/final-report.md` |
+| 部署就绪报告（机器可读） | `workflow/reports/deployment-report.json`            |
+| 部署 Loop 最终报告       | `workflow/runs/deploy/run-1/final-report.md`         |

@@ -12,12 +12,12 @@ measuring real files, not by hand-writing or estimating values.
 
 `workflow/reports/size-report.json` — four numbers:
 
-| Side | Metric | Value |
-| --- | --- | --- |
-| beautiful-mermaid | raw | 328094 |
-| beautiful-mermaid | gzip | 66816 |
-| ours | raw | 127082 |
-| ours | gzip | 41785 |
+| Side              | Metric | Value  |
+| ----------------- | ------ | ------ |
+| beautiful-mermaid | raw    | 328094 |
+| beautiful-mermaid | gzip   | 66816  |
+| ours              | raw    | 127082 |
+| ours              | gzip   | 41785  |
 
 ## 3. Verification method
 
@@ -28,12 +28,12 @@ measure, using a separate command, and the result was compared to the report.
 
 The report claims `ours.entry = demo/dist/assets/index-BzHJhuCY.js`.
 
-| Check | Command | Result | Report | Match |
-| --- | --- | --- | --- | --- |
-| File exists | `ls demo/dist/assets/index-BzHJhuCY.js` | exists | — | ✅ |
-| Raw bytes | `wc -c demo/dist/assets/index-BzHJhuCY.js` | 127082 | 127082 | ✅ |
-| Gzip bytes | `bun -e "gzipSync(...).length"` | 41785 | 41785 | ✅ |
-| sha256 | `shasum -a 256 ...` | b5a27279... | b5a27279... | ✅ |
+| Check       | Command                                    | Result      | Report      | Match |
+| ----------- | ------------------------------------------ | ----------- | ----------- | ----- |
+| File exists | `ls demo/dist/assets/index-BzHJhuCY.js`    | exists      | —           | ✅    |
+| Raw bytes   | `wc -c demo/dist/assets/index-BzHJhuCY.js` | 127082      | 127082      | ✅    |
+| Gzip bytes  | `bun -e "gzipSync(...).length"`            | 41785       | 41785       | ✅    |
+| sha256      | `shasum -a 256 ...`                        | b5a27279... | b5a27279... | ✅    |
 
 **Conclusion: our numbers come from the real built entry chunk.**
 
@@ -43,15 +43,15 @@ The report bundles `references/beautiful-mermaid/src/index.ts` with
 `bun build --external elkjs --external entities` (matching `tsup.config.ts`
 external config).
 
-| Check | Command | Result | Report | Match |
-| --- | --- | --- | --- | --- |
-| Source exists | `ls references/beautiful-mermaid/src/index.ts` | exists | — | ✅ |
-| Git commit | `git rev-parse HEAD` | 2ac8bbb... | 2ac8bbb... | ✅ |
-| Git describe | `git describe --tags` | v1.1.3-12-g2ac8bbb | v1.1.3-12-g2ac8bbb | ✅ |
-| Version | `package.json` | 1.1.3 | 1.1.3 | ✅ |
-| Raw bytes (reproduced) | `bun build ... --outfile $TMP` via `execSync` | 328094 | 328094 | ✅ |
-| Gzip bytes (reproduced) | `gzipSync(bundle).length` | 66816 | 66816 | ✅ |
-| sha256 | `createHash('sha256')` | 424d4096... | 424d4096... | ✅ |
+| Check                   | Command                                        | Result             | Report             | Match |
+| ----------------------- | ---------------------------------------------- | ------------------ | ------------------ | ----- |
+| Source exists           | `ls references/beautiful-mermaid/src/index.ts` | exists             | —                  | ✅    |
+| Git commit              | `git rev-parse HEAD`                           | 2ac8bbb...         | 2ac8bbb...         | ✅    |
+| Git describe            | `git describe --tags`                          | v1.1.3-12-g2ac8bbb | v1.1.3-12-g2ac8bbb | ✅    |
+| Version                 | `package.json`                                 | 1.1.3              | 1.1.3              | ✅    |
+| Raw bytes (reproduced)  | `bun build ... --outfile $TMP` via `execSync`  | 328094             | 328094             | ✅    |
+| Gzip bytes (reproduced) | `gzipSync(bundle).length`                      | 66816              | 66816              | ✅    |
+| sha256                  | `createHash('sha256')`                         | 424d4096...        | 424d4096...        | ✅    |
 
 **Conclusion: beautiful-mermaid numbers come from a real local bundle of the
 pinned source commit.**
@@ -78,10 +78,10 @@ same `execSync('bun build ...')` invocation path.
 - **Impact:** Both sides use the identical gzip method, so the comparison is
   internally fair. Level-9 reference values for transparency:
 
-| Side | gzip level 6 (used) | gzip level 9 (reference) |
-| --- | --- | --- |
-| beautiful-mermaid | 66816 | 66021 |
-| ours | 41785 | 41341 |
+| Side              | gzip level 6 (used) | gzip level 9 (reference) |
+| ----------------- | ------------------- | ------------------------ |
+| beautiful-mermaid | 66816               | 66021                    |
+| ours              | 41785               | 41341                    |
 
 - **Action:** No change required for verification pass. A future size-loop
   iteration may switch to level 9 if desired; this does not affect the
@@ -101,11 +101,11 @@ same `execSync('bun build ...')` invocation path.
 
 ### 4.3 Blocked patterns check
 
-| Pattern (from size-loop config) | Present in report/chart? |
-| --- | --- |
-| `runtime benchmark` | No — report says "performance proxy, not a runtime benchmark" |
-| `estimated size` | No — all numbers verified from real files |
-| `manual size data` | No — script-generated |
+| Pattern (from size-loop config) | Present in report/chart?                                      |
+| ------------------------------- | ------------------------------------------------------------- |
+| `runtime benchmark`             | No — report says "performance proxy, not a runtime benchmark" |
+| `estimated size`                | No — all numbers verified from real files                     |
+| `manual size data`              | No — script-generated                                         |
 
 ## 5. Verdict
 

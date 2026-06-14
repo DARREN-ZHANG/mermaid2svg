@@ -17,33 +17,33 @@
 
 ## 2. 复验命令结果
 
-| # | 命令 | Exit | 结果 |
-|---|------|------|------|
-| 1 | `bun extract/run.js` | 0 | 18 tests generated, 109 skipped |
-| 2 | `bun test test/render-yml.test.mjs` | 0 | 19 pass, 0 fail |
-| 3 | `bun test test/svg-output.test.mjs` | 0 | 29 pass, 0 fail |
-| 4 | `bun test test/compare.test.js` | 0 | 421 pass, 0 fail (上游 MathML 回归完好) |
-| 5 | `./sh/check.js` | 0 | 75 locale, all keys present; 73 fallback warn >5% (HG-5 可接受) |
-| 6 | `bun run build` | 0 | demo/dist/index.html 存在; entry index-CsSmk8RF.js |
-| 7 | artifact 存在性 (12 文件) | 0 | 全部存在 |
-| 8 | `ls test/*.yml \| wc -l` | 0 | 19 (18 test + 1 schema) |
-| 9 | `ls demo/i18n/*.js \| wc -l` | 0 | 75 locale 文件 |
-| 10 | `git diff dfc9d09 HEAD --stat -- src/ (排除 render/)` | 0 | 0 改动 |
-| 11 | `git diff dfc9d09 HEAD --stat -- references/ plugin/ blog/` | 0 | 0 改动 |
-| 12 | `git log dfc9d09..HEAD -- lib/` | 0 | 1 commit (d0e9b0a, minify.js auto-regen) |
+| #   | 命令                                                        | Exit | 结果                                                            |
+| --- | ----------------------------------------------------------- | ---- | --------------------------------------------------------------- |
+| 1   | `bun extract/run.js`                                        | 0    | 18 tests generated, 109 skipped                                 |
+| 2   | `bun test test/render-yml.test.mjs`                         | 0    | 19 pass, 0 fail                                                 |
+| 3   | `bun test test/svg-output.test.mjs`                         | 0    | 29 pass, 0 fail                                                 |
+| 4   | `bun test test/compare.test.js`                             | 0    | 421 pass, 0 fail (上游 MathML 回归完好)                         |
+| 5   | `./sh/check.js`                                             | 0    | 75 locale, all keys present; 73 fallback warn >5% (HG-5 可接受) |
+| 6   | `bun run build`                                             | 0    | demo/dist/index.html 存在; entry index-CsSmk8RF.js              |
+| 7   | artifact 存在性 (12 文件)                                   | 0    | 全部存在                                                        |
+| 8   | `ls test/*.yml \| wc -l`                                    | 0    | 19 (18 test + 1 schema)                                         |
+| 9   | `ls demo/i18n/*.js \| wc -l`                                | 0    | 75 locale 文件                                                  |
+| 10  | `git diff dfc9d09 HEAD --stat -- src/ (排除 render/)`       | 0    | 0 改动                                                          |
+| 11  | `git diff dfc9d09 HEAD --stat -- references/ plugin/ blog/` | 0    | 0 改动                                                          |
+| 12  | `git log dfc9d09..HEAD -- lib/`                             | 0    | 1 commit (d0e9b0a, minify.js auto-regen)                        |
 
 ---
 
 ## 3. 受保护文件审计确认
 
-| 范围 | 结论 |
-|------|------|
-| `src/` 非 render/ | 无修改（git diff 确认 0 changes） |
-| `lib/` | 仅 minify.js 自动重新生成，非手动编辑 |
-| `references/` | 无修改 |
-| `plugin/` | 无修改 |
-| `blog/` | 无修改 |
-| parent docs | canonical 规约文档未修改（loop blocked-files 约束） |
+| 范围              | 结论                                                |
+| ----------------- | --------------------------------------------------- |
+| `src/` 非 render/ | 无修改（git diff 确认 0 changes）                   |
+| `lib/`            | 仅 minify.js 自动重新生成，非手动编辑               |
+| `references/`     | 无修改                                              |
+| `plugin/`         | 无修改                                              |
+| `blog/`           | 无修改                                              |
+| parent docs       | canonical 规约文档未修改（loop blocked-files 约束） |
 
 ---
 

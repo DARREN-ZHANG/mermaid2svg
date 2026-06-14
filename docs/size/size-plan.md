@@ -19,16 +19,16 @@ runtime benchmark. This satisfies `mermaid-svg-spec.md` §9.3 and
 
 ## 2. Canonical requirements (locked)
 
-| Source | Clause |
-| --- | --- |
-| spec §9, §9.1–9.4 | chart must be SVG bar chart; four-number comparison; size report script-generated |
-| spec §12 | no runtime benchmark gate in this version |
-| AC-COMPARE-001 | page contains an SVG bar chart (not PNG/canvas) |
-| AC-COMPARE-002 | exactly four numbers; exclude full-site / unrelated vendor / CSS / fonts |
-| AC-COMPARE-003 | proxy wording on page; no runtime-benchmark claim |
-| AC-COMPARE-004 | `workflow/reports/size-report.json` is the source of truth; page data == report |
-| HG-4 | use local `references/beautiful-mermaid` as traceable source; pin commit; default theme needs no CDN |
-| size-loop.config | `blockedPatterns: ["runtime benchmark","estimated size","manual size data"]`; `forbiddenScope: i18n or deployment` |
+| Source            | Clause                                                                                                             |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------ |
+| spec §9, §9.1–9.4 | chart must be SVG bar chart; four-number comparison; size report script-generated                                  |
+| spec §12          | no runtime benchmark gate in this version                                                                          |
+| AC-COMPARE-001    | page contains an SVG bar chart (not PNG/canvas)                                                                    |
+| AC-COMPARE-002    | exactly four numbers; exclude full-site / unrelated vendor / CSS / fonts                                           |
+| AC-COMPARE-003    | proxy wording on page; no runtime-benchmark claim                                                                  |
+| AC-COMPARE-004    | `workflow/reports/size-report.json` is the source of truth; page data == report                                    |
+| HG-4              | use local `references/beautiful-mermaid` as traceable source; pin commit; default theme needs no CDN               |
+| size-loop.config  | `blockedPatterns: ["runtime benchmark","estimated size","manual size data"]`; `forbiddenScope: i18n or deployment` |
 
 The four comparison numbers (AC-COMPARE-002):
 
@@ -60,6 +60,7 @@ The CDN URL recorded in the report is
 bundle so the comparison is fair. This split is explicit in the report.
 
 Provenance pin (from theme-css-report.json, already verified):
+
 - repo: `lukilabs/beautiful-mermaid`
 - localPath: `references/beautiful-mermaid`
 - commit: `2ac8bbbb060ca0a65a6a21f3200bd99b1587b488`
@@ -198,12 +199,8 @@ measured artifact so verification can confirm the numbers match real bytes.
     "rawBytes": 0,
     "gzipBytes": 0,
     "chunkCount": 0,
-    "chunks": [
-      { "file": "demo/dist/assets/index-xxx.js", "rawBytes": 0, "gzipBytes": 0 }
-    ],
-    "excludedChunks": [
-      { "file": "...", "reason": "unreachable from entry / non-JS / ..." }
-    ]
+    "chunks": [{ "file": "demo/dist/assets/index-xxx.js", "rawBytes": 0, "gzipBytes": 0 }],
+    "excludedChunks": [{ "file": "...", "reason": "unreachable from entry / non-JS / ..." }]
   },
   "ratios": {
     "rawMultiple": 0,
@@ -284,31 +281,31 @@ run; no manual numbers.
 
 ## 7. File inventory (for implementation phase)
 
-| File | Owner phase | Purpose |
-| --- | --- | --- |
-| `sh/gen-size.js` | implementation | build + measure both sides; write report + sizeData.js |
-| `workflow/reports/size-report.json` | implementation/verification | canonical data |
-| `demo/const/sizeData.js` | implementation | page-facing generated copy |
-| `demo/index.js` | implementation | render SVG bar chart from SIZE_DATA |
-| `demo/index.pug` | implementation | replace TODO placeholder with chart container |
-| `demo/style.styl` | implementation | bar chart styles (optional, minimal) |
-| `package.json` | implementation | add `size:report` script |
-| `docs/size/size-plan.md` | this phase | plan |
-| `docs/size-loop-report.md` | final-report | loop summary |
+| File                                | Owner phase                 | Purpose                                                |
+| ----------------------------------- | --------------------------- | ------------------------------------------------------ |
+| `sh/gen-size.js`                    | implementation              | build + measure both sides; write report + sizeData.js |
+| `workflow/reports/size-report.json` | implementation/verification | canonical data                                         |
+| `demo/const/sizeData.js`            | implementation              | page-facing generated copy                             |
+| `demo/index.js`                     | implementation              | render SVG bar chart from SIZE_DATA                    |
+| `demo/index.pug`                    | implementation              | replace TODO placeholder with chart container          |
+| `demo/style.styl`                   | implementation              | bar chart styles (optional, minimal)                   |
+| `package.json`                      | implementation              | add `size:report` script                               |
+| `docs/size/size-plan.md`            | this phase                  | plan                                                   |
+| `docs/size-loop-report.md`          | final-report                | loop summary                                           |
 
 Implementation-phase allowed files (from `03-implementation.md`):
 `demo/**`, `sh/**`, `workflow/reports/size-report.json`, `docs/size/**`.
 
 ## 8. Risks & fallbacks
 
-| Risk | Mitigation / fallback |
-| --- | --- |
-| `bun install` inside `references/beautiful-mermaid` blocked/unwanted | symlink/use elkjs+entities from our `node_modules` (present); record method |
-| Vite manifest lacks reachability metadata | static allowlist of known mermaid render-path chunk prefixes (§4.3) + record `excludedChunks` |
-| `katex-*` / `rough.esm-*` chunks — are they reachable? | reachability check decides; if pulled by `mermaid` they ARE render-path (include); if orphaned, exclude w/ reason |
-| Chart data drift from report | single script writes both from one measurement (§6.2) |
-| Numbers look unfavorable (mermaid is large) | report honestly; spec does NOT require us to be smaller — only that the proxy is traceable and correctly scoped. No cherry-picking. |
-| Page claims "benchmark" | keep proxy disclaimer visible; chart labels say "size" not "performance/speed" |
+| Risk                                                                 | Mitigation / fallback                                                                                                               |
+| -------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `bun install` inside `references/beautiful-mermaid` blocked/unwanted | symlink/use elkjs+entities from our `node_modules` (present); record method                                                         |
+| Vite manifest lacks reachability metadata                            | static allowlist of known mermaid render-path chunk prefixes (§4.3) + record `excludedChunks`                                       |
+| `katex-*` / `rough.esm-*` chunks — are they reachable?               | reachability check decides; if pulled by `mermaid` they ARE render-path (include); if orphaned, exclude w/ reason                   |
+| Chart data drift from report                                         | single script writes both from one measurement (§6.2)                                                                               |
+| Numbers look unfavorable (mermaid is large)                          | report honestly; spec does NOT require us to be smaller — only that the proxy is traceable and correctly scoped. No cherry-picking. |
+| Page claims "benchmark"                                              | keep proxy disclaimer visible; chart labels say "size" not "performance/speed"                                                      |
 
 ## 9. Verification criteria (for `verification` + `final-report` phases)
 

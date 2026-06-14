@@ -31,36 +31,36 @@ to their own loops.
 
 ### 1.3 Inputs (produced by earlier loops)
 
-| Input | Role |
-|---|---|
-| `src/render/mermaid-to-svg.js` | `renderMermaidToSvg(text)` → `[OK, rawSvg, diagramType]`. Browser-only, default Mermaid theme. |
-| `src/render/normalize-svg.js` | `normalizeSvg(rawSvg)` → `[OK, normalizedSvg]`. Canonicalizes the SVG root id to `mermaid-svg`. |
-| `demo/index.js`, `demo/index.pug`, `demo/style.styl` | Current demo: editor card, examples gallery, error states. No theme UI yet. |
-| `workflow/reports/web-demo-report.json` | Web Demo verification (8/8 pass), records deferral of theme to this loop. |
-| `references/beautiful-mermaid/src/theme.ts` | Canonical theme palette source (15 named themes). |
+| Input                                                | Role                                                                                            |
+| ---------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `src/render/mermaid-to-svg.js`                       | `renderMermaidToSvg(text)` → `[OK, rawSvg, diagramType]`. Browser-only, default Mermaid theme.  |
+| `src/render/normalize-svg.js`                        | `normalizeSvg(rawSvg)` → `[OK, normalizedSvg]`. Canonicalizes the SVG root id to `mermaid-svg`. |
+| `demo/index.js`, `demo/index.pug`, `demo/style.styl` | Current demo: editor card, examples gallery, error states. No theme UI yet.                     |
+| `workflow/reports/web-demo-report.json`              | Web Demo verification (8/8 pass), records deferral of theme to this loop.                       |
+| `references/beautiful-mermaid/src/theme.ts`          | Canonical theme palette source (15 named themes).                                               |
 
 ### 1.4 Outputs (produced by this loop)
 
-| Output | Phase |
-|---|---|
-| `demo/const/themes.js` (theme palette data, transcribed from reference) | 03 implementation |
-| `demo/index.js`, `demo/index.pug`, `demo/style.styl` (theme switcher + overlay CSS) | 03 implementation |
-| `workflow/reports/theme-css-report.json` | 03 implementation / 04 verification |
-| `docs/theme/theme-verification.md` | 04 verification |
-| `docs/theme-loop-report.md` | 05 final-report |
+| Output                                                                              | Phase                               |
+| ----------------------------------------------------------------------------------- | ----------------------------------- |
+| `demo/const/themes.js` (theme palette data, transcribed from reference)             | 03 implementation                   |
+| `demo/index.js`, `demo/index.pug`, `demo/style.styl` (theme switcher + overlay CSS) | 03 implementation                   |
+| `workflow/reports/theme-css-report.json`                                            | 03 implementation / 04 verification |
+| `docs/theme/theme-verification.md`                                                  | 04 verification                     |
+| `docs/theme-loop-report.md`                                                         | 05 final-report                     |
 
 ### 1.5 Hard constraints
 
-| Constraint | Detail |
-|---|---|
-| No render-flow change | Theme switching must NOT modify `src/**`. It is a visual overlay on the normalized SVG. Spec §8: "主题切换不应改变核心渲染流程". |
-| No self-built parser / layout | Themes are pure CSS; no parsing of Mermaid. |
-| No external CDN at runtime | Default theme must render with bundled/local CSS only (HG-4). Beautiful Mermaid CSS values are transcribed into a local data module; no runtime fetch of `beautiful-mermaid`. |
-| Source traceability | Theme palettes must record their source path, repo, commit, and version (HG-4). |
-| i18n deferred | New theme-switcher copy uses English text marked `// TODO(i18n-loop): extract to key`; do NOT edit `demo/i18n/*.js`. |
-| Preserve design language | Theme UI reuses existing `.Btn`, `.card`, glassmorphism (`.Lg`), and design tokens from `demo/style.styl`. |
-| Blocked scope | size comparison, i18n key propagation, deployment. |
-| Blocked patterns | runtime benchmark, server rendering, `puppeteer`/`playwright` as renderer, screenshot/canvas as oracle. |
+| Constraint                    | Detail                                                                                                                                                                        |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| No render-flow change         | Theme switching must NOT modify `src/**`. It is a visual overlay on the normalized SVG. Spec §8: "主题切换不应改变核心渲染流程".                                              |
+| No self-built parser / layout | Themes are pure CSS; no parsing of Mermaid.                                                                                                                                   |
+| No external CDN at runtime    | Default theme must render with bundled/local CSS only (HG-4). Beautiful Mermaid CSS values are transcribed into a local data module; no runtime fetch of `beautiful-mermaid`. |
+| Source traceability           | Theme palettes must record their source path, repo, commit, and version (HG-4).                                                                                               |
+| i18n deferred                 | New theme-switcher copy uses English text marked `// TODO(i18n-loop): extract to key`; do NOT edit `demo/i18n/*.js`.                                                          |
+| Preserve design language      | Theme UI reuses existing `.Btn`, `.card`, glassmorphism (`.Lg`), and design tokens from `demo/style.styl`.                                                                    |
+| Blocked scope                 | size comparison, i18n key propagation, deployment.                                                                                                                            |
+| Blocked patterns              | runtime benchmark, server rendering, `puppeteer`/`playwright` as renderer, screenshot/canvas as oracle.                                                                       |
 
 ---
 
@@ -69,15 +69,15 @@ to their own loops.
 The Human Gate HG-4 mandates the local `references/beautiful-mermaid` repository as
 the traceable source. The exact provenance to record in every generated report:
 
-| Field | Value |
-|---|---|
-| repo | `lukilabs/beautiful-mermaid` |
-| url | `https://github.com/lukilabs/beautiful-mermaid` |
-| localPath | `references/beautiful-mermaid` |
-| sourceFile | `src/theme.ts` (`THEMES` export) |
-| commit | `2ac8bbbb060ca0a65a6a21f3200bd99b1587b488` |
-| commitDate | `2026-05-06T12:53:19+02:00` |
-| version | `1.1.3` (`references/beautiful-mermaid/package.json`); `git describe` = `v1.1.3-12-g2ac8bbb` |
+| Field      | Value                                                                                        |
+| ---------- | -------------------------------------------------------------------------------------------- |
+| repo       | `lukilabs/beautiful-mermaid`                                                                 |
+| url        | `https://github.com/lukilabs/beautiful-mermaid`                                              |
+| localPath  | `references/beautiful-mermaid`                                                               |
+| sourceFile | `src/theme.ts` (`THEMES` export)                                                             |
+| commit     | `2ac8bbbb060ca0a65a6a21f3200bd99b1587b488`                                                   |
+| commitDate | `2026-05-06T12:53:19+02:00`                                                                  |
+| version    | `1.1.3` (`references/beautiful-mermaid/package.json`); `git describe` = `v1.1.3-12-g2ac8bbb` |
 
 This exact field set (`repo`, `url`, `localPath`, `sourceFile`, `commit`,
 `commitDate`, `version`) is reused verbatim in the data module (`THEME_SOURCE`,
@@ -144,15 +144,15 @@ default colors without `!important`. For example
 
 ### 3.3 Color-role mapping (Beautiful Mermaid → Mermaid SVG selectors)
 
-| Beautiful Mermaid variable | Mermaid SVG target (post-normalize) | Role |
-|---|---|---|
-| `--bg` | `#svg-preview #mermaid-svg` (background) | SVG canvas background |
-| `--fg` | `#mermaid-svg` root `fill`, `.label` `color`, `.marker` fill/stroke | Primary text + arrowheads |
-| `--line` | `.edgePath .path` `stroke`, `.flowchart-link` `fill` | Connectors / edges |
-| `--accent` | `.node .label` (optional accent text) or highlight nodes | Highlights |
-| `--muted` | secondary labels / cluster labels | Secondary text |
-| `--surface` | `.node rect`, `.node circle`, `.node polygon`, `.node path` `fill` | Node box fill |
-| `--border` | node shape `stroke` | Node box stroke |
+| Beautiful Mermaid variable | Mermaid SVG target (post-normalize)                                 | Role                      |
+| -------------------------- | ------------------------------------------------------------------- | ------------------------- |
+| `--bg`                     | `#svg-preview #mermaid-svg` (background)                            | SVG canvas background     |
+| `--fg`                     | `#mermaid-svg` root `fill`, `.label` `color`, `.marker` fill/stroke | Primary text + arrowheads |
+| `--line`                   | `.edgePath .path` `stroke`, `.flowchart-link` `fill`                | Connectors / edges        |
+| `--accent`                 | `.node .label` (optional accent text) or highlight nodes            | Highlights                |
+| `--muted`                  | secondary labels / cluster labels                                   | Secondary text            |
+| `--surface`                | `.node rect`, `.node circle`, `.node polygon`, `.node path` `fill`  | Node box fill             |
+| `--border`                 | node shape `stroke`                                                 | Node box stroke           |
 
 The optional enrichment variables (`--line`, `--accent`, `--muted`, `--surface`,
 `--border`) fall back to color-mix derivations from `--fg` + `--bg` exactly as
@@ -162,7 +162,7 @@ explicit enrichment values use them directly.
 ### 3.4 Implementation mechanics
 
 1. **Theme data** (`demo/const/themes.js`): an array of `[id, label, {bg, fg,
-   line?, accent?, muted?, surface?, border?}]` tuples transcribed from the
+line?, accent?, muted?, surface?, border?}]` tuples transcribed from the
    reference `THEMES`. Curated subset for the demo (see §4).
 2. **Derived CSS variables**: the overlay CSS sets the Beautiful Mermaid
    custom properties on `#svg-preview` per `data-theme`, then derives the
@@ -184,10 +184,10 @@ explicit enrichment values use them directly.
 
 ### 3.5 Alternatives considered (not chosen)
 
-| Alternative | Why not |
-|---|---|
+| Alternative                                                                    | Why not                                                                                                                                                                                                                            |
+| ------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Demo-layer `mermaid.configure({theme:'base',themeVariables})` before re-render | Changes Mermaid's active config on each switch; arguably touches the rendering flow (spec says theme must not change core rendering). Requires a re-render per switch (slower). Couples the demo directly to the `mermaid` import. |
-| Post-process the SVG string to inject a `<style>` block | Works, but competes with the normalizer's responsibility and adds a second mutation step. Pure page-CSS overlay is simpler and sufficient given §3.2. |
+| Post-process the SVG string to inject a `<style>` block                        | Works, but competes with the normalizer's responsibility and adds a second mutation step. Pure page-CSS overlay is simpler and sufficient given §3.2.                                                                              |
 
 ---
 
@@ -198,17 +198,17 @@ explicit enrichment values use them directly.
 Beautiful Mermaid ships 15 named themes. The demo exposes a curated subset that
 covers light, dark, and a few popular palettes, so the switcher stays readable:
 
-| id | label | bg | fg | enrichment |
-|---|---|---|---|---|
-| `mermaid-default` | Mermaid Default | (none — disables overlay, shows native Mermaid look) | — | — |
-| `zinc-light` | Zinc Light | `#FFFFFF` | `#27272A` | derived |
-| `zinc-dark` | Zinc Dark | `#18181B` | `#FAFAFA` | derived |
-| `tokyo-night` | Tokyo Night | `#1a1b26` | `#a9b1d6` | line/accent/muted |
-| `catppuccin-mocha` | Catppuccin Mocha | `#1e1e2e` | `#cdd6f4` | line/accent/muted |
-| `nord` | Nord | `#2e3440` | `#d8dee9` | line/accent/muted |
-| `github-light` | GitHub Light | `#ffffff` | `#1f2328` | line/accent/muted |
-| `github-dark` | GitHub Dark | `#0d1117` | `#e6edf3` | line/accent/muted |
-| `dracula` | Dracula | `#282a36` | `#f8f8f2` | line/accent/muted |
+| id                 | label            | bg                                                   | fg        | enrichment        |
+| ------------------ | ---------------- | ---------------------------------------------------- | --------- | ----------------- |
+| `mermaid-default`  | Mermaid Default  | (none — disables overlay, shows native Mermaid look) | —         | —                 |
+| `zinc-light`       | Zinc Light       | `#FFFFFF`                                            | `#27272A` | derived           |
+| `zinc-dark`        | Zinc Dark        | `#18181B`                                            | `#FAFAFA` | derived           |
+| `tokyo-night`      | Tokyo Night      | `#1a1b26`                                            | `#a9b1d6` | line/accent/muted |
+| `catppuccin-mocha` | Catppuccin Mocha | `#1e1e2e`                                            | `#cdd6f4` | line/accent/muted |
+| `nord`             | Nord             | `#2e3440`                                            | `#d8dee9` | line/accent/muted |
+| `github-light`     | GitHub Light     | `#ffffff`                                            | `#1f2328` | line/accent/muted |
+| `github-dark`      | GitHub Dark      | `#0d1117`                                            | `#e6edf3` | line/accent/muted |
+| `dracula`          | Dracula          | `#282a36`                                            | `#f8f8f2` | line/accent/muted |
 
 The special `mermaid-default` entry disables the overlay entirely (removes the
 color-override rules) so users can compare the Beautiful Mermaid styling against
@@ -311,9 +311,7 @@ workflow/reports/theme-css-report.json
     "commitDate": "2026-05-06T12:53:19+02:00",
     "version": "1.1.3"
   },
-  "themes": [
-    { "id": "zinc-light", "label": "Zinc Light", "provenanceMatch": true }
-  ],
+  "themes": [{ "id": "zinc-light", "label": "Zinc Light", "provenanceMatch": true }],
   "defaultTheme": "mermaid-default",
   "cdnIndependence": {
     "runtimeCdnRequired": false,
@@ -347,27 +345,27 @@ required artifact for both phases and a required final artifact for the loop.
 
 ### Phase 03 (implementation)
 
-| | Path |
-|---|---|
-| Allowed | `demo/**`, `docs/theme/**`, `workflow/reports/theme-css-report.json` |
-| Blocked | `../docs/**`, `references/**`, `src/**`, `lib/**`, `test/**`, `extract/**`, `demo/i18n/**` (key additions), all size/i18n/deploy files |
-| Required outputs | `demo/const/themes.js`, updated `demo/index.js` + `demo/index.pug` + `demo/style.styl`, `workflow/reports/theme-css-report.json` |
+|                  | Path                                                                                                                                   |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| Allowed          | `demo/**`, `docs/theme/**`, `workflow/reports/theme-css-report.json`                                                                   |
+| Blocked          | `../docs/**`, `references/**`, `src/**`, `lib/**`, `test/**`, `extract/**`, `demo/i18n/**` (key additions), all size/i18n/deploy files |
+| Required outputs | `demo/const/themes.js`, updated `demo/index.js` + `demo/index.pug` + `demo/style.styl`, `workflow/reports/theme-css-report.json`       |
 
 ### Phase 04 (verification)
 
-| | Path |
-|---|---|
-| Allowed | `workflow/reports/theme-css-report.json`, `docs/theme/**` |
-| Blocked | `../docs/**`, `references/**`, `src/**`, `demo/**` (no source edits), `test/**` |
+|                  | Path                                                                                   |
+| ---------------- | -------------------------------------------------------------------------------------- |
+| Allowed          | `workflow/reports/theme-css-report.json`, `docs/theme/**`                              |
+| Blocked          | `../docs/**`, `references/**`, `src/**`, `demo/**` (no source edits), `test/**`        |
 | Required outputs | `docs/theme/theme-verification.md`, refreshed `workflow/reports/theme-css-report.json` |
 
 ### Phase 05 (final-report)
 
-| | Path |
-|---|---|
-| Allowed | `docs/theme-loop-report.md` |
-| Blocked | `../docs/**`, `references/**`, `src/**`, `demo/**`, `test/**` |
-| Required output | `docs/theme-loop-report.md` |
+|                 | Path                                                          |
+| --------------- | ------------------------------------------------------------- |
+| Allowed         | `docs/theme-loop-report.md`                                   |
+| Blocked         | `../docs/**`, `references/**`, `src/**`, `demo/**`, `test/**` |
+| Required output | `docs/theme-loop-report.md`                                   |
 
 ---
 
@@ -416,13 +414,13 @@ Validator checks `docs/theme-loop-report.md` exists and final artifacts
 
 All commits use conventional commits format.
 
-| Order | Phase | Commit message | Files |
-|---|---|---|---|
-| 1 | 02 plan | `docs(theme): add theme loop plan` | `docs/theme/theme-plan.md` |
-| 2 | 03 implementation | `feat(theme): add beautiful mermaid css theme switching` | `demo/const/themes.js`, `demo/index.js`, `demo/index.pug`, `demo/style.styl` |
-| 3 | 03 implementation | `chore(theme): record theme css report` | `workflow/reports/theme-css-report.json` |
-| 4 | 04 verification | `docs(theme): record theme verification` | `docs/theme/theme-verification.md`, `workflow/reports/theme-css-report.json` |
-| 5 | 05 final-report | `docs(theme): write theme loop report` | `docs/theme-loop-report.md` |
+| Order | Phase             | Commit message                                           | Files                                                                        |
+| ----- | ----------------- | -------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| 1     | 02 plan           | `docs(theme): add theme loop plan`                       | `docs/theme/theme-plan.md`                                                   |
+| 2     | 03 implementation | `feat(theme): add beautiful mermaid css theme switching` | `demo/const/themes.js`, `demo/index.js`, `demo/index.pug`, `demo/style.styl` |
+| 3     | 03 implementation | `chore(theme): record theme css report`                  | `workflow/reports/theme-css-report.json`                                     |
+| 4     | 04 verification   | `docs(theme): record theme verification`                 | `docs/theme/theme-verification.md`, `workflow/reports/theme-css-report.json` |
+| 5     | 05 final-report   | `docs(theme): write theme loop report`                   | `docs/theme-loop-report.md`                                                  |
 
 Each commit is made after the phase's verification command passes.
 
@@ -449,15 +447,15 @@ demo source free of blocked patterns (`puppeteer`, `playwright`, `screenshot`,
 
 ## 11. Risk Register
 
-| Risk | Mitigation |
-|---|---|
-| Some Mermaid diagram types (pie, gantt, xychart) may use different color selectors than flowchart | Inspect each MVP type's SVG `<style>` block during implementation; extend the overlay selector list per type. The probe in §3.2 confirmed flowchart; other types are verified in implementation. |
-| Mermaid's embedded `<style>` could be re-emitted with a different id after a future renderer change | The normalizer already canonicalizes the id to `mermaid-svg`; the overlay targets that stable id, not the volatile `m2s-N`. |
-| Future Mermaid upgrade adds inline color styles that defeat CSS overlay | Implementation checks for inline color attributes; if found, escalate to the spec-mandated boundary (record in verification; do not silently weaken). Low probability given current strict-mode output. |
-| Theme overlay conflicts with the size/gzip comparison SVG chart (added by Size Loop) | The overlay is scoped to `#svg-preview #mermaid-svg` and the examples gallery; it does not target the comparison chart's SVG. |
-| Hardcoded English theme button labels | Explicitly marked `TODO(i18n-loop)`; full i18n is a separate loop. |
-| localStorage theme id becomes stale after a palette rename | Unknown stored ids fall back to `mermaid-default`; page never breaks. |
-| Over-transcribing all 15 themes bloats the switcher | Curate to 9 entries (§4.1) covering light/dark/popular palettes. |
+| Risk                                                                                                | Mitigation                                                                                                                                                                                              |
+| --------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Some Mermaid diagram types (pie, gantt, xychart) may use different color selectors than flowchart   | Inspect each MVP type's SVG `<style>` block during implementation; extend the overlay selector list per type. The probe in §3.2 confirmed flowchart; other types are verified in implementation.        |
+| Mermaid's embedded `<style>` could be re-emitted with a different id after a future renderer change | The normalizer already canonicalizes the id to `mermaid-svg`; the overlay targets that stable id, not the volatile `m2s-N`.                                                                             |
+| Future Mermaid upgrade adds inline color styles that defeat CSS overlay                             | Implementation checks for inline color attributes; if found, escalate to the spec-mandated boundary (record in verification; do not silently weaken). Low probability given current strict-mode output. |
+| Theme overlay conflicts with the size/gzip comparison SVG chart (added by Size Loop)                | The overlay is scoped to `#svg-preview #mermaid-svg` and the examples gallery; it does not target the comparison chart's SVG.                                                                           |
+| Hardcoded English theme button labels                                                               | Explicitly marked `TODO(i18n-loop)`; full i18n is a separate loop.                                                                                                                                      |
+| localStorage theme id becomes stale after a palette rename                                          | Unknown stored ids fall back to `mermaid-default`; page never breaks.                                                                                                                                   |
+| Over-transcribing all 15 themes bloats the switcher                                                 | Curate to 9 entries (§4.1) covering light/dark/popular palettes.                                                                                                                                        |
 
 ---
 

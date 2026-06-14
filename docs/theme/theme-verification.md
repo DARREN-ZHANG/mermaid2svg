@@ -10,13 +10,13 @@ and implements against the plan in `docs/theme/theme-plan.md`.
 
 ## 1. Verification Scope
 
-| AC ref | Requirement | Status |
-|---|---|---|
-| AC-THEME-001 | Theme switching affects Mermaid SVG styling | pass |
-| AC-THEME-002 | Visible theme switch button; switch is interactive | pass |
-| AC-THEME-003 | Beautiful Mermaid CSS source/version traceable; no runtime CDN needed for default | pass |
-| HG-4 | Local `references/beautiful-mermaid` is the traceable source; commit pinned | pass |
-| spec §8 | Theme switching does not alter the core render flow (`src/**` untouched) | pass |
+| AC ref       | Requirement                                                                       | Status |
+| ------------ | --------------------------------------------------------------------------------- | ------ |
+| AC-THEME-001 | Theme switching affects Mermaid SVG styling                                       | pass   |
+| AC-THEME-002 | Visible theme switch button; switch is interactive                                | pass   |
+| AC-THEME-003 | Beautiful Mermaid CSS source/version traceable; no runtime CDN needed for default | pass   |
+| HG-4         | Local `references/beautiful-mermaid` is the traceable source; commit pinned       | pass   |
+| spec §8      | Theme switching does not alter the core render flow (`src/**` untouched)          | pass   |
 
 ---
 
@@ -25,15 +25,15 @@ and implements against the plan in `docs/theme/theme-plan.md`.
 The CSS palette source is the local read-only reference repository. Provenance was
 re-verified at the pinned commit:
 
-| Field | Recorded value | Verified |
-|---|---|---|
-| repo | `lukilabs/beautiful-mermaid` | yes |
-| url | `https://github.com/lukilabs/beautiful-mermaid` | yes |
-| localPath | `references/beautiful-mermaid` | exists |
-| sourceFile | `src/theme.ts` (`THEMES` export) | exists |
-| commit | `2ac8bbbb060ca0a65a6a21f3200bd99b1587b488` | `git log -1` confirms |
-| commitDate | `2026-05-06T12:53:19+02:00` | matches `git log -1 --format=%cI` |
-| version | `1.1.3` | `package.json` version = 1.1.3; `git describe` = `v1.1.3-12-g2ac8bbb` |
+| Field      | Recorded value                                  | Verified                                                              |
+| ---------- | ----------------------------------------------- | --------------------------------------------------------------------- |
+| repo       | `lukilabs/beautiful-mermaid`                    | yes                                                                   |
+| url        | `https://github.com/lukilabs/beautiful-mermaid` | yes                                                                   |
+| localPath  | `references/beautiful-mermaid`                  | exists                                                                |
+| sourceFile | `src/theme.ts` (`THEMES` export)                | exists                                                                |
+| commit     | `2ac8bbbb060ca0a65a6a21f3200bd99b1587b488`      | `git log -1` confirms                                                 |
+| commitDate | `2026-05-06T12:53:19+02:00`                     | matches `git log -1 --format=%cI`                                     |
+| version    | `1.1.3`                                         | `package.json` version = 1.1.3; `git describe` = `v1.1.3-12-g2ac8bbb` |
 
 The same field set is reused verbatim in `demo/const/themes.js` (`THEME_SOURCE`)
 and in `theme-css-report.json` (`cssSource`), giving one canonical naming scheme.
@@ -54,16 +54,16 @@ All 8 curated Beautiful Mermaid themes in `demo/const/themes.js` were compared
 byte-for-byte against `references/beautiful-mermaid/src/theme.ts` `THEMES` at the
 pinned commit:
 
-| theme | bg | fg | line/accent/muted | match |
-|---|---|---|---|---|
-| zinc-light | #FFFFFF | #27272A | (derived) | yes |
-| zinc-dark | #18181B | #FAFAFA | (derived) | yes |
-| tokyo-night | #1a1b26 | #a9b1d6 | #3d59a1 / #7aa2f7 / #565f89 | yes |
-| catppuccin-mocha | #1e1e2e | #cdd6f4 | #585b70 / #cba6f7 / #6c7086 | yes |
-| nord | #2e3440 | #d8dee9 | #4c566a / #88c0d0 / #616e88 | yes |
-| github-light | #ffffff | #1f2328 | #d1d9e0 / #0969da / #59636e | yes |
-| github-dark | #0d1117 | #e6edf3 | #3d444d / #4493f8 / #9198a1 | yes |
-| dracula | #282a36 | #f8f8f2 | #6272a4 / #bd93f9 / #6272a4 | yes |
+| theme            | bg      | fg      | line/accent/muted           | match |
+| ---------------- | ------- | ------- | --------------------------- | ----- |
+| zinc-light       | #FFFFFF | #27272A | (derived)                   | yes   |
+| zinc-dark        | #18181B | #FAFAFA | (derived)                   | yes   |
+| tokyo-night      | #1a1b26 | #a9b1d6 | #3d59a1 / #7aa2f7 / #565f89 | yes   |
+| catppuccin-mocha | #1e1e2e | #cdd6f4 | #585b70 / #cba6f7 / #6c7086 | yes   |
+| nord             | #2e3440 | #d8dee9 | #4c566a / #88c0d0 / #616e88 | yes   |
+| github-light     | #ffffff | #1f2328 | #d1d9e0 / #0969da / #59636e | yes   |
+| github-dark      | #0d1117 | #e6edf3 | #3d444d / #4493f8 / #9198a1 | yes   |
+| dracula          | #282a36 | #f8f8f2 | #6272a4 / #bd93f9 / #6272a4 | yes   |
 
 Result: **8/8 byte-match.**
 
@@ -77,9 +77,9 @@ in JS by sRGB channel interpolation, which is numerically equivalent to CSS
 
 ## 4. Build Verification
 
-| Command | Exit | Output |
-|---|---|---|
-| `bun run build` | 0 | `demo/dist` produced; overlay CSS bundled into `assets/index-*.css` |
+| Command         | Exit | Output                                                              |
+| --------------- | ---- | ------------------------------------------------------------------- |
+| `bun run build` | 0    | `demo/dist` produced; overlay CSS bundled into `assets/index-*.css` |
 
 The build merges `demo/theme.css` and `demo/style.css` into a single bundled CSS.
 A grep of the built CSS confirms the overlay selector `[data-theme] #mermaid-svg`
@@ -100,13 +100,13 @@ image data as an oracle (HG-3).
 
 ### 5.1 Observed computed styles
 
-| theme | data-theme attr | node rect fill | svg background |
-|---|---|---|---|
-| mermaid-default | (absent) | `rgb(236, 236, 255)` | `rgba(0, 0, 0, 0)` |
-| zinc-dark | `zinc-dark` | `rgb(31, 31, 34)` | `rgb(24, 24, 27)` |
-| dracula | `dracula` | `rgb(46, 48, 60)` | `rgb(40, 42, 54)` |
-| restored → default | (absent) | `rgb(236, 236, 255)` | `rgba(0, 0, 0, 0)` |
-| after reload (nord) | `nord` | `rgb(51, 57, 69)` | `rgb(46, 52, 64)` |
+| theme               | data-theme attr | node rect fill       | svg background     |
+| ------------------- | --------------- | -------------------- | ------------------ |
+| mermaid-default     | (absent)        | `rgb(236, 236, 255)` | `rgba(0, 0, 0, 0)` |
+| zinc-dark           | `zinc-dark`     | `rgb(31, 31, 34)`    | `rgb(24, 24, 27)`  |
+| dracula             | `dracula`       | `rgb(46, 48, 60)`    | `rgb(40, 42, 54)`  |
+| restored → default  | (absent)        | `rgb(236, 236, 255)` | `rgba(0, 0, 0, 0)` |
+| after reload (nord) | `nord`          | `rgb(51, 57, 69)`    | `rgb(46, 52, 64)`  |
 
 ### 5.2 Derived-color cross-check
 
@@ -137,15 +137,15 @@ The observed derived surfaces match manual sRGB interpolation exactly:
 The overlay CSS (`demo/theme.css`) targets selectors across all 8 MVP diagram
 types:
 
-| type | themed selectors |
-|---|---|
-| flowchart / graph | `.node rect/circle/...`, `.edgePath .path`, `.flowchart-link`, `.marker` |
-| sequenceDiagram | `.actor`, `.actor-line`, `.messageLine0/1`, `.messageText`, `.labelBox` |
-| classDiagram / erDiagram | `g.classGroup rect`, `.entityBox`, `.relationshipLine` |
-| stateDiagram-v2 | `g.stateGroup rect`, `.transition`, `.statediagram-cluster rect` |
-| pie | `.slice`, `.pieTitleText`, `.legend text` |
-| gantt | `.sectionTitle/0-3`, `.titleText` |
-| xychart-beta | `.grid .tick text`, `.vertText` |
+| type                     | themed selectors                                                         |
+| ------------------------ | ------------------------------------------------------------------------ |
+| flowchart / graph        | `.node rect/circle/...`, `.edgePath .path`, `.flowchart-link`, `.marker` |
+| sequenceDiagram          | `.actor`, `.actor-line`, `.messageLine0/1`, `.messageText`, `.labelBox`  |
+| classDiagram / erDiagram | `g.classGroup rect`, `.entityBox`, `.relationshipLine`                   |
+| stateDiagram-v2          | `g.stateGroup rect`, `.transition`, `.statediagram-cluster rect`         |
+| pie                      | `.slice`, `.pieTitleText`, `.legend text`                                |
+| gantt                    | `.sectionTitle/0-3`, `.titleText`                                        |
+| xychart-beta             | `.grid .tick text`, `.vertText`                                          |
 
 Known limitation (recorded, not silently weakened): some relationship-arrowhead
 rules in classDiagram/erDiagram use `!important` in Mermaid's embedded style and
@@ -181,8 +181,8 @@ found **0** matches:
 Existing tests were re-run to confirm the theme overlay introduced no
 regressions:
 
-| Command | Result |
-|---|---|
+| Command                             | Result           |
+| ----------------------------------- | ---------------- |
 | `bun test test/render-yml.test.mjs` | 19 pass / 0 fail |
 | `bun test test/svg-output.test.mjs` | 29 pass / 0 fail |
 

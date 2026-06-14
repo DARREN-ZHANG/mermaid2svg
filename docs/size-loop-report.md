@@ -15,42 +15,42 @@ The Size Loop generated traceable raw + gzip JS size data for
 `beautiful-mermaid` and our project, and wired the demo page's SVG bar chart
 to that data.
 
-| Aspect | Result |
-|---|---|
-| Mission | Generate traceable size data and connect demo SVG bar chart |
-| Status | **pass** |
-| Report script | `sh/size-report.js` |
-| Report JSON | `workflow/reports/size-report.json` |
-| Chart data source | `demo/const/sizeData.js` (auto-generated from report) |
-| Chart renderer | `demo/webc/js/sizeChart.js` |
-| Blocked patterns found | 0 |
-| i18n or deployment files touched | no |
+| Aspect                           | Result                                                      |
+| -------------------------------- | ----------------------------------------------------------- |
+| Mission                          | Generate traceable size data and connect demo SVG bar chart |
+| Status                           | **pass**                                                    |
+| Report script                    | `sh/size-report.js`                                         |
+| Report JSON                      | `workflow/reports/size-report.json`                         |
+| Chart data source                | `demo/const/sizeData.js` (auto-generated from report)       |
+| Chart renderer                   | `demo/webc/js/sizeChart.js`                                 |
+| Blocked patterns found           | 0                                                           |
+| i18n or deployment files touched | no                                                          |
 
 ### 1.1 Acceptance criteria coverage
 
-| AC ref | Requirement | Status |
-|---|---|---|
-| AC-COMPARE-001 | Page contains an SVG bar chart (not PNG/canvas) | pass |
-| AC-COMPARE-002 | Exactly four numbers; no unrelated vendor chunks | pass |
-| AC-COMPARE-003 | Proxy wording on page; no runtime-benchmark claim | pass |
-| AC-COMPARE-004 | Size report script-generated; page data == report | pass |
-| HG-4 | Local `references/beautiful-mermaid` as traceable source; commit pinned | pass |
-| spec §9.1 | Chart is SVG bar chart with title, legend, units, disclaimer | pass |
-| spec §9.4 | `workflow/reports/size-report.json` exists with required fields | pass |
+| AC ref         | Requirement                                                             | Status |
+| -------------- | ----------------------------------------------------------------------- | ------ |
+| AC-COMPARE-001 | Page contains an SVG bar chart (not PNG/canvas)                         | pass   |
+| AC-COMPARE-002 | Exactly four numbers; no unrelated vendor chunks                        | pass   |
+| AC-COMPARE-003 | Proxy wording on page; no runtime-benchmark claim                       | pass   |
+| AC-COMPARE-004 | Size report script-generated; page data == report                       | pass   |
+| HG-4           | Local `references/beautiful-mermaid` as traceable source; commit pinned | pass   |
+| spec §9.1      | Chart is SVG bar chart with title, legend, units, disclaimer            | pass   |
+| spec §9.4      | `workflow/reports/size-report.json` exists with required fields         | pass   |
 
 ---
 
 ## 2. Artifacts Produced
 
-| File | Type | Purpose |
-|---|---|---|
-| `sh/size-report.js` | Script | Bundles beautiful-mermaid from local references; measures both sides; writes report + page data |
-| `workflow/reports/size-report.json` | Report (JSON) | Canonical size data with full provenance |
-| `demo/const/sizeData.js` | Generated ES module | Page-facing data mirror (single source → both files) |
-| `demo/webc/js/sizeChart.js` | Renderer | Pure SVG bar chart renderer (4 bars, gridlines, legend, labels) |
-| `demo/index.pug` | Template | Chart container `#size-chart` replacing `TODO(size-loop)` |
-| `demo/index.js` | Entry | Imports `SIZE_DATA` + `renderSizeChart`, calls on init |
-| `demo/style.styl` | Styles | Responsive sizing for `.size-chart-container svg` |
+| File                                | Type                | Purpose                                                                                         |
+| ----------------------------------- | ------------------- | ----------------------------------------------------------------------------------------------- |
+| `sh/size-report.js`                 | Script              | Bundles beautiful-mermaid from local references; measures both sides; writes report + page data |
+| `workflow/reports/size-report.json` | Report (JSON)       | Canonical size data with full provenance                                                        |
+| `demo/const/sizeData.js`            | Generated ES module | Page-facing data mirror (single source → both files)                                            |
+| `demo/webc/js/sizeChart.js`         | Renderer            | Pure SVG bar chart renderer (4 bars, gridlines, legend, labels)                                 |
+| `demo/index.pug`                    | Template            | Chart container `#size-chart` replacing `TODO(size-loop)`                                       |
+| `demo/index.js`                     | Entry               | Imports `SIZE_DATA` + `renderSizeChart`, calls on init                                          |
+| `demo/style.styl`                   | Styles              | Responsive sizing for `.size-chart-container svg`                                               |
 
 ---
 
@@ -74,6 +74,7 @@ The bundle represents the library's shipped JS code (what
 package and CDN entry work.
 
 Provenance:
+
 - repo: `lukilabs/beautiful-mermaid`
 - localPath: `references/beautiful-mermaid`
 - commit: `2ac8bbbb060ca0a65a6a21f3200bd99b1587b488`
@@ -98,26 +99,26 @@ default compression level. Same method for both → fair comparison.
 
 ### 3.4 Measured values (verified run)
 
-| Side | Raw bytes | Gzip bytes | Display |
-|---|---|---|---|
-| beautiful-mermaid v1.1.3 | 328,094 | 66,816 | 320.4K raw / 65.2K gzip |
-| mermaid2svg (entry JS) | 127,082 | 41,785 | 124.1K raw / 40.8K gzip |
+| Side                     | Raw bytes | Gzip bytes | Display                 |
+| ------------------------ | --------- | ---------- | ----------------------- |
+| beautiful-mermaid v1.1.3 | 328,094   | 66,816     | 320.4K raw / 65.2K gzip |
+| mermaid2svg (entry JS)   | 127,082   | 41,785     | 124.1K raw / 40.8K gzip |
 
 Ratio: beautiful-mermaid is ~2.6× larger than our entry JS (raw).
 
 Content hashes (SHA-256, recorded in `size-report.json`):
 
-| Side | SHA-256 (prefix) |
-|---|---|
-| beautiful-mermaid bundle | `424d4096…` |
-| our entry chunk | `b5a27279…` |
+| Side                     | SHA-256 (prefix) |
+| ------------------------ | ---------------- |
+| beautiful-mermaid bundle | `424d4096…`      |
+| our entry chunk          | `b5a27279…`      |
 
 Gzip level-9 reference values (for transparency; report uses default level 6):
 
-| Side | gzip level 6 (used) | gzip level 9 (reference) |
-|---|---|---|
-| beautiful-mermaid | 66,816 | 66,021 |
-| mermaid2svg | 41,785 | 41,341 |
+| Side              | gzip level 6 (used) | gzip level 9 (reference) |
+| ----------------- | ------------------- | ------------------------ |
+| beautiful-mermaid | 66,816              | 66,021                   |
+| mermaid2svg       | 41,785              | 41,341                   |
 
 ### 3.5 Scope clarification
 
@@ -127,6 +128,7 @@ page displays the disclaimer "performance proxy, not a runtime
 benchmark".
 
 Key scope notes:
+
 - beautiful-mermaid's externals (`elkjs`, `entities`) are not inlined;
   our mermaid dependency chunks are not aggregated. Both sides compare
   the project's own JS code.
@@ -208,12 +210,12 @@ reproduction evidence is recorded in
 `demo/const/sizeData.js` values match `workflow/reports/size-report.json`
 byte-for-byte:
 
-| Field | sizeData.js | size-report.json | Match |
-|---|---|---|---|
-| BM rawBytes | 328094 | 328094 | ✓ |
-| BM gzipBytes | 66816 | 66816 | ✓ |
-| ours rawBytes | 127082 | 127082 | ✓ |
-| ours gzipBytes | 41785 | 41785 | ✓ |
+| Field          | sizeData.js | size-report.json | Match |
+| -------------- | ----------- | ---------------- | ----- |
+| BM rawBytes    | 328094      | 328094           | ✓     |
+| BM gzipBytes   | 66816       | 66816            | ✓     |
+| ours rawBytes  | 127082      | 127082           | ✓     |
+| ours gzipBytes | 41785       | 41785            | ✓     |
 
 ### 5.3 Blocked patterns scan
 
@@ -233,10 +235,10 @@ Two methodology notes are recorded in `size-report.json` →
 Neither invalidates the data — both numbers are confirmed real, not
 estimated.
 
-| Finding | Status | Impact | Resolution |
-|---|---|---|---|
-| `gzip-level` | acceptable | Report uses default level 6, not level 9 | Both sides use identical method → fair; level-9 reference values recorded (§3.4) |
-| `aggregation-scope` | noted | `ours` measures entry chunk only, not aggregate render-path footprint | Real data, conservative; aggregate methodology deferred to future size-loop iteration |
+| Finding             | Status     | Impact                                                                | Resolution                                                                            |
+| ------------------- | ---------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| `gzip-level`        | acceptable | Report uses default level 6, not level 9                              | Both sides use identical method → fair; level-9 reference values recorded (§3.4)      |
+| `aggregation-scope` | noted      | `ours` measures entry chunk only, not aggregate render-path footprint | Real data, conservative; aggregate methodology deferred to future size-loop iteration |
 
 ---
 
@@ -270,9 +272,9 @@ within spec requirements.
 
 ## 7. Deferred
 
-| Item | Owner |
-|---|---|
-| i18n keys for chart labels | I18N Loop |
-| Cloudflare Pages deployment with size chart | Deploy Loop |
-| Static `demo/size.svg` / `demo/speed.svg` cleanup | Final Audit |
-| `package.json` `size:report` script | Not in allowed files for this loop |
+| Item                                              | Owner                              |
+| ------------------------------------------------- | ---------------------------------- |
+| i18n keys for chart labels                        | I18N Loop                          |
+| Cloudflare Pages deployment with size chart       | Deploy Loop                        |
+| Static `demo/size.svg` / `demo/speed.svg` cleanup | Final Audit                        |
+| `package.json` `size:report` script               | Not in allowed files for this loop |

@@ -29,32 +29,32 @@ code.
 
 ### 1.3 Inputs (produced by the Render Loop)
 
-| Input | Role |
-|---|---|
-| `src/render/mermaid-to-svg.js` | Returns `[OK, rawSvg, diagramType]` on success, `[errCode, msg]` on failure. Initialized with `securityLevel: "strict"`, `suppressErrorRendering: true`. |
-| `test/render-yml.test.mjs` | Playwright harness pattern to reuse: Vite middleware + real Chromium + `page.evaluate` to call the wrapper in-page. |
-| `workflow/reports/render-capabilities.json` | 18/18 cases render; all eight HG-1 MVP diagram types covered. Proves raw SVG exists for every supported case. |
+| Input                                       | Role                                                                                                                                                     |
+| ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/render/mermaid-to-svg.js`              | Returns `[OK, rawSvg, diagramType]` on success, `[errCode, msg]` on failure. Initialized with `securityLevel: "strict"`, `suppressErrorRendering: true`. |
+| `test/render-yml.test.mjs`                  | Playwright harness pattern to reuse: Vite middleware + real Chromium + `page.evaluate` to call the wrapper in-page.                                      |
+| `workflow/reports/render-capabilities.json` | 18/18 cases render; all eight HG-1 MVP diagram types covered. Proves raw SVG exists for every supported case.                                            |
 
 ### 1.4 Outputs (produced by this loop)
 
-| Output | Phase |
-|---|---|
-| `src/render/normalize-svg.js` | 03 normalizer-implementation |
-| `test/svg-output.test.mjs` | 04 compatibility-tests |
+| Output                                           | Phase                                  |
+| ------------------------------------------------ | -------------------------------------- |
+| `src/render/normalize-svg.js`                    | 03 normalizer-implementation           |
+| `test/svg-output.test.mjs`                       | 04 compatibility-tests                 |
 | `workflow/reports/svg-output-compatibility.json` | 04 compatibility-tests / 05 validation |
-| `docs/svg-output/svg-output-validation.md` | 05 validation |
-| `docs/svg-output-loop-report.md` | 06 final-report |
+| `docs/svg-output/svg-output-validation.md`       | 05 validation                          |
+| `docs/svg-output-loop-report.md`                 | 06 final-report                        |
 
 ### 1.5 Hard constraints
 
-| Constraint | Detail |
-|---|---|
-| No self-built parser | Normalization operates on the SVG *string/DOM*, never on Mermaid source text |
-| No self-built layout | Mermaid layout output is preserved; only structure/attributes are normalized |
-| No server rendering | Normalizer runs in the same browser page context as the renderer |
-| Test harness | Playwright (already `^1.60.0`) calls the wrapper in-page and asserts SVG string/DOM |
-| No screenshot/canvas oracle | Pass/fail is based on SVG string and DOM structure, never pixels |
-| General rules only | No fixture-specific patches tied to an individual test id |
+| Constraint                            | Detail                                                                                                                             |
+| ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| No self-built parser                  | Normalization operates on the SVG _string/DOM_, never on Mermaid source text                                                       |
+| No self-built layout                  | Mermaid layout output is preserved; only structure/attributes are normalized                                                       |
+| No server rendering                   | Normalizer runs in the same browser page context as the renderer                                                                   |
+| Test harness                          | Playwright (already `^1.60.0`) calls the wrapper in-page and asserts SVG string/DOM                                                |
+| No screenshot/canvas oracle           | Pass/fail is based on SVG string and DOM structure, never pixels                                                                   |
+| General rules only                    | No fixture-specific patches tied to an individual test id                                                                          |
 | Blocked patterns in normalizer source | `puppeteer`, `playwright`, `@mermaid-js/mermaid-cli`, `screenshot`, `canvas`, `html2canvas`, `toDataURL`, `remote mermaid service` |
 
 ---
@@ -119,7 +119,7 @@ Numeric error codes per project convention.
 
 > Code-range note: the renderer uses codes `0`–`4` (`ERR_EMPTY`…`ERR_TIMEOUT`).
 > The normalizer intentionally uses `100`+ so a composed caller
-> (`renderMermaidToSvg` → `normalizeSvg`) can disambiguate *which layer* failed
+> (`renderMermaidToSvg` → `normalizeSvg`) can disambiguate _which layer_ failed
 > from the numeric code alone, without binding-name collisions when both
 > modules are imported into one file.
 
@@ -136,7 +136,7 @@ Numeric error codes per project convention.
   return normalizeSvg(raw);                      // [OK, normalized] | [err, msg]
   ```
 
-- The implementation phase is *allowed* to edit `mermaid-to-svg.js` (per its
+- The implementation phase is _allowed_ to edit `mermaid-to-svg.js` (per its
   prompt), but the only permitted change there is an optional convenience
   re-export. The raw return tuple must stay backward compatible.
 
@@ -167,52 +167,52 @@ are browser APIs. The compatibility test harness loads it in-page via Playwright
 
 ## 4. The SVG Contract (acceptance rules)
 
-Every normalized output must satisfy all rules below. Each rule is *general* —
+Every normalized output must satisfy all rules below. Each rule is _general_ —
 it applies to any valid Mermaid SVG, not to a single fixture.
 
 ### 4.1 Root `<svg>`
 
-| Rule | Detail |
-|---|---|
-| Exactly one top-level root | The input must contain exactly one *top-level* `<svg>` element (nested `<svg>` inside `<g>` is allowed and preserved). Anything before/after the top-level root (HTML doctype, stray whitespace, comments) is trimmed. |
-| Namespace | Root must carry `xmlns="http://www.w3.org/2000/svg"`. Add if missing. |
-| Error | If no `<svg>` root is present → `[ERR_NO_SVG, "no svg root"]`. |
+| Rule                       | Detail                                                                                                                                                                                                                 |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Exactly one top-level root | The input must contain exactly one _top-level_ `<svg>` element (nested `<svg>` inside `<g>` is allowed and preserved). Anything before/after the top-level root (HTML doctype, stray whitespace, comments) is trimmed. |
+| Namespace                  | Root must carry `xmlns="http://www.w3.org/2000/svg"`. Add if missing.                                                                                                                                                  |
+| Error                      | If no `<svg>` root is present → `[ERR_NO_SVG, "no svg root"]`.                                                                                                                                                         |
 
 ### 4.2 `viewBox`
 
-| Rule | Detail |
-|---|---|
-| Preserve | If a `viewBox` attribute exists on root, keep it unchanged. |
-| Derive | If absent, parse root `width`/`height` (numeric px) and set `viewBox="0 0 W H"`. |
-| Error | If neither `viewBox` nor usable numeric `width`/`height` exist → `[ERR_VIEWBOX, "cannot derive viewBox"]`. |
+| Rule     | Detail                                                                                                     |
+| -------- | ---------------------------------------------------------------------------------------------------------- |
+| Preserve | If a `viewBox` attribute exists on root, keep it unchanged.                                                |
+| Derive   | If absent, parse root `width`/`height` (numeric px) and set `viewBox="0 0 W H"`.                           |
+| Error    | If neither `viewBox` nor usable numeric `width`/`height` exist → `[ERR_VIEWBOX, "cannot derive viewBox"]`. |
 
 Mermaid output normally includes a `viewBox`, so this rule is defensive but
 must be implemented as a real general check, not an assumption.
 
 ### 4.3 Dimensions
 
-| Rule | Detail |
-|---|---|
-| Stable | Preserve Mermaid's intrinsic `width`/`height` when present; do not inject volatile values. |
+| Rule       | Detail                                                                                            |
+| ---------- | ------------------------------------------------------------------------------------------------- |
+| Stable     | Preserve Mermaid's intrinsic `width`/`height` when present; do not inject volatile values.        |
 | Embeddable | The SVG is embeddable because a valid `viewBox` (4.2) lets it scale. Do not force `width="100%"`. |
 
 ### 4.4 Deterministic output
 
-| Rule | Detail |
-|---|---|
+| Rule                 | Detail                                                                                                                                                                                                                                                                            |
+| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Id de-volatilization | Detect the render id from root `<svg id="…">`; replace **all** occurrences of that exact token in the serialized output with one stable canonical id (e.g. `mermaid-svg`). This fixes root id, `#id` style selectors, marker/clip ids, and `url(#…)` references in one operation. |
-| Implementation note | Use a literal string replace (`str.split(token).join(canonical)` or `str.replaceAll(token, canonical)` with a *string* first arg) — never a `RegExp(token)`, since the id may contain regex metacharacters. |
-| Stability | For two successive `renderMermaidToSvg` calls on the same input, `normalizeSvg` must return **byte-identical** strings. |
-| If no root id | Skip the rewrite (output already has no volatile token). |
+| Implementation note  | Use a literal string replace (`str.split(token).join(canonical)` or `str.replaceAll(token, canonical)` with a _string_ first arg) — never a `RegExp(token)`, since the id may contain regex metacharacters.                                                                       |
+| Stability            | For two successive `renderMermaidToSvg` calls on the same input, `normalizeSvg` must return **byte-identical** strings.                                                                                                                                                           |
+| If no root id        | Skip the rewrite (output already has no volatile token).                                                                                                                                                                                                                          |
 
 ### 4.5 No runtime JS dependency
 
-| Rule | Detail |
-|---|---|
-| Strip `<script>` | Remove every `<script>` element and its text content. |
-| Strip event handlers | Remove any attribute whose name starts with `on` (`onclick`, `onload`, …). |
-| Strip `javascript:` URIs | Remove `href`/`xlink:href` values that begin with `javascript:`. |
-| Assertion | Normalized output must contain no `<script` and no `on*=` handler attribute. |
+| Rule                     | Detail                                                                       |
+| ------------------------ | ---------------------------------------------------------------------------- |
+| Strip `<script>`         | Remove every `<script>` element and its text content.                        |
+| Strip event handlers     | Remove any attribute whose name starts with `on` (`onclick`, `onload`, …).   |
+| Strip `javascript:` URIs | Remove `href`/`xlink:href` values that begin with `javascript:`.             |
+| Assertion                | Normalized output must contain no `<script` and no `on*=` handler attribute. |
 
 Mermaid's `securityLevel: "strict"` already sanitizes most of this; the
 normalizer is the defensive output layer that guarantees it regardless of
@@ -220,12 +220,13 @@ Mermaid version or security-level drift.
 
 ### 4.6 Error result shape
 
-| Situation | Return |
-|---|---|
-| Success | `[OK, normalizedSvg]` |
-| No `<svg>` root | `[ERR_NO_SVG, message]` |
-| Unusable coordinate space | `[ERR_VIEWBOX, message]` |
-| DOMParser/serialize failure | `[ERR_PARSE, message]` |
+| Situation                   | Return                   |
+| --------------------------- | ------------------------ |
+| Success                     | `[OK, normalizedSvg]`    |
+| No `<svg>` root             | `[ERR_NO_SVG, message]`  |
+| Unusable coordinate space   | `[ERR_VIEWBOX, message]` |
+| DOMParser/serialize failure | `[ERR_PARSE, message]`   |
+
 Errors are always an explicit numeric code + string message, never a thrown
 exception, never a silently mutated SVG, never a partial/empty string.
 
@@ -278,15 +279,15 @@ case, render → normalize, then assert:
 
 **B. Rule-level tests on synthetic SVG strings** (no Mermaid call needed):
 
-| Test | Input | Expectation |
-|---|---|---|
-| Missing root | `<div></div>` | `[ERR_NO_SVG, …]` |
-| Empty/garbage | `""` / `"not svg"` | `[ERR_NO_SVG, …]` |
-| Script removal | `<svg><script>alert(1)</script><rect/></svg>` | normalized has no `<script` |
-| Event handler removal | `<svg><rect onclick="x"/></svg>` | normalized has no `onclick` |
-| `javascript:` URI removal | `<svg><a xlink:href="javascript:alert(1)"/></svg>` | href dropped |
-| viewBox derivation | `<svg width="100" height="50"><rect/></svg>` | gains `viewBox="0 0 100 50"` |
-| viewBox preserved | `<svg viewBox="0 0 10 10">…</svg>` | viewBox unchanged |
+| Test                      | Input                                                                               | Expectation                    |
+| ------------------------- | ----------------------------------------------------------------------------------- | ------------------------------ |
+| Missing root              | `<div></div>`                                                                       | `[ERR_NO_SVG, …]`              |
+| Empty/garbage             | `""` / `"not svg"`                                                                  | `[ERR_NO_SVG, …]`              |
+| Script removal            | `<svg><script>alert(1)</script><rect/></svg>`                                       | normalized has no `<script`    |
+| Event handler removal     | `<svg><rect onclick="x"/></svg>`                                                    | normalized has no `onclick`    |
+| `javascript:` URI removal | `<svg><a xlink:href="javascript:alert(1)"/></svg>`                                  | href dropped                   |
+| viewBox derivation        | `<svg width="100" height="50"><rect/></svg>`                                        | gains `viewBox="0 0 100 50"`   |
+| viewBox preserved         | `<svg viewBox="0 0 10 10">…</svg>`                                                  | viewBox unchanged              |
 | Determinism of id rewrite | two SVGs differing only in `<svg id="m2s-1">` vs `m2s-2` (+ matching internal refs) | normalize to identical strings |
 
 These are general structural assertions, not fixture-specific patches.
@@ -342,12 +343,12 @@ workflow/reports/svg-output-compatibility.json
 
 ### 6.3 Required fields (per validator)
 
-| Field | Type | Validator check |
-|---|---|---|
-| `summary` | object | present |
-| `summary.deterministic` | boolean | present |
-| `checkedRules` | array | present |
-| `failures` | array | present |
+| Field                   | Type    | Validator check |
+| ----------------------- | ------- | --------------- |
+| `summary`               | object  | present         |
+| `summary.deterministic` | boolean | present         |
+| `checkedRules`          | array   | present         |
+| `failures`              | array   | present         |
 
 Each entry in `failures` records `{ id, rule, reason }` so a failure is
 traceable to a case and a rule. No failure is ever silently dropped.
@@ -379,35 +380,35 @@ The implementation must satisfy these exactly; they are checked by
 
 ### Phase 03 (normalizer-implementation)
 
-| | Path |
-|---|---|
-| Allowed | `src/render/normalize-svg.js`, `src/render/mermaid-to-svg.js` (backward-compatible only), `docs/svg-output/**`, `workflow/runs/svg-output/**` |
-| Blocked | `../docs/**`, `references/**`, `demo/**`, `test/**`, `extract/**`, `workflow/reports/**` |
-| Required output | `src/render/normalize-svg.js` |
+|                 | Path                                                                                                                                          |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| Allowed         | `src/render/normalize-svg.js`, `src/render/mermaid-to-svg.js` (backward-compatible only), `docs/svg-output/**`, `workflow/runs/svg-output/**` |
+| Blocked         | `../docs/**`, `references/**`, `demo/**`, `test/**`, `extract/**`, `workflow/reports/**`                                                      |
+| Required output | `src/render/normalize-svg.js`                                                                                                                 |
 
 ### Phase 04 (compatibility-tests)
 
-| | Path |
-|---|---|
-| Allowed | `test/svg-output.test.mjs`, `workflow/reports/svg-output-compatibility.json`, `docs/svg-output/**`, `workflow/runs/svg-output/**` |
-| Blocked | `../docs/**`, `references/**`, `demo/**`, `test/*.yml`, `extract/**` |
-| Required outputs | `test/svg-output.test.mjs`, `workflow/reports/svg-output-compatibility.json` |
+|                  | Path                                                                                                                              |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| Allowed          | `test/svg-output.test.mjs`, `workflow/reports/svg-output-compatibility.json`, `docs/svg-output/**`, `workflow/runs/svg-output/**` |
+| Blocked          | `../docs/**`, `references/**`, `demo/**`, `test/*.yml`, `extract/**`                                                              |
+| Required outputs | `test/svg-output.test.mjs`, `workflow/reports/svg-output-compatibility.json`                                                      |
 
 ### Phase 05 (validation)
 
-| | Path |
-|---|---|
-| Allowed | `docs/svg-output/svg-output-validation.md`, `workflow/reports/svg-output-compatibility.json`, `workflow/runs/svg-output/**` |
-| Blocked | `../docs/**`, `references/**`, `demo/**`, `src/**`, `test/**`, `extract/**` |
-| Required outputs | `docs/svg-output/svg-output-validation.md`, `workflow/reports/svg-output-compatibility.json` |
+|                  | Path                                                                                                                        |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| Allowed          | `docs/svg-output/svg-output-validation.md`, `workflow/reports/svg-output-compatibility.json`, `workflow/runs/svg-output/**` |
+| Blocked          | `../docs/**`, `references/**`, `demo/**`, `src/**`, `test/**`, `extract/**`                                                 |
+| Required outputs | `docs/svg-output/svg-output-validation.md`, `workflow/reports/svg-output-compatibility.json`                                |
 
 ### Phase 06 (final-report)
 
-| | Path |
-|---|---|
-| Allowed | `docs/svg-output-loop-report.md`, `workflow/runs/svg-output/**` |
-| Blocked | `../docs/**`, `references/**`, `demo/**`, `src/**`, `test/**`, `extract/**`, `workflow/reports/**` |
-| Required output | `docs/svg-output-loop-report.md` |
+|                 | Path                                                                                               |
+| --------------- | -------------------------------------------------------------------------------------------------- |
+| Allowed         | `docs/svg-output-loop-report.md`, `workflow/runs/svg-output/**`                                    |
+| Blocked         | `../docs/**`, `references/**`, `demo/**`, `src/**`, `test/**`, `extract/**`, `workflow/reports/**` |
+| Required output | `docs/svg-output-loop-report.md`                                                                   |
 
 ---
 
@@ -453,13 +454,13 @@ node --test workflow/loops/svg-output/svg-output-loop.test.mjs
 
 All commits use conventional commits format.
 
-| Order | Phase | Commit message | Files |
-|---|---|---|---|
-| 1 | 02 compatibility-plan | `docs(svg-output): add svg output compatibility plan` | `docs/svg-output/svg-output-plan.md` |
-| 2 | 03 normalizer-implementation | `feat(svg-output): add svg normalizer with stable output contract` | `src/render/normalize-svg.js` (+ optional re-export) |
-| 3 | 04 compatibility-tests | `test(svg-output): add compatibility tests and report` | `test/svg-output.test.mjs`, `workflow/reports/svg-output-compatibility.json` |
-| 4 | 05 validation | `docs(svg-output): record compatibility validation results` | `docs/svg-output/svg-output-validation.md`, `workflow/reports/svg-output-compatibility.json` |
-| 5 | 06 final-report | `docs(svg-output): write svg output loop final report` | `docs/svg-output-loop-report.md` |
+| Order | Phase                        | Commit message                                                     | Files                                                                                        |
+| ----- | ---------------------------- | ------------------------------------------------------------------ | -------------------------------------------------------------------------------------------- |
+| 1     | 02 compatibility-plan        | `docs(svg-output): add svg output compatibility plan`              | `docs/svg-output/svg-output-plan.md`                                                         |
+| 2     | 03 normalizer-implementation | `feat(svg-output): add svg normalizer with stable output contract` | `src/render/normalize-svg.js` (+ optional re-export)                                         |
+| 3     | 04 compatibility-tests       | `test(svg-output): add compatibility tests and report`             | `test/svg-output.test.mjs`, `workflow/reports/svg-output-compatibility.json`                 |
+| 4     | 05 validation                | `docs(svg-output): record compatibility validation results`        | `docs/svg-output/svg-output-validation.md`, `workflow/reports/svg-output-compatibility.json` |
+| 5     | 06 final-report              | `docs(svg-output): write svg output loop final report`             | `docs/svg-output-loop-report.md`                                                             |
 
 Each commit is made after its phase verification command passes.
 
@@ -467,16 +468,16 @@ Each commit is made after its phase verification command passes.
 
 ## 11. Risk register
 
-| Risk | Mitigation |
-|---|---|
-| `DOMParser`/`XMLSerializer` are browser-only; Node unit tests cannot import the normalizer directly | Run normalizer assertions through the Playwright in-page harness, like the render tests |
-| Id rewrite could miss a reference if Mermaid changes id embedding | Detect the id from root `<svg id>` and globally replace that exact token; covered by a synthetic determinism test |
-| Id-token rewrite could false-positive on visible text equal to the render id (`m2s-1`) | The render id is a generated counter token with negligible collision odds against user label text; if deemed material, scope the rewrite to `id=`, `url(#`, and `#`-selector contexts instead of a blind global replace. Record the chosen scope in the validation doc. |
-| `securityLevel: "strict"` may already strip `<script>`, making the rule look untestable | Add a synthetic `<script>` input to prove the normalizer removes it independently of Mermaid |
-| Normalization could alter layout-visible attributes | Rules only touch id tokens, `viewBox` derivation, and unsafe nodes — never geometry, paths, or text |
-| Re-serializing via `XMLSerializer` could reorder attributes | Determinism is asserted per-input (byte-identical on repeat); attribute order within one browser is stable |
-| Editing `mermaid-to-svg.js` could break the Render Loop tuple contract | Treat renderer edits as optional re-export only; never change `[OK, svg, diagramType]` / `[errCode, msg]` |
-| A future Mermaid version emits volatile content beyond the render id | Record actual behavior in the validation doc; expand rules only with a general mechanism, never a fixture patch |
+| Risk                                                                                                | Mitigation                                                                                                                                                                                                                                                              |
+| --------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `DOMParser`/`XMLSerializer` are browser-only; Node unit tests cannot import the normalizer directly | Run normalizer assertions through the Playwright in-page harness, like the render tests                                                                                                                                                                                 |
+| Id rewrite could miss a reference if Mermaid changes id embedding                                   | Detect the id from root `<svg id>` and globally replace that exact token; covered by a synthetic determinism test                                                                                                                                                       |
+| Id-token rewrite could false-positive on visible text equal to the render id (`m2s-1`)              | The render id is a generated counter token with negligible collision odds against user label text; if deemed material, scope the rewrite to `id=`, `url(#`, and `#`-selector contexts instead of a blind global replace. Record the chosen scope in the validation doc. |
+| `securityLevel: "strict"` may already strip `<script>`, making the rule look untestable             | Add a synthetic `<script>` input to prove the normalizer removes it independently of Mermaid                                                                                                                                                                            |
+| Normalization could alter layout-visible attributes                                                 | Rules only touch id tokens, `viewBox` derivation, and unsafe nodes — never geometry, paths, or text                                                                                                                                                                     |
+| Re-serializing via `XMLSerializer` could reorder attributes                                         | Determinism is asserted per-input (byte-identical on repeat); attribute order within one browser is stable                                                                                                                                                              |
+| Editing `mermaid-to-svg.js` could break the Render Loop tuple contract                              | Treat renderer edits as optional re-export only; never change `[OK, svg, diagramType]` / `[errCode, msg]`                                                                                                                                                               |
+| A future Mermaid version emits volatile content beyond the render id                                | Record actual behavior in the validation doc; expand rules only with a general mechanism, never a fixture patch                                                                                                                                                         |
 
 ---
 

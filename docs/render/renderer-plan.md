@@ -19,16 +19,16 @@ Subsequent render-loop phases (03 renderer-implementation, 04 render-test-runner
 
 ### 1.2 Hard constraints
 
-| Constraint | Detail |
-|---|---|
-| Render engine | Official `mermaid` npm package browser API (`mermaid.render`) |
-| No self-built parser | Mermaid source text is passed directly to `mermaid.render` |
-| No self-built layout | Mermaid's internal layout engine handles all layout |
-| No server rendering | All rendering happens in a browser DOM context |
-| No online services | No third-party conversion endpoints |
-| Test harness | Playwright (already a devDependency at `^1.60.0`) calls the renderer and asserts SVG string/DOM structure |
-| No screenshot oracle | Pass/fail is based on SVG string and DOM structure, not pixel comparison |
-| Blocked patterns in renderer source | `puppeteer`, `playwright`, `@mermaid-js/mermaid-cli`, `screenshot`, `canvas`, `html2canvas`, `toDataURL` |
+| Constraint                          | Detail                                                                                                    |
+| ----------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| Render engine                       | Official `mermaid` npm package browser API (`mermaid.render`)                                             |
+| No self-built parser                | Mermaid source text is passed directly to `mermaid.render`                                                |
+| No self-built layout                | Mermaid's internal layout engine handles all layout                                                       |
+| No server rendering                 | All rendering happens in a browser DOM context                                                            |
+| No online services                  | No third-party conversion endpoints                                                                       |
+| Test harness                        | Playwright (already a devDependency at `^1.60.0`) calls the renderer and asserts SVG string/DOM structure |
+| No screenshot oracle                | Pass/fail is based on SVG string and DOM structure, not pixel comparison                                  |
+| Blocked patterns in renderer source | `puppeteer`, `playwright`, `@mermaid-js/mermaid-cli`, `screenshot`, `canvas`, `html2canvas`, `toDataURL`  |
 
 ### 1.3 Environment facts
 
@@ -177,6 +177,7 @@ The runner reads `test/schema.yml` and performs structural validation on each
 Required top-level keys: `id`, `source`, `diagram`, `input`, `expect`, `skip`.
 
 Required nested fields:
+
 - `source.repo`, `source.path`, `source.url`
 - `diagram.type`, `diagram.title`
 - `input.mermaid`
@@ -204,6 +205,7 @@ Approach:
    where `window.__renderMermaid` is assigned from the imported module.
 
 Alternative fallback (if Vite middleware proves heavy):
+
 - Use a lightweight `node:http` static server serving from project root with an
   import map in the HTML head mapping `"mermaid"` to
   `/node_modules/mermaid/dist/mermaid.esm.min.mjs`.
@@ -215,17 +217,19 @@ the renderer module using standard bare imports and avoid hardcoding paths.
 
 For each non-skipped case where `expect.render === true`:
 
-| Assertion | Check |
-|---|---|
-| Result tuple | `result[0] === OK` (0) |
-| SVG root | `result[1]` contains `"<svg"` |
-| ViewBox | `result[1]` contains `"viewBox"` |
+| Assertion     | Check                                                                                                 |
+| ------------- | ----------------------------------------------------------------------------------------------------- |
+| Result tuple  | `result[0] === OK` (0)                                                                                |
+| SVG root      | `result[1]` contains `"<svg"`                                                                         |
+| ViewBox       | `result[1]` contains `"viewBox"`                                                                      |
 | Contains text | For each `t` in `expect.svg.containsText`: `result[1]` includes `t` (current cases have empty arrays) |
 
 For cases where `expect.render === false`:
+
 - Assert `result[0]` is one of the error codes (not `OK`).
 
 For skipped cases (`skip.enabled === true`):
+
 - Use `test.skip()` so they appear in the report but do not execute.
 
 ### 3.7 Capability report generation
@@ -299,24 +303,24 @@ workflow/reports/render-capabilities.json
 
 ### 4.3 Required fields (per validator)
 
-| Field | Type | Validator check |
-|---|---|---|
-| `supported` | array | `Array.isArray(report.supported)` |
-| `unsupported` | array | `Array.isArray(report.unsupported)` |
-| `summary` | object | `typeof report.summary === "object"` |
+| Field         | Type   | Validator check                      |
+| ------------- | ------ | ------------------------------------ |
+| `supported`   | array  | `Array.isArray(report.supported)`    |
+| `unsupported` | array  | `Array.isArray(report.unsupported)`  |
+| `summary`     | object | `typeof report.summary === "object"` |
 
 ### 4.4 Current test corpus (18 cases)
 
-| Diagram type | Count | Test IDs |
-|---|---|---|
-| flowchart | 5 | bm-001, bm-002, maid-001, maid-002, mm-fc-001 |
-| sequenceDiagram | 3 | bm-010, maid-010, mm-seq-001 |
-| classDiagram | 2 | bm-014, maid-015 |
-| stateDiagram | 2 | bm-007, maid-017 |
-| erDiagram | 2 | bm-017, mm-other-001 |
-| pie | 2 | maid-019, mm-other-005 |
-| gantt | 1 | maid-020 |
-| other (xychart-beta) | 1 | bm-020 |
+| Diagram type         | Count | Test IDs                                      |
+| -------------------- | ----- | --------------------------------------------- |
+| flowchart            | 5     | bm-001, bm-002, maid-001, maid-002, mm-fc-001 |
+| sequenceDiagram      | 3     | bm-010, maid-010, mm-seq-001                  |
+| classDiagram         | 2     | bm-014, maid-015                              |
+| stateDiagram         | 2     | bm-007, maid-017                              |
+| erDiagram            | 2     | bm-017, mm-other-001                          |
+| pie                  | 2     | maid-019, mm-other-005                        |
+| gantt                | 1     | maid-020                                      |
+| other (xychart-beta) | 1     | bm-020                                        |
 
 All 18 cases currently have `expect.render: true` and `skip.enabled: false`.
 
@@ -326,35 +330,35 @@ All 18 cases currently have `expect.render: true` and `skip.enabled: false`.
 
 ### Phase 03 (renderer-implementation)
 
-| | Path |
-|---|---|
-| Allowed | `src/render/**`, `docs/render/**`, `package.json`, `workflow/runs/render/**` |
-| Blocked | `../docs/**`, `references/**`, `demo/**`, `test/*.yml`, `extract/**`, `workflow/reports/**` |
-| Required output | `src/render/mermaid-to-svg.js` |
+|                 | Path                                                                                        |
+| --------------- | ------------------------------------------------------------------------------------------- |
+| Allowed         | `src/render/**`, `docs/render/**`, `package.json`, `workflow/runs/render/**`                |
+| Blocked         | `../docs/**`, `references/**`, `demo/**`, `test/*.yml`, `extract/**`, `workflow/reports/**` |
+| Required output | `src/render/mermaid-to-svg.js`                                                              |
 
 ### Phase 04 (render-test-runner)
 
-| | Path |
-|---|---|
-| Allowed | `test/render-yml.test.mjs`, `workflow/reports/render-capabilities.json`, `docs/render/**`, `package.json`, `workflow/runs/render/**` |
-| Blocked | `../docs/**`, `references/**`, `demo/**`, `test/*.yml`, `test/schema.yml`, `extract/**` |
-| Required outputs | `test/render-yml.test.mjs`, `workflow/reports/render-capabilities.json` |
+|                  | Path                                                                                                                                 |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| Allowed          | `test/render-yml.test.mjs`, `workflow/reports/render-capabilities.json`, `docs/render/**`, `package.json`, `workflow/runs/render/**` |
+| Blocked          | `../docs/**`, `references/**`, `demo/**`, `test/*.yml`, `test/schema.yml`, `extract/**`                                              |
+| Required outputs | `test/render-yml.test.mjs`, `workflow/reports/render-capabilities.json`                                                              |
 
 ### Phase 05 (validation)
 
-| | Path |
-|---|---|
-| Allowed | `docs/render/render-validation.md`, `workflow/reports/render-capabilities.json`, `workflow/runs/render/**` |
-| Blocked | `../docs/**`, `references/**`, `demo/**`, `src/**`, `test/*.yml`, `test/schema.yml`, `extract/**` |
-| Required outputs | `docs/render/render-validation.md`, `workflow/reports/render-capabilities.json` |
+|                  | Path                                                                                                       |
+| ---------------- | ---------------------------------------------------------------------------------------------------------- |
+| Allowed          | `docs/render/render-validation.md`, `workflow/reports/render-capabilities.json`, `workflow/runs/render/**` |
+| Blocked          | `../docs/**`, `references/**`, `demo/**`, `src/**`, `test/*.yml`, `test/schema.yml`, `extract/**`          |
+| Required outputs | `docs/render/render-validation.md`, `workflow/reports/render-capabilities.json`                            |
 
 ### Phase 06 (final-report)
 
-| | Path |
-|---|---|
-| Allowed | `docs/render-loop-report.md`, `workflow/runs/render/**` |
-| Blocked | `../docs/**`, `references/**`, `demo/**`, `src/**`, `test/**`, `extract/**`, `workflow/reports/**` |
-| Required output | `docs/render-loop-report.md` |
+|                 | Path                                                                                               |
+| --------------- | -------------------------------------------------------------------------------------------------- |
+| Allowed         | `docs/render-loop-report.md`, `workflow/runs/render/**`                                            |
+| Blocked         | `../docs/**`, `references/**`, `demo/**`, `src/**`, `test/**`, `extract/**`, `workflow/reports/**` |
+| Required output | `docs/render-loop-report.md`                                                                       |
 
 ---
 
@@ -425,13 +429,13 @@ These are machine-checked gates. The implementation must satisfy them exactly.
 
 All commits use conventional commits format.
 
-| Order | Phase | Commit message | Files |
-|---|---|---|---|
-| 1 | 02 renderer-plan | `docs(render): add renderer implementation plan` | `docs/render/renderer-plan.md` |
-| 2 | 03 renderer-implementation | `feat(render): add mermaid-to-svg browser renderer` | `src/render/mermaid-to-svg.js` |
-| 3 | 04 render-test-runner | `test(render): add yml render test runner and capability report` | `test/render-yml.test.mjs`, `workflow/reports/render-capabilities.json` |
-| 4 | 05 validation | `docs(render): record render validation results` | `docs/render/render-validation.md`, `workflow/reports/render-capabilities.json` |
-| 5 | 06 final-report | `docs(render): write render loop final report` | `docs/render-loop-report.md` |
+| Order | Phase                      | Commit message                                                   | Files                                                                           |
+| ----- | -------------------------- | ---------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| 1     | 02 renderer-plan           | `docs(render): add renderer implementation plan`                 | `docs/render/renderer-plan.md`                                                  |
+| 2     | 03 renderer-implementation | `feat(render): add mermaid-to-svg browser renderer`              | `src/render/mermaid-to-svg.js`                                                  |
+| 3     | 04 render-test-runner      | `test(render): add yml render test runner and capability report` | `test/render-yml.test.mjs`, `workflow/reports/render-capabilities.json`         |
+| 4     | 05 validation              | `docs(render): record render validation results`                 | `docs/render/render-validation.md`, `workflow/reports/render-capabilities.json` |
+| 5     | 06 final-report            | `docs(render): write render loop final report`                   | `docs/render-loop-report.md`                                                    |
 
 Each commit is made after the phase's verification command passes.
 
@@ -439,14 +443,14 @@ Each commit is made after the phase's verification command passes.
 
 ## 9. Risk register
 
-| Risk | Mitigation |
-|---|---|
-| Mermaid `render` needs a full DOM; `happy-dom`/`linkedom` may be insufficient | Use Playwright Chromium as the real-browser harness per HG-3 decision |
-| Mermaid `securityLevel: "strict"` may alter SVG output | Record actual behavior in capability report; do not silently change security level |
-| Vite middleware server startup may slow tests | Acceptable for correctness; optimize later if CI complains |
-| `xychart-beta` (bm-020) may render differently across mermaid versions | Record actual result in capability report; mark unsupported if it fails |
-| Mermaid `render` mutates global state (counter resets, ID collisions) | Use incrementing counter for unique IDs; re-initialize per test session |
-| Mermaid may append temporary DOM nodes during render | Use a container element that is cleaned up between renders |
+| Risk                                                                          | Mitigation                                                                         |
+| ----------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| Mermaid `render` needs a full DOM; `happy-dom`/`linkedom` may be insufficient | Use Playwright Chromium as the real-browser harness per HG-3 decision              |
+| Mermaid `securityLevel: "strict"` may alter SVG output                        | Record actual behavior in capability report; do not silently change security level |
+| Vite middleware server startup may slow tests                                 | Acceptable for correctness; optimize later if CI complains                         |
+| `xychart-beta` (bm-020) may render differently across mermaid versions        | Record actual result in capability report; mark unsupported if it fails            |
+| Mermaid `render` mutates global state (counter resets, ID collisions)         | Use incrementing counter for unique IDs; re-initialize per test session            |
+| Mermaid may append temporary DOM nodes during render                          | Use a container element that is cleaned up between renders                         |
 
 ---
 

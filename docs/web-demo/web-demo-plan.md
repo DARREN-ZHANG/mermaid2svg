@@ -34,37 +34,37 @@ those are deferred to their own loops.
 
 ### 1.3 Inputs (produced by earlier loops)
 
-| Input | Role |
-|---|---|
-| `src/render/mermaid-to-svg.js` | `renderMermaidToSvg(text)` → `[OK, rawSvg, diagramType]` on success, `[errCode, msg]` on failure. Async, browser-only. |
-| `src/render/normalize-svg.js` | `normalizeSvg(rawSvg)` → `[OK, normalizedSvg]` on success, `[errCode, msg]` on failure. Sync, browser-only (`DOMParser`/`XMLSerializer`). |
-| `workflow/reports/render-capabilities.json` | 18/18 cases render; all eight HG-1 MVP diagram types covered. |
-| `workflow/reports/svg-output-compatibility.json` | 18/18 normalized outputs pass the 5-rule SVG contract. |
-| `test/*.yml` | 18 accepted, schema-validated Mermaid cases used as the example gallery source. |
+| Input                                            | Role                                                                                                                                      |
+| ------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/render/mermaid-to-svg.js`                   | `renderMermaidToSvg(text)` → `[OK, rawSvg, diagramType]` on success, `[errCode, msg]` on failure. Async, browser-only.                    |
+| `src/render/normalize-svg.js`                    | `normalizeSvg(rawSvg)` → `[OK, normalizedSvg]` on success, `[errCode, msg]` on failure. Sync, browser-only (`DOMParser`/`XMLSerializer`). |
+| `workflow/reports/render-capabilities.json`      | 18/18 cases render; all eight HG-1 MVP diagram types covered.                                                                             |
+| `workflow/reports/svg-output-compatibility.json` | 18/18 normalized outputs pass the 5-rule SVG contract.                                                                                    |
+| `test/*.yml`                                     | 18 accepted, schema-validated Mermaid cases used as the example gallery source.                                                           |
 
 ### 1.4 Outputs (produced by this loop)
 
-| Output | Phase |
-|---|---|
-| `demo/index.pug`, `demo/index.js`, `demo/style.styl` (converted) | 03 implementation |
-| `demo/const/mermaidExamples.js` (new example data) | 03 implementation |
-| `demo/svg/` Mermaid-rendered assets as needed | 03 implementation |
-| `workflow/reports/web-demo-report.json` | 03 implementation / 04 verification |
-| `docs/web-demo/web-demo-verification.md` | 04 verification |
-| `docs/web-demo-loop-report.md` | 05 final-report |
+| Output                                                           | Phase                               |
+| ---------------------------------------------------------------- | ----------------------------------- |
+| `demo/index.pug`, `demo/index.js`, `demo/style.styl` (converted) | 03 implementation                   |
+| `demo/const/mermaidExamples.js` (new example data)               | 03 implementation                   |
+| `demo/svg/` Mermaid-rendered assets as needed                    | 03 implementation                   |
+| `workflow/reports/web-demo-report.json`                          | 03 implementation / 04 verification |
+| `docs/web-demo/web-demo-verification.md`                         | 04 verification                     |
+| `docs/web-demo-loop-report.md`                                   | 05 final-report                     |
 
 ### 1.5 Hard constraints
 
-| Constraint | Detail |
-|---|---|
-| Render engine | Reuse `renderMermaidToSvg` + `normalizeSvg`; no new render code |
-| No self-built parser / layout | Mermaid source goes straight to the official browser API |
-| No server rendering | All rendering happens in the browser page via Vite-served modules |
-| Browser-only modules | Both renderer and normalizer need a browser DOM; the demo imports them directly (Vite resolves the bare `mermaid` import) |
-| Preserve upstream assets | Do NOT delete `demo/webc/Math.js`, `demo/const/formulas.js`, `plugin/`, `blog/`, `src/**`, `lib/**` |
-| i18n deferred | New Mermaid page copy uses English text marked for later extraction; do NOT edit `demo/i18n/*.js` in this loop |
-| Size chart deferred | Do NOT wire the comparison chart to real data; leave the benchmark card shells intact |
-| Theme deferred | Mermaid renders with the default Mermaid theme; no Beautiful Mermaid CSS yet |
+| Constraint                      | Detail                                                                                                                             |
+| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| Render engine                   | Reuse `renderMermaidToSvg` + `normalizeSvg`; no new render code                                                                    |
+| No self-built parser / layout   | Mermaid source goes straight to the official browser API                                                                           |
+| No server rendering             | All rendering happens in the browser page via Vite-served modules                                                                  |
+| Browser-only modules            | Both renderer and normalizer need a browser DOM; the demo imports them directly (Vite resolves the bare `mermaid` import)          |
+| Preserve upstream assets        | Do NOT delete `demo/webc/Math.js`, `demo/const/formulas.js`, `plugin/`, `blog/`, `src/**`, `lib/**`                                |
+| i18n deferred                   | New Mermaid page copy uses English text marked for later extraction; do NOT edit `demo/i18n/*.js` in this loop                     |
+| Size chart deferred             | Do NOT wire the comparison chart to real data; leave the benchmark card shells intact                                              |
+| Theme deferred                  | Mermaid renders with the default Mermaid theme; no Beautiful Mermaid CSS yet                                                       |
 | Blocked patterns in demo source | `puppeteer`, `playwright`, `@mermaid-js/mermaid-cli`, `screenshot`, `canvas`, `html2canvas`, `toDataURL`, `remote mermaid service` |
 
 ---
@@ -92,17 +92,17 @@ c-vs (vertical scroll root)
 
 ### 2.2 Reuse map
 
-| New Mermaid section | Reuse from existing demo |
-|---|---|
-| Header (lang / github / npm) | Keep `<c-i18n>` + `.BtnC` icon links; update hrefs to the Mermaid repo |
-| Title + subtitle | `.header-main` > `h1` (250-weight) + `.subtitle` |
-| Mermaid input textarea | `#formula-input` pattern: 18px monospace, `:focus` blue ring (`--accent-glow`) |
-| SVG preview area | `.rendered-math` / `.math-display` pattern: centered, `min-height`, `#f8fafc` bg, scrollable |
-| Examples gallery | `.formulas-grid` waterfall + `.formula-card` hover lift; cards built in JS |
-| Benchmark card shells | Keep `.benchmark-card` containers; their content is wired by the Size Loop |
-| Glassmorphism | Apply `.Lg` class to every card (frosted `::before` + gradient border `::after`) |
-| Buttons | `.Btn` / `.Btn.Main` (blue gradient) for the "render / clear / copy" actions |
-| Typography & tokens | `:root` tokens (`--accent-color #2563eb`, `--card-bg`, `--text-muted`, radius 24px, etc.) unchanged |
+| New Mermaid section          | Reuse from existing demo                                                                            |
+| ---------------------------- | --------------------------------------------------------------------------------------------------- |
+| Header (lang / github / npm) | Keep `<c-i18n>` + `.BtnC` icon links; update hrefs to the Mermaid repo                              |
+| Title + subtitle             | `.header-main` > `h1` (250-weight) + `.subtitle`                                                    |
+| Mermaid input textarea       | `#formula-input` pattern: 18px monospace, `:focus` blue ring (`--accent-glow`)                      |
+| SVG preview area             | `.rendered-math` / `.math-display` pattern: centered, `min-height`, `#f8fafc` bg, scrollable        |
+| Examples gallery             | `.formulas-grid` waterfall + `.formula-card` hover lift; cards built in JS                          |
+| Benchmark card shells        | Keep `.benchmark-card` containers; their content is wired by the Size Loop                          |
+| Glassmorphism                | Apply `.Lg` class to every card (frosted `::before` + gradient border `::after`)                    |
+| Buttons                      | `.Btn` / `.Btn.Main` (blue gradient) for the "render / clear / copy" actions                        |
+| Typography & tokens          | `:root` tokens (`--accent-color #2563eb`, `--card-bg`, `--text-muted`, radius 24px, etc.) unchanged |
 
 ### 2.3 Design tokens (unchanged, from `demo/style.styl`)
 
@@ -134,10 +134,10 @@ import { normalizeSvg, OK as NORM_OK } from "../src/render/normalize-svg.js";
 
 const renderToSvg = async (mermaidText) => {
   const [code, raw, diagramType] = await renderMermaidToSvg(mermaidText);
-  if (code !== RENDER_OK) return [code, raw];          // render-layer error (1-4)
+  if (code !== RENDER_OK) return [code, raw]; // render-layer error (1-4)
   const [nCode, normalized] = normalizeSvg(raw);
-  if (nCode !== NORM_OK) return [nCode, normalized];   // normalize-layer error (100-102)
-  return [RENDER_OK, normalized, diagramType];         // success: stable SVG
+  if (nCode !== NORM_OK) return [nCode, normalized]; // normalize-layer error (100-102)
+  return [RENDER_OK, normalized, diagramType]; // success: stable SVG
 };
 ```
 
@@ -151,15 +151,15 @@ array length. The composed `renderToSvg` above normalizes this to
 
 ### 3.3 Error code → user message mapping
 
-| Code | Constant | Cause | Demo behavior |
-|---|---|---|---|
-| 1 | `ERR_EMPTY` | empty / whitespace input | show empty-state placeholder, no error styling |
-| 2 | `ERR_PARSE` | mermaid rejected syntax | show parse error message |
-| 3 | `ERR_RENDER` | parse ok, render/layout failed | show render error message |
-| 4 | `ERR_TIMEOUT` | exceeded 10s budget | show timeout message |
-| 100 | `ERR_NO_SVG` | output has no svg root | show output error (should not happen post-render) |
-| 101 | `ERR_VIEWBOX` | cannot derive viewBox | show output error |
-| 102 | `ERR_PARSE` (norm) | svg serialization failed | show output error |
+| Code | Constant           | Cause                          | Demo behavior                                     |
+| ---- | ------------------ | ------------------------------ | ------------------------------------------------- |
+| 1    | `ERR_EMPTY`        | empty / whitespace input       | show empty-state placeholder, no error styling    |
+| 2    | `ERR_PARSE`        | mermaid rejected syntax        | show parse error message                          |
+| 3    | `ERR_RENDER`       | parse ok, render/layout failed | show render error message                         |
+| 4    | `ERR_TIMEOUT`      | exceeded 10s budget            | show timeout message                              |
+| 100  | `ERR_NO_SVG`       | output has no svg root         | show output error (should not happen post-render) |
+| 101  | `ERR_VIEWBOX`      | cannot derive viewBox          | show output error                                 |
+| 102  | `ERR_PARSE` (norm) | svg serialization failed       | show output error                                 |
 
 Codes 1 is treated as an empty state (not a hard error). Codes 2–4 and 100–102
 show a visible, recoverable error in the preview area; the page never crashes.
@@ -214,6 +214,7 @@ c-vs
 ```
 
 Notes:
+
 - The two benchmark cards (`.benchmark-card.size-card` / `.speed-card`) are kept
   in the markup as empty shells OR removed for this loop and reintroduced by the
   Size Loop. The plan recommends keeping a single empty `.benchmark-card.Lg`
@@ -282,10 +283,18 @@ is provably renderable.
 export default [
   ["flowchart", "Flowchart", "flowchart TD\n    Start --> Stop"],
   ["sequenceDiagram", "Sequence", "sequenceDiagram\n    Alice->>Bob: Hello\n    Bob-->>Alice: Hi"],
-  ["classDiagram", "Class", "classDiagram\n    class Animal {\n      +String name\n      +eat() void\n    }"],
-  ["stateDiagram-v2", "State", "stateDiagram-v2\n    [*] --> Idle\n    Idle --> Running : start\n    Running --> [*] : stop"],
+  [
+    "classDiagram",
+    "Class",
+    "classDiagram\n    class Animal {\n      +String name\n      +eat() void\n    }",
+  ],
+  [
+    "stateDiagram-v2",
+    "State",
+    "stateDiagram-v2\n    [*] --> Idle\n    Idle --> Running : start\n    Running --> [*] : stop",
+  ],
   ["erDiagram", "ER Diagram", "erDiagram\n    CUSTOMER ||--o{ ORDER : places"],
-  ["pie", "Pie Chart", "pie\n    title \"Pets\"\n    \"Dogs\" : 10\n    \"Cats\" : 5"],
+  ["pie", "Pie Chart", 'pie\n    title "Pets"\n    "Dogs" : 10\n    "Cats" : 5'],
   ["gantt", "Gantt", "gantt\n    ..."],
   ["xychart-beta", "XY Chart", "xychart-beta\n    ..."],
 ];
@@ -295,16 +304,16 @@ export default [
 
 All eight HG-1 MVP types have at least one short, accepted, renderable test:
 
-| Type | Accepted count | Gallery source test |
-|---|---|---|
-| flowchart | 5 | `maid-001` / `bm-001` |
-| sequenceDiagram | 3 | `mm-seq-001` / `bm-010` |
-| classDiagram | 2 | `bm-014` |
-| stateDiagram-v2 | 2 | `maid-017` (source uses `stateDiagram-v2`) |
-| erDiagram | 2 | `bm-017` |
-| pie | 2 | `maid-019` |
-| gantt | 1 | `maid-020` |
-| xychart-beta | 1 | `bm-020` |
+| Type            | Accepted count | Gallery source test                        |
+| --------------- | -------------- | ------------------------------------------ |
+| flowchart       | 5              | `maid-001` / `bm-001`                      |
+| sequenceDiagram | 3              | `mm-seq-001` / `bm-010`                    |
+| classDiagram    | 2              | `bm-014`                                   |
+| stateDiagram-v2 | 2              | `maid-017` (source uses `stateDiagram-v2`) |
+| erDiagram       | 2              | `bm-017`                                   |
+| pie             | 2              | `maid-019`                                 |
+| gantt           | 1              | `maid-020`                                 |
+| xychart-beta    | 1              | `bm-020`                                   |
 
 The exact snippets are finalized in the implementation phase by reading the
 `input.mermaid` field from the corresponding YAML file. Each must remain stable
@@ -350,7 +359,16 @@ workflow/reports/web-demo-report.json
   "renderer": "src/render/mermaid-to-svg.js",
   "normalizer": "src/render/normalize-svg.js",
   "exampleCount": 8,
-  "diagramTypes": ["flowchart", "sequenceDiagram", "classDiagram", "stateDiagram-v2", "erDiagram", "pie", "gantt", "xychart-beta"],
+  "diagramTypes": [
+    "flowchart",
+    "sequenceDiagram",
+    "classDiagram",
+    "stateDiagram-v2",
+    "erDiagram",
+    "pie",
+    "gantt",
+    "xychart-beta"
+  ],
   "localBuild": {
     "command": "bun run build",
     "exitCode": 0,
@@ -379,30 +397,30 @@ implementation and verification phases.
 
 ### Phase 03 (implementation)
 
-| | Path |
-|---|---|
-| Allowed | `demo/**`, `docs/web-demo/**`, `workflow/reports/web-demo-report.json` |
-| Blocked | `../docs/**`, `references/**`, `src/**`, `lib/**`, `test/**`, `extract/**`, `demo/i18n/**` (i18n keys), `demo/webc/Math.js` |
-| Required outputs | converted `demo/index.pug`, `demo/index.js`, new `demo/const/mermaidExamples.js`, `workflow/reports/web-demo-report.json` |
+|                  | Path                                                                                                                        |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| Allowed          | `demo/**`, `docs/web-demo/**`, `workflow/reports/web-demo-report.json`                                                      |
+| Blocked          | `../docs/**`, `references/**`, `src/**`, `lib/**`, `test/**`, `extract/**`, `demo/i18n/**` (i18n keys), `demo/webc/Math.js` |
+| Required outputs | converted `demo/index.pug`, `demo/index.js`, new `demo/const/mermaidExamples.js`, `workflow/reports/web-demo-report.json`   |
 
-Note: `demo/i18n/**` is blocked for *key additions*; the language switch
+Note: `demo/i18n/**` is blocked for _key additions_; the language switch
 component stays intact.
 
 ### Phase 04 (verification)
 
-| | Path |
-|---|---|
-| Allowed | `docs/web-demo/**`, `workflow/reports/web-demo-report.json` |
-| Blocked | `../docs/**`, `references/**`, `src/**`, `demo/**` (no source edits), `test/**` |
+|                  | Path                                                                                        |
+| ---------------- | ------------------------------------------------------------------------------------------- |
+| Allowed          | `docs/web-demo/**`, `workflow/reports/web-demo-report.json`                                 |
+| Blocked          | `../docs/**`, `references/**`, `src/**`, `demo/**` (no source edits), `test/**`             |
 | Required outputs | `docs/web-demo/web-demo-verification.md`, refreshed `workflow/reports/web-demo-report.json` |
 
 ### Phase 05 (final-report)
 
-| | Path |
-|---|---|
-| Allowed | `docs/web-demo-loop-report.md` |
-| Blocked | `../docs/**`, `references/**`, `src/**`, `demo/**`, `test/**` |
-| Required output | `docs/web-demo-loop-report.md` |
+|                 | Path                                                          |
+| --------------- | ------------------------------------------------------------- |
+| Allowed         | `docs/web-demo-loop-report.md`                                |
+| Blocked         | `../docs/**`, `references/**`, `src/**`, `demo/**`, `test/**` |
+| Required output | `docs/web-demo-loop-report.md`                                |
 
 ---
 
@@ -448,13 +466,13 @@ Validator checks `docs/web-demo-loop-report.md` exists and all final artifacts
 
 All commits use conventional commits format.
 
-| Order | Phase | Commit message | Files |
-|---|---|---|---|
-| 1 | 02 plan | `docs(web-demo): add web demo page plan` | `docs/web-demo/web-demo-plan.md` |
-| 2 | 03 implementation | `feat(web-demo): convert demo page to mermaid svg` | `demo/**`, `demo/const/mermaidExamples.js` |
-| 3 | 03 implementation | `chore(web-demo): record demo report` | `workflow/reports/web-demo-report.json` |
-| 4 | 04 verification | `docs(web-demo): record demo verification` | `docs/web-demo/web-demo-verification.md`, `workflow/reports/web-demo-report.json` |
-| 5 | 05 final-report | `docs(web-demo): write web demo loop report` | `docs/web-demo-loop-report.md` |
+| Order | Phase             | Commit message                                     | Files                                                                             |
+| ----- | ----------------- | -------------------------------------------------- | --------------------------------------------------------------------------------- |
+| 1     | 02 plan           | `docs(web-demo): add web demo page plan`           | `docs/web-demo/web-demo-plan.md`                                                  |
+| 2     | 03 implementation | `feat(web-demo): convert demo page to mermaid svg` | `demo/**`, `demo/const/mermaidExamples.js`                                        |
+| 3     | 03 implementation | `chore(web-demo): record demo report`              | `workflow/reports/web-demo-report.json`                                           |
+| 4     | 04 verification   | `docs(web-demo): record demo verification`         | `docs/web-demo/web-demo-verification.md`, `workflow/reports/web-demo-report.json` |
+| 5     | 05 final-report   | `docs(web-demo): write web demo loop report`       | `docs/web-demo-loop-report.md`                                                    |
 
 Each commit is made after the phase's verification command passes.
 
@@ -480,15 +498,15 @@ keep the demo free of blocked patterns (`puppeteer`, `playwright`, `screenshot`,
 
 ## 12. Risk Register
 
-| Risk | Mitigation |
-|---|---|
+| Risk                                                              | Mitigation                                                                                                                                                         |
+| ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Renderer/normalizer import paths from `demo/` differ in Vite root | `vite.config.js` sets `root: "demo"`. Imports use relative paths `../src/render/...` resolved from project root, or configure an alias. Confirm in implementation. |
-| Mermaid bundle is large and slows dev/build | Acceptable; `optimizeDeps.include: ["mermaid"]` already used in tests. Mermaid is the only runtime dep and the size chart (Size Loop) will quantify it. |
-| Normalized SVG injection via `innerHTML` may run inline scripts | The normalizer already strips `<script>`, `on*` handlers, and `javascript:` URIs (verified by svg-output contract). Safe to inject. |
-| Gallery live-rendering 8 diagrams on load may be slow | Render lazily (IntersectionObserver) or render once and cache the normalized string. |
-| Removing the Math usage card may leave the page feeling empty | Keep a repurposed usage card or the benchmark placeholder shell to preserve visual density. |
-| Hardcoded English text feels incomplete vs i18n | Explicitly marked TODOs; full i18n is a separate loop. Page is coherent in English now. |
-| `demo/i18n/**` parity broken if Math keys are removed | Do NOT delete existing keys; only add new Mermaid strings as hardcoded English this loop. |
+| Mermaid bundle is large and slows dev/build                       | Acceptable; `optimizeDeps.include: ["mermaid"]` already used in tests. Mermaid is the only runtime dep and the size chart (Size Loop) will quantify it.            |
+| Normalized SVG injection via `innerHTML` may run inline scripts   | The normalizer already strips `<script>`, `on*` handlers, and `javascript:` URIs (verified by svg-output contract). Safe to inject.                                |
+| Gallery live-rendering 8 diagrams on load may be slow             | Render lazily (IntersectionObserver) or render once and cache the normalized string.                                                                               |
+| Removing the Math usage card may leave the page feeling empty     | Keep a repurposed usage card or the benchmark placeholder shell to preserve visual density.                                                                        |
+| Hardcoded English text feels incomplete vs i18n                   | Explicitly marked TODOs; full i18n is a separate loop. Page is coherent in English now.                                                                            |
+| `demo/i18n/**` parity broken if Math keys are removed             | Do NOT delete existing keys; only add new Mermaid strings as hardcoded English this loop.                                                                          |
 
 ---
 
