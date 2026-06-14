@@ -21,6 +21,9 @@ html, body
   height 100%
   overflow hidden
 
+html
+  scroll-behavior smooth
+
 body
   background #ffffff url('./svg/bg.svg') no-repeat center / cover
   background-attachment fixed
@@ -124,6 +127,7 @@ main
 .card
   border-radius 24px
   box-shadow 0 4px 6px -1px #0000000d, 0 2px 4px -1px #00000008
+  display flex
   flex-direction column
   padding 32px
   position relative
@@ -214,6 +218,7 @@ main
   font-size 18px
   line-height 1.6
   min-height 200px
+  min-width 0
   outline none
   padding 20px
   resize none
@@ -230,6 +235,7 @@ main
   flex 1
   flex-direction column
   gap 8px
+  min-width 0
 
 #svg-preview
   align-items center
@@ -241,19 +247,32 @@ main
   justify-content center
   min-height 200px
   overflow auto
-  padding 24px
+  padding 32px
 
   svg
+    border-radius 10px
+    display block
     height auto
     max-width 100%
+    transition opacity 0.2s
+
+  foreignObject
+    overflow visible
+
+  .nodeLabel, .edgeLabel, .labelBkg
+    font-family 'trebuchet ms', verdana, arial, sans-serif
 
 .render-status
   color var(--text-muted)
   font-size 14px
   min-height 20px
+  transition color 0.2s
 
   &.error
+    background-color #fee2e2
+    border-radius 8px
     color #dc2626
+    padding 10px 14px
 
 // ===== 示例图库 =====
 
@@ -269,8 +288,9 @@ main
     margin 0
 
 .examples-grid
-  position relative
-  transition height 0.3s ease
+  display grid
+  gap 24px
+  grid-template-columns repeat(auto-fill, minmax(300px, 1fr))
   width 100%
 
   .example-card
@@ -281,8 +301,9 @@ main
     display flex
     flex-direction column
     gap 12px
+    height 100%
     padding 24px
-    position absolute
+    position relative
     transition transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s
 
     &:hover
@@ -313,14 +334,23 @@ main
       border 1px solid var(--border-color)
       border-radius 10px
       display flex
+      flex 1
       justify-content center
       min-height 100px
       overflow hidden
-      padding 24px
+      padding 32px
 
       svg
+        border-radius 8px
+        display block
         height auto
         max-width 100%
+
+      foreignObject
+        overflow visible
+
+      .nodeLabel, .edgeLabel, .labelBkg
+        font-family 'trebuchet ms', verdana, arial, sans-serif
 
 // ===== 代码块 =====
 

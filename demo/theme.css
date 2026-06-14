@@ -25,7 +25,9 @@
 }
 
 /* 主文本 (color/fill) */
-[data-theme] #mermaid-svg .label {
+[data-theme] #mermaid-svg .label,
+[data-theme] #mermaid-svg .nodeLabel,
+[data-theme] #mermaid-svg .nodeLabel p {
   color: var(--m-text);
 }
 [data-theme] #mermaid-svg .label text,
@@ -55,13 +57,19 @@
   fill: var(--m-sec);
 }
 
+/* sequence diagram actor 文案 */
+[data-theme] #mermaid-svg text.actor.actor-box,
+[data-theme] #mermaid-svg text.actor.actor-box > tspan {
+  fill: var(--m-text);
+}
+
 /* 节点形状填充/描边 (flowchart/sequence/class/state/er) */
 [data-theme] #mermaid-svg .node rect,
 [data-theme] #mermaid-svg .node circle,
 [data-theme] #mermaid-svg .node ellipse,
 [data-theme] #mermaid-svg .node polygon,
 [data-theme] #mermaid-svg .node path,
-[data-theme] #mermaid-svg .actor,
+[data-theme] #mermaid-svg rect.actor,
 [data-theme] #mermaid-svg .labelBox,
 [data-theme] #mermaid-svg .entityBox,
 [data-theme] #mermaid-svg g.classGroup rect,

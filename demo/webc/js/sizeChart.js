@@ -1,6 +1,10 @@
 const SVG_NS = "http://www.w3.org/2000/svg",
-  W = 440, H = 280,
-  LEFT = 50, RIGHT = 420, TOP = 30, BOTTOM = 210,
+  W = 440,
+  H = 280,
+  LEFT = 50,
+  RIGHT = 420,
+  TOP = 30,
+  BOTTOM = 210,
   PLOT_H = BOTTOM - TOP,
   BAR_W = 42,
   FONT = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
@@ -8,7 +12,10 @@ const SVG_NS = "http://www.w3.org/2000/svg",
   C_OURS = "var(--accent-color)",
   OP_GZIP = 0.38,
   // 每组柱子 x: [raw_x, gzip_x]
-  POS = [[115, 161], [268, 314]],
+  POS = [
+    [115, 161],
+    [268, 314],
+  ],
   // 组中心 x (用于标签)
   CX = [159, 312],
   // 字节 → KB
@@ -87,7 +94,13 @@ export const renderSizeChart = (data, labels) => {
     el("rect", { x: LEFT, y: 4, width: 12, height: 12, rx: 2, fill: "#64748b" }),
     text(L.raw, LEFT + 18, 14, { "font-size": 12, fill: "#64748b" }),
     el("rect", {
-      x: LEFT + 60, y: 4, width: 12, height: 12, rx: 2, fill: "#64748b", opacity: OP_GZIP,
+      x: LEFT + 60,
+      y: 4,
+      width: 12,
+      height: 12,
+      rx: 2,
+      fill: "#64748b",
+      opacity: OP_GZIP,
     }),
     text(L.gzip, LEFT + 78, 14, { "font-size": 12, fill: "#64748b" }),
   );
@@ -101,7 +114,10 @@ export const renderSizeChart = (data, labels) => {
       y = BOTTOM - ((kb * 1024) / max_bytes) * PLOT_H;
     svg.append(
       el("line", {
-        x1: LEFT, y1: y, x2: RIGHT, y2: y,
+        x1: LEFT,
+        y1: y,
+        x2: RIGHT,
+        y2: y,
         stroke: i === 0 ? "#cbd5e1" : "#edf2f7",
         "stroke-width": 1,
         "stroke-dasharray": i === 0 ? "" : "3 4",
@@ -110,7 +126,9 @@ export const renderSizeChart = (data, labels) => {
     if (i > 0)
       svg.append(
         text(kb + "K", LEFT - 6, y + 3, {
-          "text-anchor": "end", "font-size": 10, fill: "#94a3b8",
+          "text-anchor": "end",
+          "font-size": 10,
+          fill: "#94a3b8",
         }),
       );
   }
@@ -123,10 +141,15 @@ export const renderSizeChart = (data, labels) => {
       raw_rect,
       gzip_rect,
       text(fmtKb(raw_b), raw_x + BAR_W / 2, raw_y - 6, {
-        "text-anchor": "middle", "font-size": 11, "font-weight": "600", fill: "#334155",
+        "text-anchor": "middle",
+        "font-size": 11,
+        "font-weight": "600",
+        fill: "#334155",
       }),
       text(fmtKb(gzip_b), gzip_x + BAR_W / 2, gzip_y - 5, {
-        "text-anchor": "middle", "font-size": 10, fill: "#94a3b8",
+        "text-anchor": "middle",
+        "font-size": 10,
+        fill: "#94a3b8",
       }),
     );
   }
@@ -134,13 +157,22 @@ export const renderSizeChart = (data, labels) => {
   // x 轴分组标签 (从数据 label 取值，避免硬编码)
   svg.append(
     text(bm.label, CX[0], BOTTOM + 18, {
-      "text-anchor": "middle", "font-size": 11, "font-weight": "500", fill: "#475569",
+      "text-anchor": "middle",
+      "font-size": 11,
+      "font-weight": "500",
+      fill: "#475569",
     }),
     text(ours.label, CX[1], BOTTOM + 18, {
-      "text-anchor": "middle", "font-size": 11, "font-weight": "600", fill: C_OURS,
+      "text-anchor": "middle",
+      "font-size": 11,
+      "font-weight": "600",
+      fill: C_OURS,
     }),
     text(ratio + " " + L.smaller, W / 2, H - 22, {
-      "text-anchor": "middle", "font-size": 14, "font-weight": "700", fill: C_OURS,
+      "text-anchor": "middle",
+      "font-size": 14,
+      "font-weight": "700",
+      fill: C_OURS,
     }),
   );
 

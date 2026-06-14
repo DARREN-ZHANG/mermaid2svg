@@ -79,7 +79,7 @@ const renderToSvg = async (mermaidText) => {
     }
     try {
       localStorage.setItem(THEME_KEY, active);
-    } catch (_) {}
+    } catch {}
     theme_switcher.querySelectorAll(".theme-btn").forEach((btn) => {
       btn.classList.toggle("active", btn.dataset.theme === active);
     });
@@ -159,39 +159,6 @@ const renderToSvg = async (mermaidText) => {
     card.append(h3, code_div, svg_box);
     return [card, svg_box];
   },
-  layoutWaterfall = () => {
-    const { clientWidth: container_width } = grid,
-      gap = 24,
-      cards = grid.querySelectorAll(".example-card");
-
-    let num_cols = 1;
-    if (container_width > 968) {
-      num_cols = 3;
-    } else if (container_width > 600) {
-      num_cols = 2;
-    }
-
-    const card_width = (container_width - (num_cols - 1) * gap) / num_cols,
-      col_heights = Array.from({ length: num_cols }, () => 0);
-
-    cards.forEach((card) => {
-      let min_col = 0;
-      for (let i = 1; i < num_cols; ++i) {
-        if (col_heights[i] < col_heights[min_col]) {
-          min_col = i;
-        }
-      }
-
-      const { style } = card;
-      style.width = card_width + "px";
-      style.left = min_col * (card_width + gap) + "px";
-      style.top = col_heights[min_col] + "px";
-
-      col_heights[min_col] += card.offsetHeight + gap;
-    });
-
-    grid.style.height = Math.max(...col_heights) + "px";
-  },
   usage_code =
     "// Render Mermaid source to SVG in the browser\n" +
     "import { renderMermaidToSvg } from './src/render/mermaid-to-svg.js'\n" +
@@ -226,26 +193,31 @@ const renderToSvg = async (mermaidText) => {
     let saved_theme = DEFAULT_THEME;
     try {
       saved_theme = localStorage.getItem(THEME_KEY) || DEFAULT_THEME;
-    } catch (_) {}
+    } catch {}
     applyTheme(saved_theme);
 
     // 用法代码
     document.getElementById("ui-usage-code").textContent = usage_code;
 
     // 体积对比 SVG 柱状图
-    const chartLabels = { raw: i18n.chart_raw, gzip: i18n.chart_gzip, smaller: i18n.chart_smaller },
-      size_chart = renderSizeChart(SIZE_DATA, chartLabels);
-    document.getElementById("size-chart").append(size_chart);
+    const chartBox = document.getElementById("size-chart");
+    if (chartBox) {
+      chartBox.innerHTML = "";
+      const chartLabels = {
+        raw: i18n.chart_raw,
+        gzip: i18n.chart_gzip,
+        smaller: i18n.chart_smaller,
+      };
+      chartBox.append(renderSizeChart(SIZE_DATA, chartLabels));
+    }
 
     // 示例图库：构建卡片 + 异步渲染
     grid.innerHTML = "";
-    ro.disconnect();
 
     for (const [idx, entry] of MERMAID_EXAMPLES.entries()) {
       const [card, svg_box] = buildCard(entry, idx),
         src = entry[2];
       grid.append(card);
-      ro.observe(card);
       const [code, svg] = await renderToSvg(src);
       if (code === RENDER_OK) svg_box.innerHTML = svg;
     }
@@ -276,16 +248,6 @@ const renderToSvg = async (mermaidText) => {
       { threshold: 1.0 },
     );
     obs.observe(input);
-
-    // 瀑布流布局
-    setTimeout(layoutWaterfall, 50);
-    setTimeout(layoutWaterfall, 300);
-
-    window.addEventListener("resize", layoutWaterfall);
   };
-
-const ro = new ResizeObserver(() => {
-  layoutWaterfall();
-});
 
 init();
