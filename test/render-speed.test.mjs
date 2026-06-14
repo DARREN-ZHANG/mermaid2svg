@@ -69,7 +69,7 @@ describe("render-speed", () => {
         window.__m2s = await import(urls.renderer);
         window.__norm = await import(urls.normalizer);
       },
-      { renderer: baseUrl + RENDERER_PATH, normalizer: baseUrl + NORMALIZER_PATH }
+      { renderer: baseUrl + RENDERER_PATH, normalizer: baseUrl + NORMALIZER_PATH },
     );
 
     // JIT 预热：Mermaid 首次渲染会触发懒加载与代码编译，
@@ -137,11 +137,7 @@ describe("render-speed", () => {
   // 断言速度记录已采集且字段完整
   test("speed records have expected fields", () => {
     assert.ok(speedRecords.length > 0, "未采集到任何速度记录");
-    assert.equal(
-      speedRecords.length,
-      measurableCases.length,
-      "速度记录数量应等于可测量用例数量"
-    );
+    assert.equal(speedRecords.length, measurableCases.length, "速度记录数量应等于可测量用例数量");
     // 检查每条记录的字段完整性
     for (const r of speedRecords) {
       assert.ok(r.id, "记录缺少 id");
@@ -182,9 +178,7 @@ const writeSpeedReport = () => {
   const maxMs = n > 0 ? round3(totals[n - 1]) : 0;
 
   // 按 totalMs 降序取最慢 10 条（同样仅含成功用例）
-  const slowest = [...okRecords]
-    .sort((a, b) => b.totalMs - a.totalMs)
-    .slice(0, 10);
+  const slowest = [...okRecords].sort((a, b) => b.totalMs - a.totalMs).slice(0, 10);
 
   if (!existsSync(REPORT_DIR)) mkdirSync(REPORT_DIR, { recursive: true });
   const report = {

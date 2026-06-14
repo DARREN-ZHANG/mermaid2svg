@@ -35,10 +35,7 @@ const MIN_MINIMAL_CORE_ACCEPTED = 101;
 assert.equal(
   all_cases.length,
   MIN_MINIMAL_CORE_ACCEPTED,
-  "测试用例数量应为 " +
-    MIN_MINIMAL_CORE_ACCEPTED +
-    ", 实际 " +
-    all_cases.length
+  "测试用例数量应为 " + MIN_MINIMAL_CORE_ACCEPTED + ", 实际 " + all_cases.length,
 );
 
 // schema 类型检查，支持 [type, "null"] 联合类型

@@ -66,9 +66,7 @@ const buildOursReport = () => {
     entry_abs = DEMO_DIST + entry_src;
   if (!existsSync(entry_abs)) {
     throw new Error(
-      "entry file not found: " +
-        entry_abs +
-        " — run `bun run build` before this script",
+      "entry file not found: " + entry_abs + " — run `bun run build` before this script",
     );
   }
   const [raw_bytes, gzip_bytes] = measureFile(entry_abs),
@@ -156,20 +154,13 @@ if (SIZE_DATA.beautifulMermaid.gzipBytes !== bm_report.gzipBytes)
   );
 if (SIZE_DATA.ours.rawBytes !== ours_report.rawBytes)
   mismatches.push(
-    "ours.rawBytes: report=" +
-      ours_report.rawBytes +
-      " sizeData.js=" +
-      SIZE_DATA.ours.rawBytes,
+    "ours.rawBytes: report=" + ours_report.rawBytes + " sizeData.js=" + SIZE_DATA.ours.rawBytes,
   );
 if (SIZE_DATA.ours.gzipBytes !== ours_report.gzipBytes)
   mismatches.push(
-    "ours.gzipBytes: report=" +
-      ours_report.gzipBytes +
-      " sizeData.js=" +
-      SIZE_DATA.ours.gzipBytes,
+    "ours.gzipBytes: report=" + ours_report.gzipBytes + " sizeData.js=" + SIZE_DATA.ours.gzipBytes,
   );
-if (mismatches.length > 0)
-  throw new Error("sizeData mismatch: " + mismatches.join("; "));
+if (mismatches.length > 0) throw new Error("sizeData mismatch: " + mismatches.join("; "));
 
 // 校验通过：回写报告标记为 true
 report.verification.sizeDataMatchesReport = true;

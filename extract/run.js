@@ -29,8 +29,7 @@ const REPO_FULL = {
 const MIN_MINIMAL_CORE_ACCEPTED = 101;
 
 // 按 ID 稳定排序，便于人工 review
-const sortById = (list) =>
-  [...list].sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
+const sortById = (list) => [...list].sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
 
 // 递归扫描目录，返回匹配扩展名的文件列表
 const scanDir = (dir, exts, base = dir) => {
@@ -84,16 +83,14 @@ const pickSkipMeta = (c) => ({
 
 // 选取全部 minimal_core 候选，其余分类记录为跳过，返回 { accepted, skipped }
 const selectTests = (candidates) => {
-  const accepted = sortById(
-    candidates.filter((c) => c.classification === "minimal_core")
-  );
+  const accepted = sortById(candidates.filter((c) => c.classification === "minimal_core"));
   const skipped = sortById(
     candidates
       .filter((c) => c.classification !== "minimal_core")
       .map((c) => ({
         ...pickSkipMeta(c),
         reason: "classification_" + c.classification,
-      }))
+      })),
   );
   return { accepted, skipped };
 };
@@ -298,7 +295,7 @@ if (accepted.length < MIN_MINIMAL_CORE_ACCEPTED) {
     "[extract] 核心样本数量不足: 实际 " +
       accepted.length +
       ", 期望 >= " +
-      MIN_MINIMAL_CORE_ACCEPTED
+      MIN_MINIMAL_CORE_ACCEPTED,
   );
 }
 
