@@ -67,13 +67,62 @@ const flowchart = "graph TD\n" + "A[Start] --> B[Process] --> C[End]",
     "class E,H critical\n" +
     "class C,D,F success\n" +
     "linkStyle 7 stroke:#ff4444,stroke-width:3px\n" +
-    "linkStyle 8 stroke:#44aa44,stroke-width:3px";
+    "linkStyle 8 stroke:#44aa44,stroke-width:3px",
+  sequenceRetry =
+    "sequenceDiagram\n" +
+    "participant C as Client\n" +
+    "participant S as Server\n" +
+    "Note over C,S: HTTP 请求重试\n" +
+    "loop 最多 3 次重试\n" +
+    "  C->>S: GET /api/data\n" +
+    "  alt 成功\n" +
+    "    S-->>C: 200 OK\n" +
+    "  else 失败\n" +
+    "    S-->>C: 500 Error\n" +
+    "    Note over C: 等待 1s 后重试\n" +
+    "  end\n" +
+    "end\n" +
+    "alt 全部失败\n" +
+    "  C->>C: 触发降级\n" +
+    "end",
+  sequenceOauth =
+    "sequenceDiagram\n" +
+    "autonumber\n" +
+    "participant U as User\n" +
+    "participant C as Client\n" +
+    "participant A as AuthServer\n" +
+    "participant R as ResourceServer\n" +
+    "rect rgb(240, 248, 255)\n" +
+    "  Note over U,A: 1. 授权阶段\n" +
+    "  U->>C: 点击登录\n" +
+    "  activate C\n" +
+    "  C->>A: 跳转授权页\n" +
+    "  activate A\n" +
+    "  A-->>U: 显示登录页\n" +
+    "  U->>A: 输入凭证\n" +
+    "  A-->>C: 返回授权码 code\n" +
+    "  deactivate A\n" +
+    "end\n" +
+    "rect rgb(240, 255, 240)\n" +
+    "  Note over C,R: 2. 换取令牌\n" +
+    "  C->>A: code + client_secret\n" +
+    "  activate A\n" +
+    "  A-->>C: access_token\n" +
+    "  deactivate A\n" +
+    "  C->>R: 请求资源 + access_token\n" +
+    "  activate R\n" +
+    "  R-->>C: 返回用户数据\n" +
+    "  deactivate R\n" +
+    "  deactivate C\n" +
+    "end";
 
 export default [
   ["flowchart", "Start Process", flowchart],
   ["flowchart", "Order Approval", flowchartApproval],
   ["flowchart", "CI/CD Pipeline", flowchartCicd],
   ["sequenceDiagram", "Greeting", sequence],
+  ["sequenceDiagram", "Retry Mechanism", sequenceRetry],
+  ["sequenceDiagram", "OAuth Flow", sequenceOauth],
   ["classDiagram", "Animal Class", classDiagram],
   ["stateDiagram-v2", "Basic States", stateDiagram],
   ["erDiagram", "Customer-Order", erDiagram],
