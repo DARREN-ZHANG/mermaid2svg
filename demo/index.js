@@ -14,6 +14,35 @@ import { renderSizeChart } from "./webc/js/sizeChart.js";
 import "./webc/Scroll.js";
 import "./webc/I18n.js";
 import { onLang } from "./webc/js/i18n.js";
+import CODE from "./webc/I18n/CODE.js";
+
+// 动态加载所有 locale 模块，语言切换时按 code 取对应翻译
+const I18N_MOD = import.meta.glob("./i18n/*.js", { eager: true }),
+  getI18n = (langId) => {
+    const code = CODE[langId] || "en",
+      mod = I18N_MOD["./i18n/" + code + ".js"];
+    return mod ? mod.default() : I18N_MOD["./i18n/en.js"].default();
+  },
+  applyI18n = (t) => {
+    const set = (id, text) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = text;
+    };
+    set("ui-title", t.title);
+    set("ui-subtitle", t.subtitle);
+    set("ui-usage-title", t.usage_title);
+    set("ui-benchmark-title", t.benchmark_title);
+    set("ui-benchmark-tip", t.benchmark_tip);
+    set("ui-editor-title", t.editor_title);
+    set("ui-editor-tip", t.editor_tip);
+    set("ui-examples-title", t.examples_title);
+    if (input) input.placeholder = t.editor_placeholder;
+    // 主题标签
+    const labelEl = document.querySelector(".theme-switcher-label");
+    if (labelEl) labelEl.textContent = t.theme_label;
+  };
+
+let i18n = getI18n(0);
 
 // 组合渲染 + 归一化，返回 [0, svg, type] | [errCode, msg]
 const renderToSvg = async (mermaidText) => {
@@ -23,12 +52,12 @@ const renderToSvg = async (mermaidText) => {
     if (nCode !== NORM_OK) return [nCode, normalized];
     return [RENDER_OK, normalized, diagramType];
   },
-  // 错误码 → 英文提示
+  // 错误码 → i18n 提示
   errMsg = (code, msg) => {
-    if (code === ERR_PARSE) return "Parse error: " + msg;
-    if (code === ERR_RENDER) return "Render error: " + msg;
-    if (code === ERR_TIMEOUT) return "Render timed out";
-    return "Output error: " + msg;
+    if (code === ERR_PARSE) return i18n.err_parse + ": " + msg;
+    if (code === ERR_RENDER) return i18n.err_render + ": " + msg;
+    if (code === ERR_TIMEOUT) return i18n.err_timeout;
+    return i18n.err_output + ": " + msg;
   },
   input = document.getElementById("mermaid-input"),
   preview = document.getElementById("svg-preview"),
@@ -56,10 +85,9 @@ const renderToSvg = async (mermaidText) => {
     });
   },
   buildThemeButtons = () => {
-    // TODO(i18n-loop): extract label to key
     const label = document.createElement("span");
     label.className = "theme-switcher-label";
-    label.textContent = theme_switcher.dataset.themeLabel || "Theme";
+    label.textContent = i18n.theme_label;
     theme_switcher.append(label);
     for (const [id, name, palette] of THEMES) {
       const btn = document.createElement("button");
@@ -86,8 +114,6 @@ const renderToSvg = async (mermaidText) => {
     style.height = "auto";
     style.height = scrollHeight + "px";
   },
-  // TODO(i18n-loop): extract to key
-  EMPTY_HINT = "Enter Mermaid source to see SVG preview",
   renderInput = async () => {
     const [code, svg] = await renderToSvg(input.value);
     if (code === RENDER_OK) {
@@ -96,7 +122,7 @@ const renderToSvg = async (mermaidText) => {
       status.classList.remove("error");
     } else if (code === ERR_EMPTY) {
       preview.innerHTML = "";
-      status.textContent = EMPTY_HINT;
+      status.textContent = i18n.empty_hint;
       status.classList.remove("error");
     } else {
       preview.innerHTML = "";
@@ -112,8 +138,9 @@ const renderToSvg = async (mermaidText) => {
     input.focus();
     input.setSelectionRange(src.length, src.length);
   },
-  buildCard = (entry) => {
-    const [, name, src] = entry,
+  buildCard = (entry, idx) => {
+    const [, fallbackName, src] = entry,
+      name = (i18n.names && i18n.names[idx]) || fallbackName,
       card = document.createElement("div"),
       h3 = document.createElement("h3"),
       code_div = document.createElement("div"),
@@ -165,7 +192,6 @@ const renderToSvg = async (mermaidText) => {
 
     grid.style.height = Math.max(...col_heights) + "px";
   },
-  // TODO(i18n-loop): extract to key
   usage_code =
     "// Render Mermaid source to SVG in the browser\n" +
     "import { renderMermaidToSvg } from './src/render/mermaid-to-svg.js'\n" +
@@ -174,8 +200,26 @@ const renderToSvg = async (mermaidText) => {
     "const [code, raw, type] = await renderMermaidToSvg('graph TD\\n  A --> B')\n" +
     "const [ok, svg] = normalizeSvg(raw)",
   init = async () => {
-    // 语言切换回调 —— 示例图与语言无关，仅注册保持 c-i18n 功能正常
-    onLang(() => {});
+    // 语言切换回调 —— 更新 i18n 数据、应用翻译、重新渲染预览
+    onLang((langId) => {
+      i18n = getI18n(langId);
+      applyI18n(i18n);
+      renderInput();
+      // 更新示例卡片标题
+      grid.querySelectorAll(".example-card h3").forEach((h3, idx) => {
+        if (i18n.names && i18n.names[idx]) h3.textContent = i18n.names[idx];
+      });
+      // 重建体积对比图（图例标签跟随语言）
+      const chartBox = document.getElementById("size-chart");
+      if (chartBox) {
+        chartBox.innerHTML = "";
+        const cl = { raw: i18n.chart_raw, gzip: i18n.chart_gzip, smaller: i18n.chart_smaller };
+        chartBox.append(renderSizeChart(SIZE_DATA, cl));
+      }
+    });
+
+    // 初始应用英文翻译
+    applyI18n(i18n);
 
     // 主题切换器构建 + 恢复上次主题 (默认 Mermaid 原生外观)
     buildThemeButtons();
@@ -189,15 +233,16 @@ const renderToSvg = async (mermaidText) => {
     document.getElementById("ui-usage-code").textContent = usage_code;
 
     // 体积对比 SVG 柱状图
-    const size_chart = renderSizeChart(SIZE_DATA);
+    const chartLabels = { raw: i18n.chart_raw, gzip: i18n.chart_gzip, smaller: i18n.chart_smaller },
+      size_chart = renderSizeChart(SIZE_DATA, chartLabels);
     document.getElementById("size-chart").append(size_chart);
 
     // 示例图库：构建卡片 + 异步渲染
     grid.innerHTML = "";
     ro.disconnect();
 
-    for (const entry of MERMAID_EXAMPLES) {
-      const [card, svg_box] = buildCard(entry),
+    for (const [idx, entry] of MERMAID_EXAMPLES.entries()) {
+      const [card, svg_box] = buildCard(entry, idx),
         src = entry[2];
       grid.append(card);
       ro.observe(card);

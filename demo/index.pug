@@ -19,34 +19,26 @@ html(lang="en")
         .container
           .header-main
             h1
-              // TODO(i18n-loop): extract to key
               a#ui-title(href="https://github.com/webc-site/math" target="_blank") Mermaid → SVG
-            // TODO(i18n-loop): extract to key
             p#ui-subtitle.subtitle Browser-side Mermaid to SVG converter
           .main-grid
             .card.usage-card.Lg
               .card-header
-                // TODO(i18n-loop): extract to key
                 h2#ui-usage-title Usage
               pre.code-block
                 code#ui-usage-code
 
             .card.benchmark-card.Lg
               .benchmark-header
-                // TODO(i18n-loop): extract to key
                 h2#ui-benchmark-title Size Comparison
-                // TODO(i18n-loop): extract to key
                 span#ui-benchmark-tip.tip performance proxy, not a runtime benchmark
               #size-chart.size-chart-container
 
             .card.editor-card.Lg
               .editor-header
                 .editor-title-row
-                  // TODO(i18n-loop): extract to key
                   h2#ui-editor-title Interactive Editor
-                  // TODO(i18n-loop): extract to key
-                  .theme-switcher#theme-switcher(data-theme-label="Theme")
-                // TODO(i18n-loop): extract to key
+                  .theme-switcher#theme-switcher
                 p#ui-editor-tip.tip Enter Mermaid source text to render SVG
               .editor-body
                 textarea#mermaid-input(placeholder="Enter Mermaid source here...")
@@ -54,7 +46,6 @@ html(lang="en")
                   #svg-preview
                   #render-status.render-status
           .examples-section
-            // TODO(i18n-loop): extract to key
             h2#ui-examples-title Examples
             #examples-grid.examples-grid
       script(type="module" src="./index.js")

@@ -59,8 +59,9 @@ const SVG_NS = "http://www.w3.org/2000/svg",
     ];
   };
 
-export const renderSizeChart = (data) => {
-  const { beautifulMermaid: bm, ours } = data,
+export const renderSizeChart = (data, labels) => {
+  const L = labels || { raw: "Raw", gzip: "Gzip", smaller: "\u00d7 smaller" },
+    { beautifulMermaid: bm, ours } = data,
     [step_kb, max_kb] = niceScale(Math.max(bm.rawBytes, ours.rawBytes)),
     max_bytes = max_kb * 1024,
     groups = [
@@ -84,11 +85,11 @@ export const renderSizeChart = (data) => {
   const legend = el("g");
   legend.append(
     el("rect", { x: LEFT, y: 4, width: 12, height: 12, rx: 2, fill: "#64748b" }),
-    text("Raw", LEFT + 18, 14, { "font-size": 12, fill: "#64748b" }),
+    text(L.raw, LEFT + 18, 14, { "font-size": 12, fill: "#64748b" }),
     el("rect", {
       x: LEFT + 60, y: 4, width: 12, height: 12, rx: 2, fill: "#64748b", opacity: OP_GZIP,
     }),
-    text("Gzip", LEFT + 78, 14, { "font-size": 12, fill: "#64748b" }),
+    text(L.gzip, LEFT + 78, 14, { "font-size": 12, fill: "#64748b" }),
   );
 
   svg.append(defs, legend);
@@ -138,7 +139,7 @@ export const renderSizeChart = (data) => {
     text(ours.label, CX[1], BOTTOM + 18, {
       "text-anchor": "middle", "font-size": 11, "font-weight": "600", fill: C_OURS,
     }),
-    text(ratio + "\u00d7 smaller", W / 2, H - 22, {
+    text(ratio + " " + L.smaller, W / 2, H - 22, {
       "text-anchor": "middle", "font-size": 14, "font-weight": "700", fill: C_OURS,
     }),
   );
