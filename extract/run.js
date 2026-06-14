@@ -69,6 +69,16 @@ const countScanned = () => {
   };
 };
 
+// 提取跳过记录的元信息
+const pickSkipMeta = (c) => ({
+  id: c.id,
+  sourceRepo: REPO_FULL[c.sourceRepo] || c.sourceRepo,
+  sourcePath: c.sourcePath,
+  type: c.type,
+  priority: c.priority,
+  classification: c.classification,
+});
+
 // 选取全部 minimal_core 候选，其余分类记录为跳过，返回 { accepted, skipped }
 const selectTests = (candidates) => {
   const accepted = sortById(
@@ -84,16 +94,6 @@ const selectTests = (candidates) => {
   );
   return { accepted, skipped };
 };
-
-// 提取跳过记录的元信息
-const pickSkipMeta = (c) => ({
-  id: c.id,
-  sourceRepo: REPO_FULL[c.sourceRepo] || c.sourceRepo,
-  sourcePath: c.sourcePath,
-  type: c.type,
-  priority: c.priority,
-  classification: c.classification,
-});
 
 // 构建单条 YAML 测试对象
 const buildTestYaml = (c) => ({
