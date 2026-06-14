@@ -204,7 +204,80 @@ const flowchart = "graph TD\n" + "A[Start] --> B[Process] --> C[End]",
     "join_state --> 空闲\n" +
     "空闲 --> 报警 : 紧急按钮\n" +
     "报警 --> [*]\n" +
-    "note right of 空闲 : 历史状态：电梯会记住上次方向";
+    "note right of 空闲 : 历史状态：电梯会记住上次方向",
+  erEcommerce =
+    "erDiagram\n" +
+    "CUSTOMER ||--o{ ORDER : places\n" +
+    "ORDER ||--|{ ORDER_ITEM : contains\n" +
+    "ORDER_ITEM }|--|| PRODUCT : refers_to\n" +
+    "PRODUCT }o--o{ CATEGORY : belongs_to\n" +
+    "CUSTOMER {\n" +
+    "  int id PK\n" +
+    "  string name\n" +
+    "  string email\n" +
+    "}\n" +
+    "ORDER {\n" +
+    "  int id PK\n" +
+    "  int customer_id FK\n" +
+    "  datetime created_at\n" +
+    "}\n" +
+    "ORDER_ITEM {\n" +
+    "  int id PK\n" +
+    "  int order_id FK\n" +
+    "  int product_id FK\n" +
+    "  int quantity\n" +
+    "}\n" +
+    "PRODUCT {\n" +
+    "  int id PK\n" +
+    "  string name\n" +
+    "  decimal price\n" +
+    "}\n" +
+    "CATEGORY {\n" +
+    "  int id PK\n" +
+    "  string name\n" +
+    "}",
+  erBanking =
+    "erDiagram\n" +
+    "CUSTOMER ||--o{ ACCOUNT : owns\n" +
+    "ACCOUNT ||--o{ TRANSACTION : has\n" +
+    "CUSTOMER ||--o{ CARD : has\n" +
+    "ACCOUNT ||--o{ LOAN : secures\n" +
+    "CARD }o--|| ACCOUNT : linked_to\n" +
+    "CUSTOMER {\n" +
+    "  int id PK\n" +
+    "  string name UK\n" +
+    "  string id_card UK\n" +
+    "  string phone\n" +
+    "  datetime created_at\n" +
+    "}\n" +
+    "ACCOUNT {\n" +
+    "  string account_no PK\n" +
+    "  int customer_id FK\n" +
+    "  decimal balance\n" +
+    "  string currency\n" +
+    "  datetime opened_at\n" +
+    "}\n" +
+    "TRANSACTION {\n" +
+    "  bigint id PK\n" +
+    "  string from_account FK\n" +
+    "  string to_account FK\n" +
+    "  decimal amount\n" +
+    "  datetime trans_at\n" +
+    "}\n" +
+    "CARD {\n" +
+    "  string card_no PK\n" +
+    "  int customer_id FK\n" +
+    "  string account_no FK\n" +
+    "  date expire_date\n" +
+    "  string card_type\n" +
+    "}\n" +
+    "LOAN {\n" +
+    "  bigint id PK\n" +
+    "  string account_no FK\n" +
+    "  decimal principal\n" +
+    "  decimal rate\n" +
+    "  int term_months\n" +
+    "}";
 
 export default [
   ["flowchart", "Start Process", flowchart],
@@ -220,6 +293,8 @@ export default [
   ["stateDiagram-v2", "Order State Machine", stateOrder],
   ["stateDiagram-v2", "Elevator Dispatch", stateElevator],
   ["erDiagram", "Customer-Order", erDiagram],
+  ["erDiagram", "E-commerce Core", erEcommerce],
+  ["erDiagram", "Banking System", erBanking],
   ["pie", "Pets", pie],
   ["gantt", "Simple Tasks", gantt],
   ["xychart-beta", "Product Sales", xychart],
