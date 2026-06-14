@@ -31,12 +31,12 @@ const flowchart = "graph TD\n" + "A[Start] --> B[Process] --> C[End]",
     "bar [150, 230, 180, 95, 310]";
 
 export default [
-  ["flowchart", "Flowchart", flowchart],
-  ["sequenceDiagram", "Sequence Diagram", sequence],
-  ["classDiagram", "Class Diagram", classDiagram],
-  ["stateDiagram-v2", "State Diagram", stateDiagram],
-  ["erDiagram", "ER Diagram", erDiagram],
-  ["pie", "Pie Chart", pie],
-  ["gantt", "Gantt Chart", gantt],
-  ["xychart-beta", "XY Chart", xychart],
+  ["flowchart", "Start Process", flowchart],
+  ["sequenceDiagram", "Greeting", sequence],
+  ["classDiagram", "Animal Class", classDiagram],
+  ["stateDiagram-v2", "Basic States", stateDiagram],
+  ["erDiagram", "Customer-Order", erDiagram],
+  ["pie", "Pets", pie],
+  ["gantt", "Simple Tasks", gantt],
+  ["xychart-beta", "Product Sales", xychart],
 ];
