@@ -1,0 +1,26 @@
+{
+  "generatedAt": "2026-06-14T06:49:35.160Z",
+  "loop": "size-loop",
+  "beautifulMermaid": {
+    "source": {
+      "repo": "lukilabs/beautiful-mermaid",
+      "url": "https://github.com/lukilabs/beautiful-mermaid",
+      "localPath": "references/beautiful-mermaid",
+      "commit": "2ac8bbbb060ca0a65a6a21f3200bd99b1587b488",
+      "gitDescribe": "v1.1.3-12-g2ac8bbb",
+      "version": "1.1.3",
+      "bundleMethod": "bun build with externals [elkjs, entities] matching tsup.config.ts"
+    },
+    "rawBytes": 328094,
+    "gzipBytes": 66816
+  },
+  "ours": {
+    "entry": "demo/dist/assets/index-C-JZVKlM.js",
+    "rawBytes": 124434,
+    "gzipBytes": 40584
+  },
+  "verification": {
+    "beautifulMermaidBundledFromLocal": true,
+    "ourEntryFromRealBuild": true
+  }
+}
