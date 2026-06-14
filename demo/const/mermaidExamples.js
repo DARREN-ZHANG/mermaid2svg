@@ -277,7 +277,22 @@ const flowchart = "graph TD\n" + "A[Start] --> B[Process] --> C[End]",
     "  decimal principal\n" +
     "  decimal rate\n" +
     "  int term_months\n" +
-    "}";
+    "}",
+  pieDevice =
+    "pie title 设备流量分布 2024\n" +
+    '"移动端" : 60\n' +
+    '"桌面端" : 25\n' +
+    '"平板" : 10\n' +
+    '"其他" : 5',
+  pieBrowser =
+    '%%{init: {"themeVariables": {"pie1": "#FF6384", "pie2": "#36A2EB", "pie3": "#FFCE56", "pie4": "#4BC0C0", "pie5": "#9966FF", "pie6": "#FF9F40"}}%%\n' +
+    "pie title 全球浏览器市场份额 2024 Q4 (StatCounter)\n" +
+    '"Chrome" : 65\n' +
+    '"Safari" : 18\n' +
+    '"Edge" : 5\n' +
+    '"Firefox" : 3\n' +
+    '"Samsung Internet" : 2.5\n' +
+    '"其他" : 6.5';
 
 export default [
   ["flowchart", "Start Process", flowchart],
@@ -296,6 +311,8 @@ export default [
   ["erDiagram", "E-commerce Core", erEcommerce],
   ["erDiagram", "Banking System", erBanking],
   ["pie", "Pets", pie],
+  ["pie", "Device Share", pieDevice],
+  ["pie", "Browser Market", pieBrowser],
   ["gantt", "Simple Tasks", gantt],
   ["xychart-beta", "Product Sales", xychart],
 ];
