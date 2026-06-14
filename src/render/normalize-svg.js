@@ -4,9 +4,9 @@
 // 错误码从 100 起，与渲染层 (0-4) 错误码区分，便于组合调用时定位失败层级
 
 export const OK = 0,
-  ERR_NO_SVG = 100,   // 输入不含 svg 根节点
-  ERR_VIEWBOX = 101,  // 无法确定可用坐标空间
-  ERR_PARSE = 102;    // SVG 标记解析或序列化失败
+  ERR_NO_SVG = 100, // 输入不含 svg 根节点
+  ERR_VIEWBOX = 101, // 无法确定可用坐标空间
+  ERR_PARSE = 102; // SVG 标记解析或序列化失败
 
 const SVG_NS = "http://www.w3.org/2000/svg",
   CANONICAL_ID = "mermaid-svg",
@@ -46,8 +46,7 @@ const stripScripts = (root) => {
 const stripUnsafeAttrs = (root) => {
   for (const el of allElements(root)) {
     const names = [];
-    for (let i = 0; i < el.attributes.length; ++i)
-      names.push(el.attributes[i].name);
+    for (let i = 0; i < el.attributes.length; ++i) names.push(el.attributes[i].name);
     for (const name of names) {
       const lower = name.toLowerCase();
       if (lower.startsWith("on")) {
@@ -55,8 +54,7 @@ const stripUnsafeAttrs = (root) => {
         continue;
       }
       if (lower === "href" || lower === "xlink:href") {
-        if (/^\s*javascript:/i.test(el.getAttribute(name) || ""))
-          el.removeAttribute(name);
+        if (/^\s*javascript:/i.test(el.getAttribute(name) || "")) el.removeAttribute(name);
       }
     }
   }
@@ -64,8 +62,7 @@ const stripUnsafeAttrs = (root) => {
 
 // 归一化原始 SVG：返回 [OK, svg] | [errCode, msg]
 export const normalizeSvg = (rawSvg) => {
-  if (typeof rawSvg !== "string" || !/<svg[\s>]/i.test(rawSvg))
-    return [ERR_NO_SVG, "no svg root"];
+  if (typeof rawSvg !== "string" || !/<svg[\s>]/i.test(rawSvg)) return [ERR_NO_SVG, "no svg root"];
 
   let doc;
   try {
@@ -75,16 +72,13 @@ export const normalizeSvg = (rawSvg) => {
   }
 
   // DOMParser 不抛异常，解析错误以 parsererror 元素体现
-  if (doc.querySelector("parsererror"))
-    return [ERR_PARSE, "svg markup parse error"];
+  if (doc.querySelector("parsererror")) return [ERR_PARSE, "svg markup parse error"];
 
   const svg = doc.documentElement;
-  if (!svg || svg.nodeName.toLowerCase() !== "svg")
-    return [ERR_NO_SVG, "no svg root"];
+  if (!svg || svg.nodeName.toLowerCase() !== "svg") return [ERR_NO_SVG, "no svg root"];
 
   // 确保命名空间存在
-  if (!svg.getAttribute("xmlns"))
-    svg.setAttribute("xmlns", SVG_NS);
+  if (!svg.getAttribute("xmlns")) svg.setAttribute("xmlns", SVG_NS);
 
   // viewBox：已有则保留，否则尝试从 width/height 推导
   if (!svg.hasAttribute("viewBox") && !ensureViewBox(svg))
