@@ -292,7 +292,39 @@ const flowchart = "graph TD\n" + "A[Start] --> B[Process] --> C[End]",
     '"Edge" : 5\n' +
     '"Firefox" : 3\n' +
     '"Samsung Internet" : 2.5\n' +
-    '"其他" : 6.5';
+    '"其他" : 6.5',
+  ganttSoftware =
+    "gantt\n" +
+    "  title 软件开发项目甘特图\n" +
+    "  dateFormat YYYY-MM-DD\n" +
+    "  section 需求\n" +
+    "  需求分析     :done,    req, 2024-01-01, 7d\n" +
+    "  需求评审     :done,    req2, after req, 2d\n" +
+    "  section 设计\n" +
+    "  UI 设计      :active,  ui, 2024-01-10, 10d\n" +
+    "  架构设计     :         arch, 2024-01-10, 7d\n" +
+    "  section 开发\n" +
+    "  前端开发     :         fe, after ui, 14d\n" +
+    "  后端开发     :         be, after arch, 14d\n" +
+    "  联调         :         int, after fe, 7d\n" +
+    "  section 测试\n" +
+    "  测试         :         test, after int, 7d\n" +
+    "  上线         :milestone, mil, after test, 0d",
+  ganttQuarterly =
+    "gantt\n" +
+    "  title 2024 Q1-Q2 跨季度项目\n" +
+    "  dateFormat YYYY-MM-DD\n" +
+    "  excludes weekends, 2024-01-01, 2024-02-10, 2024-02-12, 2024-04-04, 2024-05-01\n" +
+    "  section Q1\n" +
+    "  立项         :done, q1a, 2024-01-02, 5d\n" +
+    "  调研         :done, q1b, after q1a, 10d\n" +
+    "  原型开发     :crit, q1c, after q1b, 15d\n" +
+    "  内部测试     :crit, q1d, after q1c, 5d\n" +
+    "  section Q2\n" +
+    "  公测         :q2a, after q1d, 14d\n" +
+    "  Bug 修复     :crit, q2b, after q2a, 7d\n" +
+    "  正式发布     :milestone, mil, after q2b, 0d\n" +
+    "  运营推广     :q2c, after mil, 14d";
 
 export default [
   ["flowchart", "Start Process", flowchart],
@@ -314,5 +346,7 @@ export default [
   ["pie", "Device Share", pieDevice],
   ["pie", "Browser Market", pieBrowser],
   ["gantt", "Simple Tasks", gantt],
+  ["gantt", "Software Project", ganttSoftware],
+  ["gantt", "Quarterly Plan", ganttQuarterly],
   ["xychart-beta", "Product Sales", xychart],
 ];
