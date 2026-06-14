@@ -137,41 +137,39 @@ const size_data =
 
 writeFileSync(DEMO_CONST + "/sizeData.js", size_data);
 
-// 回读两份产物，交叉校验 4 个体积数字必须一致
-const verify_path = DEMO_CONST + "/sizeData.js",
-  verify_src = readFileSync(verify_path, "utf8"),
-  get_num = (key) => {
-    const m = verify_src.match(new RegExp("\\b" + key + "\\s*:\\s*(\\d+)"));
-    if (!m) throw new Error(key + " not found in " + verify_path);
-    return Number(m[1]);
-  },
-  pairs = [
-    ["beautifulMermaid.rawBytes", bm_report.rawBytes, get_num("rawBytes")],
-    ["beautifulMermaid.gzipBytes", bm_report.gzipBytes, get_num("gzipBytes")],
-  ];
-// 第二组（ours）的 rawBytes/gzipBytes 需在 ours 节内提取
-const ours_block = verify_src.split("ours:")[1] || "",
-  get_ours_num = (key) => {
-    const m = ours_block.match(new RegExp("\\b" + key + "\\s*:\\s*(\\d+)"));
-    if (!m)
-      throw new Error("ours." + key + " not found in " + verify_path);
-    return Number(m[1]);
-  };
-pairs.push(["ours.rawBytes", ours_report.rawBytes, get_ours_num("rawBytes")]);
-pairs.push(["ours.gzipBytes", ours_report.gzipBytes, get_ours_num("gzipBytes")]);
-
-for (const [label, report_val, file_val] of pairs) {
-  if (report_val !== file_val) {
-    throw new Error(
-      "size data mismatch for " +
-        label +
-        ": report=" +
-        report_val +
-        " sizeData.js=" +
-        file_val,
-    );
-  }
-}
+// 动态 import 回读 sizeData.js，交叉校验 4 个体积数字必须一致
+const { SIZE_DATA } = await import("file://" + DEMO_CONST + "/sizeData.js"),
+  mismatches = [];
+if (SIZE_DATA.beautifulMermaid.rawBytes !== bm_report.rawBytes)
+  mismatches.push(
+    "beautifulMermaid.rawBytes: report=" +
+      bm_report.rawBytes +
+      " sizeData.js=" +
+      SIZE_DATA.beautifulMermaid.rawBytes,
+  );
+if (SIZE_DATA.beautifulMermaid.gzipBytes !== bm_report.gzipBytes)
+  mismatches.push(
+    "beautifulMermaid.gzipBytes: report=" +
+      bm_report.gzipBytes +
+      " sizeData.js=" +
+      SIZE_DATA.beautifulMermaid.gzipBytes,
+  );
+if (SIZE_DATA.ours.rawBytes !== ours_report.rawBytes)
+  mismatches.push(
+    "ours.rawBytes: report=" +
+      ours_report.rawBytes +
+      " sizeData.js=" +
+      SIZE_DATA.ours.rawBytes,
+  );
+if (SIZE_DATA.ours.gzipBytes !== ours_report.gzipBytes)
+  mismatches.push(
+    "ours.gzipBytes: report=" +
+      ours_report.gzipBytes +
+      " sizeData.js=" +
+      SIZE_DATA.ours.gzipBytes,
+  );
+if (mismatches.length > 0)
+  throw new Error("sizeData mismatch: " + mismatches.join("; "));
 
 // 校验通过：回写报告标记为 true
 report.verification.sizeDataMatchesReport = true;
