@@ -1,0 +1,33 @@
+id: maid-012
+source:
+  repo: probelabs/maid
+  path: test-fixtures/sequence/valid/blocks-alt-opt-loop.mmd
+  url: null
+diagram:
+  type: sequenceDiagram
+  title: null
+input:
+  mermaid: |-
+    sequenceDiagram
+      participant Alice
+      participant Bob
+      alt Is morning?
+        Alice->>Bob: Good morning
+      else Is evening?
+        Alice->>Bob: Good evening
+      end
+      opt Optional check
+        Bob-->>Alice: OK
+      end
+      loop Until done
+        Alice->>Bob: Step
+      end
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

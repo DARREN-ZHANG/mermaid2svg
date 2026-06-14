@@ -1,0 +1,27 @@
+id: maid-005
+source:
+  repo: probelabs/maid
+  path: test-fixtures/flowchart/valid/subgraphs.mmd
+  url: null
+diagram:
+  type: flowchart
+  title: null
+input:
+  mermaid: |-
+    flowchart TD
+        subgraph one[One]
+            A --> B
+        end
+        subgraph two[Two]
+            C --> D
+        end
+        one --> two
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

@@ -1,0 +1,25 @@
+id: maid-011
+source:
+  repo: probelabs/maid
+  path: test-fixtures/sequence/valid/notes.mmd
+  url: null
+diagram:
+  type: sequenceDiagram
+  title: null
+input:
+  mermaid: |-
+    sequenceDiagram
+      participant Alice
+      participant Bob
+      Note right of Alice: Thinking...
+      Alice->>Bob: Hello
+      Note over Alice,Bob: A shared note
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

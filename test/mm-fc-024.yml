@@ -1,0 +1,22 @@
+id: mm-fc-024
+source:
+  repo: mermaid-js/mermaid
+  path: packages/mermaid/src/diagrams/flowchart/parser/flow-comments.spec.js (L18)
+  url: null
+diagram:
+  type: flowchart
+  title: null
+input:
+  mermaid: |-
+    graph TD;
+    %% Comment
+     A-->B;
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

@@ -1,0 +1,30 @@
+id: mm-cls-008
+source:
+  repo: mermaid-js/mermaid
+  path: cypress/integration/rendering/class/classDiagram.spec.js (~L137)
+  url: null
+diagram:
+  type: classDiagram
+  title: null
+input:
+  mermaid: |-
+    classDiagram
+      class Class01~T~
+      Class01 : size()
+      Class01 : int chimp
+      Class01 : int gorilla
+      Class08 <--> C2: Cool label
+      class Class10~T~ {
+        <<service>>
+        int id
+        test()
+      }
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

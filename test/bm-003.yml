@@ -1,0 +1,23 @@
+id: bm-003
+source:
+  repo: lukilabs/beautiful-mermaid
+  path: samples-data.ts
+  url: null
+diagram:
+  type: flowchart
+  title: null
+input:
+  mermaid: |-
+    graph TD
+    A[Source] -->|solid| B[Target 1]
+    A -.->|dotted| C[Target 2]
+    A ==>|thick| D[Target 3]
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

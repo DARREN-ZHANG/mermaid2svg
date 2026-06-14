@@ -1,0 +1,35 @@
+id: mm-cls-001
+source:
+  repo: mermaid-js/mermaid
+  path: cypress/platform/dev-diagrams/layout-tests/class-diagram.mmd
+  url: null
+diagram:
+  type: classDiagram
+  title: null
+input:
+  mermaid: |-
+    classDiagram
+    Animal <|-- Duck
+    Animal <|-- Fish
+    Animal : +int age
+    Animal : +String gender
+    Animal: +isMammal()
+    Animal: +mate()
+    class Duck{
+    +String beakColor
+    +swim()
+    +quack()
+    }
+    class Fish{
+    -int sizeInFeet
+    -canEat()
+    }
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

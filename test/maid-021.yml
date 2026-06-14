@@ -1,0 +1,32 @@
+id: maid-021
+source:
+  repo: probelabs/maid
+  path: test-fixtures/sequence/valid/bidir-and-async-arrows.mmd
+  url: null
+diagram:
+  type: sequenceDiagram
+  title: null
+input:
+  mermaid: |-
+    sequenceDiagram
+      participant A
+      participant B
+      A<<->>B: Duplex async
+      A<<-->>B: Duplex async dotted
+      A->>B: Async
+      A-->>B: Async dotted
+      A->B: Solid
+      A-->B: Dotted
+      A-x B: Cross
+      A--x B: Cross dotted
+      A-) B: Open
+      A--) B: Open dotted
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

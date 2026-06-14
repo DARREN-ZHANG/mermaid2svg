@@ -1,0 +1,25 @@
+id: mm-fc-016
+source:
+  repo: mermaid-js/mermaid
+  path: packages/mermaid/src/diagrams/flowchart/parser/flow-style.spec.js:147
+  url: null
+diagram:
+  type: flowchart
+  title: null
+input:
+  mermaid: |-
+    graph TD
+    A[Christmas] -->|Get money| B(Go shopping)
+    B --> C{Let me think}
+    classDef someclass fill:#f96;
+    class A someclass;
+    class C someclass;
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

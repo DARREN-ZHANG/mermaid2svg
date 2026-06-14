@@ -1,0 +1,23 @@
+id: maid-008
+source:
+  repo: probelabs/maid
+  path: test-fixtures/flowchart/valid/multidirectional-arrows.mmd
+  url: null
+diagram:
+  type: flowchart
+  title: null
+input:
+  mermaid: |-
+    flowchart LR
+        A <--> B
+        C o--o D
+        E x--x F
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

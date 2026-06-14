@@ -1,0 +1,29 @@
+id: mm-seq-008
+source:
+  repo: mermaid-js/mermaid
+  path: cypress/integration/rendering/sequence/sequencediagram.spec.js (~L1276)
+  url: null
+diagram:
+  type: sequenceDiagram
+  title: null
+input:
+  mermaid: |-
+    sequenceDiagram
+      participant Alice
+      participant Bob
+      opt Outer
+        alt Command A
+          Alice->>Bob: Request A
+        else Command B
+          Alice->>Bob: Request B
+        end
+      end
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

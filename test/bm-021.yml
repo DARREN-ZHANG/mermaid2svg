@@ -1,0 +1,22 @@
+id: bm-021
+source:
+  repo: lukilabs/beautiful-mermaid
+  path: "samples-data.ts (ER: Non-Identifying Relationship, ~L1068)"
+  url: null
+diagram:
+  type: erDiagram
+  title: null
+input:
+  mermaid: |-
+    erDiagram
+      USER ||..o{ LOG_ENTRY : generates
+      USER ||..o{ SESSION : opens
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

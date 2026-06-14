@@ -1,0 +1,28 @@
+id: maid-018
+source:
+  repo: probelabs/maid
+  path: test-fixtures/state/valid/markers-fork-join.mmd
+  url: null
+diagram:
+  type: stateDiagram
+  title: null
+input:
+  mermaid: |-
+    stateDiagram-v2
+    state Split <<fork>>
+    [*] --> Split
+    Split --> A : path=/a
+    Split --> B : path=/b
+    state Join <<join>>
+    A --> Join
+    B --> Join
+    Join --> [*]
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

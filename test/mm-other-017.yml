@@ -1,0 +1,33 @@
+id: mm-other-017
+source:
+  repo: mermaid-js/mermaid
+  path: cypress/integration/rendering/requirement/requirement.spec.js
+  url: null
+diagram:
+  type: other
+  title: null
+input:
+  mermaid: |-
+    requirementDiagram
+
+    requirement test_req {
+    id: 1
+    text: the test text.
+    risk: high
+    verifymethod: test
+    }
+
+    element test_entity {
+    type: simulation
+    }
+
+    test_entity - satisfies -> test_req
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

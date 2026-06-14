@@ -1,0 +1,25 @@
+id: maid-016
+source:
+  repo: probelabs/maid
+  path: test-fixtures/class/valid/inline-members-and-attrs.mmd
+  url: null
+diagram:
+  type: classDiagram
+  title: null
+input:
+  mermaid: |-
+    classDiagram
+    class User {
+      +login(username: string, password: string): bool
+      -id: int
+      -name: string
+    }
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

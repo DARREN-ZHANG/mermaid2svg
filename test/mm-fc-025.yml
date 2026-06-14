@@ -1,0 +1,19 @@
+id: mm-fc-025
+source:
+  repo: mermaid-js/mermaid
+  path: packages/mermaid/src/diagrams/flowchart/parser/subgraph.spec.js (L53)
+  url: null
+diagram:
+  type: flowchart
+  title: null
+input:
+  mermaid: "graph TB\nsubgraph some-id[Some Title]\n\ta1-->a2\nend"
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

@@ -1,0 +1,22 @@
+id: mm-fc-017
+source:
+  repo: mermaid-js/mermaid
+  path: packages/mermaid/src/diagrams/flowchart/parser/flow-style.spec.js:303
+  url: null
+diagram:
+  type: flowchart
+  title: null
+input:
+  mermaid: |-
+    graph TD
+    A-->B
+    linkStyle 0 stroke:#f00,stroke-width:2px;
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

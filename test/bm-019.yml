@@ -1,0 +1,24 @@
+id: bm-019
+source:
+  repo: lukilabs/beautiful-mermaid
+  path: samples-data.ts
+  url: null
+diagram:
+  type: erDiagram
+  title: null
+input:
+  mermaid: |-
+    erDiagram
+    A ||--|| B : one-to-one
+    C ||--o{ D : one-to-many
+    E |o--|{ F : opt-to-many
+    G }|--o{ H : many-to-many
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

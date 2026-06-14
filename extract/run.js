@@ -25,20 +25,9 @@ const REPO_FULL = {
   mermaid: "mermaid-js/mermaid",
 };
 
-// 每种 diagram type 在高信号集中的配额
-const TYPE_QUOTA = {
-  flowchart: 5,
-  sequenceDiagram: 3,
-  classDiagram: 2,
-  stateDiagram: 2,
-  erDiagram: 2,
-  pie: 2,
-  gantt: 1,
-  other: 1,
-};
-
-// 优先级权重，数字越小越优先
-const PRIORITY_WEIGHT = { P0: 0, P1: 1, P2: 2 };
+// 按 ID 稳定排序，便于人工 review
+const sortById = (list) =>
+  [...list].sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
 
 // 递归扫描目录，返回匹配扩展名的文件列表
 const scanDir = (dir, exts, base = dir) => {
@@ -80,85 +69,19 @@ const countScanned = () => {
   };
 };
 
-// 按优先级排序，同优先级按 ID 稳定排序
-const sortByPriority = (list) =>
-  [...list].sort((a, b) => {
-    const pa = PRIORITY_WEIGHT[a.priority] ?? 9,
-      pb = PRIORITY_WEIGHT[b.priority] ?? 9;
-    if (pa !== pb) return pa - pb;
-    return a.id < b.id ? -1 : a.id > b.id ? 1 : 0;
-  });
-
-// 轮询选取：同优先级内交替从不同来源取候选，确保来源多样性
-const roundRobinPick = (list, quota) => {
-  // 按来源分组，每组内已按优先级排序
-  const bySource = {};
-  for (const c of list) {
-    const k = c.sourceRepo;
-    if (!bySource[k]) bySource[k] = [];
-    bySource[k].push(c);
-  }
-  const sources = Object.keys(bySource).sort(),
-    picked = [];
-  let progress = true;
-  while (progress && picked.length < quota) {
-    progress = false;
-    for (const src of sources) {
-      if (picked.length >= quota) break;
-      const pool = bySource[src];
-      if (pool.length > 0) {
-        picked.push(pool.shift());
-        progress = true;
-      }
-    }
-  }
-  // 剩余候选
-  const remaining = sources.flatMap((src) => bySource[src]);
-  return [picked, remaining];
-};
-
-// 按配额选取高信号子集，返回 { accepted, skipped }
+// 选取全部 minimal_core 候选，其余分类记录为跳过，返回 { accepted, skipped }
 const selectTests = (candidates) => {
-  const accepted = [],
-    skipped = [];
-
-  // 非 minimal_core 一律跳过
-  for (const c of candidates) {
-    if (c.classification !== "minimal_core") {
-      skipped.push({
+  const accepted = sortById(
+    candidates.filter((c) => c.classification === "minimal_core")
+  );
+  const skipped = sortById(
+    candidates
+      .filter((c) => c.classification !== "minimal_core")
+      .map((c) => ({
         ...pickSkipMeta(c),
         reason: "classification_" + c.classification,
-      });
-    }
-  }
-
-  // minimal_core 按类型分组
-  const minimal = candidates.filter((c) => c.classification === "minimal_core"),
-    byType = {};
-  for (const c of minimal) {
-    const t = c.type in TYPE_QUOTA ? c.type : "other";
-    if (!byType[t]) byType[t] = [];
-    byType[t].push(c);
-  }
-
-  // 每个类型轮询选取
-  for (const [type, list] of Object.entries(byType)) {
-    const sorted = sortByPriority(list),
-      quota = TYPE_QUOTA[type] || 0,
-      [picked, rest] = roundRobinPick(sorted, quota);
-    accepted.push(...picked);
-    for (const c of rest) {
-      skipped.push({
-        ...pickSkipMeta(c),
-        reason: "quota_exceeded_" + type,
-      });
-    }
-  }
-
-  // 按 ID 排序输出，便于人工 review
-  accepted.sort((a, b) => (a.id < b.id ? -1 : 1));
-  skipped.sort((a, b) => (a.id < b.id ? -1 : 1));
-
+      }))
+  );
   return { accepted, skipped };
 };
 
@@ -324,14 +247,28 @@ const buildReport = (candidates, accepted, skipped, scanned) => {
     skipReasons[s.reason] = (skipReasons[s.reason] || 0) + 1;
   }
 
+  // 按 classification 聚合全部候选
+  const byClassification = {};
+  for (const c of candidates) {
+    byClassification[c.classification] = (byClassification[c.classification] || 0) + 1;
+  }
+
+  // minimal_core 覆盖率
+  const minimalCore = byClassification.minimal_core || 0,
+    acceptedMinimalCore = accepted.length;
+
   return {
     generatedAt: new Date().toISOString(),
     sources,
     byDiagramType,
+    byClassification,
     skipReasons,
     skippedSamples: skipped,
     summary: {
       totalCandidates: candidates.length,
+      minimalCore,
+      acceptedMinimalCore,
+      acceptedMinimalCoreRatio: acceptedMinimalCore + "/" + minimalCore,
       totalAccepted: accepted.length,
       totalSkipped: skipped.length,
     },

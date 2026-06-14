@@ -1,0 +1,27 @@
+id: maid-006
+source:
+  repo: probelabs/maid
+  path: test-fixtures/flowchart/valid/nested-subgraphs.mmd
+  url: null
+diagram:
+  type: flowchart
+  title: null
+input:
+  mermaid: |-
+    flowchart TD
+        subgraph outer[Outer]
+            subgraph inner[Inner]
+                A --> B
+            end
+            C --> D
+        end
+        outer --> E
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

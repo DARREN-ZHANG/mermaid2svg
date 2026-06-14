@@ -1,0 +1,28 @@
+id: bm-025
+source:
+  repo: lukilabs/beautiful-mermaid
+  path: samples-data.ts (Hero sample, ~L30)
+  url: null
+diagram:
+  type: stateDiagram
+  title: null
+input:
+  mermaid: |-
+    stateDiagram-v2
+        direction LR
+        [*] --> Input
+        Input --> Parse: DSL
+        Parse --> Layout: AST
+        Layout --> SVG: Vector
+        SVG --> Theme
+        Theme --> Output
+        Output --> [*]
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

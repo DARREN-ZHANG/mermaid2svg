@@ -1,0 +1,28 @@
+id: bm-023
+source:
+  repo: lukilabs/beautiful-mermaid
+  path: "samples-data.ts (Sequence: Critical Block, ~L555)"
+  url: null
+diagram:
+  type: sequenceDiagram
+  title: null
+input:
+  mermaid: |-
+    sequenceDiagram
+      participant A as App
+      participant DB as Database
+      A->>DB: BEGIN
+      critical Transaction
+        A->>DB: UPDATE accounts
+        A->>DB: INSERT log
+      end
+      A->>DB: COMMIT
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

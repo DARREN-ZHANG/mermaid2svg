@@ -1,0 +1,27 @@
+id: maid-023
+source:
+  repo: probelabs/maid
+  path: test-fixtures/state/valid/history-states.mmd
+  url: null
+diagram:
+  type: stateDiagram
+  title: null
+input:
+  mermaid: |-
+    stateDiagram-v2
+      state Composite {
+        [*] --> S1
+        S1 --> [H]
+        [H*] --> S2
+      }
+      [*] --> Composite
+      Composite --> [*]
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

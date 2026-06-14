@@ -1,0 +1,30 @@
+id: maid-022
+source:
+  repo: probelabs/maid
+  path: test-fixtures/sequence/valid/box-groups.mmd
+  url: null
+diagram:
+  type: sequenceDiagram
+  title: null
+input:
+  mermaid: |-
+    sequenceDiagram
+      box LightBlue System A
+        participant A1
+        participant A2
+      end
+      box LightGreen System B
+        participant B1
+        participant B2
+      end
+      A1->>B1: Sync
+      A2-->>B2: Async
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

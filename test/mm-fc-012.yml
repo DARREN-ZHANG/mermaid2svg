@@ -1,0 +1,21 @@
+id: mm-fc-012
+source:
+  repo: mermaid-js/mermaid
+  path: packages/mermaid/src/diagrams/flowchart/parser/flow-singlenode.spec.js:185
+  url: null
+diagram:
+  type: flowchart
+  title: null
+input:
+  mermaid: |-
+    graph TD
+    a(((A)))
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

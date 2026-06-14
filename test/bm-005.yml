@@ -1,0 +1,27 @@
+id: bm-005
+source:
+  repo: lukilabs/beautiful-mermaid
+  path: samples-data.ts
+  url: null
+diagram:
+  type: flowchart
+  title: null
+input:
+  mermaid: |-
+    graph TD
+    subgraph Frontend
+      A[React App] --> B[State Manager]
+    end
+    subgraph Backend
+      C[API Server] --> D[Database]
+    end
+    B --> C
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null
