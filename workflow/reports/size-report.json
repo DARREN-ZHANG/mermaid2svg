@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-14T07:04:25.516Z",
+  "generatedAt": "2026-06-14T07:09:06.923Z",
   "loop": "size-loop",
   "beautifulMermaid": {
     "source": {
@@ -15,9 +15,9 @@
     "gzipBytes": 66816
   },
   "ours": {
-    "entry": "demo/dist/assets/index-Bto-nWJ_.js",
-    "rawBytes": 127100,
-    "gzipBytes": 41780
+    "entry": "demo/dist/assets/index-BzHJhuCY.js",
+    "rawBytes": 127082,
+    "gzipBytes": 41785
   },
   "verification": {
     "beautifulMermaidBundledFromLocal": true,

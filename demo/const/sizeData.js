@@ -10,7 +10,7 @@ export const SIZE_DATA = {
   },
   ours: {
     label: "mermaid2svg",
-    rawBytes: 127100,
-    gzipBytes: 41780,
+    rawBytes: 127082,
+    gzipBytes: 41785,
   },
 };

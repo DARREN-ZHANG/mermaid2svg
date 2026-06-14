@@ -130,12 +130,12 @@ export const renderSizeChart = (data) => {
     );
   }
 
-  // x 轴分组标签
+  // x 轴分组标签 (从数据 label 取值，避免硬编码)
   svg.append(
-    text("beautiful-mermaid", CX[0], BOTTOM + 18, {
+    text(bm.label, CX[0], BOTTOM + 18, {
       "text-anchor": "middle", "font-size": 11, "font-weight": "500", fill: "#475569",
     }),
-    text("mermaid2svg", CX[1], BOTTOM + 18, {
+    text(ours.label, CX[1], BOTTOM + 18, {
       "text-anchor": "middle", "font-size": 11, "font-weight": "600", fill: C_OURS,
     }),
     text(ratio + "\u00d7 smaller", W / 2, H - 22, {
