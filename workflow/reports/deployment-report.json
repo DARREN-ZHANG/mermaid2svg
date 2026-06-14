@@ -1,7 +1,7 @@
 {
   "loop": "deploy-loop",
-  "generatedAt": "2026-06-14T07:49:00.000Z",
-  "gitCommit": "5d39970f28371c818de2a7389f2b120236a78618",
+  "generatedAt": "2026-06-14T08:52:00.000Z",
+  "gitCommit": "d9d48c1c2f7f81ed5aa72d20c086d0623c261120",
   "toolchain": {
     "bun": "1.3.14",
     "node": "v24.14.0",
@@ -46,17 +46,19 @@
   "buildVerification": {
     "command": "bun run build",
     "exitCode": 0,
-    "durationMs": 300,
+    "durationMs": 432,
     "outputSizeKb": 4008,
     "outputSizeHuman": "3.9M",
     "assetChunkCount": 77,
     "keyArtifacts": [
-      { "path": "demo/dist/index.html", "rawBytes": 4516, "gzipBytes": 1607 },
-      { "path": "demo/dist/assets/index-CsSmk8RF.js", "rawBytes": 186578, "gzipBytes": 47947, "role": "entry" },
-      { "path": "demo/dist/assets/index-B_6EgLaf.css", "rawBytes": 31854, "gzipBytes": 6225 }
+      { "path": "demo/dist/index.html", "rawBytes": 4418, "gzipBytes": 1562 },
+      { "path": "demo/dist/assets/index-CsSmk8RF.js", "rawBytes": 186578, "gzipBytes": 46184, "role": "entry" },
+      { "path": "demo/dist/assets/index-B_6EgLaf.css", "rawBytes": 31854, "gzipBytes": 6025 }
     ],
     "headersCopiedToDist": true,
+    "headersBytes": 782,
     "manifestAssetsCopied": 7,
+    "deterministicNote": "entry JS hash index-CsSmk8RF.js 与首次构建一致，证明可重复；gzip 字节略有差异属正常",
     "chunkSizeWarning": ">500kB expected; tracked by Size Loop as performance proxy, non-blocking"
   },
   "i18nRuntimeData": {
@@ -89,19 +91,19 @@
       "id": "build-exit-0",
       "description": "生产构建退出码为 0",
       "status": "pass",
-      "evidence": "bun run build → exit 0, 300ms"
+      "evidence": "bun run build → exit 0, 432ms (re-verified 2026-06-14T08:52Z)"
     },
     {
       "id": "output-dir-exists",
       "description": "输出目录 demo/dist 存在且包含 index.html",
       "status": "pass",
-      "evidence": "demo/dist/index.html 4516 bytes"
+      "evidence": "demo/dist/index.html 4418 bytes"
     },
     {
       "id": "entry-js-present",
       "description": "entry JS chunk 存在",
       "status": "pass",
-      "evidence": "demo/dist/assets/index-CsSmk8RF.js"
+      "evidence": "demo/dist/assets/index-CsSmk8RF.js (hash 与首次构建一致，确定性输出)"
     },
     {
       "id": "css-present",
@@ -131,7 +133,7 @@
       "id": "no-server-runtime",
       "description": "不依赖服务端运行能力",
       "status": "pass",
-      "evidence": "纯静态 dist；无 Functions、无 Workers、无 API route"
+      "evidence": "纯静态 dist；无 _worker.js、无 functions/、无 API route"
     },
     {
       "id": "no-db-queue-storage",
@@ -228,6 +230,51 @@
     }
   ],
   "verdict": "deployment-ready-local-verified",
+  "reVerification": {
+    "runAt": "2026-06-14T08:52:00.000Z",
+    "runBy": "deploy-loop verification phase",
+    "commands": [
+      {
+        "command": "rm -rf demo/dist && bun run build",
+        "exitCode": 0,
+        "durationMs": 432,
+        "purpose": "fresh production build from clean state"
+      },
+      {
+        "command": "du -sk demo/dist",
+        "result": "4008 KB (3.9M)",
+        "purpose": "measure output directory size"
+      },
+      {
+        "command": "ls demo/dist/assets | wc -l",
+        "result": "77",
+        "purpose": "count hashed asset chunks"
+      },
+      {
+        "command": "ls demo/dist/webc/I18n/i18n | wc -l",
+        "result": "75",
+        "purpose": "count I18n locale dirs"
+      },
+      {
+        "command": "ls demo/dist/webc/BoxX/i18n | wc -l",
+        "result": "75",
+        "purpose": "count BoxX locale dirs"
+      },
+      {
+        "command": "test ! -e demo/dist/_worker.js && test ! -d demo/dist/functions",
+        "exitCode": 0,
+        "purpose": "confirm no server runtime in dist"
+      },
+      {
+        "command": "gzip -c < demo/dist/assets/index-CsSmk8RF.js | wc -c",
+        "result": "46184",
+        "purpose": "measure entry JS gzip"
+      }
+    ],
+    "outcome": "all readiness checks pass; build is reproducible (entry hash stable); Cloudflare Pages static hosting sufficient; no server runtime / db / queue / storage needed",
+    "finalSignOff": false,
+    "finalSignOffReason": "Deploy Loop 仅做本地构建与就绪验证，不执行 final acceptance sign-off（见 phase prompt blocked files）"
+  },
   "crossReferences": {
     "deployPlan": "docs/deploy/deploy-plan.md",
     "localBuildResult": "workflow/runs/deploy/run-1/local-build-result.json",

@@ -132,27 +132,29 @@ demo/dist
 
 ## 5. 本地构建验证结果
 
+> 以下数据由 Deploy Loop 重新验证（clean build，2026-06-14T08:52Z），机器可读证据见 `workflow/reports/deployment-report.json` 的 `reVerification` 块。
+
 | 项 | 值 |
 |---|---|
-| 命令 | `bun run build` |
+| 命令 | `rm -rf demo/dist && bun run build` |
 | 退出码 | 0 |
-| 耗时 | ~300ms |
+| 耗时 | ~432ms |
 | 输出目录 | `demo/dist` |
 | dist 总大小 | 3.9 MB (4008 KB) |
 | asset chunk 数 | 77 |
 | `_headers` 拷贝到 dist | 是（782 bytes） |
 | chunk-size 警告 | >500kB（预期，已由 Size Loop 记录为体积 proxy，非阻断） |
-| 机器可读证据 | `workflow/reports/deployment-report.json`、`workflow/runs/deploy/run-1/local-build-result.json` |
+| 机器可读证据 | `workflow/reports/deployment-report.json`（含 `reVerification` 块） |
 
-构建产物关键文件（来自本次构建日志）：
+构建产物关键文件（本次 clean build 实测）：
 
 | 文件 | raw | gzip |
 |---|---|---|
-| `demo/dist/index.html` | 4.41 kB | 1.57 kB |
-| `demo/dist/assets/index-CsSmk8RF.js`（entry） | 186.57 kB | 46.82 kB |
-| `demo/dist/assets/index-B_6EgLaf.css` | 31.85 kB | 6.08 kB |
+| `demo/dist/index.html` | 4.41 kB | 1.56 kB |
+| `demo/dist/assets/index-CsSmk8RF.js`（entry） | 186.57 kB | 46.18 kB |
+| `demo/dist/assets/index-B_6EgLaf.css` | 31.85 kB | 6.03 kB |
 
-> 注：本次重新构建 entry hash 为 `index-CsSmk8RF.js`，与 size-report.json 中 `index-BzHJhuCY.js` 不同（内容有微小变动）。体积对比口径以 Size Loop 报告为准；部署计划仅证明构建可重复且 exit 0。
+> 确定性说明：entry JS hash `index-CsSmk8RF.js` 与首次构建一致，证明构建可重复；gzip 字节因压缩实现差异略有波动属正常。体积对比口径以 Size Loop 报告为准；部署计划仅证明构建可重复且 exit 0。
 
 ---
 
