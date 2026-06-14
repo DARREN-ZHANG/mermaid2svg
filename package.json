@@ -37,6 +37,7 @@
     "test:render": "bun test test/render-yml.test.mjs",
     "test:svg": "bun test test/svg-output.test.mjs",
     "test:speed": "bun test test/render-speed.test.mjs",
+    "test:examples": "bun test test/render-examples.test.mjs",
     "build": "bun demo/build.js",
     "build:lib": "bun minify.js",
     "extract": "node extract/run.js",
