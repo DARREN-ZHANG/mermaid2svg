@@ -1,0 +1,318 @@
+{
+  "generatedAt": "2026-06-14T10:00:00.000Z",
+  "loop": "final-audit-loop",
+  "auditMethod": "machine-check + human-review-pending",
+  "gitCommit": "542a2e9",
+  "overallVerdict": "pending-human-signoff",
+  "summary": {
+    "totalChecks": 56,
+    "machinePass": 44,
+    "machineFail": 0,
+    "humanPending": 12,
+    "blockingGaps": ["docs/dev-workflow.md created this loop", "README.md still upstream (deferred)", "Cloudflare Pages public deploy pending human action"]
+  },
+  "deliverables": {
+    "D1_extract_run_js": { "type": "machine", "status": "pass", "evidence": "test -f extract/run.js; bun extract/run.js exit 0; output: 18 tests, 109 skipped" },
+    "D2_extract_report_json": { "type": "machine", "status": "pass", "evidence": "test -f extract/report.json; sources: 3 repos with scanned/candidate/accepted/skipped + skipReasons + skippedSamples(109)" },
+    "D3_test_yml": { "type": "machine", "status": "pass", "evidence": "18 YAML test files in test/*.yml (bm-* 7, maid-* 7, mm-* 4); all YAML parse OK via render-yml.test.mjs" },
+    "D4_test_schema_yml": { "type": "machine", "status": "pass", "evidence": "test/schema.yml exists; covers id/source/diagram/input/expect/skip; render-yml.test.mjs schema-gates before render" },
+    "D5_schema_validates_first": { "type": "machine", "status": "pass", "evidence": "render-yml.test.mjs: 19 pass 0 fail; schema validation precedes render step" },
+    "D6_size_report_json": { "type": "machine", "status": "pass", "evidence": "workflow/reports/size-report.json exists; beautifulMermaid raw 328094 gzip 66816; ours raw 127082 gzip 41785; entry index-BzHJhuCY.js" },
+    "D7_i18n_report": { "type": "machine", "status": "pass", "evidence": "Both docs/i18n-language-map.md and workflow/reports/i18n-report.json exist; 75 locales, 19 keys, 0 missing" },
+    "D8_dev_workflow_md": { "type": "machine", "status": "pass", "evidence": "docs/dev-workflow.md created this loop (was gap G1, now resolved)" },
+    "D9_readme_md": { "type": "human", "status": "pending-human", "evidence": "README.md still reflects upstream @webc.site/math content; deferred to human gate per final-audit plan G2" },
+    "D10_cf_pages_config": { "type": "machine", "status": "pass", "evidence": "wrangler.toml + demo/public/_headers exist; deployment-report verdict=deployment-ready-local-verified" },
+    "D11_page_deliverables": { "type": "machine+human", "status": "pass-machine", "evidence": "demo/index.pug, demo/index.js, demo/style.styl, demo/const/{mermaidExamples,themes,sizeData}.js all present; 8 diagram types, 9 themes, SVG chart wired" },
+    "D12_final_report": { "type": "machine", "status": "pass", "evidence": "docs/final-audit/final-report.md generated this loop" }
+  },
+  "acceptanceCriteria": {
+    "AC-EXTRACT-001": {
+      "title": "Extract script exists and is executable",
+      "type": "machine",
+      "status": "pass",
+      "verifyCommand": "test -f extract/run.js && bun extract/run.js",
+      "verifyResult": "exit 0; 18 tests generated, 109 skipped"
+    },
+    "AC-EXTRACT-002": {
+      "title": "Extraction sources are the three specified repos",
+      "type": "machine",
+      "status": "pass",
+      "verifyCommand": "extract/report.json sources keys",
+      "verifyResult": "probelabs/maid, lukilabs/beautiful-mermaid, mermaid-js/mermaid all present with non-zero scanned/accepted"
+    },
+    "AC-EXTRACT-003": {
+      "title": "YAML test files generated and parseable",
+      "type": "machine",
+      "status": "pass",
+      "verifyCommand": "ls test/*.yml; bun test test/render-yml.test.mjs",
+      "verifyResult": "18 yml files; 19 tests pass (18 render + 1 schema-gate), 0 fail"
+    },
+    "AC-EXTRACT-004": {
+      "title": "Only usable tests extracted, skips documented",
+      "type": "machine",
+      "status": "pass",
+      "verifyCommand": "extract/report.json skipReasons + skippedSamples",
+      "verifyResult": "10 skip reason categories; 109 skippedSamples each with path and reason"
+    },
+    "AC-EXTRACT-005": {
+      "title": "All extracted execution tests pass",
+      "type": "machine",
+      "status": "pass",
+      "verifyCommand": "bun test test/render-yml.test.mjs",
+      "verifyResult": "19 pass, 0 fail"
+    },
+    "AC-EXTRACT-006": {
+      "title": "Extraction report complete",
+      "type": "machine",
+      "status": "pass",
+      "verifyCommand": "extract/report.json field check",
+      "verifyResult": "3 sources with scanned/candidate/accepted/skipped; byDiagramType 8 types; skipReasons 10 categories; skippedSamples 109 entries"
+    },
+    "AC-EXTRACT-007": {
+      "title": "YAML schema fixed and validates first",
+      "type": "machine",
+      "status": "pass",
+      "verifyCommand": "test -f test/schema.yml; render-yml.test.mjs schema-before-render",
+      "verifyResult": "schema.yml exists; test runner validates schema before render step"
+    },
+    "AC-UI-001": {
+      "title": "Page accepts Mermaid input",
+      "type": "machine+human",
+      "status": "pass",
+      "verifyCommand": "web-demo-report.json input.status; demo/index.pug textarea#mermaid-input",
+      "verifyResult": "textarea exists, multiline, editable, clearable, paste support, debounce 250ms"
+    },
+    "AC-UI-002": {
+      "title": "Page shows generated SVG",
+      "type": "machine+human",
+      "status": "pass",
+      "verifyCommand": "web-demo-report.json svgPreview",
+      "verifyResult": "realRender=true; SVG output from Mermaid browser API, not static/canvas"
+    },
+    "AC-UI-003": {
+      "title": "Page shows multiple diagram types",
+      "type": "machine+human",
+      "status": "pass",
+      "verifyCommand": "web-demo-report.json exampleCount + diagramTypes",
+      "verifyResult": "8 examples: flowchart, sequenceDiagram, classDiagram, stateDiagram-v2, erDiagram, pie, gantt, xychart-beta"
+    },
+    "AC-UI-004": {
+      "title": "Error states stable",
+      "type": "machine",
+      "status": "pass",
+      "verifyCommand": "bun test test/svg-output.test.mjs; web-demo-report.json errorStates",
+      "verifyResult": "29 pass 0 fail; ERR_EMPTY/parse/render/timeout + normalize 100-102; recovery confirmed"
+    },
+    "AC-DESIGN-001": {
+      "title": "Reuses math.webc.site design style",
+      "type": "human",
+      "status": "pending-human",
+      "verifyCommand": "manual review demo/style.styl + demo/index.pug vs math.webc.site",
+      "verifyResult": "machine evidence: designTokens, glassmorphism, c-i18n/c-scroll components reused; visual parity needs human review"
+    },
+    "AC-DESIGN-002": {
+      "title": "Page is a submittable demo",
+      "type": "human",
+      "status": "pending-human",
+      "verifyCommand": "manual page review",
+      "verifyResult": "machine evidence: clear title, subtitle, input, preview, examples, theme switcher, chart, i18n switcher present; human must confirm non-debug appearance"
+    },
+    "AC-DEPLOY-001": {
+      "title": "Deployable to Cloudflare Pages",
+      "type": "machine+human",
+      "status": "pass-machine",
+      "verifyCommand": "rm -rf demo/dist && bun run build; wrangler.toml pages_build_output_dir",
+      "verifyResult": "build exit 0, output demo/dist; staticSite=true, serverRuntimeNeeded=false; public deploy pending human action"
+    },
+    "AC-DEPLOY-002": {
+      "title": "Deployed version fully functional",
+      "type": "human",
+      "status": "pending-human",
+      "verifyCommand": "public URL test after deploy",
+      "verifyResult": "7 postDeploy checklist items all pending-deploy; requires actual CF Pages deploy"
+    },
+    "AC-COMPARE-001": {
+      "title": "SVG bar chart present",
+      "type": "machine+human",
+      "status": "pass",
+      "verifyCommand": "web-demo-report.json sizeChart; demo/const/sizeData.js",
+      "verifyResult": "SVG bar chart wired to sizeData.js; not PNG/canvas"
+    },
+    "AC-COMPARE-002": {
+      "title": "Size comparison scope correct",
+      "type": "machine",
+      "status": "pass",
+      "verifyCommand": "size-report.json fields",
+      "verifyResult": "Only 4 data points: bm raw, bm gzip, ours raw, ours gzip; no mixed resources"
+    },
+    "AC-COMPARE-003": {
+      "title": "Performance scope clearly stated",
+      "type": "human",
+      "status": "pending-human",
+      "verifyCommand": "manual review page copy",
+      "verifyResult": "machine evidence: size-report.json scopeNote='JS file size only; performance proxy, not a runtime benchmark'; page benchmark_tip key exists; human must confirm wording"
+    },
+    "AC-COMPARE-004": {
+      "title": "Size report traceable",
+      "type": "machine",
+      "status": "pass",
+      "verifyCommand": "size-report.json verification block",
+      "verifyResult": "pageMatchesReport=true; bm commit 2ac8bbbb060ca0a65a6a21f3200bd99b1587b488; entry index-BzHJhuCY.js; gitProvenanceConfirmed=true"
+    },
+    "AC-THEME-001": {
+      "title": "Supports Beautiful Mermaid CSS",
+      "type": "machine+human",
+      "status": "pass",
+      "verifyCommand": "theme-css-report.json overall; paletteSwitchProbe",
+      "verifyResult": "overall=pass; differentThemesProduceDifferentFills=true; 8 curated themes + default sentinel"
+    },
+    "AC-THEME-002": {
+      "title": "Theme switch button present",
+      "type": "machine+human",
+      "status": "pass",
+      "verifyCommand": "theme-css-report.json paletteSwitchProbe; demo/index.pug theme control",
+      "verifyResult": "theme_label i18n key exists; theme dropdown in page; switch produces computed-color change"
+    },
+    "AC-THEME-003": {
+      "title": "CSS source traceable",
+      "type": "machine",
+      "status": "pass",
+      "verifyCommand": "theme-css-report.json cssSource + cdnIndependence",
+      "verifyResult": "commit 2ac8bbbb060ca0a65a6a21f3200bd99b1587b488; runtimeCdnRequired=false; local fallback in demo/const/themes.js"
+    },
+    "AC-I18N-001": {
+      "title": "Supports 70+ languages",
+      "type": "machine",
+      "status": "pass",
+      "verifyCommand": "i18n-report.json totalLocales; ls demo/i18n/*.js | wc -l",
+      "verifyResult": "75 locales in report; 75 locale files on disk"
+    },
+    "AC-I18N-002": {
+      "title": "New copy fully internationalized",
+      "type": "machine+human",
+      "status": "pass",
+      "verifyCommand": "i18n-report.json coverage; ./sh/check.js",
+      "verifyResult": "19 keys × 75 locales, all hasAllKeys=true, missingKeys=[]; check.js exit 0"
+    },
+    "AC-I18N-003": {
+      "title": "Language list and key coverage report",
+      "type": "machine",
+      "status": "pass",
+      "verifyCommand": "test -f docs/i18n-language-map.md; test -f workflow/reports/i18n-report.json",
+      "verifyResult": "Both files exist and parseable"
+    },
+    "AC-BUILD-001": {
+      "title": "Project installable, startable, buildable",
+      "type": "machine",
+      "status": "pass",
+      "verifyCommand": "bun install --frozen-lockfile && bun run build",
+      "verifyResult": "install OK (bun.lock present); build exit 0; demo/dist/index.html exists"
+    },
+    "AC-BUILD-002": {
+      "title": "Test commands runnable",
+      "type": "machine",
+      "status": "pass",
+      "verifyCommand": "bun test test/render-yml.test.mjs; bun test test/svg-output.test.mjs",
+      "verifyResult": "render-yml: 19 pass 0 fail; svg-output: 29 pass 0 fail"
+    },
+    "AC-TECH-001": {
+      "title": "Small and focused, no over-engineering",
+      "type": "human",
+      "status": "pending-human",
+      "verifyCommand": "git diff scope review; dependency list",
+      "verifyResult": "machine evidence: only runtime dep = mermaid; src/ non-render unchanged since baseline; no DB/queue/user-system; human must confirm overall scope"
+    },
+    "AC-TECH-002": {
+      "title": "Core render path clear",
+      "type": "human",
+      "status": "pending-human",
+      "verifyCommand": "review src/render/{mermaid-to-svg,normalize-svg}.js",
+      "verifyResult": "machine evidence: 2 files, 171 lines total; render->normalize shortest chain; human must review"
+    },
+    "AC-WORKFLOW-001": {
+      "title": "Dev workflow document exists",
+      "type": "machine",
+      "status": "pass",
+      "verifyCommand": "test -f docs/dev-workflow.md",
+      "verifyResult": "Created this loop; covers Codex/OpenCode/Orchestrator roles, auto-loop, retry/blocked/manual-review rules, final gate"
+    },
+    "AC-WORKFLOW-002": {
+      "title": "Orchestrator does not call LLM",
+      "type": "human",
+      "status": "pending-human",
+      "verifyCommand": "review docs/dev-workflow.md + workflow/ code",
+      "verifyResult": "docs/dev-workflow.md documents orchestrator as deterministic, decision based on exit code/report/checklist; human must review implementation"
+    },
+    "AC-WORKFLOW-003": {
+      "title": "Human review nodes clear",
+      "type": "human",
+      "status": "pending-human",
+      "verifyCommand": "review docs/dev-workflow.md human review section",
+      "verifyResult": "10 review nodes listed in docs/dev-workflow.md; human must review completeness"
+    }
+  },
+  "specSection17": {
+    "extract_run_js": "pass",
+    "three_repos_extracted": "pass",
+    "test_yml_generated": "pass",
+    "schema_exists_and_validates": "pass",
+    "report_json_complete": "pass",
+    "all_tests_pass": "pass",
+    "page_input_mermaid": "pass",
+    "page_multi_type_examples": "pass",
+    "reuse_design_style": "pending-human",
+    "svg_bar_chart": "pass",
+    "size_scope_correct": "pass",
+    "theme_css_switch": "pass",
+    "i18n_75_locales": "pass",
+    "cf_pages_deployable": "pass-machine",
+    "deployed_functional": "pending-human",
+    "dev_workflow_md": "pass",
+    "small_and_focused": "pending-human"
+  },
+  "protectedFilesAudit": {
+    "src_non_render": "unchanged since baseline (dfc9d09)",
+    "lib": "auto-regenerated by minify.js in 1 commit (d0e9b0a environment fix); not manually edited",
+    "references": "unchanged since baseline",
+    "plugin": "unchanged since baseline",
+    "blog": "unchanged since baseline",
+    "parent_docs": "unchanged since baseline"
+  },
+  "gaps": [
+    {
+      "id": "G2",
+      "description": "README.md still reflects upstream @webc.site/math content",
+      "severity": "low",
+      "status": "deferred",
+      "reason": "Document deliverable outside final-audit-loop allowed files; recorded for human gate"
+    },
+    {
+      "id": "G3",
+      "description": "Cloudflare Pages actual public deploy not executed",
+      "severity": "blocking-for-signoff",
+      "status": "pending-human",
+      "reason": "Deploy agent confirmed local-verified; public deploy requires human Cloudflare account action"
+    },
+    {
+      "id": "G4",
+      "description": "Size report entry hash may differ from latest build after subsequent loops",
+      "severity": "non-blocking",
+      "status": "noted",
+      "reason": "size-report.json records index-BzHJhuCY.js from size-loop; deploy-loop build produced index-CsSmk8RF.js; data was real at generation time, regenerable via bun sh/size-report.js"
+    }
+  ],
+  "humanReviewChecklist": [
+    { "id": "H1", "ac": "AC-DESIGN-001/002", "item": "Open dev server, compare visual style with math.webc.site", "status": "pending" },
+    { "id": "H2", "ac": "AC-COMPARE-003", "item": "Review page 'performance proxy' wording clarity", "status": "pending" },
+    { "id": "H3", "ac": "AC-TECH-001/002", "item": "Review git diff scope and core render path clarity", "status": "pending" },
+    { "id": "H4", "ac": "AC-WORKFLOW-002/003", "item": "Review docs/dev-workflow.md content completeness", "status": "pending" },
+    { "id": "H5", "ac": "AC-DEPLOY-001/002", "item": "Execute CF Pages deploy + verify 7 postDeploy items on public URL", "status": "pending" },
+    { "id": "H6", "ac": "G2", "item": "Rewrite README.md for Mermaid->SVG tool", "status": "pending" }
+  ],
+  "signOffReadiness": {
+    "allMachineChecksPass": true,
+    "humanReviewsRemaining": 6,
+    "blockingForFinalSignoff": ["H5 (CF Pages public deploy)", "H1-H4 human review conclusion"],
+    "recommendation": "All machine-verifiable criteria pass. Human gate required for visual design review, deploy execution, and README rewrite before final submission."
+  }
+}
