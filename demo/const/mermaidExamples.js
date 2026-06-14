@@ -324,7 +324,22 @@ const flowchart = "graph TD\n" + "A[Start] --> B[Process] --> C[End]",
     "  公测         :q2a, after q1d, 14d\n" +
     "  Bug 修复     :crit, q2b, after q2a, 7d\n" +
     "  正式发布     :milestone, mil, after q2b, 0d\n" +
-    "  运营推广     :q2c, after mil, 14d";
+    "  运营推广     :q2c, after mil, 14d",
+  xychartMulti =
+    "xychart-beta\n" +
+    'title "三款产品季度销量对比"\n' +
+    'x-axis ["Q1", "Q2", "Q3", "Q4"]\n' +
+    'y-axis "销量（万件）" 0 --> 300\n' +
+    "bar [150, 180, 210, 250]\n" +
+    "bar [80, 120, 150, 200]\n" +
+    "bar [200, 190, 170, 160]",
+  xychartRevenue =
+    "xychart-beta\n" +
+    'title "季度营收对比 2023 vs 2024"\n' +
+    'x-axis ["Q1-23", "Q2-23", "Q3-23", "Q4-23", "Q1-24", "Q2-24", "Q3-24", "Q4-24"]\n' +
+    'y-axis "营收（百万 USD）" 0 --> 300\n' +
+    "bar [120, 145, 168, 198]\n" +
+    "bar [142, 178, 201, 245]";
 
 export default [
   ["flowchart", "Start Process", flowchart],
@@ -349,4 +364,6 @@ export default [
   ["gantt", "Software Project", ganttSoftware],
   ["gantt", "Quarterly Plan", ganttQuarterly],
   ["xychart-beta", "Product Sales", xychart],
+  ["xychart-beta", "Multi-series Chart", xychartMulti],
+  ["xychart-beta", "Quarterly Revenue", xychartRevenue],
 ];
