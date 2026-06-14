@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "Raw",
   chart_gzip: "Gzip",
   chart_smaller: "× μικρότερο",
+  copy_svg: "Αντιγραφή SVG",
+  download_svg: "Κατεβάστε το SVG",
+  copy_ok: "Αντιγράφηκε",
+  copy_fail: "Η αντιγραφή απέτυχε",
   names: [
     "Διάγραμμα ροής",
     "Διάγραμμα ακολουθίας",

@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "Raw",
   chart_gzip: "Gzip",
   chart_smaller: "× เล็กกว่า",
+  copy_svg: "คัดลอก SVG",
+  download_svg: "ดาวน์โหลด SVG",
+  copy_ok: "คัดลอกแล้ว",
+  copy_fail: "การคัดลอกล้มเหลว",
   names: [
     "แผนผังกระแส",
     "แผนภาพลำดับ",

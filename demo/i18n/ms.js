@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "Raw",
   chart_gzip: "Gzip",
   chart_smaller: "× lebih kecil",
+  copy_svg: "Salin SVG",
+  download_svg: "Muat turun SVG",
+  copy_ok: "disalin",
+  copy_fail: "Salinan gagal",
   names: [
     "Carta Alir",
     "Diagram Urutan",

@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "Raw",
   chart_gzip: "Gzip",
   chart_smaller: "× mniejszy",
+  copy_svg: "Skopiuj SVG",
+  download_svg: "Pobierz SVG",
+  copy_ok: "Skopiowano",
+  copy_fail: "Kopiowanie nie powiodło się",
   names: [
     "Schemat blokowy",
     "Diagram sekwencji",

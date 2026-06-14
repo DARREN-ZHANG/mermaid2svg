@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "Orixinal",
   chart_gzip: "Gzip",
   chart_smaller: "× máis pequeno",
+  copy_svg: "Copiar SVG",
+  download_svg: "Descargar SVG",
+  copy_ok: "Copiouse",
+  copy_fail: "Produciuse un erro ao copiar",
   names: [
     "Diagrama de fluxo",
     "Diagrama de secuencia",

@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "خام",
   chart_gzip: "Gzip",
   chart_smaller: "× چھوٹا",
+  copy_svg: "SVG کاپی کریں۔",
+  download_svg: "SVG ڈاؤن لوڈ کریں۔",
+  copy_ok: "کاپی",
+  copy_fail: "کاپی ناکام ہو گئی۔",
   names: [
     "فلو چارٹ",
     "سیکوئنس ڈایاگرام",

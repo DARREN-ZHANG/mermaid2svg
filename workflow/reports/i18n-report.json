@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-14T11:50:48.959Z",
+  "generatedAt": "2026-06-14T12:17:37.273Z",
   "loop": "i18n-loop",
   "totalLocales": 75,
   "translationKeys": [
@@ -21,9 +21,13 @@
     "chart_raw",
     "chart_gzip",
     "chart_smaller",
+    "copy_svg",
+    "download_svg",
+    "copy_ok",
+    "copy_fail",
     "names"
   ],
-  "keyCount": 19,
+  "keyCount": 23,
   "fallbackStrategy": {
     "description": "Languages without Mermaid-specific translations fall back to English text. All keys must exist in every locale file; missing keys are not acceptable.",
     "fallbackLocale": "en",

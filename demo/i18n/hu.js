@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "Raw",
   chart_gzip: "Gzip",
   chart_smaller: "× kisebb",
+  copy_svg: "SVG másolása",
+  download_svg: "Töltse le az SVG-t",
+  copy_ok: "Másolva",
+  copy_fail: "A másolás nem sikerült",
   names: [
     "Folyamatábra",
     "Szekvenciadiagram",

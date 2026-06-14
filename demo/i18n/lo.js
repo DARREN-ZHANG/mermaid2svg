@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "ຕົ້ນສະບັບ",
   chart_gzip: "Gzip",
   chart_smaller: "× ນ້ອຍກວ່າ",
+  copy_svg: "ສຳເນົາ SVG",
+  download_svg: "ດາວໂຫລດ SVG",
+  copy_ok: "ສຳເນົາແລ້ວ",
+  copy_fail: "ສຳເນົາລົ້ມເຫລວ",
   names: [
     "ແຜນຜັງການໄຫຼ",
     "ແຜນຜັງລຳດັບ",

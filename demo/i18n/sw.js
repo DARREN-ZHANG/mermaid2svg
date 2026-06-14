@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "Raw",
   chart_gzip: "Gzip",
   chart_smaller: "× ndogo zaidi",
+  copy_svg: "Nakili SVG",
+  download_svg: "Pakua SVG",
+  copy_ok: "Imenakiliwa",
+  copy_fail: "Imeshindwa kunakili",
   names: [
     "Mchoro wa mtiririko",
     "Mchoro wa mpangilio",

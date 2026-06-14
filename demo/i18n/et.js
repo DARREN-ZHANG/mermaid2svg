@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "Pakkimata",
   chart_gzip: "Gzip",
   chart_smaller: "× väiksem",
+  copy_svg: "Kopeerige SVG",
+  download_svg: "Laadige alla SVG",
+  copy_ok: "Kopeeritud",
+  copy_fail: "Kopeerimine ebaõnnestus",
   names: [
     "Vooskeem",
     "Jadadiagramm",

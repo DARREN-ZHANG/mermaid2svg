@@ -40,9 +40,17 @@ const I18N_MOD = import.meta.glob("./i18n/*.js", { eager: true }),
     // 主题标签
     const labelEl = document.querySelector(".theme-switcher-label");
     if (labelEl) labelEl.textContent = t.theme_label;
+    // SVG 操作按钮
+    if (copy_btn) copy_btn.textContent = t.copy_svg;
+    if (download_btn) download_btn.textContent = t.download_svg;
   };
 
-let i18n = getI18n(0);
+let i18n = getI18n(0),
+  current_svg = "",
+  svg_actions,
+  copy_btn,
+  download_btn,
+  copy_timer;
 
 // 组合渲染 + 归一化，返回 [0, svg, type] | [errCode, msg]
 const renderToSvg = async (mermaidText) => {
@@ -114,18 +122,79 @@ const renderToSvg = async (mermaidText) => {
     style.height = "auto";
     style.height = scrollHeight + "px";
   },
+  copySvg = async () => {
+    if (!current_svg) return;
+    let ok = false;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      try {
+        await navigator.clipboard.writeText(current_svg);
+        ok = true;
+      } catch {}
+    }
+    if (!ok) {
+      const ta = document.createElement("textarea");
+      ta.value = current_svg;
+      ta.style.cssText = "position:fixed;opacity:0;";
+      document.body.append(ta);
+      ta.select();
+      try {
+        ok = document.execCommand("copy");
+      } catch {}
+      ta.remove();
+    }
+    status.textContent = ok ? i18n.copy_ok : i18n.copy_fail;
+    status.classList.toggle("error", !ok);
+    clearTimeout(copy_timer);
+    copy_timer = setTimeout(() => {
+      if (status.textContent === i18n.copy_ok || status.textContent === i18n.copy_fail) {
+        status.textContent = "";
+        status.classList.remove("error");
+      }
+    }, 1500);
+  },
+  downloadSvg = () => {
+    if (!current_svg) return;
+    const blob = new Blob([current_svg], { type: "image/svg+xml" }),
+      url = URL.createObjectURL(blob),
+      a = document.createElement("a");
+    a.href = url;
+    a.download = "mermaid.svg";
+    document.body.append(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  },
+  buildSvgActions = () => {
+    svg_actions = document.querySelector(".svg-actions");
+    copy_btn = document.createElement("button");
+    copy_btn.type = "button";
+    copy_btn.className = "Btn";
+    copy_btn.onclick = copySvg;
+    download_btn = document.createElement("button");
+    download_btn.type = "button";
+    download_btn.className = "Btn";
+    download_btn.onclick = downloadSvg;
+    svg_actions.append(copy_btn, download_btn);
+    svg_actions.classList.add("is-hidden");
+  },
   renderInput = async () => {
     const [code, svg] = await renderToSvg(input.value);
     if (code === RENDER_OK) {
       preview.innerHTML = svg;
+      current_svg = svg;
+      svg_actions.classList.remove("is-hidden");
       status.textContent = "";
       status.classList.remove("error");
     } else if (code === ERR_EMPTY) {
       preview.innerHTML = "";
+      current_svg = "";
+      svg_actions.classList.add("is-hidden");
       status.textContent = i18n.empty_hint;
       status.classList.remove("error");
     } else {
       preview.innerHTML = "";
+      current_svg = "";
+      svg_actions.classList.add("is-hidden");
       status.textContent = errMsg(code, svg);
       status.classList.add("error");
     }
@@ -167,6 +236,9 @@ const renderToSvg = async (mermaidText) => {
     "const [code, raw, type] = await renderMermaidToSvg('graph TD\\n  A --> B')\n" +
     "const [ok, svg] = normalizeSvg(raw)",
   init = async () => {
+    // 构建 SVG 操作按钮（在应用翻译之前，确保按钮文本能被正确设置）
+    buildSvgActions();
+
     // 语言切换回调 —— 更新 i18n 数据、应用翻译、重新渲染预览
     onLang((langId) => {
       i18n = getI18n(langId);

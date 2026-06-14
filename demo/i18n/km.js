@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "ដើម",
   chart_gzip: "Gzip",
   chart_smaller: "× តូចជាង",
+  copy_svg: "ចម្លង SVG",
+  download_svg: "ទាញយក SVG",
+  copy_ok: "ចម្លង",
+  copy_fail: "ការចម្លងបានបរាជ័យ",
   names: [
     "តារាងលំហូរ",
     "តារាងលំដាប់",

@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "ორიგინალური",
   chart_gzip: "Gzip",
   chart_smaller: "× უფრო პატარა",
+  copy_svg: "დააკოპირეთ SVG",
+  download_svg: "ჩამოტვირთეთ SVG",
+  copy_ok: "კოპირებულია",
+  copy_fail: "კოპირება ვერ მოხერხდა",
   names: [
     "ნაკადის დიაგრამა",
     "სეკვენციის დიაგრამა",

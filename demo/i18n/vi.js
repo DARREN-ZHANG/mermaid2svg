@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "Raw",
   chart_gzip: "Gzip",
   chart_smaller: "× nhỏ hơn",
+  copy_svg: "Sao chép SVG",
+  download_svg: "Tải xuống SVG",
+  copy_ok: "Đã sao chép",
+  copy_fail: "Sao chép không thành công",
   names: [
     "Sơ đồ luồng",
     "Sơ đồ trình tự",

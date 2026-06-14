@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "မူရင်း",
   chart_gzip: "Gzip",
   chart_smaller: "× သေးငယ်သည်",
+  copy_svg: "SVG ကို ကူးယူပါ။",
+  download_svg: "SVG ကိုဒေါင်းလုဒ်လုပ်ပါ။",
+  copy_ok: "ကူးယူသည်။",
+  copy_fail: "ကော်ပီ မအောင်မြင်ပါ။",
   names: [
     "လည်ပတ်မှုဇယား",
     "အစီအစဉ်ဇယား",

@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "Raw",
   chart_gzip: "Gzip",
   chart_smaller: "× kichikroq",
+  copy_svg: "SVG-dan nusxa oling",
+  download_svg: "SVG yuklab olish",
+  copy_ok: "Ko‘chirildi",
+  copy_fail: "Nusxalash amalga oshmadi",
   names: [
     "Oqim sxemasi",
     "Ketma-ketlik diagrammasi",

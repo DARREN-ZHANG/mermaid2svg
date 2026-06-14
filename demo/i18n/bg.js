@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "Некомпресиран",
   chart_gzip: "Gzip",
   chart_smaller: "× по-малък",
+  copy_svg: "Копирайте SVG",
+  download_svg: "Изтеглете SVG",
+  copy_ok: "Копирано",
+  copy_fail: "Неуспешно копиране",
   names: [
     "Блок-схема",
     "Секвенционна диаграма",

@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "Oriġinali",
   chart_gzip: "Gzip",
   chart_smaller: "× iżgħar",
+  copy_svg: "Ikkopja SVG",
+  download_svg: "Niżżel SVG",
+  copy_ok: "Ikkopjati",
+  copy_fail: "Il-kopja falliet",
   names: [
     "Diagramma tal-fluss",
     "Diagramma tas-sekwenza",

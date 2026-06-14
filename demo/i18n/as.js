@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "কাঁচ",
   chart_gzip: "Gzip",
   chart_smaller: "× সৰু",
+  copy_svg: "SVG কপি কৰক",
+  download_svg: "SVG ডাউনলোড কৰক",
+  copy_ok: "কপি কৰা হৈছে",
+  copy_fail: "কপি বিফল হ'ল",
   names: [
     "ফ্ল’ চাৰ্ট",
     "চিকুৱেঞ্চ ডায়াগ্ৰাম",

@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "Raw",
   chart_gzip: "Gzip",
   chart_smaller: "× छोटा",
+  copy_svg: "एसवीजी कॉपी करें",
+  download_svg: "एसवीजी डाउनलोड करें",
+  copy_ok: "नकल की गई",
+  copy_fail: "प्रतिलिपि विफल",
   names: [
     "फ्लोचार्ट",
     "सीक्वेंस डायाग्राम",

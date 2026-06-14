@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "Raw",
   chart_gzip: "Gzip",
   chart_smaller: "× 小さい",
+  copy_svg: "SVGをコピー",
+  download_svg: "SVGをダウンロード",
+  copy_ok: "コピーされました",
+  copy_fail: "コピーに失敗しました",
   names: [
     "フローチャート",
     "シーケンス図",

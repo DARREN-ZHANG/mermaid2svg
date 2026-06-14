@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "Original",
   chart_gzip: "Gzip",
   chart_smaller: "× méi kleng",
+  copy_svg: "SVG kopéieren",
+  download_svg: "Download SVG",
+  copy_ok: "Kopéiert",
+  copy_fail: "Kopie gescheitert",
   names: [
     "Flussdiagramm",
     "Sequenzdiagramm",

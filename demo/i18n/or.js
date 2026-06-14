@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "କାଚ",
   chart_gzip: "Gzip",
   chart_smaller: "× ଛୋଟ",
+  copy_svg: "SVG କପି କରନ୍ତୁ |",
+  download_svg: "SVG ଡାଉନଲୋଡ୍ କରନ୍ତୁ |",
+  copy_ok: "କପି କରାଯାଇଛି |",
+  copy_fail: "କପି ବିଫଳ ହେଲା |",
   names: [
     "ଫ୍ଲୋ ଚାର୍ଟ",
     "ଅନୁକ୍ରମ ଡାଏଗ୍ରାମ",

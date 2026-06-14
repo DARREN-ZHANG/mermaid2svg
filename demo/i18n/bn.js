@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "মূল",
   chart_gzip: "Gzip",
   chart_smaller: "× ছোট",
+  copy_svg: "SVG কপি করুন",
+  download_svg: "SVG ডাউনলোড করুন",
+  copy_ok: "কপি করা হয়েছে",
+  copy_fail: "অনুলিপি ব্যর্থ হয়েছে",
   names: [
     "ফ্লোচার্ট",
     "সিকোয়েন্স ডায়াগ্রাম",

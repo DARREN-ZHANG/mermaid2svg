@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "Raw",
   chart_gzip: "Gzip",
   chart_smaller: "× кішірек",
+  copy_svg: "SVG көшіру",
+  download_svg: "SVG жүктеп алыңыз",
+  copy_ok: "Көшірілген",
+  copy_fail: "Көшіру орындалмады",
   names: [
     "Блок-схема",
     "Тізбек диаграммасы",

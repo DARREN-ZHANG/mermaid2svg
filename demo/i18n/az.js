@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "Raw",
   chart_gzip: "Gzip",
   chart_smaller: "× daha kiçik",
+  copy_svg: "SVG-ni kopyalayın",
+  download_svg: "SVG yükləyin",
+  copy_ok: "Kopyalandı",
+  copy_fail: "Kopyalama alınmadı",
   names: [
     "Axın sxemi",
     "Ardıcıllıq diaqramı",

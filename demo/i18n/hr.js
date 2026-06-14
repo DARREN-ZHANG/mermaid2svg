@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "Nekompresirano",
   chart_gzip: "Gzip",
   chart_smaller: "× manja",
+  copy_svg: "Kopiraj SVG",
+  download_svg: "Preuzmite SVG",
+  copy_ok: "Kopirano",
+  copy_fail: "Kopiranje nije uspjelo",
   names: [
     "Dijagram tijeka",
     "Dijagram slijeda",

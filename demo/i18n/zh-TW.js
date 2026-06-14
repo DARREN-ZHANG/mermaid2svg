@@ -17,5 +17,9 @@ export default () => ({
   chart_raw: "原始",
   chart_gzip: "Gzip",
   chart_smaller: "× 更小",
+  copy_svg: "複製 SVG",
+  download_svg: "下載 SVG",
+  copy_ok: "已複製",
+  copy_fail: "複製失敗",
   names: ["流程圖", "時序圖", "類別圖", "狀態圖", "ER 圖", "圓餅圖", "甘特圖", "XY 圖表"],
 });

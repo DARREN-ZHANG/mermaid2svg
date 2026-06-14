@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "Raw",
   chart_gzip: "Gzip",
   chart_smaller: "× 더 작음",
+  copy_svg: "SVG 복사",
+  download_svg: "SVG 다운로드",
+  copy_ok: "복사됨",
+  copy_fail: "복사 실패",
   names: [
     "순서도",
     "시퀀스 다이어그램",

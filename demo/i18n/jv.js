@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "Mentah",
   chart_gzip: "Gzip",
   chart_smaller: "× luwih cilik",
+  copy_svg: "Nyalin SVG",
+  download_svg: "Unduh SVG",
+  copy_ok: "disalin",
+  copy_fail: "Nyalin gagal",
   names: [
     "Diagram Alir",
     "Diagram Urutan",

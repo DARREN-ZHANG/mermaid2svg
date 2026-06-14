@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "Raw",
   chart_gzip: "Gzip",
   chart_smaller: "× pienempi",
+  copy_svg: "Kopioi SVG",
+  download_svg: "Lataa SVG",
+  copy_ok: "Kopioitu",
+  copy_fail: "Kopiointi epäonnistui",
   names: [
     "Vuokaavio",
     "Sekvenssikaavio",

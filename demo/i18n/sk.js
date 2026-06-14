@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "Bez kompresie",
   chart_gzip: "Gzip",
   chart_smaller: "× menšia",
+  copy_svg: "Skopírujte SVG",
+  download_svg: "Stiahnite si SVG",
+  copy_ok: "Skopírované",
+  copy_fail: "Kopírovanie zlyhalo",
   names: [
     "Vývojový diagram",
     "Sekvenčný diagram",

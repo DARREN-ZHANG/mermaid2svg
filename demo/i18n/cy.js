@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "Gwreiddiol",
   chart_gzip: "Gzip",
   chart_smaller: "× llai",
+  copy_svg: "Copïo SVG",
+  download_svg: "Lawrlwythwch SVG",
+  copy_ok: "Wedi'i gopïo",
+  copy_fail: "Methodd y copi",
   names: [
     "Siart llif",
     "Diagram dilyniant",

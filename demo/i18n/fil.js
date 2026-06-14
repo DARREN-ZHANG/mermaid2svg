@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "Orihinal",
   chart_gzip: "Gzip",
   chart_smaller: "× mas maliit",
+  copy_svg: "Kopyahin ang SVG",
+  download_svg: "I-download ang SVG",
+  copy_ok: "Kinopya",
+  copy_fail: "Nabigo ang pagkopya",
   names: [
     "Diagram ng Daloy",
     "Diagram ng Sekwensya",

@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "మూల",
   chart_gzip: "Gzip",
   chart_smaller: "× చిన్నది",
+  copy_svg: "SVGని కాపీ చేయండి",
+  download_svg: "SVGని డౌన్‌లోడ్ చేయండి",
+  copy_ok: "కాపీ చేయబడింది",
+  copy_fail: "కాపీ విఫలమైంది",
   names: [
     "ఫ్లోచార్ట్",
     "సీక్వెన్స్ డయాగ్రామ్",

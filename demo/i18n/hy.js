@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "Raw",
   chart_gzip: "Gzip",
   chart_smaller: "× ավելի փոքր",
+  copy_svg: "Պատճենել SVG",
+  download_svg: "Ներբեռնեք SVG",
+  copy_ok: "Պատճենվել է",
+  copy_fail: "Չհաջողվեց պատճենել",
   names: [
     "Հոսքի գծապատկեր",
     "Հաջորդականության դիագրամ",

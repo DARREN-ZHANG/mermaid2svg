@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "Raw",
   chart_gzip: "Gzip",
   chart_smaller: "× קטן יותר",
+  copy_svg: "העתק את SVG",
+  download_svg: "הורד את SVG",
+  copy_ok: "הועתק",
+  copy_fail: "ההעתקה נכשלה",
   names: [
     "תרשים זרימה",
     "תרשים רצף",

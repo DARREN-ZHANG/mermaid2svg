@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "Raw",
   chart_gzip: "Gzip",
   chart_smaller: "× smaller",
+  copy_svg: "Copy SVG",
+  download_svg: "Download SVG",
+  copy_ok: "Copied",
+  copy_fail: "Copy failed",
   names: [
     "Flowchart",
     "Sequence Diagram",

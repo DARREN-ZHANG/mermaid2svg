@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "Raw",
   chart_gzip: "Gzip",
   chart_smaller: "× کوچک‌تر",
+  copy_svg: "SVG را کپی کنید",
+  download_svg: "SVG را دانلود کنید",
+  copy_ok: "کپی شده",
+  copy_fail: "کپی ناموفق بود",
   names: [
     "نمودار جریان",
     "نمودار توالی",

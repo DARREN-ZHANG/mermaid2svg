@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "Jatorrizkoa",
   chart_gzip: "Gzip",
   chart_smaller: "× txikiago",
+  copy_svg: "Kopiatu SVG",
+  download_svg: "Deskargatu SVG",
+  copy_ok: "Kopiatua",
+  copy_fail: "Ezin izan da kopiatu",
   names: [
     "Fluxu-diagrama",
     "Sekuentzia diagrama",

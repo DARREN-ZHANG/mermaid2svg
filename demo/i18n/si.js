@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "මුල්",
   chart_gzip: "Gzip",
   chart_smaller: "× කුඩායි",
+  copy_svg: "SVG පිටපත් කරන්න",
+  download_svg: "SVG බාගන්න",
+  copy_ok: "පිටපත් කර ඇත",
+  copy_fail: "පිටපත් කිරීම අසාර්ථක විය",
   names: [
     "ප්‍රවාහ සටහන",
     "ක්‍රම සටහන",

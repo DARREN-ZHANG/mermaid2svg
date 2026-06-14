@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "Nekompresēts",
   chart_gzip: "Gzip",
   chart_smaller: "× mazāks",
+  copy_svg: "Kopēt SVG",
+  download_svg: "Lejupielādēt SVG",
+  copy_ok: "Kopēts",
+  copy_fail: "Kopēšana neizdevās",
   names: [
     "Plūsmas diagramma",
     "Sekvences diagramma",

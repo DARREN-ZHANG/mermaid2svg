@@ -3,6 +3,7 @@ import { writeFileSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import CODE from "../demo/webc/I18n/CODE.js";
+import SVG_ACTIONS from "../demo/const/svgActionsI18n.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url)),
   DIR = join(__dirname, "..", "demo", "i18n");
@@ -27,6 +28,10 @@ const EN = {
   chart_raw: "Raw",
   chart_gzip: "Gzip",
   chart_smaller: "× smaller",
+  copy_svg: "Copy SVG",
+  download_svg: "Download SVG",
+  copy_ok: "Copied",
+  copy_fail: "Copy failed",
   names: [
     "Flowchart",
     "Sequence Diagram",
@@ -60,6 +65,10 @@ const I18N = {
     chart_raw: "原始",
     chart_gzip: "Gzip",
     chart_smaller: "× 更小",
+    copy_svg: "复制 SVG",
+    download_svg: "下载 SVG",
+    copy_ok: "已复制",
+    copy_fail: "复制失败",
     names: ["流程图", "时序图", "类图", "状态图", "ER 图", "饼图", "甘特图", "XY 图表"],
   },
   ja: {
@@ -2259,7 +2268,7 @@ const genContent = (data) => {
 
 let generated = 0;
 for (const code of CODE) {
-  const data = I18N[code] || EN;
+  const data = { ...EN, ...I18N[code], ...SVG_ACTIONS[code] };
   const content = genContent(data);
   writeFileSync(join(DIR, code + ".js"), content);
   ++generated;

@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "Raw",
   chart_gzip: "Gzip",
   chart_smaller: "× சிறியது",
+  copy_svg: "SVG ஐ நகலெடுக்கவும்",
+  download_svg: "SVG ஐப் பதிவிறக்கவும்",
+  copy_ok: "நகலெடுக்கப்பட்டது",
+  copy_fail: "நகலெடுக்க முடியவில்லை",
   names: [
     "ஓட்ட வரைபடம்",
     "வரிசை வரைபடம்",

@@ -29,6 +29,10 @@ const MERMAID_KEYS = [
   "chart_raw",
   "chart_gzip",
   "chart_smaller",
+  "copy_svg",
+  "download_svg",
+  "copy_ok",
+  "copy_fail",
   "names",
 ];
 

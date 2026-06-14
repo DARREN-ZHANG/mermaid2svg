@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "Upprunalegt",
   chart_gzip: "Gzip",
   chart_smaller: "× minna",
+  copy_svg: "Afritaðu SVG",
+  download_svg: "Sækja SVG",
+  copy_ok: "Afritað",
+  copy_fail: "Afritun mistókst",
   names: [
     "Flæðirit",
     "Raðriss",

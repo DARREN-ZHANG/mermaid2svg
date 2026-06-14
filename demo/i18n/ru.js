@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "Raw",
   chart_gzip: "Gzip",
   chart_smaller: "× меньше",
+  copy_svg: "Копировать SVG",
+  download_svg: "Скачать SVG",
+  copy_ok: "Скопировано",
+  copy_fail: "Не удалось скопировать",
   names: [
     "Блок-схема",
     "Диаграмма последовательности",

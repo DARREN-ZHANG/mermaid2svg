@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "Raw",
   chart_gzip: "Gzip",
   chart_smaller: "× kleiner",
+  copy_svg: "Kopieer SVG",
+  download_svg: "Laai SVG af",
+  copy_ok: "Gekopieer",
+  copy_fail: "Kopieer het misluk",
   names: [
     "Vloeidiagram",
     "Sekvensdiagram",

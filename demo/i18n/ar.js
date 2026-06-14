@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "Raw",
   chart_gzip: "Gzip",
   chart_smaller: "× أصغر",
+  copy_svg: "انسخ ملف SVG",
+  download_svg: "تنزيل SVG",
+  copy_ok: "منقول",
+  copy_fail: "فشل النسخ",
   names: [
     "مخطط انسيابي",
     "مخطط التسلسل",

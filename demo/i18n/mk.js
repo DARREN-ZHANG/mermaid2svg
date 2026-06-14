@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "Оригинален",
   chart_gzip: "Gzip",
   chart_smaller: "× помал",
+  copy_svg: "Копирај SVG",
+  download_svg: "Преземете SVG",
+  copy_ok: "Копирано",
+  copy_fail: "Копирањето не успеа",
   names: [
     "Дијаграм на тек",
     "Дијаграм на секвенца",

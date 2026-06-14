@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "خام",
   chart_gzip: "Gzip",
   chart_smaller: "× ننڍو",
+  copy_svg: "ڪاپي SVG",
+  download_svg: "ڊائون لوڊ ڪريو SVG",
+  copy_ok: "نقل ٿيل",
+  copy_fail: "ڪاپي ناڪام ٿي وئي",
   names: [
     "فلو چارٽ",
     "سيڪوئنس ڊائگرام",

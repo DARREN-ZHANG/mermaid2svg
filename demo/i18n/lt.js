@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "Nesuspaustas",
   chart_gzip: "Gzip",
   chart_smaller: "× mažesnis",
+  copy_svg: "Nukopijuokite SVG",
+  download_svg: "Atsisiųskite SVG",
+  copy_ok: "Nukopijuota",
+  copy_fail: "Kopijuoti nepavyko",
   names: [
     "Blokinė schema",
     "Sekų diagrama",

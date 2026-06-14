@@ -17,6 +17,10 @@ export default () => ({
   chart_raw: "Orijinal",
   chart_gzip: "Gzip",
   chart_smaller: "× më i vogël",
+  copy_svg: "Kopjo SVG",
+  download_svg: "Shkarkoni SVG",
+  copy_ok: "E kopjuar",
+  copy_fail: "Kopjimi dështoi",
   names: [
     "Diagramë rrjedhëse",
     "Diagramë sekuence",
