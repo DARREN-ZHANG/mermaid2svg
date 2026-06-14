@@ -25,6 +25,9 @@ const REPO_FULL = {
   mermaid: "mermaid-js/mermaid",
 };
 
+// 最小核心样本门槛，低于此值说明候选集意外收缩，必须中止
+const MIN_MINIMAL_CORE_ACCEPTED = 101;
+
 // 按 ID 稳定排序，便于人工 review
 const sortById = (list) =>
   [...list].sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
@@ -288,6 +291,16 @@ console.log("[extract] 扫描文件: " + JSON.stringify(scanned));
 console.log("[extract] 选取高信号子集...");
 const { accepted, skipped } = selectTests(candidates);
 console.log("[extract] 接受: " + accepted.length + ", 跳过: " + skipped.length);
+
+// 核心样本数量门槛校验，低于门槛则中止抽取，避免无意中缩小测试集
+if (accepted.length < MIN_MINIMAL_CORE_ACCEPTED) {
+  throw new Error(
+    "[extract] 核心样本数量不足: 实际 " +
+      accepted.length +
+      ", 期望 >= " +
+      MIN_MINIMAL_CORE_ACCEPTED
+  );
+}
 
 console.log("[extract] 清理旧测试文件...");
 cleanOldTests();

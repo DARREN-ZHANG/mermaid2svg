@@ -28,6 +28,19 @@ const all_cases = readdirSync(TEST_DIR)
   .sort()
   .map((f) => ({ file: f, data: yaml.load(readFileSync(path.join(TEST_DIR, f), "utf8")) }));
 
+// 核心样本数量门槛，与 extract/run.js 保持一致
+const MIN_MINIMAL_CORE_ACCEPTED = 101;
+
+// 用例数量必须匹配门槛，防止候选集意外收缩
+assert.equal(
+  all_cases.length,
+  MIN_MINIMAL_CORE_ACCEPTED,
+  "测试用例数量应为 " +
+    MIN_MINIMAL_CORE_ACCEPTED +
+    ", 实际 " +
+    all_cases.length
+);
+
 // schema 类型检查，支持 [type, "null"] 联合类型
 const checkType = (val, type_def) => {
   if (Array.isArray(type_def))
