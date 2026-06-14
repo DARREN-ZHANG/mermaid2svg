@@ -148,7 +148,7 @@ test("render loop config defines deterministic phase topology and artifacts", ()
   assert.match(config, /test\/schema\.yml/);
   assert.match(config, /test\/\*\.yml/);
   assert.match(config, /extract\/report\.json/);
-  assert.match(config, /src\/render\/mermaid-to-svg\.js/);
+  assert.match(config, /demo\/render\/mermaid-to-svg\.js/);
   assert.match(config, /test\/render-yml\.test\.mjs/);
   assert.match(config, /workflow\/reports\/render-capabilities\.json/);
 
@@ -200,7 +200,7 @@ test("render validators accept delivered artifacts and still reject missing ones
   assert.match(validators, /validateRenderPhase/);
   assert.match(validators, /test\/schema\.yml/);
   assert.match(validators, /test\/render-yml\.test\.mjs/);
-  assert.match(validators, /src\/render\/mermaid-to-svg\.js/);
+  assert.match(validators, /demo\/render\/mermaid-to-svg\.js/);
   assert.match(validators, /workflow\/reports\/render-capabilities\.json/);
   assert.match(validationSurface, /puppeteer/);
   assert.match(validationSurface, /playwright/);
@@ -220,7 +220,7 @@ test("render validators accept delivered artifacts and still reject missing ones
 
   assert.equal(result.ok, true);
   assert.ok(
-    !result.errors.some((error) => error.includes("src/render/mermaid-to-svg.js")),
+    !result.errors.some((error) => error.includes("demo/render/mermaid-to-svg.js")),
     "valid renderer should pass renderer validation",
   );
   assert.ok(

@@ -1,99 +1,69 @@
 {
-  "generatedAt": "2026-06-14T08:12:38.440Z",
+  "generatedAt": "2026-06-14T14:34:04.184Z",
   "sources": {
     "probelabs/maid": {
-      "scannedFiles": 211,
+      "scannedFiles": 0,
       "candidates": 25,
-      "accepted": 7,
-      "skipped": 18
+      "accepted": 25,
+      "skipped": 0
     },
     "lukilabs/beautiful-mermaid": {
-      "scannedFiles": 24,
+      "scannedFiles": 0,
       "candidates": 25,
-      "accepted": 7,
-      "skipped": 18
+      "accepted": 22,
+      "skipped": 3
     },
     "mermaid-js/mermaid": {
-      "scannedFiles": 271,
+      "scannedFiles": 0,
       "candidates": 77,
-      "accepted": 4,
-      "skipped": 73
+      "accepted": 54,
+      "skipped": 23
     }
   },
   "byDiagramType": {
     "flowchart": {
-      "accepted": 5,
-      "skipped": 36
+      "accepted": 37,
+      "skipped": 4
     },
     "stateDiagram": {
-      "accepted": 2,
-      "skipped": 14
+      "accepted": 15,
+      "skipped": 1
     },
     "sequenceDiagram": {
-      "accepted": 3,
-      "skipped": 19
+      "accepted": 19,
+      "skipped": 3
     },
     "classDiagram": {
-      "accepted": 2,
-      "skipped": 12
+      "accepted": 10,
+      "skipped": 4
     },
     "erDiagram": {
-      "accepted": 2,
-      "skipped": 6
-    },
-    "other": {
-      "accepted": 1,
-      "skipped": 17
-    },
-    "pie": {
-      "accepted": 2,
+      "accepted": 6,
       "skipped": 2
     },
+    "other": {
+      "accepted": 8,
+      "skipped": 10
+    },
+    "pie": {
+      "accepted": 3,
+      "skipped": 1
+    },
     "gantt": {
-      "accepted": 1,
-      "skipped": 3
+      "accepted": 3,
+      "skipped": 1
     }
   },
+  "byClassification": {
+    "minimal_core": 101,
+    "useful_later": 22,
+    "unsupported_candidate": 4
+  },
   "skipReasons": {
-    "quota_exceeded_flowchart": 32,
     "classification_useful_later": 22,
-    "quota_exceeded_stateDiagram": 13,
-    "quota_exceeded_sequenceDiagram": 16,
-    "quota_exceeded_classDiagram": 8,
-    "quota_exceeded_erDiagram": 4,
-    "quota_exceeded_pie": 1,
-    "quota_exceeded_gantt": 2,
-    "quota_exceeded_other": 7,
     "classification_unsupported_candidate": 4
   },
   "skippedSamples": [
-    {
-      "id": "bm-003",
-      "sourceRepo": "lukilabs/beautiful-mermaid",
-      "sourcePath": "samples-data.ts",
-      "type": "flowchart",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_flowchart"
-    },
-    {
-      "id": "bm-004",
-      "sourceRepo": "lukilabs/beautiful-mermaid",
-      "sourcePath": "samples-data.ts",
-      "type": "flowchart",
-      "priority": "P1",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_flowchart"
-    },
-    {
-      "id": "bm-005",
-      "sourceRepo": "lukilabs/beautiful-mermaid",
-      "sourcePath": "samples-data.ts",
-      "type": "flowchart",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_flowchart"
-    },
     {
       "id": "bm-006",
       "sourceRepo": "lukilabs/beautiful-mermaid",
@@ -102,33 +72,6 @@
       "priority": "P1",
       "classification": "useful_later",
       "reason": "classification_useful_later"
-    },
-    {
-      "id": "bm-008",
-      "sourceRepo": "lukilabs/beautiful-mermaid",
-      "sourcePath": "samples-data.ts",
-      "type": "stateDiagram",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_stateDiagram"
-    },
-    {
-      "id": "bm-009",
-      "sourceRepo": "lukilabs/beautiful-mermaid",
-      "sourcePath": "samples-data.ts",
-      "type": "stateDiagram",
-      "priority": "P1",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_stateDiagram"
-    },
-    {
-      "id": "bm-011",
-      "sourceRepo": "lukilabs/beautiful-mermaid",
-      "sourcePath": "samples-data.ts",
-      "type": "sequenceDiagram",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_sequenceDiagram"
     },
     {
       "id": "bm-012",
@@ -147,276 +90,6 @@
       "priority": "P1",
       "classification": "useful_later",
       "reason": "classification_useful_later"
-    },
-    {
-      "id": "bm-015",
-      "sourceRepo": "lukilabs/beautiful-mermaid",
-      "sourcePath": "samples-data.ts",
-      "type": "classDiagram",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_classDiagram"
-    },
-    {
-      "id": "bm-016",
-      "sourceRepo": "lukilabs/beautiful-mermaid",
-      "sourcePath": "samples-data.ts",
-      "type": "classDiagram",
-      "priority": "P1",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_classDiagram"
-    },
-    {
-      "id": "bm-018",
-      "sourceRepo": "lukilabs/beautiful-mermaid",
-      "sourcePath": "samples-data.ts",
-      "type": "erDiagram",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_erDiagram"
-    },
-    {
-      "id": "bm-019",
-      "sourceRepo": "lukilabs/beautiful-mermaid",
-      "sourcePath": "samples-data.ts",
-      "type": "erDiagram",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_erDiagram"
-    },
-    {
-      "id": "bm-021",
-      "sourceRepo": "lukilabs/beautiful-mermaid",
-      "sourcePath": "samples-data.ts (ER: Non-Identifying Relationship, ~L1068)",
-      "type": "erDiagram",
-      "priority": "P1",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_erDiagram"
-    },
-    {
-      "id": "bm-022",
-      "sourceRepo": "lukilabs/beautiful-mermaid",
-      "sourcePath": "samples-data.ts (Sequence: Arrow Types, ~L453)",
-      "type": "sequenceDiagram",
-      "priority": "P1",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_sequenceDiagram"
-    },
-    {
-      "id": "bm-023",
-      "sourceRepo": "lukilabs/beautiful-mermaid",
-      "sourcePath": "samples-data.ts (Sequence: Critical Block, ~L555)",
-      "type": "sequenceDiagram",
-      "priority": "P1",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_sequenceDiagram"
-    },
-    {
-      "id": "bm-024",
-      "sourceRepo": "lukilabs/beautiful-mermaid",
-      "sourcePath": "samples-data.ts (::: Class Shorthand, ~L266)",
-      "type": "flowchart",
-      "priority": "P1",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_flowchart"
-    },
-    {
-      "id": "bm-025",
-      "sourceRepo": "lukilabs/beautiful-mermaid",
-      "sourcePath": "samples-data.ts (Hero sample, ~L30)",
-      "type": "stateDiagram",
-      "priority": "P1",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_stateDiagram"
-    },
-    {
-      "id": "maid-003",
-      "sourceRepo": "probelabs/maid",
-      "sourcePath": "test-fixtures/flowchart/valid/complex-shapes.mmd",
-      "type": "flowchart",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_flowchart"
-    },
-    {
-      "id": "maid-004",
-      "sourceRepo": "probelabs/maid",
-      "sourcePath": "test-fixtures/flowchart/valid/link-styles.mmd",
-      "type": "flowchart",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_flowchart"
-    },
-    {
-      "id": "maid-005",
-      "sourceRepo": "probelabs/maid",
-      "sourcePath": "test-fixtures/flowchart/valid/subgraphs.mmd",
-      "type": "flowchart",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_flowchart"
-    },
-    {
-      "id": "maid-006",
-      "sourceRepo": "probelabs/maid",
-      "sourcePath": "test-fixtures/flowchart/valid/nested-subgraphs.mmd",
-      "type": "flowchart",
-      "priority": "P1",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_flowchart"
-    },
-    {
-      "id": "maid-007",
-      "sourceRepo": "probelabs/maid",
-      "sourcePath": "test-fixtures/flowchart/valid/chained-connections.mmd",
-      "type": "flowchart",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_flowchart"
-    },
-    {
-      "id": "maid-008",
-      "sourceRepo": "probelabs/maid",
-      "sourcePath": "test-fixtures/flowchart/valid/multidirectional-arrows.mmd",
-      "type": "flowchart",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_flowchart"
-    },
-    {
-      "id": "maid-009",
-      "sourceRepo": "probelabs/maid",
-      "sourcePath": "test-fixtures/flowchart/valid/unicode-text.mmd",
-      "type": "flowchart",
-      "priority": "P1",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_flowchart"
-    },
-    {
-      "id": "maid-011",
-      "sourceRepo": "probelabs/maid",
-      "sourcePath": "test-fixtures/sequence/valid/notes.mmd",
-      "type": "sequenceDiagram",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_sequenceDiagram"
-    },
-    {
-      "id": "maid-012",
-      "sourceRepo": "probelabs/maid",
-      "sourcePath": "test-fixtures/sequence/valid/blocks-alt-opt-loop.mmd",
-      "type": "sequenceDiagram",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_sequenceDiagram"
-    },
-    {
-      "id": "maid-013",
-      "sourceRepo": "probelabs/maid",
-      "sourcePath": "test-fixtures/sequence/valid/par-minimal.mmd",
-      "type": "sequenceDiagram",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_sequenceDiagram"
-    },
-    {
-      "id": "maid-014",
-      "sourceRepo": "probelabs/maid",
-      "sourcePath": "test-fixtures/sequence/valid/activation-suffix.mmd",
-      "type": "sequenceDiagram",
-      "priority": "P1",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_sequenceDiagram"
-    },
-    {
-      "id": "maid-016",
-      "sourceRepo": "probelabs/maid",
-      "sourcePath": "test-fixtures/class/valid/inline-members-and-attrs.mmd",
-      "type": "classDiagram",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_classDiagram"
-    },
-    {
-      "id": "maid-018",
-      "sourceRepo": "probelabs/maid",
-      "sourcePath": "test-fixtures/state/valid/markers-fork-join.mmd",
-      "type": "stateDiagram",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_stateDiagram"
-    },
-    {
-      "id": "maid-021",
-      "sourceRepo": "probelabs/maid",
-      "sourcePath": "test-fixtures/sequence/valid/bidir-and-async-arrows.mmd",
-      "type": "sequenceDiagram",
-      "priority": "P1",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_sequenceDiagram"
-    },
-    {
-      "id": "maid-022",
-      "sourceRepo": "probelabs/maid",
-      "sourcePath": "test-fixtures/sequence/valid/box-groups.mmd",
-      "type": "sequenceDiagram",
-      "priority": "P1",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_sequenceDiagram"
-    },
-    {
-      "id": "maid-023",
-      "sourceRepo": "probelabs/maid",
-      "sourcePath": "test-fixtures/state/valid/history-states.mmd",
-      "type": "stateDiagram",
-      "priority": "P1",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_stateDiagram"
-    },
-    {
-      "id": "maid-024",
-      "sourceRepo": "probelabs/maid",
-      "sourcePath": "test-fixtures/pie/valid/showdata-header.mmd",
-      "type": "pie",
-      "priority": "P1",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_pie"
-    },
-    {
-      "id": "maid-025",
-      "sourceRepo": "probelabs/maid",
-      "sourcePath": "test-fixtures/class/valid/notes-on-class.mmd",
-      "type": "classDiagram",
-      "priority": "P1",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_classDiagram"
-    },
-    {
-      "id": "mm-cls-001",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "cypress/platform/dev-diagrams/layout-tests/class-diagram.mmd",
-      "type": "classDiagram",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_classDiagram"
-    },
-    {
-      "id": "mm-cls-002",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "cypress/integration/rendering/class/classDiagram.spec.js",
-      "type": "classDiagram",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_classDiagram"
-    },
-    {
-      "id": "mm-cls-003",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "cypress/integration/rendering/class/classDiagram.spec.js",
-      "type": "classDiagram",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_classDiagram"
     },
     {
       "id": "mm-cls-004",
@@ -455,114 +128,6 @@
       "reason": "classification_useful_later"
     },
     {
-      "id": "mm-cls-008",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "cypress/integration/rendering/class/classDiagram.spec.js (~L137)",
-      "type": "classDiagram",
-      "priority": "P1",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_classDiagram"
-    },
-    {
-      "id": "mm-fc-002",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "packages/mermaid/src/diagrams/flowchart/parser/flow-edges.spec.js:71",
-      "type": "flowchart",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_flowchart"
-    },
-    {
-      "id": "mm-fc-003",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "packages/mermaid/src/diagrams/flowchart/parser/flow-lines.spec.js:155",
-      "type": "flowchart",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_flowchart"
-    },
-    {
-      "id": "mm-fc-004",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "packages/mermaid/src/diagrams/flowchart/parser/flow-lines.spec.js:163",
-      "type": "flowchart",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_flowchart"
-    },
-    {
-      "id": "mm-fc-005",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "packages/mermaid/src/diagrams/flowchart/parser/flow-arrows.spec.js:167",
-      "type": "flowchart",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_flowchart"
-    },
-    {
-      "id": "mm-fc-006",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "packages/mermaid/src/diagrams/flowchart/parser/flow-edges.spec.js:78",
-      "type": "flowchart",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_flowchart"
-    },
-    {
-      "id": "mm-fc-007",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "packages/mermaid/src/diagrams/flowchart/parser/flow-edges.spec.js:85",
-      "type": "flowchart",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_flowchart"
-    },
-    {
-      "id": "mm-fc-008",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "cypress/integration/rendering/flowchart/flowchart.spec.js:6",
-      "type": "flowchart",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_flowchart"
-    },
-    {
-      "id": "mm-fc-009",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "packages/mermaid/src/diagrams/flowchart/parser/flow-text.spec.js:80",
-      "type": "flowchart",
-      "priority": "P1",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_flowchart"
-    },
-    {
-      "id": "mm-fc-010",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "packages/mermaid/src/diagrams/flowchart/parser/flow-singlenode.spec.js:59",
-      "type": "flowchart",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_flowchart"
-    },
-    {
-      "id": "mm-fc-011",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "packages/mermaid/src/diagrams/flowchart/parser/flow-text.spec.js:332",
-      "type": "flowchart",
-      "priority": "P1",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_flowchart"
-    },
-    {
-      "id": "mm-fc-012",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "packages/mermaid/src/diagrams/flowchart/parser/flow-singlenode.spec.js:185",
-      "type": "flowchart",
-      "priority": "P1",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_flowchart"
-    },
-    {
       "id": "mm-fc-013",
       "sourceRepo": "mermaid-js/mermaid",
       "sourcePath": "packages/mermaid/src/diagrams/flowchart/parser/flow-text.spec.js:332",
@@ -570,51 +135,6 @@
       "priority": "P1",
       "classification": "useful_later",
       "reason": "classification_useful_later"
-    },
-    {
-      "id": "mm-fc-014",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "packages/mermaid/src/diagrams/flowchart/parser/flow-md-string.spec.js:16",
-      "type": "flowchart",
-      "priority": "P1",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_flowchart"
-    },
-    {
-      "id": "mm-fc-015",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "packages/mermaid/src/diagrams/flowchart/parser/flow-direction.spec.js:31",
-      "type": "flowchart",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_flowchart"
-    },
-    {
-      "id": "mm-fc-016",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "packages/mermaid/src/diagrams/flowchart/parser/flow-style.spec.js:147",
-      "type": "flowchart",
-      "priority": "P1",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_flowchart"
-    },
-    {
-      "id": "mm-fc-017",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "packages/mermaid/src/diagrams/flowchart/parser/flow-style.spec.js:303",
-      "type": "flowchart",
-      "priority": "P1",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_flowchart"
-    },
-    {
-      "id": "mm-fc-018",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "packages/mermaid/src/diagrams/flowchart/parser/flow-vertice-chaining.spec.js:41",
-      "type": "flowchart",
-      "priority": "P1",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_flowchart"
     },
     {
       "id": "mm-fc-019",
@@ -626,33 +146,6 @@
       "reason": "classification_useful_later"
     },
     {
-      "id": "mm-fc-020",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "demos/flowchart.html",
-      "type": "flowchart",
-      "priority": "P1",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_flowchart"
-    },
-    {
-      "id": "mm-fc-021",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "cypress/platform/dev-diagrams/layout-tests/self-loop.mmd",
-      "type": "flowchart",
-      "priority": "P1",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_flowchart"
-    },
-    {
-      "id": "mm-fc-022",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "cypress/platform/dev-diagrams/layout-tests/edge-types.mmd",
-      "type": "flowchart",
-      "priority": "P1",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_flowchart"
-    },
-    {
       "id": "mm-fc-023",
       "sourceRepo": "mermaid-js/mermaid",
       "sourcePath": "cypress/platform/dev-diagrams/layout-tests/multiple-edges.mmd",
@@ -662,24 +155,6 @@
       "reason": "classification_useful_later"
     },
     {
-      "id": "mm-fc-024",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "packages/mermaid/src/diagrams/flowchart/parser/flow-comments.spec.js (L18)",
-      "type": "flowchart",
-      "priority": "P1",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_flowchart"
-    },
-    {
-      "id": "mm-fc-025",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "packages/mermaid/src/diagrams/flowchart/parser/subgraph.spec.js (L53)",
-      "type": "flowchart",
-      "priority": "P1",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_flowchart"
-    },
-    {
       "id": "mm-other-002",
       "sourceRepo": "mermaid-js/mermaid",
       "sourcePath": "demos/er.html",
@@ -687,15 +162,6 @@
       "priority": "P1",
       "classification": "useful_later",
       "reason": "classification_useful_later"
-    },
-    {
-      "id": "mm-other-003",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "demos/gantt.html",
-      "type": "gantt",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_gantt"
     },
     {
       "id": "mm-other-004",
@@ -716,24 +182,6 @@
       "reason": "classification_useful_later"
     },
     {
-      "id": "mm-other-007",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "cypress/integration/rendering/user-journey/journey.spec.js",
-      "type": "other",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_other"
-    },
-    {
-      "id": "mm-other-008",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "cypress/integration/rendering/git/gitGraph.spec.js",
-      "type": "other",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_other"
-    },
-    {
       "id": "mm-other-009",
       "sourceRepo": "mermaid-js/mermaid",
       "sourcePath": "demos/git.html",
@@ -741,15 +189,6 @@
       "priority": "P1",
       "classification": "useful_later",
       "reason": "classification_useful_later"
-    },
-    {
-      "id": "mm-other-010",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "cypress/integration/rendering/mindmap/mindmap.spec.ts",
-      "type": "other",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_other"
     },
     {
       "id": "mm-other-011",
@@ -761,15 +200,6 @@
       "reason": "classification_useful_later"
     },
     {
-      "id": "mm-other-012",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "cypress/integration/rendering/timeline/timeline.spec.ts",
-      "type": "other",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_other"
-    },
-    {
       "id": "mm-other-013",
       "sourceRepo": "mermaid-js/mermaid",
       "sourcePath": "demos/timeline.html",
@@ -779,24 +209,6 @@
       "reason": "classification_useful_later"
     },
     {
-      "id": "mm-other-014",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "cypress/integration/rendering/quadrant-chart/quadrantChart.spec.js",
-      "type": "other",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_other"
-    },
-    {
-      "id": "mm-other-015",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "cypress/integration/rendering/xychart/xyChart.spec.js",
-      "type": "other",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_other"
-    },
-    {
       "id": "mm-other-016",
       "sourceRepo": "mermaid-js/mermaid",
       "sourcePath": "demos/xychart.html",
@@ -804,15 +216,6 @@
       "priority": "P1",
       "classification": "useful_later",
       "reason": "classification_useful_later"
-    },
-    {
-      "id": "mm-other-017",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "cypress/integration/rendering/requirement/requirement.spec.js",
-      "type": "other",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_other"
     },
     {
       "id": "mm-other-018",
@@ -878,69 +281,6 @@
       "reason": "classification_useful_later"
     },
     {
-      "id": "mm-other-025",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "cypress/integration/rendering/er/erDiagram.spec.js (~L300)",
-      "type": "erDiagram",
-      "priority": "P1",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_erDiagram"
-    },
-    {
-      "id": "mm-other-026",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "cypress/integration/rendering/gantt/gantt.spec.js (~L98)",
-      "type": "gantt",
-      "priority": "P1",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_gantt"
-    },
-    {
-      "id": "mm-seq-002",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "cypress/integration/rendering/sequence/sequencediagram.spec.js",
-      "type": "sequenceDiagram",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_sequenceDiagram"
-    },
-    {
-      "id": "mm-seq-003",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "cypress/integration/rendering/sequence/sequencediagram.spec.js",
-      "type": "sequenceDiagram",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_sequenceDiagram"
-    },
-    {
-      "id": "mm-seq-004",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "cypress/integration/rendering/sequence/sequencediagram.spec.js",
-      "type": "sequenceDiagram",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_sequenceDiagram"
-    },
-    {
-      "id": "mm-seq-005",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "cypress/integration/rendering/sequence/sequencediagram.spec.js",
-      "type": "sequenceDiagram",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_sequenceDiagram"
-    },
-    {
-      "id": "mm-seq-006",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "cypress/integration/rendering/sequence/sequencediagram-v2.spec.js",
-      "type": "sequenceDiagram",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_sequenceDiagram"
-    },
-    {
       "id": "mm-seq-007",
       "sourceRepo": "mermaid-js/mermaid",
       "sourcePath": "cypress/integration/rendering/sequence/sequencediagram.spec.js",
@@ -950,69 +290,6 @@
       "reason": "classification_useful_later"
     },
     {
-      "id": "mm-seq-008",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "cypress/integration/rendering/sequence/sequencediagram.spec.js (~L1276)",
-      "type": "sequenceDiagram",
-      "priority": "P1",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_sequenceDiagram"
-    },
-    {
-      "id": "mm-seq-009",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "cypress/integration/rendering/sequence/sequencediagram.spec.js (~L200)",
-      "type": "sequenceDiagram",
-      "priority": "P1",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_sequenceDiagram"
-    },
-    {
-      "id": "mm-st-001",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "cypress/integration/rendering/state/stateDiagram.spec.js",
-      "type": "stateDiagram",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_stateDiagram"
-    },
-    {
-      "id": "mm-st-002",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "cypress/integration/rendering/state/stateDiagram.spec.js",
-      "type": "stateDiagram",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_stateDiagram"
-    },
-    {
-      "id": "mm-st-003",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "cypress/integration/rendering/state/stateDiagram.spec.js",
-      "type": "stateDiagram",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_stateDiagram"
-    },
-    {
-      "id": "mm-st-004",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "cypress/integration/rendering/state/stateDiagram.spec.js",
-      "type": "stateDiagram",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_stateDiagram"
-    },
-    {
-      "id": "mm-st-005",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "cypress/integration/rendering/state/stateDiagram.spec.js",
-      "type": "stateDiagram",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_stateDiagram"
-    },
-    {
       "id": "mm-st-006",
       "sourceRepo": "mermaid-js/mermaid",
       "sourcePath": "cypress/integration/rendering/state/stateDiagram.spec.js",
@@ -1020,38 +297,14 @@
       "priority": "P1",
       "classification": "useful_later",
       "reason": "classification_useful_later"
-    },
-    {
-      "id": "mm-st-007",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "cypress/integration/rendering/state/stateDiagram-v2.spec.js",
-      "type": "stateDiagram",
-      "priority": "P0",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_stateDiagram"
-    },
-    {
-      "id": "mm-st-008",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "cypress/integration/rendering/state/stateDiagram-v2.spec.js (~L335)",
-      "type": "stateDiagram",
-      "priority": "P1",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_stateDiagram"
-    },
-    {
-      "id": "mm-st-009",
-      "sourceRepo": "mermaid-js/mermaid",
-      "sourcePath": "cypress/integration/rendering/state/stateDiagram-v2.spec.js (~L278)",
-      "type": "stateDiagram",
-      "priority": "P1",
-      "classification": "minimal_core",
-      "reason": "quota_exceeded_stateDiagram"
     }
   ],
   "summary": {
     "totalCandidates": 127,
-    "totalAccepted": 18,
-    "totalSkipped": 109
+    "minimalCore": 101,
+    "acceptedMinimalCore": 101,
+    "acceptedMinimalCoreRatio": "101/101",
+    "totalAccepted": 101,
+    "totalSkipped": 26
   }
 }

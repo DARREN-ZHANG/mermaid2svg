@@ -25,20 +25,20 @@ const REPO_FULL = {
   mermaid: "mermaid-js/mermaid",
 };
 
-// 每种 diagram type 在高信号集中的配额
-const TYPE_QUOTA = {
-  flowchart: 5,
-  sequenceDiagram: 3,
-  classDiagram: 2,
-  stateDiagram: 2,
-  erDiagram: 2,
-  pie: 2,
-  gantt: 1,
-  other: 1,
+// 最小核心样本门槛，低于此值说明候选集意外收缩，必须中止
+const MIN_MINIMAL_CORE_ACCEPTED = 101;
+
+// Mermaid 上游能力限制：这些用例的 Mermaid 解析/渲染会失败，
+// 标记为 skip 避免阻塞测试套件；从 docs/init/test-candidates.json 抽取时应用此覆盖
+const SKIP_OVERRIDES = {
+  "bm-019":
+    "Mermaid 11.15 cannot parse erDiagram relationship }|--o{ (parse error); tracked as upstream limitation",
+  "mm-fc-020":
+    "Mermaid 11.15 produces invalid SVG root when <br> appears in flowchart node labels; tracked as upstream limitation",
 };
 
-// 优先级权重，数字越小越优先
-const PRIORITY_WEIGHT = { P0: 0, P1: 1, P2: 2 };
+// 按 ID 稳定排序，便于人工 review
+const sortById = (list) => [...list].sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
 
 // 递归扫描目录，返回匹配扩展名的文件列表
 const scanDir = (dir, exts, base = dir) => {
@@ -80,88 +80,6 @@ const countScanned = () => {
   };
 };
 
-// 按优先级排序，同优先级按 ID 稳定排序
-const sortByPriority = (list) =>
-  [...list].sort((a, b) => {
-    const pa = PRIORITY_WEIGHT[a.priority] ?? 9,
-      pb = PRIORITY_WEIGHT[b.priority] ?? 9;
-    if (pa !== pb) return pa - pb;
-    return a.id < b.id ? -1 : a.id > b.id ? 1 : 0;
-  });
-
-// 轮询选取：同优先级内交替从不同来源取候选，确保来源多样性
-const roundRobinPick = (list, quota) => {
-  // 按来源分组，每组内已按优先级排序
-  const bySource = {};
-  for (const c of list) {
-    const k = c.sourceRepo;
-    if (!bySource[k]) bySource[k] = [];
-    bySource[k].push(c);
-  }
-  const sources = Object.keys(bySource).sort(),
-    picked = [];
-  let progress = true;
-  while (progress && picked.length < quota) {
-    progress = false;
-    for (const src of sources) {
-      if (picked.length >= quota) break;
-      const pool = bySource[src];
-      if (pool.length > 0) {
-        picked.push(pool.shift());
-        progress = true;
-      }
-    }
-  }
-  // 剩余候选
-  const remaining = sources.flatMap((src) => bySource[src]);
-  return [picked, remaining];
-};
-
-// 按配额选取高信号子集，返回 { accepted, skipped }
-const selectTests = (candidates) => {
-  const accepted = [],
-    skipped = [];
-
-  // 非 minimal_core 一律跳过
-  for (const c of candidates) {
-    if (c.classification !== "minimal_core") {
-      skipped.push({
-        ...pickSkipMeta(c),
-        reason: "classification_" + c.classification,
-      });
-    }
-  }
-
-  // minimal_core 按类型分组
-  const minimal = candidates.filter((c) => c.classification === "minimal_core"),
-    byType = {};
-  for (const c of minimal) {
-    const t = c.type in TYPE_QUOTA ? c.type : "other";
-    if (!byType[t]) byType[t] = [];
-    byType[t].push(c);
-  }
-
-  // 每个类型轮询选取
-  for (const [type, list] of Object.entries(byType)) {
-    const sorted = sortByPriority(list),
-      quota = TYPE_QUOTA[type] || 0,
-      [picked, rest] = roundRobinPick(sorted, quota);
-    accepted.push(...picked);
-    for (const c of rest) {
-      skipped.push({
-        ...pickSkipMeta(c),
-        reason: "quota_exceeded_" + type,
-      });
-    }
-  }
-
-  // 按 ID 排序输出，便于人工 review
-  accepted.sort((a, b) => (a.id < b.id ? -1 : 1));
-  skipped.sort((a, b) => (a.id < b.id ? -1 : 1));
-
-  return { accepted, skipped };
-};
-
 // 提取跳过记录的元信息
 const pickSkipMeta = (c) => ({
   id: c.id,
@@ -172,34 +90,48 @@ const pickSkipMeta = (c) => ({
   classification: c.classification,
 });
 
+// 选取全部 minimal_core 候选，其余分类记录为跳过，返回 { accepted, skipped }
+const selectTests = (candidates) => {
+  const accepted = sortById(candidates.filter((c) => c.classification === "minimal_core"));
+  const skipped = sortById(
+    candidates
+      .filter((c) => c.classification !== "minimal_core")
+      .map((c) => ({
+        ...pickSkipMeta(c),
+        reason: "classification_" + c.classification,
+      })),
+  );
+  return { accepted, skipped };
+};
+
 // 构建单条 YAML 测试对象
-const buildTestYaml = (c) => ({
-  id: c.id,
-  source: {
-    repo: REPO_FULL[c.sourceRepo] || c.sourceRepo,
-    path: c.sourcePath,
-    url: null,
-  },
-  diagram: {
-    type: c.type,
-    title: null,
-  },
-  input: {
-    mermaid: c.input,
-  },
-  expect: {
-    render: true,
-    svg: {
-      root: true,
-      viewBox: true,
-      containsText: [],
+const buildTestYaml = (c) => {
+  const skipOverride = SKIP_OVERRIDES[c.id];
+  return {
+    id: c.id,
+    source: {
+      repo: REPO_FULL[c.sourceRepo] || c.sourceRepo,
+      path: c.sourcePath,
+      url: null,
     },
-  },
-  skip: {
-    enabled: false,
-    reason: null,
-  },
-});
+    diagram: {
+      type: c.type,
+      title: null,
+    },
+    input: {
+      mermaid: c.input,
+    },
+    expect: {
+      render: true,
+      svg: {
+        root: true,
+        viewBox: true,
+        containsText: [],
+      },
+    },
+    skip: skipOverride ? { enabled: true, reason: skipOverride } : { enabled: false, reason: null },
+  };
+};
 
 // 生成 test/schema.yml 内容
 const SCHEMA_YML = `# Mermaid YAML 测试 Schema
@@ -324,14 +256,28 @@ const buildReport = (candidates, accepted, skipped, scanned) => {
     skipReasons[s.reason] = (skipReasons[s.reason] || 0) + 1;
   }
 
+  // 按 classification 聚合全部候选
+  const byClassification = {};
+  for (const c of candidates) {
+    byClassification[c.classification] = (byClassification[c.classification] || 0) + 1;
+  }
+
+  // minimal_core 覆盖率
+  const minimalCore = byClassification.minimal_core || 0,
+    acceptedMinimalCore = accepted.length;
+
   return {
     generatedAt: new Date().toISOString(),
     sources,
     byDiagramType,
+    byClassification,
     skipReasons,
     skippedSamples: skipped,
     summary: {
       totalCandidates: candidates.length,
+      minimalCore,
+      acceptedMinimalCore,
+      acceptedMinimalCoreRatio: acceptedMinimalCore + "/" + minimalCore,
       totalAccepted: accepted.length,
       totalSkipped: skipped.length,
     },
@@ -351,6 +297,16 @@ console.log("[extract] 扫描文件: " + JSON.stringify(scanned));
 console.log("[extract] 选取高信号子集...");
 const { accepted, skipped } = selectTests(candidates);
 console.log("[extract] 接受: " + accepted.length + ", 跳过: " + skipped.length);
+
+// 核心样本数量门槛校验，低于门槛则中止抽取，避免无意中缩小测试集
+if (accepted.length < MIN_MINIMAL_CORE_ACCEPTED) {
+  throw new Error(
+    "[extract] 核心样本数量不足: 实际 " +
+      accepted.length +
+      ", 期望 >= " +
+      MIN_MINIMAL_CORE_ACCEPTED,
+  );
+}
 
 console.log("[extract] 清理旧测试文件...");
 cleanOldTests();

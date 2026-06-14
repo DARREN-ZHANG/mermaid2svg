@@ -7,8 +7,8 @@ import {
   ERR_PARSE,
   ERR_RENDER,
   ERR_TIMEOUT,
-} from "../src/render/mermaid-to-svg.js";
-import { normalizeSvg, OK as NORM_OK } from "../src/render/normalize-svg.js";
+} from "./render/mermaid-to-svg.js";
+import { normalizeSvg, OK as NORM_OK } from "./render/normalize-svg.js";
 import { SIZE_DATA } from "./const/sizeData.js";
 import { renderSizeChart } from "./webc/js/sizeChart.js";
 import "./webc/Scroll.js";
@@ -50,7 +50,9 @@ let i18n = getI18n(0),
   svg_actions,
   copy_btn,
   download_btn,
-  copy_timer;
+  copy_timer,
+  // renderInput 调用序号：用于丢弃过期异步结果，避免旧输入覆盖新输入
+  render_seq = 0;
 
 // 组合渲染 + 归一化，返回 [0, svg, type] | [errCode, msg]
 const renderToSvg = async (mermaidText) => {
@@ -178,7 +180,10 @@ const renderToSvg = async (mermaidText) => {
     svg_actions.classList.add("is-hidden");
   },
   renderInput = async () => {
+    const my_seq = ++render_seq;
     const [code, svg] = await renderToSvg(input.value);
+    // 序号不匹配说明用户又输入了新内容，丢弃这次过期结果
+    if (my_seq !== render_seq) return;
     if (code === RENDER_OK) {
       preview.innerHTML = svg;
       current_svg = svg;
@@ -230,8 +235,8 @@ const renderToSvg = async (mermaidText) => {
   },
   usage_code =
     "// Render Mermaid source to SVG in the browser\n" +
-    "import { renderMermaidToSvg } from './src/render/mermaid-to-svg.js'\n" +
-    "import { normalizeSvg } from './src/render/normalize-svg.js'\n" +
+    "import { renderMermaidToSvg } from './demo/render/mermaid-to-svg.js'\n" +
+    "import { normalizeSvg } from './demo/render/normalize-svg.js'\n" +
     "\n" +
     "const [code, raw, type] = await renderMermaidToSvg('graph TD\\n  A --> B')\n" +
     "const [ok, svg] = normalizeSvg(raw)",
@@ -283,21 +288,23 @@ const renderToSvg = async (mermaidText) => {
       chartBox.append(renderSizeChart(SIZE_DATA, chartLabels));
     }
 
-    // 示例图库：构建卡片 + 异步渲染
-    grid.innerHTML = "";
-
-    for (const [idx, entry] of MERMAID_EXAMPLES.entries()) {
-      const [card, svg_box] = buildCard(entry, idx),
-        src = entry[2];
-      grid.append(card);
-      const [code, svg] = await renderToSvg(src);
-      if (code === RENDER_OK) svg_box.innerHTML = svg;
-    }
-
-    // 默认输入第一个示例
+    // 默认输入第一个示例 —— 先渲染主预览，不被示例图库阻塞
     input.value = MERMAID_EXAMPLES[0][2];
     await renderInput();
     adjustHeight();
+
+    // 示例图库：构建卡片后并发渲染缩略图
+    grid.innerHTML = "";
+    const cards = MERMAID_EXAMPLES.map((entry, idx) => {
+      const [card, svg_box] = buildCard(entry, idx);
+      grid.append(card);
+      return { svg_box, src: entry[2] };
+    });
+    const jobs = cards.map(async ({ svg_box, src }) => {
+      const [code, svg] = await renderToSvg(src);
+      if (code === RENDER_OK) svg_box.innerHTML = svg;
+    });
+    await Promise.all(jobs);
 
     // 防抖渲染
     let timer;

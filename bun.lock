@@ -4,9 +4,6 @@
   "workspaces": {
     "": {
       "name": "@webc.site/math",
-      "dependencies": {
-        "mermaid": "^11.15.0",
-      },
       "devDependencies": {
         "@1-/dist": "^0.1.18",
         "@1-/findgit": "^0.1.2",
@@ -32,6 +29,7 @@
         "markdown-it": "^14.2.0",
         "marked": "^18.0.5",
         "mathjax": "^4.1.2",
+        "mermaid": "^11.15.0",
         "oxc-parser": "^0.135.0",
         "oxfmt": "^0.54.0",
         "oxlint": "^1.69.0",

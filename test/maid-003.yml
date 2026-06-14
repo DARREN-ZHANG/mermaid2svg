@@ -1,0 +1,31 @@
+id: maid-003
+source:
+  repo: probelabs/maid
+  path: test-fixtures/flowchart/valid/complex-shapes.mmd
+  url: null
+diagram:
+  type: flowchart
+  title: null
+input:
+  mermaid: |-
+    flowchart TB
+        A[Rectangle] --> B((Circle))
+        B --> C{Diamond}
+        C -->|Link 1| D([Stadium])
+        C -->|Link 2| E[[Subroutine]]
+        D --> F[(Database)]
+        E --> F
+        F --> H{{Hexagon}}
+        F --> G[/Parallelogram/]
+        G --> H[\Parallelogram Alt\]
+        H --> I[/Trapezoid\]
+        I --> J[\Trapezoid Alt/]
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

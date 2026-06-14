@@ -131,10 +131,10 @@ test("svg output loop config defines deterministic phase topology and artifacts"
   assert.match(config, /\.\.\/docs\/mermaid-svg-spec\.md/);
   assert.match(config, /\.\.\/docs\/acceptance-criteria\.md/);
   assert.match(config, /\.\.\/docs\/mermaid-svg-architecture\.md/);
-  assert.match(config, /src\/render\/mermaid-to-svg\.js/);
+  assert.match(config, /demo\/render\/mermaid-to-svg\.js/);
   assert.match(config, /test\/render-yml\.test\.mjs/);
   assert.match(config, /workflow\/reports\/render-capabilities\.json/);
-  assert.match(config, /src\/render\/normalize-svg\.js/);
+  assert.match(config, /demo\/render\/normalize-svg\.js/);
   assert.match(config, /test\/svg-output\.test\.mjs/);
   assert.match(config, /workflow\/reports\/svg-output-compatibility\.json/);
 
@@ -185,8 +185,8 @@ test("svg output validators reject missing artifacts and blocked compatibility p
   const validationSurface = `${validators}\n${config}`;
 
   assert.match(validators, /validateSvgOutputPhase/);
-  assert.match(validators, /src\/render\/mermaid-to-svg\.js/);
-  assert.match(validators, /src\/render\/normalize-svg\.js/);
+  assert.match(validators, /demo\/render\/mermaid-to-svg\.js/);
+  assert.match(validators, /demo\/render\/normalize-svg\.js/);
   assert.match(validators, /test\/svg-output\.test\.mjs/);
   assert.match(validators, /workflow\/reports\/svg-output-compatibility\.json/);
   assert.match(validators, /viewBox/);
@@ -209,12 +209,12 @@ test("svg output validators reject missing artifacts and blocked compatibility p
   assert.equal(result.ok, true);
   // Render Loop delivered a valid renderer; the validator must accept it (no error).
   assert.ok(
-    !result.errors.some((error) => error.includes("src/render/mermaid-to-svg.js")),
+    !result.errors.some((error) => error.includes("demo/render/mermaid-to-svg.js")),
     "valid renderer should pass svg-output renderer validation",
   );
   // SVG Output Loop delivered a valid normalizer; the validator must accept it (no error).
   assert.ok(
-    !result.errors.some((error) => error.includes("src/render/normalize-svg.js")),
+    !result.errors.some((error) => error.includes("demo/render/normalize-svg.js")),
     "valid normalizer should pass svg-output normalizer validation",
   );
   assert.ok(

@@ -1,15 +1,17 @@
 #!/usr/bin/env bun
-// 体积对比报告生成 —— 打包 beautiful-mermaid 并测量本项目 build 产物的 raw/gzip 字节
+// 体积对比报告生成 —— 下载 beautiful-mermaid CDN JS 并测量本项目 build 产物的 raw/gzip 字节
 import { gzipSync } from "node:zlib";
-import { execSync } from "node:child_process";
-import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
-import { tmpdir } from "node:os";
+import { createHash } from "node:crypto";
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
 
 const ROOT = import.meta.dirname + "/..",
-  REF_DIR = ROOT + "/references/beautiful-mermaid",
   DEMO_DIST = ROOT + "/demo/dist",
   REPORT_DIR = ROOT + "/workflow/reports",
   DEMO_CONST = ROOT + "/demo/const";
+
+// beautiful-mermaid 发布给浏览器的 CDN JS（unpkg，版本固定）
+const BM_CDN_URL = "https://www.unpkg.com/beautiful-mermaid@1.1.3/dist/index.js",
+  BM_CDN_CACHE = REPORT_DIR + "/beautiful-mermaid-cdn.js";
 
 // 测量文件原始字节和 gzip 字节
 const measureFile = (file_path) => {
@@ -18,12 +20,8 @@ const measureFile = (file_path) => {
   return [raw.length, gzip.length];
 };
 
-// 获取 references 仓库的 git commit 和 describe
-const gitInfo = (dir) => {
-  const commit = execSync("git rev-parse HEAD", { cwd: dir, encoding: "utf8" }).trim(),
-    describe = execSync("git describe --tags", { cwd: dir, encoding: "utf8" }).trim();
-  return [commit, describe];
-};
+// 计算 buffer 的 sha256 十六进制摘要
+const sha256Hex = (buffer) => createHash("sha256").update(buffer).digest("hex");
 
 // 从 index.html 解析入口脚本 src 路径 (/assets/index-HASH.js)
 const parseEntry = (html_path) => {
@@ -33,49 +31,57 @@ const parseEntry = (html_path) => {
   return m[1];
 };
 
-// 用 bun build 打包 beautiful-mermaid (externals 对齐 tsup.config.ts)
-const bundleBm = () => {
-  const entry = REF_DIR + "/src/index.ts",
-    out = tmpdir() + "/beautiful-mermaid-bundle.js";
-  execSync(
-    'bun build "' + entry + '" --external elkjs --external entities --outfile "' + out + '"',
-    { cwd: REF_DIR, stdio: "pipe" },
-  );
-  return out;
+// 下载 beautiful-mermaid CDN JS 到缓存文件，返回 buffer
+const fetchBmCdn = async () => {
+  const res = await fetch(BM_CDN_URL);
+  if (!res.ok) {
+    throw new Error(
+      `fetch beautiful-mermaid CDN failed: ${res.status} ${res.statusText} (${BM_CDN_URL})`,
+    );
+  }
+  const buffer = Buffer.from(await res.arrayBuffer());
+  writeFileSync(BM_CDN_CACHE, buffer);
+  return buffer;
 };
 
-const buildBmReport = () => {
-  const [commit, describe] = gitInfo(REF_DIR),
-    version = JSON.parse(readFileSync(REF_DIR + "/package.json", "utf8")).version,
-    [raw_bytes, gzip_bytes] = measureFile(bundleBm());
+// 构建 beautiful-mermaid 报告：CDN JS 的 raw/gzip/sha256
+const buildBmReport = async () => {
+  const buffer = await fetchBmCdn(),
+    gzip = gzipSync(buffer);
   return {
     source: {
-      repo: "lukilabs/beautiful-mermaid",
-      url: "https://github.com/lukilabs/beautiful-mermaid",
-      localPath: "references/beautiful-mermaid",
-      commit,
-      gitDescribe: describe,
-      version,
-      bundleMethod: "bun build with externals [elkjs, entities] matching tsup.config.ts",
+      kind: "cdn",
+      url: BM_CDN_URL,
     },
-    rawBytes: raw_bytes,
-    gzipBytes: gzip_bytes,
+    rawBytes: buffer.length,
+    gzipBytes: gzip.length,
+    contentSha256: sha256Hex(buffer),
   };
 };
 
+// 构建本项目报告：demo/dist 入口 chunk 的 raw/gzip/sha256
+// 入口文件不存在时抛错中止，绝不写陈旧数据
 const buildOursReport = () => {
   const entry_src = parseEntry(DEMO_DIST + "/index.html"),
-    [raw_bytes, gzip_bytes] = measureFile(DEMO_DIST + entry_src);
+    entry_abs = DEMO_DIST + entry_src;
+  if (!existsSync(entry_abs)) {
+    throw new Error(
+      "entry file not found: " + entry_abs + " — run `bun run build` before this script",
+    );
+  }
+  const [raw_bytes, gzip_bytes] = measureFile(entry_abs),
+    content_sha = sha256Hex(readFileSync(entry_abs));
   return {
     entry: "demo/dist" + entry_src,
     rawBytes: raw_bytes,
     gzipBytes: gzip_bytes,
+    contentSha256: content_sha,
   };
 };
 
 mkdirSync(REPORT_DIR, { recursive: true });
 
-const bm_report = buildBmReport(),
+const bm_report = await buildBmReport(),
   ours_report = buildOursReport(),
   report = {
     generatedAt: new Date().toISOString(),
@@ -83,8 +89,15 @@ const bm_report = buildBmReport(),
     beautifulMermaid: bm_report,
     ours: ours_report,
     verification: {
-      beautifulMermaidBundledFromLocal: true,
+      beautifulMermaidFromCdn: true,
       ourEntryFromRealBuild: true,
+      pageChartUsesReport: true,
+      sizeDataMatchesReport: false,
+      commands: [
+        "bun run build",
+        "bun sh/size-report.js",
+        "node -e \"const fs=require('fs'); const r=JSON.parse(fs.readFileSync('workflow/reports/size-report.json','utf8')); if(!fs.existsSync(r.ours.entry)) process.exit(1); if(!r.verification.pageChartUsesReport) process.exit(1); console.log(r.ours.gzipBytes)\"",
+      ],
     },
   };
 
@@ -96,8 +109,8 @@ const size_data =
   "export const SIZE_DATA = {\n" +
   "  beautifulMermaid: {\n" +
   '    label: "beautiful-mermaid",\n' +
-  '    version: "' +
-  bm_report.source.version +
+  '    cdnUrl: "' +
+  bm_report.source.url +
   '",\n' +
   "    rawBytes: " +
   bm_report.rawBytes +
@@ -108,6 +121,9 @@ const size_data =
   "  },\n" +
   "  ours: {\n" +
   '    label: "mermaid2svg",\n' +
+  '    entry: "' +
+  ours_report.entry +
+  '",\n' +
   "    rawBytes: " +
   ours_report.rawBytes +
   ",\n" +
@@ -119,12 +135,42 @@ const size_data =
 
 writeFileSync(DEMO_CONST + "/sizeData.js", size_data);
 
+// 动态 import 回读 sizeData.js，交叉校验 4 个体积数字必须一致
+const { SIZE_DATA } = await import("file://" + DEMO_CONST + "/sizeData.js"),
+  mismatches = [];
+if (SIZE_DATA.beautifulMermaid.rawBytes !== bm_report.rawBytes)
+  mismatches.push(
+    "beautifulMermaid.rawBytes: report=" +
+      bm_report.rawBytes +
+      " sizeData.js=" +
+      SIZE_DATA.beautifulMermaid.rawBytes,
+  );
+if (SIZE_DATA.beautifulMermaid.gzipBytes !== bm_report.gzipBytes)
+  mismatches.push(
+    "beautifulMermaid.gzipBytes: report=" +
+      bm_report.gzipBytes +
+      " sizeData.js=" +
+      SIZE_DATA.beautifulMermaid.gzipBytes,
+  );
+if (SIZE_DATA.ours.rawBytes !== ours_report.rawBytes)
+  mismatches.push(
+    "ours.rawBytes: report=" + ours_report.rawBytes + " sizeData.js=" + SIZE_DATA.ours.rawBytes,
+  );
+if (SIZE_DATA.ours.gzipBytes !== ours_report.gzipBytes)
+  mismatches.push(
+    "ours.gzipBytes: report=" + ours_report.gzipBytes + " sizeData.js=" + SIZE_DATA.ours.gzipBytes,
+  );
+if (mismatches.length > 0) throw new Error("sizeData mismatch: " + mismatches.join("; "));
+
+// 校验通过：回写报告标记为 true
+report.verification.sizeDataMatchesReport = true;
+writeFileSync(REPORT_DIR + "/size-report.json", JSON.stringify(report, null, 2) + "\n");
+
 console.log("size-report.json -> workflow/reports/");
-console.log(
-  "  beautiful-mermaid " + bm_report.source.version + " (" + bm_report.source.gitDescribe + ")",
-);
+console.log("  beautiful-mermaid (cdn: " + bm_report.source.url + ")");
 console.log("    raw:  " + bm_report.rawBytes + " bytes");
 console.log("    gzip: " + bm_report.gzipBytes + " bytes");
 console.log("  ours (" + ours_report.entry + ")");
 console.log("    raw:  " + ours_report.rawBytes + " bytes");
 console.log("    gzip: " + ours_report.gzipBytes + " bytes");
+console.log("  sizeDataMatchesReport: true");

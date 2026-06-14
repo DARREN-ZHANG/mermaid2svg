@@ -1,0 +1,27 @@
+id: maid-004
+source:
+  repo: probelabs/maid
+  path: test-fixtures/flowchart/valid/link-styles.mmd
+  url: null
+diagram:
+  type: flowchart
+  title: null
+input:
+  mermaid: |-
+    flowchart LR
+        A --> B
+        A -.-> C
+        A ==> D
+        A -.text.-> E
+        A ==text==> F
+        A -- text --> G
+        A -->|text| H
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

@@ -83,7 +83,7 @@ function validateExtractReport(): string[] {
 }
 
 function validateRendererEntry(): string[] {
-  const file = "src/render/mermaid-to-svg.js";
+  const file = "demo/render/mermaid-to-svg.js";
   if (!existsSync(file)) return [`Missing renderer entry: ${file}`];
   const source = readFileSync(file, "utf8");
   const errors: string[] = [];

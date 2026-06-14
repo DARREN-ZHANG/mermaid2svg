@@ -1,0 +1,21 @@
+id: mm-other-010
+source:
+  repo: mermaid-js/mermaid
+  path: cypress/integration/rendering/mindmap/mindmap.spec.ts
+  url: null
+diagram:
+  type: other
+  title: null
+input:
+  mermaid: |-
+    mindmap
+    root
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

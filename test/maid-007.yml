@@ -1,0 +1,22 @@
+id: maid-007
+source:
+  repo: probelabs/maid
+  path: test-fixtures/flowchart/valid/chained-connections.mmd
+  url: null
+diagram:
+  type: flowchart
+  title: null
+input:
+  mermaid: |-
+    flowchart TD
+        A --> B --> C --> D
+        E & F --> G & H
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

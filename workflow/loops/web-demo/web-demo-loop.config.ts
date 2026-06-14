@@ -20,8 +20,8 @@ export const WEB_DEMO_LOOP_CONFIG: RemainingLoopConfig = {
     "../../../docs/mermaid-svg-architecture.md",
   ],
   requiredInputs: [
-    "src/render/mermaid-to-svg.js",
-    "src/render/normalize-svg.js",
+    "demo/render/mermaid-to-svg.js",
+    "demo/render/normalize-svg.js",
     "workflow/reports/svg-output-compatibility.json",
   ],
   requiredFinalArtifacts: [

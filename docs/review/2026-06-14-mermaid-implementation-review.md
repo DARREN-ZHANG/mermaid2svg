@@ -580,7 +580,7 @@ export const assertValidCases = (cases) => [...]
 `test/lib/renderHarness.mjs` 导出：
 
 ```js
-export const openHarness = async (modulePaths) => [browser, page, close]
+export const openHarness = async (modulePaths) => [browser, page, close];
 ```
 
 `modulePaths` 是数组，页面内按数组顺序导入模块，并挂到 `window.__mods`。
@@ -743,17 +743,17 @@ git commit -m "refactor(render): keep mermaid demo-only"
 
 ### 依赖关系
 
-| 任务 | blockedBy | 说明 |
-| --- | --- | --- |
-| 1.1 移除抽取固定配额 | - | 可立即启动 |
-| 1.2 固化样本数量与覆盖率门槛 | 1.1 | 依赖 101 条 accepted 的生成结果 |
-| 2.1 改为 beautiful-mermaid CDN JS 口径 | - | 需要确认 CDN JS URL 后启动 |
-| 2.2 测量本项目打包/gzip 后代码并驱动 SVG 柱状图 | 2.1 | 依赖 CDN 口径和新报告结构 |
-| 3.1 新增速度测试 runner | 1.1 | 用例数量和文件集合由抽取结果决定 |
-| 3.2 把速度报告纳入常规测试入口 | 3.1 | 依赖 `test/render-speed.test.mjs` |
-| 4.1 抽出测试 helper | 3.1 | 三个测试文件都存在后统一抽取 |
-| 4.2 优化 demo 示例渲染调度 | 3.1 | 需要速度报告对比前后结果 |
-| 4.3 迁移渲染模块以维持运行时零依赖 | - | 已确认运行时零依赖，可立即启动 |
+| 任务                                            | blockedBy | 说明                              |
+| ----------------------------------------------- | --------- | --------------------------------- |
+| 1.1 移除抽取固定配额                            | -         | 可立即启动                        |
+| 1.2 固化样本数量与覆盖率门槛                    | 1.1       | 依赖 101 条 accepted 的生成结果   |
+| 2.1 改为 beautiful-mermaid CDN JS 口径          | -         | 需要确认 CDN JS URL 后启动        |
+| 2.2 测量本项目打包/gzip 后代码并驱动 SVG 柱状图 | 2.1       | 依赖 CDN 口径和新报告结构         |
+| 3.1 新增速度测试 runner                         | 1.1       | 用例数量和文件集合由抽取结果决定  |
+| 3.2 把速度报告纳入常规测试入口                  | 3.1       | 依赖 `test/render-speed.test.mjs` |
+| 4.1 抽出测试 helper                             | 3.1       | 三个测试文件都存在后统一抽取      |
+| 4.2 优化 demo 示例渲染调度                      | 3.1       | 需要速度报告对比前后结果          |
+| 4.3 迁移渲染模块以维持运行时零依赖              | -         | 已确认运行时零依赖，可立即启动    |
 
 ### 执行阶段
 

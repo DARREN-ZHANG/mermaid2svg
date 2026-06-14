@@ -1,0 +1,28 @@
+id: bm-018
+source:
+  repo: lukilabs/beautiful-mermaid
+  path: samples-data.ts
+  url: null
+diagram:
+  type: erDiagram
+  title: null
+input:
+  mermaid: |-
+    erDiagram
+    ORDER {
+      int id PK
+      int customer_id FK
+      string invoice_number UK
+      decimal total
+      date order_date
+      string status
+    }
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

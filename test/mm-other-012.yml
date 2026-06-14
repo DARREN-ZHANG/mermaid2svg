@@ -1,0 +1,25 @@
+id: mm-other-012
+source:
+  repo: mermaid-js/mermaid
+  path: cypress/integration/rendering/timeline/timeline.spec.ts
+  url: null
+diagram:
+  type: other
+  title: null
+input:
+  mermaid: |-
+    timeline
+    title History of Social Media Platform
+    2002 : LinkedIn
+    2004 : Facebook : Google
+    2005 : YouTube
+    2006 : Twitter
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

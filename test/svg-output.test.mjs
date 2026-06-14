@@ -5,72 +5,32 @@
 // 结果写入 workflow/reports/svg-output-compatibility.json
 
 import assert from "node:assert/strict";
-import { readFileSync, readdirSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
-import { createServer as createHttpServer } from "node:http";
+import { writeFileSync, mkdirSync, existsSync } from "node:fs";
 import path from "node:path";
-import yaml from "js-yaml";
-import { chromium } from "playwright";
-import { createServer as createViteServer } from "vite";
 import { test, describe, before, after } from "node:test";
+import { schema, cases, validate, assertValidCases } from "./lib/schema.js";
+import { openHarness } from "./lib/renderHarness.mjs";
 
 const OK = 0,
   ERR_NO_SVG = 100,
-  TEST_DIR = "test",
-  SCHEMA_FILE = path.join(TEST_DIR, "schema.yml"),
   REPORT_DIR = "workflow/reports",
   REPORT_FILE = path.join(REPORT_DIR, "svg-output-compatibility.json"),
-  RENDERER_PATH = "/src/render/mermaid-to-svg.js",
-  NORMALIZER_PATH = "/src/render/normalize-svg.js",
-  HARNESS_PATH = "/__svg_test__";
-
-const schema = yaml.load(readFileSync(SCHEMA_FILE, "utf8"));
-
-const all_cases = readdirSync(TEST_DIR)
-  .filter((f) => f.endsWith(".yml") && f !== "schema.yml")
-  .sort()
-  .map((f) => ({ file: f, data: yaml.load(readFileSync(path.join(TEST_DIR, f), "utf8")) }));
-
-// schema 类型检查
-const checkType = (val, type_def) => {
-  if (Array.isArray(type_def))
-    return type_def.some((t) => (t === "null" ? val === null : checkType(val, t)));
-  if (type_def === "object") return val !== null && typeof val === "object" && !Array.isArray(val);
-  if (type_def === "array") return Array.isArray(val);
-  return typeof val === type_def;
-};
-
-const validateObj = (obj, def, prefix) => {
-  const errs = [];
-  for (const req of def.required || [])
-    if (!(req in obj)) errs.push(prefix + "." + req + " required");
-  const props = def.properties || {};
-  for (const [key, val] of Object.entries(obj)) {
-    const ps = props[key];
-    if (!ps) continue;
-    const sub = prefix + "." + key;
-    if (ps.type === "object" && val && typeof val === "object" && !Array.isArray(val))
-      errs.push(...validateObj(val, ps, sub));
-    else if (!checkType(val, ps.type))
-      errs.push(sub + " type mismatch: expected " + JSON.stringify(ps.type));
-  }
-  return errs;
-};
+  RENDERER_PATH = "/demo/render/mermaid-to-svg.js",
+  NORMALIZER_PATH = "/demo/render/normalize-svg.js";
 
 // 渲染前做 schema 校验
-const schema_errors = [];
-for (const c of all_cases) schema_errors.push(...validateObj(c.data, schema, c.data.id));
-if (schema_errors.length) throw new Error("schema validation failed:\n" + schema_errors.join("\n"));
+assertValidCases(cases, schema);
 
 const RULES = ["svg-root", "viewBox", "no-runtime-js", "deterministic", "error-shape"],
   corpus_results = [],
   synthetic_results = [];
 
-let browser, page, httpServer, vite;
+let page, closeHarness;
 
 // 在浏览器中渲染并归一化，返回各规则的 pass/fail
 const evalCase = async (mermaid_text) => {
   const out1 = await page.evaluate(async (text) => {
-    return await window.__m2s.renderMermaidToSvg(text);
+    return await window.__mods[0].renderMermaidToSvg(text);
   }, mermaid_text);
 
   const render_code = out1[0],
@@ -80,7 +40,7 @@ const evalCase = async (mermaid_text) => {
 
   if (render_code === OK && raw1) {
     const norm1 = await page.evaluate((svg) => {
-      return window.__norm.normalizeSvg(svg);
+      return window.__mods[1].normalizeSvg(svg);
     }, raw1);
     const norm_code1 = norm1[0],
       norm_svg1 = typeof norm1[1] === "string" ? norm1[1] : "";
@@ -97,11 +57,11 @@ const evalCase = async (mermaid_text) => {
     // 超出当前 normalize-svg 的根 id 替换范围。同一 SVG 字符串的重复归一化确定性
     // 由合成测试 "same-input-determinism" 覆盖。
     const out2 = await page.evaluate(async (text) => {
-      return await window.__m2s.renderMermaidToSvg(text);
+      return await window.__mods[0].renderMermaidToSvg(text);
     }, mermaid_text);
     if (out2[0] === OK && typeof out2[1] === "string") {
       const norm2 = await page.evaluate((svg) => {
-        return window.__norm.normalizeSvg(svg);
+        return window.__mods[1].normalizeSvg(svg);
       }, out2[1]);
       const norm_svg2 = typeof norm2[1] === "string" ? norm2[1] : "",
         vol_re = /m2s-\d+/,
@@ -125,47 +85,16 @@ const evalCase = async (mermaid_text) => {
 };
 
 // 在浏览器中调用 normalizeSvg，返回 [code, string]
-const normalizeInPage = (raw) => page.evaluate((svg) => window.__norm.normalizeSvg(svg), raw);
+const normalizeInPage = (raw) => page.evaluate((svg) => window.__mods[1].normalizeSvg(svg), raw);
 
 describe("svg-output", () => {
   before(async () => {
-    vite = await createViteServer({
-      root: ".",
-      server: { middlewareMode: true },
-      logLevel: "error",
-      appType: "custom",
-      optimizeDeps: { include: ["mermaid"] },
-    });
-
-    httpServer = createHttpServer((req, res) => {
-      const url = (req.url || "/").split("?")[0];
-      if (url === HARNESS_PATH) {
-        res.setHeader("Content-Type", "text/html");
-        res.end("<!DOCTYPE html><html><body></body></html>");
-        return;
-      }
-      vite.middlewares(req, res);
-    });
-
-    await new Promise((resolve) => httpServer.listen(0, "127.0.0.1", resolve));
-    const port = httpServer.address().port,
-      baseUrl = "http://127.0.0.1:" + port;
-
-    browser = await chromium.launch();
-    page = await browser.newPage();
-    await page.goto(baseUrl + HARNESS_PATH);
-
-    // 预加载渲染器和 normalize-svg 归一化器到页面全局
-    await page.evaluate(
-      async (urls) => {
-        window.__m2s = await import(urls[0]);
-        window.__norm = await import(urls[1]);
-      },
-      [baseUrl + RENDERER_PATH, baseUrl + NORMALIZER_PATH],
-    );
+    const [, p, close] = await openHarness([RENDERER_PATH, NORMALIZER_PATH]);
+    page = p;
+    closeHarness = close;
 
     // 评估全部 corpus 用例
-    for (const c of all_cases) {
+    for (const c of cases) {
       const d = c.data;
       if (d.skip && d.skip.enabled) continue;
       const rules = await evalCase(d.input.mermaid);
@@ -175,21 +104,18 @@ describe("svg-output", () => {
 
   after(async () => {
     writeReport();
-    await page?.close();
-    await browser?.close();
-    httpServer?.close();
-    await vite?.close();
+    await closeHarness?.();
   });
 
   // schema 校验
   test("schema: all YAML cases match test/schema.yml", () => {
     const errs = [];
-    for (const c of all_cases) errs.push(...validateObj(c.data, schema, c.data.id));
+    for (const c of cases) errs.push(...validate(c.data, schema, c.data.id));
     assert.deepEqual(errs, [], "schema validation failures:\n" + errs.join("\n"));
   });
 
   // corpus 用例：每条必须通过全部规则
-  for (const c of all_cases) {
+  for (const c of cases) {
     const d = c.data;
     if (d.skip && d.skip.enabled) continue;
 

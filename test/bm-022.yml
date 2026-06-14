@@ -1,0 +1,24 @@
+id: bm-022
+source:
+  repo: lukilabs/beautiful-mermaid
+  path: "samples-data.ts (Sequence: Arrow Types, ~L453)"
+  url: null
+diagram:
+  type: sequenceDiagram
+  title: null
+input:
+  mermaid: |-
+    sequenceDiagram
+      A->>B: Solid arrow (sync)
+      B-->>A: Dashed arrow (return)
+      A-)B: Open arrow (async)
+      B--)A: Open dashed arrow
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

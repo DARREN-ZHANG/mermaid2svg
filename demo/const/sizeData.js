@@ -4,13 +4,14 @@
 export const SIZE_DATA = {
   beautifulMermaid: {
     label: "beautiful-mermaid",
-    version: "1.1.3",
-    rawBytes: 328094,
-    gzipBytes: 66816,
+    cdnUrl: "https://www.unpkg.com/beautiful-mermaid@1.1.3/dist/index.js",
+    rawBytes: 335537,
+    gzipBytes: 68977,
   },
   ours: {
     label: "mermaid2svg",
-    rawBytes: 127082,
-    gzipBytes: 41785,
+    entry: "demo/dist/assets/index-DAbig2mW.js",
+    rawBytes: 218752,
+    gzipBytes: 70594,
   },
 };

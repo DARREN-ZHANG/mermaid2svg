@@ -1,0 +1,25 @@
+id: maid-009
+source:
+  repo: probelabs/maid
+  path: test-fixtures/flowchart/valid/unicode-text.mmd
+  url: null
+diagram:
+  type: flowchart
+  title: null
+input:
+  mermaid: |-
+    flowchart LR
+        A[Hello 世界]
+        B[Emoji 😀]
+        C[Symbols ★☆♦♠]
+        A --> B
+        B --> C
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

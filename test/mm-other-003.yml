@@ -1,0 +1,28 @@
+id: mm-other-003
+source:
+  repo: mermaid-js/mermaid
+  path: demos/gantt.html
+  url: null
+diagram:
+  type: gantt
+  title: null
+input:
+  mermaid: |-
+    gantt
+    title A Gantt Diagram
+    dateFormat  YYYY-MM-DD
+    section Section
+    A task           :a1, 2014-01-01, 30d
+    Another task     :after a1  , 20d
+    section Another
+    Task in sec      :2014-01-12  , 12d
+    another task      : 24d
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

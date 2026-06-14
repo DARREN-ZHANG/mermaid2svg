@@ -1,0 +1,26 @@
+id: mm-cls-002
+source:
+  repo: mermaid-js/mermaid
+  path: cypress/integration/rendering/class/classDiagram.spec.js
+  url: null
+diagram:
+  type: classDiagram
+  title: null
+input:
+  mermaid: |-
+    classDiagram
+    Class01 <|-- Class02
+    Class03 *-- Class04
+    Class05 o-- Class06
+    Class07 .. Class08
+    Class09 --> C2 : Where am i?
+    Class11 ..> Class12
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

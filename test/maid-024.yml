@@ -1,0 +1,25 @@
+id: maid-024
+source:
+  repo: probelabs/maid
+  path: test-fixtures/pie/valid/showdata-header.mmd
+  url: null
+diagram:
+  type: pie
+  title: null
+input:
+  mermaid: |-
+    pie showData
+      title Key elements in Product X
+      "Calcium" : 42.96
+      "Potassium" : 50.05
+      "Magnesium" : 10.01
+      "Iron" : 5
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

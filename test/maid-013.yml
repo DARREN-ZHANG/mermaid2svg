@@ -1,0 +1,25 @@
+id: maid-013
+source:
+  repo: probelabs/maid
+  path: test-fixtures/sequence/valid/par-minimal.mmd
+  url: null
+diagram:
+  type: sequenceDiagram
+  title: null
+input:
+  mermaid: |-
+    sequenceDiagram
+      par
+        A->>B: First
+      and
+        A->>C: Second
+      end
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null

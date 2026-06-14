@@ -18,18 +18,18 @@ export const SVG_OUTPUT_LOOP_CONFIG = {
     "../../../docs/mermaid-svg-architecture.md",
   ],
   renderInputs: [
-    "src/render/mermaid-to-svg.js",
+    "demo/render/mermaid-to-svg.js",
     "test/render-yml.test.mjs",
     "workflow/reports/render-capabilities.json",
   ],
   svgOutputArtifacts: [
-    "src/render/normalize-svg.js",
+    "demo/render/normalize-svg.js",
     "test/svg-output.test.mjs",
     "workflow/reports/svg-output-compatibility.json",
   ],
   requiredFinalArtifacts: [
-    "src/render/mermaid-to-svg.js",
-    "src/render/normalize-svg.js",
+    "demo/render/mermaid-to-svg.js",
+    "demo/render/normalize-svg.js",
     "test/render-yml.test.mjs",
     "test/svg-output.test.mjs",
     "workflow/reports/render-capabilities.json",
@@ -78,7 +78,7 @@ export const SVG_OUTPUT_LOOP_PHASES: PhaseDefinition[] = [
       "Implement general SVG output normalization and a stable result contract around the renderer output.",
     maxAttempts: 2,
     promptFile: "workflow/loops/svg-output/prompts/03-normalizer-implementation.md",
-    requiredArtifacts: ["src/render/normalize-svg.js"],
+    requiredArtifacts: ["demo/render/normalize-svg.js"],
   },
   {
     id: "compatibility-tests",

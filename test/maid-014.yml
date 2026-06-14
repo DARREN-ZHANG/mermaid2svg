@@ -1,0 +1,26 @@
+id: maid-014
+source:
+  repo: probelabs/maid
+  path: test-fixtures/sequence/valid/activation-suffix.mmd
+  url: null
+diagram:
+  type: sequenceDiagram
+  title: null
+input:
+  mermaid: |-
+    sequenceDiagram
+      participant A
+      participant B
+      A->>+B: call activates B
+      B-->>-A: returns and deactivates A
+      activate A
+      deactivate A
+expect:
+  render: true
+  svg:
+    root: true
+    viewBox: true
+    containsText: []
+skip:
+  enabled: false
+  reason: null
