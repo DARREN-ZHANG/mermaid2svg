@@ -114,7 +114,61 @@ const flowchart = "graph TD\n" + "A[Start] --> B[Process] --> C[End]",
     "  R-->>C: 返回用户数据\n" +
     "  deactivate R\n" +
     "  deactivate C\n" +
-    "end";
+    "end",
+  classHierarchy =
+    "classDiagram\n" +
+    "class Animal {\n" +
+    "  +String name\n" +
+    "  +int age\n" +
+    "  +eat() void\n" +
+    "  +sleep() void\n" +
+    "}\n" +
+    "class Dog {\n" +
+    "  +String breed\n" +
+    "  +bark() void\n" +
+    "}\n" +
+    "class Cat {\n" +
+    "  +boolean indoor\n" +
+    "  +meow() void\n" +
+    "}\n" +
+    "class Bird {\n" +
+    "  +double wingspan\n" +
+    "  +fly() void\n" +
+    "}\n" +
+    "Animal <|-- Dog\n" +
+    "Animal <|-- Cat\n" +
+    "Animal <|-- Bird",
+  classStrategy =
+    "classDiagram\n" +
+    "class Strategy {\n" +
+    "  <<interface>>\n" +
+    "  +execute(int, int) int\n" +
+    "}\n" +
+    "class Context {\n" +
+    "  -Strategy strategy\n" +
+    "  +setStrategy(Strategy) void\n" +
+    "  +executeStrategy(int, int) int\n" +
+    "}\n" +
+    "class AddStrategy {\n" +
+    "  +execute(int, int) int\n" +
+    "}\n" +
+    "class SubStrategy {\n" +
+    "  +execute(int, int) int\n" +
+    "}\n" +
+    "class MulStrategy {\n" +
+    "  +execute(int, int) int\n" +
+    "}\n" +
+    "class LoggerFactory {\n" +
+    "  <<abstract>>\n" +
+    "  +log(String) void\n" +
+    "}\n" +
+    "note for Strategy \"策略接口：定义算法族\"\n" +
+    "note for Context \"上下文：持有策略引用\"\n" +
+    "Strategy <|.. AddStrategy\n" +
+    "Strategy <|.. SubStrategy\n" +
+    "Strategy <|.. MulStrategy\n" +
+    "Context *-- Strategy : 组合\n" +
+    "Context ..> LoggerFactory : 依赖";
 
 export default [
   ["flowchart", "Start Process", flowchart],
@@ -124,6 +178,8 @@ export default [
   ["sequenceDiagram", "Retry Mechanism", sequenceRetry],
   ["sequenceDiagram", "OAuth Flow", sequenceOauth],
   ["classDiagram", "Animal Class", classDiagram],
+  ["classDiagram", "Animal Hierarchy", classHierarchy],
+  ["classDiagram", "Strategy Pattern", classStrategy],
   ["stateDiagram-v2", "Basic States", stateDiagram],
   ["erDiagram", "Customer-Order", erDiagram],
   ["pie", "Pets", pie],
