@@ -1,0 +1,11 @@
+# Cloudflare Pages 配置（Wrangler CLI / CI 部署用）
+# 文档：https://developers.cloudflare.com/pages-functions/wrangler-configuration/
+
+# 静态站点输出目录（对应 package.json build 脚本产物）
+pages_build_output_dir = "demo/dist"
+
+# 兼容日期：使用 Cloudflare Pages 最新稳定行为
+compatibility_date = "2025-06-01"
+
+# 纯静态站点：无 Functions、无 Workers、无服务端运行时
+# 构建命令与输出目录说明见 docs/deploy/deploy-plan.md
