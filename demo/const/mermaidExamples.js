@@ -336,7 +336,7 @@ const flowchart = "graph TD\n" + "A[Start] --> B[Process] --> C[End]",
   xychartRevenue =
     "xychart-beta\n" +
     'title "季度营收对比 2023 vs 2024"\n' +
-    'x-axis ["Q1-23", "Q2-23", "Q3-23", "Q4-23", "Q1-24", "Q2-24", "Q3-24", "Q4-24"]\n' +
+    'x-axis ["Q1", "Q2", "Q3", "Q4"]\n' +
     'y-axis "营收（百万 USD）" 0 --> 300\n' +
     "bar [120, 145, 168, 198]\n" +
     "bar [142, 178, 201, 245]";
