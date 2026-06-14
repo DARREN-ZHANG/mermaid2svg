@@ -89,8 +89,8 @@ const loops = [
     agent: "web-demo-agent",
     title: "Web Demo Loop",
     requiredInputs: [
-      "src/render/mermaid-to-svg.js",
-      "src/render/normalize-svg.js",
+      "demo/render/mermaid-to-svg.js",
+      "demo/render/normalize-svg.js",
       "workflow/reports/svg-output-compatibility.json",
     ],
     requiredOutputs: [
@@ -105,7 +105,7 @@ const loops = [
     script: "agent:theme",
     agent: "theme-agent",
     title: "Theme Loop",
-    requiredInputs: ["workflow/reports/web-demo-report.json", "src/render/normalize-svg.js"],
+    requiredInputs: ["workflow/reports/web-demo-report.json", "demo/render/normalize-svg.js"],
     requiredOutputs: ["workflow/reports/theme-css-report.json", "docs/theme-loop-report.md"],
     forbiddenScope: "size comparison, i18n, or deployment",
   },

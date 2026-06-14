@@ -3,7 +3,7 @@ import path from "node:path";
 import { SVG_OUTPUT_LOOP_CONFIG } from "../svg-output-loop.config.ts";
 import type { PhaseDefinition, ValidationResult } from "../../init/lib/types.ts";
 
-const RENDERER_ENTRY = "src/render/mermaid-to-svg.js";
+const RENDERER_ENTRY = "demo/render/mermaid-to-svg.js";
 const RENDER_TEST_RUNNER = "test/render-yml.test.mjs";
 const RENDER_CAPABILITIES_REPORT = "workflow/reports/render-capabilities.json";
 
@@ -96,7 +96,7 @@ function validateRenderCapabilities(): string[] {
 }
 
 function validateNormalizerEntry(): string[] {
-  const file = "src/render/normalize-svg.js";
+  const file = "demo/render/normalize-svg.js";
   if (!existsSync(file)) return [`Missing SVG output normalizer: ${file}`];
   const source = readFileSync(file, "utf8");
   const errors: string[] = [];

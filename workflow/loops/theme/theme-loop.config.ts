@@ -19,7 +19,7 @@ export const THEME_LOOP_CONFIG: RemainingLoopConfig = {
     "../../../docs/acceptance-criteria.md",
     "../../../docs/mermaid-svg-architecture.md",
   ],
-  requiredInputs: ["workflow/reports/web-demo-report.json", "src/render/normalize-svg.js"],
+  requiredInputs: ["workflow/reports/web-demo-report.json", "demo/render/normalize-svg.js"],
   requiredFinalArtifacts: ["workflow/reports/theme-css-report.json", "docs/theme-loop-report.md"],
   blockedPatterns: ["runtime benchmark", "Cloudflare deployment", "database", "queue"],
   forbiddenScope: "size comparison, i18n, or deployment",

@@ -19,8 +19,8 @@ const OK = 0,
   SCHEMA_FILE = path.join(TEST_DIR, "schema.yml"),
   REPORT_DIR = "workflow/reports",
   REPORT_FILE = path.join(REPORT_DIR, "svg-output-compatibility.json"),
-  RENDERER_PATH = "/src/render/mermaid-to-svg.js",
-  NORMALIZER_PATH = "/src/render/normalize-svg.js",
+  RENDERER_PATH = "/demo/render/mermaid-to-svg.js",
+  NORMALIZER_PATH = "/demo/render/normalize-svg.js",
   HARNESS_PATH = "/__svg_test__";
 
 const schema = yaml.load(readFileSync(SCHEMA_FILE, "utf8"));

@@ -7,8 +7,8 @@ import {
   ERR_PARSE,
   ERR_RENDER,
   ERR_TIMEOUT,
-} from "../src/render/mermaid-to-svg.js";
-import { normalizeSvg, OK as NORM_OK } from "../src/render/normalize-svg.js";
+} from "./render/mermaid-to-svg.js";
+import { normalizeSvg, OK as NORM_OK } from "./render/normalize-svg.js";
 import { SIZE_DATA } from "./const/sizeData.js";
 import { renderSizeChart } from "./webc/js/sizeChart.js";
 import "./webc/Scroll.js";
@@ -230,8 +230,8 @@ const renderToSvg = async (mermaidText) => {
   },
   usage_code =
     "// Render Mermaid source to SVG in the browser\n" +
-    "import { renderMermaidToSvg } from './src/render/mermaid-to-svg.js'\n" +
-    "import { normalizeSvg } from './src/render/normalize-svg.js'\n" +
+    "import { renderMermaidToSvg } from './demo/render/mermaid-to-svg.js'\n" +
+    "import { normalizeSvg } from './demo/render/normalize-svg.js'\n" +
     "\n" +
     "const [code, raw, type] = await renderMermaidToSvg('graph TD\\n  A --> B')\n" +
     "const [ok, svg] = normalizeSvg(raw)",

@@ -19,12 +19,12 @@ export const RENDER_LOOP_CONFIG = {
   ],
   extractionInputs: ["test/schema.yml", "test/*.yml", "extract/report.json"],
   rendererArtifacts: [
-    "src/render/mermaid-to-svg.js",
+    "demo/render/mermaid-to-svg.js",
     "test/render-yml.test.mjs",
     "workflow/reports/render-capabilities.json",
   ],
   requiredFinalArtifacts: [
-    "src/render/mermaid-to-svg.js",
+    "demo/render/mermaid-to-svg.js",
     "test/render-yml.test.mjs",
     "workflow/reports/render-capabilities.json",
     "docs/render/render-validation.md",
@@ -70,7 +70,7 @@ export const RENDER_LOOP_PHASES: PhaseDefinition[] = [
       "Implement the official Mermaid browser API wrapper and structural SVG result contract.",
     maxAttempts: 2,
     promptFile: "workflow/loops/render/prompts/03-renderer-implementation.md",
-    requiredArtifacts: ["src/render/mermaid-to-svg.js"],
+    requiredArtifacts: ["demo/render/mermaid-to-svg.js"],
   },
   {
     id: "render-test-runner",

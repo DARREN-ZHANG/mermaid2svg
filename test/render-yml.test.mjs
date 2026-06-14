@@ -1,5 +1,5 @@
 // Mermaid YAML 渲染测试
-// 读取 test/schema.yml 校验每条 test/*.yml，再通过 Playwright 调用 src/render/mermaid-to-svg.js 渲染，
+// 读取 test/schema.yml 校验每条 test/*.yml，再通过 Playwright 调用 demo/render/mermaid-to-svg.js 渲染，
 // 断言 <svg 根节点和 viewBox，并将支持/不支持结果写入 workflow/reports/render-capabilities.json
 
 import assert from "node:assert/strict";
@@ -16,7 +16,7 @@ const OK = 0,
   SCHEMA_FILE = path.join(TEST_DIR, "schema.yml"),
   REPORT_DIR = "workflow/reports",
   REPORT_FILE = path.join(REPORT_DIR, "render-capabilities.json"),
-  RENDERER_PATH = "/src/render/mermaid-to-svg.js",
+  RENDERER_PATH = "/demo/render/mermaid-to-svg.js",
   HARNESS_PATH = "/__render_test__";
 
 // 读取 schema 定义
