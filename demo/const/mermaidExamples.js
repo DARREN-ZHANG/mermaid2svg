@@ -168,7 +168,43 @@ const flowchart = "graph TD\n" + "A[Start] --> B[Process] --> C[End]",
     "Strategy <|.. SubStrategy\n" +
     "Strategy <|.. MulStrategy\n" +
     "Context *-- Strategy : 组合\n" +
-    "Context ..> LoggerFactory : 依赖";
+    "Context ..> LoggerFactory : 依赖",
+  stateOrder =
+    "stateDiagram-v2\n" +
+    "[*] --> 待支付\n" +
+    "待支付 --> 已支付 : 用户付款\n" +
+    "待支付 --> 已取消 : 超时或用户取消\n" +
+    "state 已支付 {\n" +
+    "  [*] --> 待发货\n" +
+    "  待发货 --> 已发货 : 商家发货\n" +
+    "  已发货 --> 已签收 : 用户签收\n" +
+    "}\n" +
+    "已签收 --> 已完成 : 自动确认 7 天后\n" +
+    "已取消 --> [*]\n" +
+    "已完成 --> [*]\n" +
+    "note right of 待支付 : 30 分钟未付款自动取消",
+  stateElevator =
+    "stateDiagram-v2\n" +
+    "[*] --> 空闲\n" +
+    "空闲 --> 接收指令 : 按钮按下\n" +
+    "接收指令 --> fork_state\n" +
+    "state fork_state <<fork>>\n" +
+    "fork_state --> 上行 : 目标楼层在上\n" +
+    "fork_state --> 下行 : 目标楼层在下\n" +
+    "上行 --> 到达 : 到达目标\n" +
+    "下行 --> 到达 : 到达目标\n" +
+    "state 到达 {\n" +
+    "  [*] --> 门打开\n" +
+    "  门打开 --> 门保持\n" +
+    "  门保持 --> 门关闭 : 5 秒后\n" +
+    "  门关闭 --> [*]\n" +
+    "}\n" +
+    "state join_state <<join>>\n" +
+    "到达 --> join_state\n" +
+    "join_state --> 空闲\n" +
+    "空闲 --> 报警 : 紧急按钮\n" +
+    "报警 --> [*]\n" +
+    "note right of 空闲 : 历史状态：电梯会记住上次方向";
 
 export default [
   ["flowchart", "Start Process", flowchart],
@@ -181,6 +217,8 @@ export default [
   ["classDiagram", "Animal Hierarchy", classHierarchy],
   ["classDiagram", "Strategy Pattern", classStrategy],
   ["stateDiagram-v2", "Basic States", stateDiagram],
+  ["stateDiagram-v2", "Order State Machine", stateOrder],
+  ["stateDiagram-v2", "Elevator Dispatch", stateElevator],
   ["erDiagram", "Customer-Order", erDiagram],
   ["pie", "Pets", pie],
   ["gantt", "Simple Tasks", gantt],
