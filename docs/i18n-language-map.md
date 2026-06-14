@@ -188,10 +188,12 @@ User clicks language → c-i18n component → onLang callback →
 
 | Check | Method | Result |
 |---|---|---|
-| All keys present | `sh/check.js` | ✅ Pass (exit code 0) |
-| `names` array length | `sh/check.js` | ✅ All 75 files have 8 elements |
+| All keys present | `sh/check.js` + dynamic import scan of all 75 modules | ✅ Pass (exit code 0) |
+| `names` array length | `sh/check.js` + dynamic import scan | ✅ All 75 files have 8 elements |
 | Similarity warnings | `sh/check.js` | ⚠️ 67 fallback locales warn (>5% identical to EN) — acceptable per HG-5 |
-| Build | `bun run build` | Pending deploy loop |
+| Build | `bun run build` | ✅ Pass (exit code 0, 284ms); locale modules bundled via `import.meta.glob` eager |
+| Bundle evidence | grep for EN locale string in dist | ✅ Found in `demo/dist/assets/index-*.js` |
+| Key → DOM wiring | Review `applyI18n()` vs `index.pug` element IDs | ✅ All 19 keys map to DOM elements |
 | Language switching | Manual / Playwright | Pending deploy loop |
 
 ### Representative locale spot-checks

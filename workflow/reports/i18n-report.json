@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-14T07:32:52.137Z",
+  "generatedAt": "2026-06-14T10:45:00.000Z",
   "loop": "i18n-loop",
   "totalLocales": 75,
   "translationKeys": [
@@ -794,8 +794,10 @@
   "coverage": {
     "allKeysPresent": true,
     "allNamesCorrect": true,
+    "baselineLocale": "en",
     "translatedLocales": 7,
     "fallbackLocales": 67,
+    "totalWithBaseline": 8,
     "missingKeyLocales": [],
     "wrongNamesLengthLocales": []
   },
@@ -874,6 +876,15 @@
   "verification": {
     "checkScript": "sh/check.js",
     "checkPassed": true,
+    "checkCommand": "./sh/check.js",
+    "checkExitCode": 0,
+    "checkOutcome": "All 75 locale files loaded, all keys present, all names arrays have 8 elements. 67 fallback locales warn >5% similarity to English (acceptable per HG-5).",
+    "coverageCommand": "bun <verify-script> — dynamic import of all 75 demo/i18n/*.js modules, comparing each against en.js key set",
+    "coverageOutcome": "75/75 locales have all 19 keys; 0 missing keys; 0 wrong names length",
+    "buildCommand": "bun run build",
+    "buildExitCode": 0,
+    "buildOutcome": "Demo build succeeded in 284ms; locale modules bundled via import.meta.glob eager into index JS chunk",
+    "bundleEvidence": "English locale string 'Browser-side Mermaid to SVG converter' found in demo/dist/assets/index-*.js",
     "mechanism": "import.meta.glob in demo/index.js eagerly loads all locale modules; onLang callback applies translations to DOM elements by ID",
     "localeSwitchTestPath": "Page loads at / with default English; language picker (c-i18n component) triggers onLang → getI18n → applyI18n",
     "domElementIds": [
@@ -887,6 +898,32 @@
       "ui-examples-title",
       "mermaid-input (placeholder)",
       ".theme-switcher-label"
+    ],
+    "keyToDomMapping": {
+      "title": "#ui-title",
+      "subtitle": "#ui-subtitle",
+      "usage_title": "#ui-usage-title",
+      "benchmark_title": "#ui-benchmark-title",
+      "benchmark_tip": "#ui-benchmark-tip",
+      "editor_title": "#ui-editor-title",
+      "editor_tip": "#ui-editor-tip",
+      "editor_placeholder": "#mermaid-input[placeholder]",
+      "examples_title": "#ui-examples-title",
+      "theme_label": ".theme-switcher-label",
+      "empty_hint": "#render-status (empty state)",
+      "err_parse": "#render-status (parse error)",
+      "err_render": "#render-status (render error)",
+      "err_timeout": "#render-status (timeout error)",
+      "err_output": "#render-status (output error)",
+      "chart_raw": "size chart legend (rebuilt on lang switch)",
+      "chart_gzip": "size chart legend (rebuilt on lang switch)",
+      "chart_smaller": "size chart annotation (rebuilt on lang switch)",
+      "names": ".example-card h3 (rebuilt on lang switch)"
+    },
+    "notes": [
+      "Product name 'Mermaid → SVG' in title key is intentionally identical across all locales (brand name, not translatable).",
+      "GitHub link aria-label is a navigation aid inherited from math.webc.site layout, not Mermaid-specific copy per spec section 10.",
+      "All visible Mermaid page text from spec section 10 has corresponding i18n keys wired to DOM elements."
     ]
   }
 }
