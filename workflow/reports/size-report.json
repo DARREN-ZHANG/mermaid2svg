@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-14T13:40:35.326Z",
+  "generatedAt": "2026-06-14T14:27:31.759Z",
   "loop": "size-loop",
   "beautifulMermaid": {
     "source": {
@@ -11,10 +11,10 @@
     "contentSha256": "54acbb8c0d458bfed51bd5e116eb64d475390ac1893bc25a31148646fd9a2c39"
   },
   "ours": {
-    "entry": "demo/dist/assets/index-jBzPFP_h.js",
-    "rawBytes": 218660,
-    "gzipBytes": 70550,
-    "contentSha256": "2b4aa35ebe3fb5155dc111cbfce46d75622116fb93f7b88b4557d173eda43449"
+    "entry": "demo/dist/assets/index-BBHp0ad-.js",
+    "rawBytes": 218752,
+    "gzipBytes": 70616,
+    "contentSha256": "831f51c877301bab3229e530ce65840c371bb4b45020995ad3f0eb38dd83c8bf"
   },
   "verification": {
     "beautifulMermaidFromCdn": true,

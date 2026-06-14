@@ -6,7 +6,7 @@ cd "$DIR"
 set -x
 
 ./sh/check.js
-bun x oxfmt --check '!lib/**'
+bun x oxfmt --check '!lib/**' '!workflow/reports/beautiful-mermaid-cdn.js'
 bun minify.js
 bun x oxlint
 bun test test/render-yml.test.mjs

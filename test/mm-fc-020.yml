@@ -18,4 +18,4 @@ expect:
     containsText: []
 skip:
   enabled: true
-  reason: "Mermaid 11.15 produces invalid SVG root when <br> appears in flowchart node labels; tracked as upstream limitation"
+  reason: Mermaid 11.15 produces invalid SVG root when <br> appears in flowchart node labels; tracked as upstream limitation

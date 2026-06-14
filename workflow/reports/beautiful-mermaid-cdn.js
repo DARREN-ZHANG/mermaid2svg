@@ -1,7 +1,7 @@
 // src/theme.ts
 var DEFAULTS = {
   bg: "#FFFFFF",
-  fg: "#27272A",
+  fg: "#27272A"
 };
 var MIX = {
   /** Primary text: near-full fg */
@@ -26,116 +26,115 @@ var MIX = {
   /** Inner divider strokes: fg mixed at 12% */
   innerStroke: 12,
   /** Key badge background opacity (ER diagrams) */
-  keyBadge: 10,
+  keyBadge: 10
 };
 var THEMES = {
   "zinc-light": {
     bg: "#FFFFFF",
-    fg: "#27272A",
+    fg: "#27272A"
   },
   "zinc-dark": {
     bg: "#18181B",
-    fg: "#FAFAFA",
+    fg: "#FAFAFA"
   },
   "tokyo-night": {
     bg: "#1a1b26",
     fg: "#a9b1d6",
     line: "#3d59a1",
     accent: "#7aa2f7",
-    muted: "#565f89",
+    muted: "#565f89"
   },
   "tokyo-night-storm": {
     bg: "#24283b",
     fg: "#a9b1d6",
     line: "#3d59a1",
     accent: "#7aa2f7",
-    muted: "#565f89",
+    muted: "#565f89"
   },
   "tokyo-night-light": {
     bg: "#d5d6db",
     fg: "#343b58",
     line: "#34548a",
     accent: "#34548a",
-    muted: "#9699a3",
+    muted: "#9699a3"
   },
   "catppuccin-mocha": {
     bg: "#1e1e2e",
     fg: "#cdd6f4",
     line: "#585b70",
     accent: "#cba6f7",
-    muted: "#6c7086",
+    muted: "#6c7086"
   },
   "catppuccin-latte": {
     bg: "#eff1f5",
     fg: "#4c4f69",
     line: "#9ca0b0",
     accent: "#8839ef",
-    muted: "#9ca0b0",
+    muted: "#9ca0b0"
   },
-  nord: {
+  "nord": {
     bg: "#2e3440",
     fg: "#d8dee9",
     line: "#4c566a",
     accent: "#88c0d0",
-    muted: "#616e88",
+    muted: "#616e88"
   },
   "nord-light": {
     bg: "#eceff4",
     fg: "#2e3440",
     line: "#aab1c0",
     accent: "#5e81ac",
-    muted: "#7b88a1",
+    muted: "#7b88a1"
   },
-  dracula: {
+  "dracula": {
     bg: "#282a36",
     fg: "#f8f8f2",
     line: "#6272a4",
     accent: "#bd93f9",
-    muted: "#6272a4",
+    muted: "#6272a4"
   },
   "github-light": {
     bg: "#ffffff",
     fg: "#1f2328",
     line: "#d1d9e0",
     accent: "#0969da",
-    muted: "#59636e",
+    muted: "#59636e"
   },
   "github-dark": {
     bg: "#0d1117",
     fg: "#e6edf3",
     line: "#3d444d",
     accent: "#4493f8",
-    muted: "#9198a1",
+    muted: "#9198a1"
   },
   "solarized-light": {
     bg: "#fdf6e3",
     fg: "#657b83",
     line: "#93a1a1",
     accent: "#268bd2",
-    muted: "#93a1a1",
+    muted: "#93a1a1"
   },
   "solarized-dark": {
     bg: "#002b36",
     fg: "#839496",
     line: "#586e75",
     accent: "#268bd2",
-    muted: "#586e75",
+    muted: "#586e75"
   },
   "one-dark": {
     bg: "#282c34",
     fg: "#abb2bf",
     line: "#4b5263",
     accent: "#c678dd",
-    muted: "#5c6370",
-  },
+    muted: "#5c6370"
+  }
 };
 function fromShikiTheme(theme) {
   const c = theme.colors ?? {};
   const dark = theme.type === "dark";
-  const tokenColor = (scope) =>
-    theme.tokenColors?.find((t) =>
-      Array.isArray(t.scope) ? t.scope.includes(scope) : t.scope === scope,
-    )?.settings?.foreground;
+  const tokenColor = (scope) => theme.tokenColors?.find(
+    (t) => Array.isArray(t.scope) ? t.scope.includes(scope) : t.scope === scope
+  )?.settings?.foreground;
   return {
     bg: c["editor.background"] ?? (dark ? "#1e1e1e" : "#ffffff"),
     fg: c["editor.foreground"] ?? (dark ? "#d4d4d4" : "#333333"),
@@ -143,17 +142,13 @@ function fromShikiTheme(theme) {
     accent: c["focusBorder"] ?? tokenColor("keyword") ?? void 0,
     muted: tokenColor("comment") ?? c["editorLineNumber.foreground"] ?? void 0,
     surface: c["editor.selectionBackground"] ?? void 0,
-    border: c["editorWidget.border"] ?? void 0,
+    border: c["editorWidget.border"] ?? void 0
   };
 }
 function buildStyleBlock(font, hasMonoFont) {
   const fontImports = [
     `@import url('https://fonts.googleapis.com/css2?family=${encodeURIComponent(font)}:wght@400;500;600;700&amp;display=swap');`,
-    ...(hasMonoFont
-      ? [
-          `@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;display=swap');`,
-        ]
-      : []),
+    ...hasMonoFont ? [`@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;display=swap');`] : []
   ];
   const derivedVars = `
     /* Derived from --bg and --fg (overridable via --line, --accent, etc.) */
@@ -173,14 +168,10 @@ function buildStyleBlock(font, hasMonoFont) {
     "<style>",
     `  ${fontImports.join("\n  ")}`,
     `  text { font-family: '${font}', system-ui, sans-serif; }`,
-    ...(hasMonoFont
-      ? [
-          `  .mono { font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', ui-monospace, monospace; }`,
-        ]
-      : []),
+    ...hasMonoFont ? [`  .mono { font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', ui-monospace, monospace; }`] : [],
     `  svg {${derivedVars}`,
     `  }`,
-    "</style>",
+    "</style>"
   ].join("\n");
 }
 function svgOpenTag(width, height, colors, transparent) {
@@ -191,75 +182,38 @@ function svgOpenTag(width, height, colors, transparent) {
     colors.accent ? `--accent:${colors.accent}` : "",
     colors.muted ? `--muted:${colors.muted}` : "",
     colors.surface ? `--surface:${colors.surface}` : "",
-    colors.border ? `--border:${colors.border}` : "",
-  ]
-    .filter(Boolean)
-    .join(";");
+    colors.border ? `--border:${colors.border}` : ""
+  ].filter(Boolean).join(";");
   const bgStyle = transparent ? "" : ";background:var(--bg)";
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}" style="${vars}${bgStyle}">`;
 }
 
 // src/text-metrics.ts
-var NARROW_CHARS = /* @__PURE__ */ new Set([
-  "i",
-  "l",
-  "t",
-  "f",
-  "j",
-  "I",
-  "1",
-  "!",
-  "|",
-  ".",
-  ",",
-  ":",
-  ";",
-  "'",
-]);
+var NARROW_CHARS = /* @__PURE__ */ new Set(["i", "l", "t", "f", "j", "I", "1", "!", "|", ".", ",", ":", ";", "'"]);
 var WIDE_CHARS = /* @__PURE__ */ new Set(["W", "M", "w", "m", "@", "%"]);
 var VERY_WIDE_CHARS = /* @__PURE__ */ new Set(["W", "M"]);
-var SEMI_NARROW_PUNCT = /* @__PURE__ */ new Set([
-  "(",
-  ")",
-  "[",
-  "]",
-  "{",
-  "}",
-  "/",
-  "\\",
-  "-",
-  '"',
-  "`",
-]);
+var SEMI_NARROW_PUNCT = /* @__PURE__ */ new Set(["(", ")", "[", "]", "{", "}", "/", "\\", "-", '"', "`"]);
 function isCombiningMark(code) {
-  return (
-    (code >= 768 && code <= 879) ||
-    (code >= 6832 && code <= 6911) ||
-    (code >= 7616 && code <= 7679) ||
-    (code >= 8400 && code <= 8447) ||
-    (code >= 65056 && code <= 65071)
-  );
+  return code >= 768 && code <= 879 || code >= 6832 && code <= 6911 || code >= 7616 && code <= 7679 || code >= 8400 && code <= 8447 || code >= 65056 && code <= 65071;
 }
 function isFullwidth(code) {
-  return (
-    (code >= 4352 && code <= 4447) || // Hangul Jamo
-    (code >= 11904 && code <= 12031) || // CJK Radicals Supplement
-    (code >= 12032 && code <= 12255) || // Kangxi Radicals
-    (code >= 12288 && code <= 12351) || // CJK Symbols and Punctuation
-    (code >= 12352 && code <= 12447) || // Hiragana
-    (code >= 12448 && code <= 12543) || // Katakana
-    (code >= 12544 && code <= 12591) || // Bopomofo
-    (code >= 12592 && code <= 12687) || // Hangul Compatibility Jamo
-    (code >= 12688 && code <= 12799) || // Kanbun + extensions
-    (code >= 12800 && code <= 13311) || // Enclosed CJK + Compatibility
-    (code >= 13312 && code <= 19903) || // CJK Extension A
-    (code >= 19968 && code <= 40959) || // CJK Unified Ideographs
-    (code >= 44032 && code <= 55215) || // Hangul Syllables
-    (code >= 63744 && code <= 64255) || // CJK Compatibility Ideographs
-    (code >= 65280 && code <= 65376) || // Fullwidth ASCII
-    (code >= 65504 && code <= 65510) || // Fullwidth symbols
-    code >= 131072
-  );
+  return code >= 4352 && code <= 4447 || // Hangul Jamo
+  code >= 11904 && code <= 12031 || // CJK Radicals Supplement
+  code >= 12032 && code <= 12255 || // Kangxi Radicals
+  code >= 12288 && code <= 12351 || // CJK Symbols and Punctuation
+  code >= 12352 && code <= 12447 || // Hiragana
+  code >= 12448 && code <= 12543 || // Katakana
+  code >= 12544 && code <= 12591 || // Bopomofo
+  code >= 12592 && code <= 12687 || // Hangul Compatibility Jamo
+  code >= 12688 && code <= 12799 || // Kanbun + extensions
+  code >= 12800 && code <= 13311 || // Enclosed CJK + Compatibility
+  code >= 13312 && code <= 19903 || // CJK Extension A
+  code >= 19968 && code <= 40959 || // CJK Unified Ideographs
+  code >= 44032 && code <= 55215 || // Hangul Syllables
+  code >= 63744 && code <= 64255 || // CJK Compatibility Ideographs
+  code >= 65280 && code <= 65376 || // Fullwidth ASCII
+  code >= 65504 && code <= 65510 || // Fullwidth symbols
+  code >= 131072;
 }
 var EMOJI_REGEX = /\p{Emoji_Presentation}|\p{Extended_Pictographic}/u;
 function isEmoji(char) {
@@ -303,48 +257,28 @@ function measureMultilineText(text, fontSize, fontWeight) {
     width: maxWidth,
     height: lines.length * lineHeight,
     lines,
-    lineHeight,
+    lineHeight
   };
 }
 
 // src/multiline-utils.ts
 function normalizeBrTags(label) {
   const unquoted = label.startsWith('"') && label.endsWith('"') ? label.slice(1, -1) : label;
-  return unquoted
-    .replace(/<br\s*\/?>/gi, "\n")
-    .replace(/\\n/g, "\n")
-    .replace(/<\/?(?:sub|sup|small|mark)\s*>/gi, "")
-    .replace(/\*\*(.+?)\*\*/g, "<b>$1</b>")
-    .replace(/(?<!\*)\*([^\s*](?:[^*]*[^\s*])?)\*(?!\*)/g, "<i>$1</i>")
-    .replace(/~~(.+?)~~/g, "<s>$1</s>");
+  return unquoted.replace(/<br\s*\/?>/gi, "\n").replace(/\\n/g, "\n").replace(/<\/?(?:sub|sup|small|mark)\s*>/gi, "").replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/(?<!\*)\*([^\s*](?:[^*]*[^\s*])?)\*(?!\*)/g, "<i>$1</i>").replace(/~~(.+?)~~/g, "<s>$1</s>");
 }
 function escapeXml(text) {
-  return text
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
+  return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 }
 var FORMAT_TAG_REGEX = /<(\/)?(?:(b|strong)|(i|em)|(u)|(s|del))\s*>/gi;
 function parseInlineFormatting(line) {
   const segments = [];
-  let bold = false,
-    italic = false,
-    underline = false,
-    strikethrough = false;
+  let bold = false, italic = false, underline = false, strikethrough = false;
   let lastIndex = 0;
   FORMAT_TAG_REGEX.lastIndex = 0;
   let match;
   while ((match = FORMAT_TAG_REGEX.exec(line)) !== null) {
     if (match.index > lastIndex) {
-      segments.push({
-        text: line.slice(lastIndex, match.index),
-        bold,
-        italic,
-        underline,
-        strikethrough,
-      });
+      segments.push({ text: line.slice(lastIndex, match.index), bold, italic, underline, strikethrough });
     }
     lastIndex = match.index + match[0].length;
     const isClosing = Boolean(match[1]);
@@ -365,20 +299,18 @@ function renderLineContent(line) {
   if (segments.length === 0) return "";
   const allPlain = segments.every((s) => !s.bold && !s.italic && !s.underline && !s.strikethrough);
   if (allPlain) return segments.map((s) => escapeXml(s.text)).join("");
-  return segments
-    .map((seg) => {
-      const escaped = escapeXml(seg.text);
-      if (!seg.bold && !seg.italic && !seg.underline && !seg.strikethrough) return escaped;
-      const attrs = [];
-      if (seg.bold) attrs.push('font-weight="bold"');
-      if (seg.italic) attrs.push('font-style="italic"');
-      const deco = [];
-      if (seg.underline) deco.push("underline");
-      if (seg.strikethrough) deco.push("line-through");
-      if (deco.length) attrs.push(`text-decoration="${deco.join(" ")}"`);
-      return `<tspan ${attrs.join(" ")}>${escaped}</tspan>`;
-    })
-    .join("");
+  return segments.map((seg) => {
+    const escaped = escapeXml(seg.text);
+    if (!seg.bold && !seg.italic && !seg.underline && !seg.strikethrough) return escaped;
+    const attrs = [];
+    if (seg.bold) attrs.push('font-weight="bold"');
+    if (seg.italic) attrs.push('font-style="italic"');
+    const deco = [];
+    if (seg.underline) deco.push("underline");
+    if (seg.strikethrough) deco.push("line-through");
+    if (deco.length) attrs.push(`text-decoration="${deco.join(" ")}"`);
+    return `<tspan ${attrs.join(" ")}>${escaped}</tspan>`;
+  }).join("");
 }
 function renderMultilineText(text, cx, cy, fontSize, attrs, baselineShift = 0.35) {
   const lines = text.split("\n");
@@ -388,25 +320,13 @@ function renderMultilineText(text, cx, cy, fontSize, attrs, baselineShift = 0.35
   }
   const lineHeight = fontSize * LINE_HEIGHT_RATIO;
   const firstDy = -((lines.length - 1) / 2) * lineHeight + fontSize * baselineShift;
-  const tspans = lines
-    .map((line, i) => {
-      const dy = i === 0 ? firstDy : lineHeight;
-      return `<tspan x="${cx}" dy="${dy}">${renderLineContent(line)}</tspan>`;
-    })
-    .join("");
+  const tspans = lines.map((line, i) => {
+    const dy = i === 0 ? firstDy : lineHeight;
+    return `<tspan x="${cx}" dy="${dy}">${renderLineContent(line)}</tspan>`;
+  }).join("");
   return `<text x="${cx}" y="${cy}" ${attrs}>${tspans}</text>`;
 }
-function renderMultilineTextWithBackground(
-  text,
-  cx,
-  cy,
-  textWidth,
-  textHeight,
-  fontSize,
-  padding,
-  textAttrs,
-  bgAttrs,
-) {
+function renderMultilineTextWithBackground(text, cx, cy, textWidth, textHeight, fontSize, padding, textAttrs, bgAttrs) {
   const bgWidth = textWidth + padding * 2;
   const bgHeight = textHeight + padding * 2;
   const rect = `<rect x="${cx - bgWidth / 2}" y="${cy - bgHeight / 2}" width="${bgWidth}" height="${bgHeight}" ${bgAttrs} />`;
@@ -417,10 +337,7 @@ ${textEl}`;
 
 // src/parser.ts
 function parseMermaid(text) {
-  const lines = text
-    .split("\n")
-    .map((l) => l.trim())
-    .filter((l) => l.length > 0 && !l.startsWith("%%"));
+  const lines = text.split("\n").map((l) => l.trim()).filter((l) => l.length > 0 && !l.startsWith("%%"));
   if (lines.length === 0) {
     throw new Error("Empty mermaid diagram");
   }
@@ -433,9 +350,7 @@ function parseMermaid(text) {
 function parseFlowchart(lines) {
   const headerMatch = lines[0].match(/^(?:graph|flowchart)\s+(TD|TB|LR|BT|RL)\s*$/i);
   if (!headerMatch) {
-    throw new Error(
-      `Invalid mermaid header: "${lines[0]}". Expected "graph TD", "flowchart LR", "stateDiagram-v2", etc.`,
-    );
+    throw new Error(`Invalid mermaid header: "${lines[0]}". Expected "graph TD", "flowchart LR", "stateDiagram-v2", etc.`);
   }
   const direction = headerMatch[1].toUpperCase();
   const graph = {
@@ -446,7 +361,7 @@ function parseFlowchart(lines) {
     classDefs: /* @__PURE__ */ new Map(),
     classAssignments: /* @__PURE__ */ new Map(),
     nodeStyles: /* @__PURE__ */ new Map(),
-    linkStyles: /* @__PURE__ */ new Map(),
+    linkStyles: /* @__PURE__ */ new Map()
   };
   const subgraphStack = [];
   for (let i = 1; i < lines.length; i++) {
@@ -539,7 +454,7 @@ function parseStateDiagram(lines) {
     classDefs: /* @__PURE__ */ new Map(),
     classAssignments: /* @__PURE__ */ new Map(),
     nodeStyles: /* @__PURE__ */ new Map(),
-    linkStyles: /* @__PURE__ */ new Map(),
+    linkStyles: /* @__PURE__ */ new Map()
   };
   const compositeStack = [];
   const compositeStateIds = /* @__PURE__ */ new Set();
@@ -600,9 +515,7 @@ function parseStateDiagram(lines) {
       registerStateNode(graph, compositeStack, { id, label, shape: "rounded" });
       continue;
     }
-    const transitionMatch = line.match(
-      /^(\[\*\]|[\w\p{L}-]+)\s*(-->)\s*(\[\*\]|[\w\p{L}-]+)(?:\s*:\s*(.+))?$/u,
-    );
+    const transitionMatch = line.match(/^(\[\*\]|[\w\p{L}-]+)\s*(-->)\s*(\[\*\]|[\w\p{L}-]+)(?:\s*:\s*(.+))?$/u);
     if (transitionMatch) {
       let sourceId = transitionMatch[1];
       let targetId = transitionMatch[3];
@@ -628,7 +541,7 @@ function parseStateDiagram(lines) {
         label: edgeLabel,
         style: "solid",
         hasArrowStart: false,
-        hasArrowEnd: true,
+        hasArrowEnd: true
       });
       continue;
     }
@@ -712,7 +625,7 @@ var NODE_PATTERNS = [
   // A[text]
   { regex: /^([\w-]+)\((.+?)\)/, shape: "rounded" },
   // A(text)
-  { regex: /^([\w-]+)\{(.+?)\}/, shape: "diamond" },
+  { regex: /^([\w-]+)\{(.+?)\}/, shape: "diamond" }
   // A{text}
 ];
 var BARE_NODE_REGEX = /^([\w-]+)/;
@@ -760,7 +673,7 @@ function parseEdgeLine(line, graph, subgraphStack) {
           label: edgeLabel,
           style,
           hasArrowStart,
-          hasArrowEnd,
+          hasArrowEnd
         });
       }
     }
@@ -876,7 +789,7 @@ var DEFAULT_ASCII_THEME = {
   // zinc-600 — arrowheads (60% mix)
   corner: "#71717a",
   // same as line
-  junction: "#a1a1aa",
+  junction: "#a1a1aa"
   // same as border
 };
 function detectColorMode() {
@@ -909,13 +822,13 @@ function parseHex(hex) {
     return {
       r: parseInt(h[0] + h[0], 16),
       g: parseInt(h[1] + h[1], 16),
-      b: parseInt(h[2] + h[2], 16),
+      b: parseInt(h[2] + h[2], 16)
     };
   }
   return {
     r: parseInt(h.substring(0, 2), 16),
     g: parseInt(h.substring(2, 4), 16),
-    b: parseInt(h.substring(4, 6), 16),
+    b: parseInt(h.substring(4, 6), 16)
   };
 }
 var ESC = "\x1B[";
@@ -928,7 +841,7 @@ function rgbTo256(r2, g, b) {
   const avg = (r2 + g + b) / 3;
   const maxDiff = Math.max(Math.abs(r2 - avg), Math.abs(g - avg), Math.abs(b - avg));
   if (maxDiff < 10) {
-    const gray = Math.round((avg / 255) * 23);
+    const gray = Math.round(avg / 255 * 23);
     return 232 + Math.min(23, Math.max(0, gray));
   }
   const toIndex = (v) => {
@@ -1184,7 +1097,7 @@ var JUNCTION_CHARS = /* @__PURE__ */ new Set([
   "\u2574",
   "\u2575",
   "\u2576",
-  "\u2577",
+  "\u2577"
 ]);
 function isJunctionChar(c) {
   return JUNCTION_CHARS.has(c);
@@ -1193,116 +1106,16 @@ function isAlphanumeric(c) {
   return /^[a-zA-Z0-9]$/.test(c);
 }
 var JUNCTION_MAP = {
-  "\u2500": {
-    "\u2502": "\u253C",
-    "\u250C": "\u252C",
-    "\u2510": "\u252C",
-    "\u2514": "\u2534",
-    "\u2518": "\u2534",
-    "\u251C": "\u253C",
-    "\u2524": "\u253C",
-    "\u252C": "\u252C",
-    "\u2534": "\u2534",
-  },
-  "\u2502": {
-    "\u2500": "\u253C",
-    "\u250C": "\u251C",
-    "\u2510": "\u2524",
-    "\u2514": "\u251C",
-    "\u2518": "\u2524",
-    "\u251C": "\u251C",
-    "\u2524": "\u2524",
-    "\u252C": "\u253C",
-    "\u2534": "\u253C",
-  },
-  "\u250C": {
-    "\u2500": "\u252C",
-    "\u2502": "\u251C",
-    "\u2510": "\u252C",
-    "\u2514": "\u251C",
-    "\u2518": "\u253C",
-    "\u251C": "\u251C",
-    "\u2524": "\u253C",
-    "\u252C": "\u252C",
-    "\u2534": "\u253C",
-  },
-  "\u2510": {
-    "\u2500": "\u252C",
-    "\u2502": "\u2524",
-    "\u250C": "\u252C",
-    "\u2514": "\u253C",
-    "\u2518": "\u2524",
-    "\u251C": "\u253C",
-    "\u2524": "\u2524",
-    "\u252C": "\u252C",
-    "\u2534": "\u253C",
-  },
-  "\u2514": {
-    "\u2500": "\u2534",
-    "\u2502": "\u251C",
-    "\u250C": "\u251C",
-    "\u2510": "\u253C",
-    "\u2518": "\u2534",
-    "\u251C": "\u251C",
-    "\u2524": "\u253C",
-    "\u252C": "\u253C",
-    "\u2534": "\u2534",
-  },
-  "\u2518": {
-    "\u2500": "\u2534",
-    "\u2502": "\u2524",
-    "\u250C": "\u253C",
-    "\u2510": "\u2524",
-    "\u2514": "\u2534",
-    "\u251C": "\u253C",
-    "\u2524": "\u2524",
-    "\u252C": "\u253C",
-    "\u2534": "\u2534",
-  },
-  "\u251C": {
-    "\u2500": "\u253C",
-    "\u2502": "\u251C",
-    "\u250C": "\u251C",
-    "\u2510": "\u253C",
-    "\u2514": "\u251C",
-    "\u2518": "\u253C",
-    "\u2524": "\u253C",
-    "\u252C": "\u253C",
-    "\u2534": "\u253C",
-  },
-  "\u2524": {
-    "\u2500": "\u253C",
-    "\u2502": "\u2524",
-    "\u250C": "\u253C",
-    "\u2510": "\u2524",
-    "\u2514": "\u253C",
-    "\u2518": "\u2524",
-    "\u251C": "\u253C",
-    "\u252C": "\u253C",
-    "\u2534": "\u253C",
-  },
-  "\u252C": {
-    "\u2500": "\u252C",
-    "\u2502": "\u253C",
-    "\u250C": "\u252C",
-    "\u2510": "\u252C",
-    "\u2514": "\u253C",
-    "\u2518": "\u253C",
-    "\u251C": "\u253C",
-    "\u2524": "\u253C",
-    "\u2534": "\u253C",
-  },
-  "\u2534": {
-    "\u2500": "\u2534",
-    "\u2502": "\u253C",
-    "\u250C": "\u253C",
-    "\u2510": "\u253C",
-    "\u2514": "\u2534",
-    "\u2518": "\u2534",
-    "\u251C": "\u253C",
-    "\u2524": "\u253C",
-    "\u252C": "\u253C",
-  },
+  "\u2500": { "\u2502": "\u253C", "\u250C": "\u252C", "\u2510": "\u252C", "\u2514": "\u2534", "\u2518": "\u2534", "\u251C": "\u253C", "\u2524": "\u253C", "\u252C": "\u252C", "\u2534": "\u2534" },
+  "\u2502": { "\u2500": "\u253C", "\u250C": "\u251C", "\u2510": "\u2524", "\u2514": "\u251C", "\u2518": "\u2524", "\u251C": "\u251C", "\u2524": "\u2524", "\u252C": "\u253C", "\u2534": "\u253C" },
+  "\u250C": { "\u2500": "\u252C", "\u2502": "\u251C", "\u2510": "\u252C", "\u2514": "\u251C", "\u2518": "\u253C", "\u251C": "\u251C", "\u2524": "\u253C", "\u252C": "\u252C", "\u2534": "\u253C" },
+  "\u2510": { "\u2500": "\u252C", "\u2502": "\u2524", "\u250C": "\u252C", "\u2514": "\u253C", "\u2518": "\u2524", "\u251C": "\u253C", "\u2524": "\u2524", "\u252C": "\u252C", "\u2534": "\u253C" },
+  "\u2514": { "\u2500": "\u2534", "\u2502": "\u251C", "\u250C": "\u251C", "\u2510": "\u253C", "\u2518": "\u2534", "\u251C": "\u251C", "\u2524": "\u253C", "\u252C": "\u253C", "\u2534": "\u2534" },
+  "\u2518": { "\u2500": "\u2534", "\u2502": "\u2524", "\u250C": "\u253C", "\u2510": "\u2524", "\u2514": "\u2534", "\u251C": "\u253C", "\u2524": "\u2524", "\u252C": "\u253C", "\u2534": "\u2534" },
+  "\u251C": { "\u2500": "\u253C", "\u2502": "\u251C", "\u250C": "\u251C", "\u2510": "\u253C", "\u2514": "\u251C", "\u2518": "\u253C", "\u2524": "\u253C", "\u252C": "\u253C", "\u2534": "\u253C" },
+  "\u2524": { "\u2500": "\u253C", "\u2502": "\u2524", "\u250C": "\u253C", "\u2510": "\u2524", "\u2514": "\u253C", "\u2518": "\u2524", "\u251C": "\u253C", "\u252C": "\u253C", "\u2534": "\u253C" },
+  "\u252C": { "\u2500": "\u252C", "\u2502": "\u253C", "\u250C": "\u252C", "\u2510": "\u252C", "\u2514": "\u253C", "\u2518": "\u253C", "\u251C": "\u253C", "\u2524": "\u253C", "\u2534": "\u253C" },
+  "\u2534": { "\u2500": "\u2534", "\u2502": "\u253C", "\u250C": "\u253C", "\u2510": "\u253C", "\u2514": "\u2534", "\u2518": "\u2534", "\u251C": "\u253C", "\u2524": "\u253C", "\u252C": "\u253C" }
 };
 function mergeJunctions(c1, c2) {
   return JUNCTION_MAP[c1]?.[c2] ?? c1;
@@ -1377,7 +1190,7 @@ var VERTICAL_FLIP_MAP = {
   "\u25E2": "\u25E5",
   // ASCII arrows
   "^": "v",
-  v: "^",
+  "v": "^",
   // Unicode corners
   "\u250C": "\u2514",
   "\u2514": "\u250C",
@@ -1388,7 +1201,7 @@ var VERTICAL_FLIP_MAP = {
   "\u2534": "\u252C",
   // Box-start junctions (exit points from node boxes)
   "\u2575": "\u2577",
-  "\u2577": "\u2575",
+  "\u2577": "\u2575"
 };
 function flipCanvasVertically(canvas) {
   for (const col of canvas) {
@@ -1452,7 +1265,7 @@ function convertToAsciiGraph(parsed, config) {
       drawing: null,
       drawn: false,
       styleClassName: "",
-      styleClass: EMPTY_STYLE,
+      styleClass: EMPTY_STYLE
     };
     nodeMap.set(id, asciiNode);
     index++;
@@ -1473,7 +1286,7 @@ function convertToAsciiGraph(parsed, config) {
       endDir: { x: 0, y: 0 },
       style: mEdge.style,
       hasArrowStart: mEdge.hasArrowStart,
-      hasArrowEnd: mEdge.hasArrowEnd,
+      hasArrowEnd: mEdge.hasArrowEnd
     });
   }
   const subgraphs = [];
@@ -1501,7 +1314,7 @@ function convertToAsciiGraph(parsed, config) {
     config,
     offsetX: 0,
     offsetY: 0,
-    bundles: [],
+    bundles: []
     // Populated by analyzeEdgeBundles() during layout
   };
 }
@@ -1519,7 +1332,7 @@ function convertSubgraph(mSg, parent, nodeMap, allSubgraphs) {
     minY: 0,
     maxX: 0,
     maxY: 0,
-    direction: normalizedDirection,
+    direction: normalizedDirection
   };
   for (const nodeId of mSg.nodeIds) {
     const node = nodeMap.get(nodeId);
@@ -1616,8 +1429,9 @@ var MinHeap = class {
   }
   bubbleUp(i) {
     while (i > 0) {
-      const parent = (i - 1) >> 1;
+      const parent = i - 1 >> 1;
       if (this.items[i].priority < this.items[parent].priority) {
+        ;
         [this.items[i], this.items[parent]] = [this.items[parent], this.items[i]];
         i = parent;
       } else {
@@ -1638,6 +1452,7 @@ var MinHeap = class {
         smallest = right;
       }
       if (smallest !== i) {
+        ;
         [this.items[i], this.items[smallest]] = [this.items[smallest], this.items[i]];
         i = smallest;
       } else {
@@ -1658,7 +1473,7 @@ var MOVE_DIRS = [
   { x: 1, y: 0 },
   { x: -1, y: 0 },
   { x: 0, y: 1 },
-  { x: 0, y: -1 },
+  { x: 0, y: -1 }
 ];
 function isFreeInGrid(grid, c) {
   if (c.x < 0 || c.y < 0) return false;
@@ -1758,10 +1573,7 @@ function determineStartAndEndDir(edge, graphDirection) {
   let preferredOppositeDir;
   let alternativeDir;
   let alternativeOppositeDir;
-  const isBackwards =
-    graphDirection === "LR"
-      ? dirEquals(d, Left) || dirEquals(d, UpperLeft) || dirEquals(d, LowerLeft)
-      : dirEquals(d, Up) || dirEquals(d, UpperLeft) || dirEquals(d, UpperRight);
+  const isBackwards = graphDirection === "LR" ? dirEquals(d, Left) || dirEquals(d, UpperLeft) || dirEquals(d, LowerLeft) : dirEquals(d, Up) || dirEquals(d, UpperLeft) || dirEquals(d, UpperRight);
   if (dirEquals(d, LowerRight)) {
     if (graphDirection === "LR") {
       preferredDir = Down;
@@ -1838,12 +1650,8 @@ function determineStartAndEndDir(edge, graphDirection) {
 function determinePath(graph, edge) {
   const sourceSg = getNodeSubgraph(graph, edge.from);
   const targetSg = getNodeSubgraph(graph, edge.to);
-  const effectiveDir =
-    sourceSg && sourceSg === targetSg && sourceSg.direction
-      ? sourceSg.direction
-      : graph.config.graphDirection;
-  const [preferredDir, preferredOppositeDir, alternativeDir, alternativeOppositeDir] =
-    determineStartAndEndDir(edge, effectiveDir);
+  const effectiveDir = sourceSg && sourceSg === targetSg && sourceSg.direction ? sourceSg.direction : graph.config.graphDirection;
+  const [preferredDir, preferredOppositeDir, alternativeDir, alternativeOppositeDir] = determineStartAndEndDir(edge, effectiveDir);
   const prefFrom = gridCoordDirection(edge.from.gridCoord, preferredDir);
   const prefTo = gridCoordDirection(edge.to.gridCoord, preferredOppositeDir);
   let preferredPath = getPath(graph.grid, prefFrom, prefTo);
@@ -1952,7 +1760,7 @@ function analyzeEdgeBundles(graph) {
       junctionPoint: null,
       sharedPath: [],
       junctionDir: Middle,
-      sharedNodeDir: Middle,
+      sharedNodeDir: Middle
     };
     for (const edge of edges) {
       edge.bundle = bundle;
@@ -1979,7 +1787,7 @@ function analyzeEdgeBundles(graph) {
       junctionPoint: null,
       sharedPath: [],
       junctionDir: Middle,
-      sharedNodeDir: Middle,
+      sharedNodeDir: Middle
     };
     for (const edge of edges) {
       edge.bundle = bundle;
@@ -2047,18 +1855,12 @@ function routeBundledEdges(graph, bundle) {
     bundle.junctionDir = dir === "TD" ? Up : Left;
     bundle.sharedNodeDir = dir === "TD" ? Down : Right;
     const targetCoord = bundle.sharedNode.gridCoord;
-    const targetEntry =
-      dir === "TD"
-        ? { x: targetCoord.x + 1, y: targetCoord.y }
-        : { x: targetCoord.x, y: targetCoord.y + 1 };
+    const targetEntry = dir === "TD" ? { x: targetCoord.x + 1, y: targetCoord.y } : { x: targetCoord.x, y: targetCoord.y + 1 };
     const sharedPath = getPath(graph.grid, junction, targetEntry);
     bundle.sharedPath = sharedPath ? mergePath(sharedPath) : [junction, targetEntry];
     for (const edge of bundle.edges) {
       const sourceCoord = edge.from.gridCoord;
-      const sourceExit =
-        dir === "TD"
-          ? { x: sourceCoord.x + 1, y: sourceCoord.y + 2 }
-          : { x: sourceCoord.x + 2, y: sourceCoord.y + 1 };
+      const sourceExit = dir === "TD" ? { x: sourceCoord.x + 1, y: sourceCoord.y + 2 } : { x: sourceCoord.x + 2, y: sourceCoord.y + 1 };
       const pathToJunction = getPath(graph.grid, sourceExit, junction);
       edge.pathToJunction = pathToJunction ? mergePath(pathToJunction) : [sourceExit, junction];
       edge.startDir = dir === "TD" ? Down : Right;
@@ -2069,18 +1871,12 @@ function routeBundledEdges(graph, bundle) {
     bundle.junctionDir = dir === "TD" ? Down : Right;
     bundle.sharedNodeDir = dir === "TD" ? Up : Left;
     const sourceCoord = bundle.sharedNode.gridCoord;
-    const sourceExit =
-      dir === "TD"
-        ? { x: sourceCoord.x + 1, y: sourceCoord.y + 2 }
-        : { x: sourceCoord.x + 2, y: sourceCoord.y + 1 };
+    const sourceExit = dir === "TD" ? { x: sourceCoord.x + 1, y: sourceCoord.y + 2 } : { x: sourceCoord.x + 2, y: sourceCoord.y + 1 };
     const sharedPath = getPath(graph.grid, sourceExit, junction);
     bundle.sharedPath = sharedPath ? mergePath(sharedPath) : [sourceExit, junction];
     for (const edge of bundle.edges) {
       const targetCoord = edge.to.gridCoord;
-      const targetEntry =
-        dir === "TD"
-          ? { x: targetCoord.x + 1, y: targetCoord.y }
-          : { x: targetCoord.x, y: targetCoord.y + 1 };
+      const targetEntry = dir === "TD" ? { x: targetCoord.x + 1, y: targetCoord.y } : { x: targetCoord.x, y: targetCoord.y + 1 };
       const pathToJunction = getPath(graph.grid, junction, targetEntry);
       edge.pathToJunction = pathToJunction ? mergePath(pathToJunction) : [junction, targetEntry];
       edge.startDir = dir === "TD" ? Down : Right;
@@ -2112,70 +1908,70 @@ var SHAPE_CORNERS = {
   // Standard rectangular shapes
   rectangle: {
     unicode: { tl: "\u250C", tr: "\u2510", bl: "\u2514", br: "\u2518" },
-    ascii: { tl: "+", tr: "+", bl: "+", br: "+" },
+    ascii: { tl: "+", tr: "+", bl: "+", br: "+" }
   },
   rounded: {
     unicode: { tl: "\u256D", tr: "\u256E", bl: "\u2570", br: "\u256F" },
-    ascii: { tl: ".", tr: ".", bl: "'", br: "'" },
+    ascii: { tl: ".", tr: ".", bl: "'", br: "'" }
   },
   // Circular shapes - use circle markers at corners
   circle: {
     unicode: { tl: "\u25EF", tr: "\u25EF", bl: "\u25EF", br: "\u25EF" },
-    ascii: { tl: "o", tr: "o", bl: "o", br: "o" },
+    ascii: { tl: "o", tr: "o", bl: "o", br: "o" }
   },
   doublecircle: {
     unicode: { tl: "\u25CE", tr: "\u25CE", bl: "\u25CE", br: "\u25CE" },
-    ascii: { tl: "@", tr: "@", bl: "@", br: "@" },
+    ascii: { tl: "@", tr: "@", bl: "@", br: "@" }
   },
   // Diamond - decision nodes
   diamond: {
     unicode: { tl: "\u25C7", tr: "\u25C7", bl: "\u25C7", br: "\u25C7" },
-    ascii: { tl: "<", tr: ">", bl: "<", br: ">" },
+    ascii: { tl: "<", tr: ">", bl: "<", br: ">" }
   },
   // Hexagon - process nodes (crop corners — monospace-safe, distinct from rectangle)
   hexagon: {
     unicode: { tl: "\u231C", tr: "\u231D", bl: "\u231E", br: "\u231F" },
-    ascii: { tl: "*", tr: "*", bl: "*", br: "*" },
+    ascii: { tl: "*", tr: "*", bl: "*", br: "*" }
   },
   // Stadium/pill shape
   stadium: {
     unicode: { tl: "(", tr: ")", bl: "(", br: ")" },
-    ascii: { tl: "(", tr: ")", bl: "(", br: ")" },
+    ascii: { tl: "(", tr: ")", bl: "(", br: ")" }
   },
   // Subroutine - double vertical bars
   subroutine: {
     unicode: { tl: "\u255F", tr: "\u2562", bl: "\u255F", br: "\u2562" },
-    ascii: { tl: "|", tr: "|", bl: "|", br: "|" },
+    ascii: { tl: "|", tr: "|", bl: "|", br: "|" }
   },
   // Cylinder/database
   cylinder: {
     unicode: { tl: "\u256D", tr: "\u256E", bl: "\u2570", br: "\u256F" },
-    ascii: { tl: ".", tr: ".", bl: "'", br: "'" },
+    ascii: { tl: ".", tr: ".", bl: "'", br: "'" }
   },
   // Asymmetric/flag - pointer on left side
   asymmetric: {
     unicode: { tl: "\u25B7", tr: "\u2510", bl: "\u25B7", br: "\u2518" },
-    ascii: { tl: ">", tr: "+", bl: ">", br: "+" },
+    ascii: { tl: ">", tr: "+", bl: ">", br: "+" }
   },
   // Trapezoid - wider at bottom (top corners slope inward)
   trapezoid: {
     unicode: { tl: "/", tr: "\\", bl: "\u2514", br: "\u2518" },
-    ascii: { tl: "/", tr: "\\", bl: "+", br: "+" },
+    ascii: { tl: "/", tr: "\\", bl: "+", br: "+" }
   },
   // Trapezoid-alt - wider at top (bottom corners slope inward)
   "trapezoid-alt": {
     unicode: { tl: "\u250C", tr: "\u2510", bl: "\\", br: "/" },
-    ascii: { tl: "+", tr: "+", bl: "\\", br: "/" },
+    ascii: { tl: "+", tr: "+", bl: "\\", br: "/" }
   },
   // State diagram pseudostates (special handling, not corner-based)
   "state-start": {
     unicode: { tl: "\u25CF", tr: "\u25CF", bl: "\u25CF", br: "\u25CF" },
-    ascii: { tl: "*", tr: "*", bl: "*", br: "*" },
+    ascii: { tl: "*", tr: "*", bl: "*", br: "*" }
   },
   "state-end": {
     unicode: { tl: "\u25C9", tr: "\u25C9", bl: "\u25C9", br: "\u25C9" },
-    ascii: { tl: "@", tr: "@", bl: "@", br: "@" },
-  },
+    ascii: { tl: "@", tr: "@", bl: "@", br: "@" }
+  }
 };
 function getCorners(shape, useAscii) {
   const corners = SHAPE_CORNERS[shape] ?? SHAPE_CORNERS.rectangle;
@@ -2199,11 +1995,11 @@ function getBoxDimensions(label, options) {
       x: 1 + options.padding,
       y: 1 + options.padding,
       width: maxLineWidth3,
-      height: lineCount3,
+      height: lineCount3
     },
     // Grid layout: [border=1, content, border=1]
     gridColumns: [1, innerWidth, 1],
-    gridRows: [1, innerHeight, 1],
+    gridRows: [1, innerHeight, 1]
   };
 }
 function renderBox(label, dimensions, corners, useAscii) {
@@ -2254,8 +2050,7 @@ function getBoxAttachmentPoint(dir, dimensions, baseCoord) {
   if (dirEquals(dir, UpperLeft)) return { x: baseCoord.x, y: baseCoord.y };
   if (dirEquals(dir, UpperRight)) return { x: baseCoord.x + width - 1, y: baseCoord.y };
   if (dirEquals(dir, LowerLeft)) return { x: baseCoord.x, y: baseCoord.y + height - 1 };
-  if (dirEquals(dir, LowerRight))
-    return { x: baseCoord.x + width - 1, y: baseCoord.y + height - 1 };
+  if (dirEquals(dir, LowerRight)) return { x: baseCoord.x + width - 1, y: baseCoord.y + height - 1 };
   return { x: centerX, y: centerY };
 }
 var rectangleRenderer = {
@@ -2264,7 +2059,7 @@ var rectangleRenderer = {
     const corners = getCorners("rectangle", options.useAscii);
     return renderBox(label, dimensions, corners, options.useAscii);
   },
-  getAttachmentPoint: getBoxAttachmentPoint,
+  getAttachmentPoint: getBoxAttachmentPoint
 };
 
 // src/ascii/shapes/diamond.ts
@@ -2274,7 +2069,7 @@ var diamondRenderer = {
     const corners = getCorners("diamond", options.useAscii);
     return renderBox(label, dimensions, corners, options.useAscii);
   },
-  getAttachmentPoint: getBoxAttachmentPoint,
+  getAttachmentPoint: getBoxAttachmentPoint
 };
 
 // src/ascii/shapes/circle.ts
@@ -2284,7 +2079,7 @@ var circleRenderer = {
     const corners = getCorners("circle", options.useAscii);
     return renderBox(label, dimensions, corners, options.useAscii);
   },
-  getAttachmentPoint: getBoxAttachmentPoint,
+  getAttachmentPoint: getBoxAttachmentPoint
 };
 
 // src/ascii/shapes/state.ts
@@ -2297,7 +2092,7 @@ var stateStartRenderer = {
       height,
       labelArea: { x: 2, y: 1, width: 1, height: 1 },
       gridColumns: [1, 3, 1],
-      gridRows: [1, 1, 1],
+      gridRows: [1, 1, 1]
     };
   },
   render(_label, dimensions, options) {
@@ -2344,7 +2139,7 @@ var stateStartRenderer = {
     if (dirEquals(dir, Left)) return { x: baseCoord.x, y: centerY };
     if (dirEquals(dir, Right)) return { x: baseCoord.x + width - 1, y: centerY };
     return { x: centerX, y: centerY };
-  },
+  }
 };
 var stateEndRenderer = {
   getDimensions(_label, _options) {
@@ -2355,7 +2150,7 @@ var stateEndRenderer = {
       height,
       labelArea: { x: 2, y: 1, width: 1, height: 1 },
       gridColumns: [1, 3, 1],
-      gridRows: [1, 1, 1],
+      gridRows: [1, 1, 1]
     };
   },
   render(_label, dimensions, options) {
@@ -2402,7 +2197,7 @@ var stateEndRenderer = {
     if (dirEquals(dir, Left)) return { x: baseCoord.x, y: centerY };
     if (dirEquals(dir, Right)) return { x: baseCoord.x + width - 1, y: centerY };
     return { x: centerX, y: centerY };
-  },
+  }
 };
 
 // src/ascii/shapes/rounded.ts
@@ -2412,7 +2207,7 @@ var roundedRenderer = {
     const corners = getCorners("rounded", options.useAscii);
     return renderBox(label, dimensions, corners, options.useAscii);
   },
-  getAttachmentPoint: getBoxAttachmentPoint,
+  getAttachmentPoint: getBoxAttachmentPoint
 };
 
 // src/ascii/shapes/stadium.ts
@@ -2432,10 +2227,10 @@ var stadiumRenderer = {
         x: 2 + options.padding,
         y: 1 + options.padding,
         width: maxLineWidth3,
-        height: lineCount3,
+        height: lineCount3
       },
       gridColumns: [2, innerWidth, 2],
-      gridRows: [1, innerHeight, 1],
+      gridRows: [1, innerHeight, 1]
     };
   },
   render(label, dimensions, options) {
@@ -2482,7 +2277,7 @@ var stadiumRenderer = {
     }
     return canvas;
   },
-  getAttachmentPoint: getBoxAttachmentPoint,
+  getAttachmentPoint: getBoxAttachmentPoint
 };
 
 // src/ascii/shapes/hexagon.ts
@@ -2492,7 +2287,7 @@ var hexagonRenderer = {
     const corners = getCorners("hexagon", options.useAscii);
     return renderBox(label, dimensions, corners, options.useAscii);
   },
-  getAttachmentPoint: getBoxAttachmentPoint,
+  getAttachmentPoint: getBoxAttachmentPoint
 };
 
 // src/ascii/shapes/special.ts
@@ -2512,10 +2307,10 @@ var subroutineRenderer = {
         x: 2 + options.padding,
         y: 1 + options.padding,
         width: maxLineWidth3,
-        height: lineCount3,
+        height: lineCount3
       },
       gridColumns: [2, innerWidth, 2],
-      gridRows: [1, innerHeight, 1],
+      gridRows: [1, innerHeight, 1]
     };
   },
   render(label, dimensions, options) {
@@ -2555,7 +2350,7 @@ var subroutineRenderer = {
     }
     return canvas;
   },
-  getAttachmentPoint: getBoxAttachmentPoint,
+  getAttachmentPoint: getBoxAttachmentPoint
 };
 var doublecircleRenderer = {
   getDimensions: getBoxDimensions,
@@ -2563,7 +2358,7 @@ var doublecircleRenderer = {
     const corners = getCorners("doublecircle", options.useAscii);
     return renderBox(label, dimensions, corners, options.useAscii);
   },
-  getAttachmentPoint: getBoxAttachmentPoint,
+  getAttachmentPoint: getBoxAttachmentPoint
 };
 var cylinderRenderer = {
   getDimensions(label, options) {
@@ -2581,10 +2376,10 @@ var cylinderRenderer = {
         x: 1 + options.padding,
         y: 2 + options.padding,
         width: maxLineWidth3,
-        height: lineCount3,
+        height: lineCount3
       },
       gridColumns: [1, innerWidth, 1],
-      gridRows: [2, innerHeight - 2, 2],
+      gridRows: [2, innerHeight - 2, 2]
     };
   },
   render(label, dimensions, options) {
@@ -2624,7 +2419,7 @@ var cylinderRenderer = {
     }
     return canvas;
   },
-  getAttachmentPoint: getBoxAttachmentPoint,
+  getAttachmentPoint: getBoxAttachmentPoint
 };
 var asymmetricRenderer = {
   getDimensions: getBoxDimensions,
@@ -2632,7 +2427,7 @@ var asymmetricRenderer = {
     const corners = getCorners("asymmetric", options.useAscii);
     return renderBox(label, dimensions, corners, options.useAscii);
   },
-  getAttachmentPoint: getBoxAttachmentPoint,
+  getAttachmentPoint: getBoxAttachmentPoint
 };
 var trapezoidRenderer = {
   getDimensions: getBoxDimensions,
@@ -2640,7 +2435,7 @@ var trapezoidRenderer = {
     const corners = getCorners("trapezoid", options.useAscii);
     return renderBox(label, dimensions, corners, options.useAscii);
   },
-  getAttachmentPoint: getBoxAttachmentPoint,
+  getAttachmentPoint: getBoxAttachmentPoint
 };
 var trapezoidAltRenderer = {
   getDimensions: getBoxDimensions,
@@ -2648,7 +2443,7 @@ var trapezoidAltRenderer = {
     const corners = getCorners("trapezoid-alt", options.useAscii);
     return renderBox(label, dimensions, corners, options.useAscii);
   },
-  getAttachmentPoint: getBoxAttachmentPoint,
+  getAttachmentPoint: getBoxAttachmentPoint
 };
 
 // src/ascii/shapes/index.ts
@@ -2670,7 +2465,7 @@ var shapeRegistry = /* @__PURE__ */ new Map([
   ["trapezoid-alt", trapezoidAltRenderer],
   // State diagram pseudo-states
   ["state-start", stateStartRenderer],
-  ["state-end", stateEndRenderer],
+  ["state-end", stateEndRenderer]
 ]);
 function getShapeRenderer(shape) {
   return shapeRegistry.get(shape) ?? rectangleRenderer;
@@ -2704,11 +2499,9 @@ function drawBoxWithGridDimensions(node, graph) {
   const box = mkCanvas(Math.max(from.x, to.x), Math.max(from.y, to.y));
   const corners = getCorners(node.shape, useAscii);
   const isDoubleBox = node.shape === "state-end";
-  const hChar = useAscii ? (isDoubleBox ? "=" : "-") : isDoubleBox ? "\u2550" : "\u2500";
-  const vChar = useAscii ? (isDoubleBox ? "\u2016" : "|") : isDoubleBox ? "\u2551" : "\u2502";
-  const doubleCorners = useAscii
-    ? { tl: "#", tr: "#", bl: "#", br: "#" }
-    : { tl: "\u2554", tr: "\u2557", bl: "\u255A", br: "\u255D" };
+  const hChar = useAscii ? isDoubleBox ? "=" : "-" : isDoubleBox ? "\u2550" : "\u2500";
+  const vChar = useAscii ? isDoubleBox ? "\u2016" : "|" : isDoubleBox ? "\u2551" : "\u2502";
+  const doubleCorners = useAscii ? { tl: "#", tr: "#", bl: "#", br: "#" } : { tl: "\u2554", tr: "\u2557", bl: "\u255A", br: "\u255D" };
   const effectiveCorners = isDoubleBox ? doubleCorners : corners;
   for (let x = from.x + 1; x < to.x; x++) box[x][from.y] = hChar;
   for (let x = from.x + 1; x < to.x; x++) box[x][to.y] = hChar;
@@ -2726,12 +2519,7 @@ function drawBoxWithGridDimensions(node, graph) {
     const line = lines[i];
     const textX = from.x + Math.floor(w / 2) - Math.ceil(line.length / 2) + 1;
     for (let j = 0; j < line.length; j++) {
-      if (
-        textX + j >= 0 &&
-        textX + j < box.length &&
-        startY + i >= 0 &&
-        startY + i < box[0].length
-      ) {
+      if (textX + j >= 0 && textX + j < box.length && startY + i >= 0 && startY + i < box[0].length) {
         box[textX + j][startY + i] = line[j];
       }
     }
@@ -2798,16 +2586,16 @@ function drawMultiBox(sections, useAscii, padding = 1) {
 var LINE_CHARS = {
   solid: {
     h: { unicode: "\u2500", ascii: "-" },
-    v: { unicode: "\u2502", ascii: "|" },
+    v: { unicode: "\u2502", ascii: "|" }
   },
   dotted: {
     h: { unicode: "\u2504", ascii: "." },
-    v: { unicode: "\u2506", ascii: ":" },
+    v: { unicode: "\u2506", ascii: ":" }
   },
   thick: {
     h: { unicode: "\u2501", ascii: "=" },
-    v: { unicode: "\u2503", ascii: "\u2016" },
-  },
+    v: { unicode: "\u2503", ascii: "\u2016" }
+  }
 };
 function drawLine(canvas, from, to, offsetFrom, offsetTo, useAscii, style = "solid") {
   const dir = determineDirection(from, to);
@@ -2895,7 +2683,7 @@ function drawArrow(graph, edge) {
     arrowHeadEndCanvas = drawArrowHead(
       graph,
       linesDrawn[linesDrawn.length - 1],
-      lineDirs[lineDirs.length - 1],
+      lineDirs[lineDirs.length - 1]
     );
   } else {
     arrowHeadEndCanvas = copyCanvas(graph.canvas);
@@ -2916,14 +2704,7 @@ function drawArrow(graph, edge) {
     arrowHeadStartCanvas = copyCanvas(graph.canvas);
   }
   const cornersCanvas = drawCorners(graph, edge.path);
-  return [
-    pathCanvas,
-    boxStartCanvas,
-    arrowHeadEndCanvas,
-    arrowHeadStartCanvas,
-    cornersCanvas,
-    labelCanvas,
-  ];
+  return [pathCanvas, boxStartCanvas, arrowHeadEndCanvas, arrowHeadStartCanvas, cornersCanvas, labelCanvas];
 }
 function reverseDirection(dir) {
   if (dirEquals(dir, Up)) return Down;
@@ -3025,25 +2806,13 @@ function drawCorners(graph, path) {
     const nextDir = determineDirection(coord, path[idx + 1]);
     let corner;
     if (!graph.config.useAscii) {
-      if (
-        (dirEquals(prevDir, Right) && dirEquals(nextDir, Down)) ||
-        (dirEquals(prevDir, Up) && dirEquals(nextDir, Left))
-      ) {
+      if (dirEquals(prevDir, Right) && dirEquals(nextDir, Down) || dirEquals(prevDir, Up) && dirEquals(nextDir, Left)) {
         corner = "\u2510";
-      } else if (
-        (dirEquals(prevDir, Right) && dirEquals(nextDir, Up)) ||
-        (dirEquals(prevDir, Down) && dirEquals(nextDir, Left))
-      ) {
+      } else if (dirEquals(prevDir, Right) && dirEquals(nextDir, Up) || dirEquals(prevDir, Down) && dirEquals(nextDir, Left)) {
         corner = "\u2518";
-      } else if (
-        (dirEquals(prevDir, Left) && dirEquals(nextDir, Down)) ||
-        (dirEquals(prevDir, Up) && dirEquals(nextDir, Right))
-      ) {
+      } else if (dirEquals(prevDir, Left) && dirEquals(nextDir, Down) || dirEquals(prevDir, Up) && dirEquals(nextDir, Right)) {
         corner = "\u250C";
-      } else if (
-        (dirEquals(prevDir, Left) && dirEquals(nextDir, Up)) ||
-        (dirEquals(prevDir, Down) && dirEquals(nextDir, Right))
-      ) {
+      } else if (dirEquals(prevDir, Left) && dirEquals(nextDir, Up) || dirEquals(prevDir, Down) && dirEquals(nextDir, Right)) {
         corner = "\u2514";
       } else {
         corner = "+";
@@ -3112,7 +2881,7 @@ function getNodeAttachmentPoint(graph, node, dir) {
     height: h + 1,
     labelArea: { x: 0, y: 0, width: 0, height: 0 },
     gridColumns: [0, 0, 0],
-    gridRows: [0, 0, 0],
+    gridRows: [0, 0, 0]
   };
   const baseCoord = node.drawingCoord;
   return getShapeAttachmentPoint(node.shape, dir, gridDimensions, baseCoord);
@@ -3148,25 +2917,13 @@ function drawBundledEdgeSegment(graph, edge, bundle) {
     const nextDir = determineDirection(coord, edge.pathToJunction[idx + 1]);
     let corner;
     if (!useAscii) {
-      if (
-        (dirEquals(prevDir, Right) && dirEquals(nextDir, Down)) ||
-        (dirEquals(prevDir, Up) && dirEquals(nextDir, Left))
-      ) {
+      if (dirEquals(prevDir, Right) && dirEquals(nextDir, Down) || dirEquals(prevDir, Up) && dirEquals(nextDir, Left)) {
         corner = "\u2510";
-      } else if (
-        (dirEquals(prevDir, Right) && dirEquals(nextDir, Up)) ||
-        (dirEquals(prevDir, Down) && dirEquals(nextDir, Left))
-      ) {
+      } else if (dirEquals(prevDir, Right) && dirEquals(nextDir, Up) || dirEquals(prevDir, Down) && dirEquals(nextDir, Left)) {
         corner = "\u2518";
-      } else if (
-        (dirEquals(prevDir, Left) && dirEquals(nextDir, Down)) ||
-        (dirEquals(prevDir, Up) && dirEquals(nextDir, Right))
-      ) {
+      } else if (dirEquals(prevDir, Left) && dirEquals(nextDir, Down) || dirEquals(prevDir, Up) && dirEquals(nextDir, Right)) {
         corner = "\u250C";
-      } else if (
-        (dirEquals(prevDir, Left) && dirEquals(nextDir, Up)) ||
-        (dirEquals(prevDir, Down) && dirEquals(nextDir, Right))
-      ) {
+      } else if (dirEquals(prevDir, Left) && dirEquals(nextDir, Up) || dirEquals(prevDir, Down) && dirEquals(nextDir, Right)) {
         corner = "\u2514";
       } else {
         corner = "+";
@@ -3224,25 +2981,13 @@ function drawBundleSharedPath(graph, bundle) {
     const nextDir = determineDirection(coord, bundle.sharedPath[idx + 1]);
     let corner;
     if (!useAscii) {
-      if (
-        (dirEquals(prevDir, Right) && dirEquals(nextDir, Down)) ||
-        (dirEquals(prevDir, Up) && dirEquals(nextDir, Left))
-      ) {
+      if (dirEquals(prevDir, Right) && dirEquals(nextDir, Down) || dirEquals(prevDir, Up) && dirEquals(nextDir, Left)) {
         corner = "\u2510";
-      } else if (
-        (dirEquals(prevDir, Right) && dirEquals(nextDir, Up)) ||
-        (dirEquals(prevDir, Down) && dirEquals(nextDir, Left))
-      ) {
+      } else if (dirEquals(prevDir, Right) && dirEquals(nextDir, Up) || dirEquals(prevDir, Down) && dirEquals(nextDir, Left)) {
         corner = "\u2518";
-      } else if (
-        (dirEquals(prevDir, Left) && dirEquals(nextDir, Down)) ||
-        (dirEquals(prevDir, Up) && dirEquals(nextDir, Right))
-      ) {
+      } else if (dirEquals(prevDir, Left) && dirEquals(nextDir, Down) || dirEquals(prevDir, Up) && dirEquals(nextDir, Right)) {
         corner = "\u250C";
-      } else if (
-        (dirEquals(prevDir, Left) && dirEquals(nextDir, Up)) ||
-        (dirEquals(prevDir, Down) && dirEquals(nextDir, Right))
-      ) {
+      } else if (dirEquals(prevDir, Left) && dirEquals(nextDir, Up) || dirEquals(prevDir, Down) && dirEquals(nextDir, Right)) {
         corner = "\u2514";
       } else {
         corner = "+";
@@ -3326,7 +3071,7 @@ function drawJunctionCharacter(graph, bundle) {
     const adjacentIdx = bundle.type === "fan-in" ? 1 : bundle.sharedPath.length - 2;
     const sharedDir = determineDirection(
       bundle.sharedPath[junctionIdx],
-      bundle.sharedPath[adjacentIdx],
+      bundle.sharedPath[adjacentIdx]
     );
     if (dirEquals(sharedDir, Down)) hasDown = true;
     else if (dirEquals(sharedDir, Up)) hasUp = true;
@@ -3339,7 +3084,7 @@ function drawJunctionCharacter(graph, bundle) {
       const adjacentIdx = bundle.type === "fan-in" ? edge.pathToJunction.length - 2 : 1;
       const arrivalDir = determineDirection(
         edge.pathToJunction[adjacentIdx],
-        edge.pathToJunction[junctionIdx],
+        edge.pathToJunction[junctionIdx]
       );
       if (dirEquals(arrivalDir, Down)) hasUp = true;
       else if (dirEquals(arrivalDir, Up)) hasDown = true;
@@ -3519,10 +3264,7 @@ function drawGraph(graph) {
         arrowHeadEndCanvases.push(arrowHeadC);
       }
     } else {
-      const [pathC, boxStartC, arrowHeadEndC, arrowHeadStartC, cornersC, labelC] = drawArrow(
-        graph,
-        edge,
-      );
+      const [pathC, boxStartC, arrowHeadEndC, arrowHeadStartC, cornersC, labelC] = drawArrow(graph, edge);
       lineCanvases.push(pathC);
       cornerCanvases.push(cornersC);
       arrowHeadEndCanvases.push(arrowHeadEndC);
@@ -3569,7 +3311,7 @@ function gridToDrawingCoord(graph, c, dir) {
   const rowH = graph.rowHeight.get(target.y) ?? 0;
   return {
     x: x + Math.floor(colW / 2) + graph.offsetX,
-    y: y + Math.floor(rowH / 2) + graph.offsetY,
+    y: y + Math.floor(rowH / 2) + graph.offsetY
   };
 }
 function lineToDrawing(graph, line) {
@@ -3598,7 +3340,7 @@ function setColumnWidth(graph, node) {
   const padding = graph.config.boxBorderPadding;
   const shapeDims = getShapeDimensions(node.shape, node.displayLabel, {
     useAscii: graph.config.useAscii,
-    padding,
+    padding
   });
   const colWidths = shapeDims.gridColumns;
   const rowHeights = shapeDims.gridRows;
@@ -3832,20 +3574,14 @@ function createMapping(graph) {
     externalRootNodes = rootNodes;
   }
   for (const node of externalRootNodes) {
-    const requested =
-      dir === "LR"
-        ? { x: 0, y: highestPositionPerLevel[0] }
-        : { x: highestPositionPerLevel[0], y: 0 };
+    const requested = dir === "LR" ? { x: 0, y: highestPositionPerLevel[0] } : { x: highestPositionPerLevel[0], y: 0 };
     reserveSpotInGrid(graph, graph.nodes[node.index], requested);
     highestPositionPerLevel[0] = highestPositionPerLevel[0] + 4;
   }
   if (shouldSeparate && subgraphRootNodes.length > 0) {
     const subgraphLevel = 4;
     for (const node of subgraphRootNodes) {
-      const requested =
-        dir === "LR"
-          ? { x: subgraphLevel, y: highestPositionPerLevel[subgraphLevel] }
-          : { x: highestPositionPerLevel[subgraphLevel], y: subgraphLevel };
+      const requested = dir === "LR" ? { x: subgraphLevel, y: highestPositionPerLevel[subgraphLevel] } : { x: highestPositionPerLevel[subgraphLevel], y: subgraphLevel };
       reserveSpotInGrid(graph, graph.nodes[node.index], requested);
       highestPositionPerLevel[subgraphLevel] = highestPositionPerLevel[subgraphLevel] + 4;
     }
@@ -3860,10 +3596,7 @@ function createMapping(graph) {
         if (child.gridCoord !== null) continue;
         const parentSg = getNodeSubgraph(graph, node);
         const childSg = getNodeSubgraph(graph, child);
-        const edgeDir =
-          parentSg && parentSg === childSg && parentSg.direction
-            ? parentSg.direction
-            : graph.config.graphDirection;
+        const edgeDir = parentSg && parentSg === childSg && parentSg.direction ? parentSg.direction : graph.config.graphDirection;
         const childLevel = edgeDir === "LR" ? gc.x + 4 : gc.y + 4;
         let highestPosition;
         if (edgeDir !== graph.config.graphDirection) {
@@ -3871,10 +3604,7 @@ function createMapping(graph) {
         } else {
           highestPosition = highestPositionPerLevel[childLevel];
         }
-        const requested =
-          edgeDir === "LR"
-            ? { x: childLevel, y: highestPosition }
-            : { x: highestPosition, y: childLevel };
+        const requested = edgeDir === "LR" ? { x: childLevel, y: highestPosition } : { x: highestPosition, y: childLevel };
         reserveSpotInGrid(graph, graph.nodes[child.index], requested, edgeDir);
         if (edgeDir === graph.config.graphDirection) {
           highestPositionPerLevel[childLevel] = highestPosition + 4;
@@ -3921,7 +3651,7 @@ function parseSequenceDiagram(lines) {
     actors: [],
     messages: [],
     blocks: [],
-    notes: [],
+    notes: []
   };
   const actorIds = /* @__PURE__ */ new Set();
   const blockStack = [];
@@ -3955,7 +3685,7 @@ function parseSequenceDiagram(lines) {
         actorIds: noteActorIds,
         text,
         position,
-        afterIndex: diagram.messages.length - 1,
+        afterIndex: diagram.messages.length - 1
       });
       continue;
     }
@@ -3968,7 +3698,7 @@ function parseSequenceDiagram(lines) {
         type: blockType,
         label,
         startIndex: diagram.messages.length,
-        dividers: [],
+        dividers: []
       });
       continue;
     }
@@ -3978,7 +3708,7 @@ function parseSequenceDiagram(lines) {
       const label = normalizeBrTags(rawDividerLabel);
       blockStack[blockStack.length - 1].dividers.push({
         index: diagram.messages.length,
-        label,
+        label
       });
       continue;
     }
@@ -3989,12 +3719,12 @@ function parseSequenceDiagram(lines) {
         label: completed.label,
         startIndex: completed.startIndex,
         endIndex: Math.max(diagram.messages.length - 1, completed.startIndex),
-        dividers: completed.dividers,
+        dividers: completed.dividers
       });
       continue;
     }
     const msgMatch = line.match(
-      /^(\S+?)\s*(--?>?>|--?[)x]|--?>>|--?>)\s*([+-]?)(\S+?)\s*:\s*(.+)$/,
+      /^(\S+?)\s*(--?>?>|--?[)x]|--?>>|--?>)\s*([+-]?)(\S+?)\s*:\s*(.+)$/
     );
     if (msgMatch) {
       const from = msgMatch[1];
@@ -4011,7 +3741,7 @@ function parseSequenceDiagram(lines) {
         to,
         label,
         lineStyle,
-        arrowHead,
+        arrowHead
       };
       if (activationMark === "+") msg.activate = true;
       if (activationMark === "-") msg.deactivate = true;
@@ -4019,7 +3749,7 @@ function parseSequenceDiagram(lines) {
       continue;
     }
     const simpleMsgMatch = line.match(
-      /^(\S+?)\s*(->>|-->>|-\)|--\)|-x|--x|->|-->)\s*([+-]?)(\S+?)\s*:\s*(.+)$/,
+      /^(\S+?)\s*(->>|-->>|-\)|--\)|-x|--x|->|-->)\s*([+-]?)(\S+?)\s*:\s*(.+)$/
     );
     if (simpleMsgMatch) {
       const from = simpleMsgMatch[1];
@@ -4049,10 +3779,7 @@ function ensureActor(diagram, actorIds, id) {
 
 // src/ascii/sequence.ts
 function renderSequenceAscii(text, config, colorMode, theme) {
-  const lines = text
-    .split("\n")
-    .map((l) => l.trim())
-    .filter((l) => l.length > 0 && !l.startsWith("%%"));
+  const lines = text.split("\n").map((l) => l.trim()).filter((l) => l.length > 0 && !l.startsWith("%%"));
   const diagram = parseSequenceDiagram(lines);
   if (diagram.actors.length === 0) return "";
   const useAscii = config.useAscii;
@@ -4089,7 +3816,11 @@ function renderSequenceAscii(text, config, colorMode, theme) {
   }
   const llX = [halfBox[0]];
   for (let i = 1; i < diagram.actors.length; i++) {
-    const gap = Math.max(halfBox[i - 1] + halfBox[i] + 2, adjMaxWidth[i - 1] + 2, 10);
+    const gap = Math.max(
+      halfBox[i - 1] + halfBox[i] + 2,
+      adjMaxWidth[i - 1] + 2,
+      10
+    );
     llX[i] = llX[i - 1] + gap;
   }
   const msgArrowY = [];
@@ -4235,7 +3966,7 @@ function renderSequenceAscii(text, config, colorMode, theme) {
     const isSelf = fi === ti;
     const isDashed = msg.lineStyle === "dashed";
     const isFilled = msg.arrowHead === "filled";
-    const lineChar = isDashed ? (useAscii ? "." : "\u254C") : H;
+    const lineChar = isDashed ? useAscii ? "." : "\u254C" : H;
     if (isSelf) {
       const y0 = msgArrowY[m];
       const loopW = Math.max(4, 4);
@@ -4247,7 +3978,7 @@ function renderSequenceAscii(text, config, colorMode, theme) {
       for (let i = 0; i < msg.label.length; i++) {
         if (labelX + i < totalW) setC(labelX + i, y0 + 1, msg.label[i], "text");
       }
-      const arrowChar = isFilled ? (useAscii ? "<" : "\u25C0") : useAscii ? "<" : "\u25C1";
+      const arrowChar = isFilled ? useAscii ? "<" : "\u25C0" : useAscii ? "<" : "\u25C1";
       setC(fromX, y0 + 2, arrowChar, "arrow");
       for (let x = fromX + 1; x < fromX + loopW; x++) setC(x, y0 + 2, lineChar, "line");
       setC(fromX + loopW, y0 + 2, useAscii ? "+" : "\u2518", "corner");
@@ -4268,11 +3999,11 @@ function renderSequenceAscii(text, config, colorMode, theme) {
       }
       if (leftToRight) {
         for (let x = fromX + 1; x < toX; x++) setC(x, arrowY, lineChar, "line");
-        const ah = isFilled ? (useAscii ? ">" : "\u25B6") : useAscii ? ">" : "\u25B7";
+        const ah = isFilled ? useAscii ? ">" : "\u25B6" : useAscii ? ">" : "\u25B7";
         setC(toX, arrowY, ah, "arrow");
       } else {
         for (let x = toX + 1; x < fromX; x++) setC(x, arrowY, lineChar, "line");
-        const ah = isFilled ? (useAscii ? "<" : "\u25C0") : useAscii ? "<" : "\u25C1";
+        const ah = isFilled ? useAscii ? "<" : "\u25C0" : useAscii ? "<" : "\u25C1";
         setC(toX, arrowY, ah, "arrow");
       }
     }
@@ -4358,7 +4089,7 @@ function parseClassDiagram(lines) {
   const diagram = {
     classes: [],
     relationships: [],
-    namespaces: [],
+    namespaces: []
   };
   const classMap = /* @__PURE__ */ new Map();
   let currentNamespace = null;
@@ -4492,9 +4223,9 @@ function parseMember(line) {
         isStatic: isStatic2,
         isAbstract: isAbstract2,
         isMethod: true,
-        params,
+        params
       },
-      isMethod: true,
+      isMethod: true
     };
   }
   const parts = rest.split(/\s+/);
@@ -4515,14 +4246,14 @@ function parseMember(line) {
       type: type || void 0,
       isStatic,
       isAbstract,
-      isMethod: false,
+      isMethod: false
     },
-    isMethod: false,
+    isMethod: false
   };
 }
 function parseRelationship(line) {
   const match = line.match(
-    /^(\S+?)\s+(?:"([^"]*?)"\s+)?(<\|--|<\|\.\.|\*--|o--|-->|--\*|--o|--\|>|\.\.>|\.\.\|>|<--|<\.\.?|--)\s+(?:"([^"]*?)"\s+)?(\S+?)(?:\s*:\s*(.+))?$/,
+    /^(\S+?)\s+(?:"([^"]*?)"\s+)?(<\|--|<\|\.\.|\*--|o--|-->|--\*|--o|--\|>|\.\.>|\.\.\|>|<--|<\.\.?|--)\s+(?:"([^"]*?)"\s+)?(\S+?)(?:\s*:\s*(.+))?$/
   );
   if (!match) return null;
   const from = match[1];
@@ -4536,15 +4267,7 @@ function parseRelationship(line) {
   const label = rawLabel ? normalizeBrTags(rawLabel) : void 0;
   const parsed = parseArrow(arrow);
   if (!parsed) return null;
-  return {
-    from,
-    to,
-    type: parsed.type,
-    markerAt: parsed.markerAt,
-    label,
-    fromCardinality,
-    toCardinality,
-  };
+  return { from, to, type: parsed.type, markerAt: parsed.markerAt, label, fromCardinality, toCardinality };
 }
 function parseArrow(arrow) {
   const a = arrow.trim();
@@ -4636,10 +4359,7 @@ function getMarkerShape(type, useAscii, direction) {
   }
 }
 function renderClassAscii(text, config, colorMode, theme) {
-  const lines = text
-    .split("\n")
-    .map((l) => l.trim())
-    .filter((l) => l.length > 0 && !l.startsWith("%%"));
+  const lines = text.split("\n").map((l) => l.trim()).filter((l) => l.length > 0 && !l.startsWith("%%"));
   const diagram = parseClassDiagram(lines);
   if (diagram.classes.length === 0) return "";
   const useAscii = config.useAscii;
@@ -4719,7 +4439,7 @@ function renderClassAscii(text, config, colorMode, theme) {
         x: currentX,
         y: currentY,
         width: w,
-        height: h,
+        height: h
       });
       currentX += w + hGap;
       maxH = Math.max(maxH, h);
@@ -4763,7 +4483,7 @@ function renderClassAscii(text, config, colorMode, theme) {
       x1: p.x,
       x2: p.x + p.width - 1,
       y1: p.y,
-      y2: p.y + p.height - 1,
+      y2: p.y + p.height - 1
     });
   }
   function isInsideBox(x, y, excludeIds) {
@@ -5044,7 +4764,7 @@ function renderClassAscii(text, config, colorMode, theme) {
 function parseErDiagram(lines) {
   const diagram = {
     entities: [],
-    relationships: [],
+    relationships: []
   };
   const entityMap = /* @__PURE__ */ new Map();
   let currentEntity = null;
@@ -5213,10 +4933,7 @@ function findConnectedComponents(diagram) {
   return components;
 }
 function renderErAscii(text, config, colorMode, theme) {
-  const lines = text
-    .split("\n")
-    .map((l) => l.trim())
-    .filter((l) => l.length > 0 && !l.startsWith("%%"));
+  const lines = text.split("\n").map((l) => l.trim()).filter((l) => l.length > 0 && !l.startsWith("%%"));
   const diagram = parseErDiagram(lines);
   if (diagram.entities.length === 0) return "";
   const useAscii = config.useAscii;
@@ -5267,7 +4984,7 @@ function renderErAscii(text, config, colorMode, theme) {
         x: currentX,
         y: currentY,
         width: w,
-        height: h,
+        height: h
       });
       currentX += w + hGap;
       maxRowH = Math.max(maxRowH, h);
@@ -5323,8 +5040,7 @@ function renderErAscii(text, config, colorMode, theme) {
     const sameRow = Math.abs(e1CY - e2CY) < Math.max(e1.height, e2.height);
     if (sameRow) {
       const [left, right] = e1CX < e2CX ? [e1, e2] : [e2, e1];
-      const [leftCard, rightCard] =
-        e1CX < e2CX ? [rel.cardinality1, rel.cardinality2] : [rel.cardinality2, rel.cardinality1];
+      const [leftCard, rightCard] = e1CX < e2CX ? [rel.cardinality1, rel.cardinality2] : [rel.cardinality2, rel.cardinality1];
       const startX = left.x + left.width;
       const endX = right.x - 1;
       const lineY = left.y + Math.floor(left.height / 2);
@@ -5347,11 +5063,7 @@ function renderErAscii(text, config, colorMode, theme) {
           const labelStart = Math.max(startX, gapMid - Math.floor(line.length / 2));
           const labelY = lineY + 1 + lineIdx;
           increaseSize(canvas, Math.max(labelStart + line.length, 1), Math.max(labelY + 1, 1));
-          increaseRoleCanvasSize(
-            rc,
-            Math.max(labelStart + line.length, 1),
-            Math.max(labelY + 1, 1),
-          );
+          increaseRoleCanvasSize(rc, Math.max(labelStart + line.length, 1), Math.max(labelY + 1, 1));
           for (let i = 0; i < line.length; i++) {
             const lx = labelStart + i;
             if (lx >= startX && lx <= endX) {
@@ -5362,8 +5074,7 @@ function renderErAscii(text, config, colorMode, theme) {
       }
     } else {
       const [upper, lower] = e1CY < e2CY ? [e1, e2] : [e2, e1];
-      const [upperCard, lowerCard] =
-        e1CY < e2CY ? [rel.cardinality1, rel.cardinality2] : [rel.cardinality2, rel.cardinality1];
+      const [upperCard, lowerCard] = e1CY < e2CY ? [rel.cardinality1, rel.cardinality2] : [rel.cardinality2, rel.cardinality1];
       const startY = upper.y + upper.height;
       const endY = lower.y - 1;
       const lineX = upper.x + Math.floor(upper.width / 2);
@@ -5439,17 +5150,13 @@ function parseXYChart(lines) {
       xAxis.categories = xCatMatch[2].split(",").map((s) => s.trim());
       continue;
     }
-    const xRangeMatch = line.match(
-      /^x-axis\s+(?:"([^"]*)"\s+)?(-?\d+(?:\.\d+)?)\s*-->\s*(-?\d+(?:\.\d+)?)/,
-    );
+    const xRangeMatch = line.match(/^x-axis\s+(?:"([^"]*)"\s+)?(-?\d+(?:\.\d+)?)\s*-->\s*(-?\d+(?:\.\d+)?)/);
     if (xRangeMatch) {
       if (xRangeMatch[1]) xAxis.title = xRangeMatch[1];
       xAxis.range = { min: parseFloat(xRangeMatch[2]), max: parseFloat(xRangeMatch[3]) };
       continue;
     }
-    const yRangeMatch = line.match(
-      /^y-axis\s+(?:"([^"]*)"\s+)?(-?\d+(?:\.\d+)?)\s*-->\s*(-?\d+(?:\.\d+)?)/,
-    );
+    const yRangeMatch = line.match(/^y-axis\s+(?:"([^"]*)"\s+)?(-?\d+(?:\.\d+)?)\s*-->\s*(-?\d+(?:\.\d+)?)/);
     if (yRangeMatch) {
       if (yRangeMatch[1]) yAxis.title = yRangeMatch[1];
       yAxis.range = { min: parseFloat(yRangeMatch[2]), max: parseFloat(yRangeMatch[3]) };
@@ -5513,7 +5220,7 @@ function hslToHex(h, s, l) {
   const si = s / 100;
   const li = l / 100;
   const c = (1 - Math.abs(2 * li - 1)) * si;
-  const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+  const x = c * (1 - Math.abs(h / 60 % 2 - 1));
   const m = li - c / 2;
   let r2, g, b;
   if (h < 60) {
@@ -5541,10 +5248,7 @@ function hslToHex(h, s, l) {
     g = 0;
     b = x;
   }
-  const toHex = (v) =>
-    Math.round((v + m) * 255)
-      .toString(16)
-      .padStart(2, "0");
+  const toHex = (v) => Math.round((v + m) * 255).toString(16).padStart(2, "0");
   return `#${toHex(r2)}${toHex(g)}${toHex(b)}`;
 }
 function isValidHex(color) {
@@ -5564,7 +5268,7 @@ function getSeriesColor(index, accentColor, bgColor) {
   const dark = safeBg && isDarkBackground(safeBg) ? !oddIndex : oddIndex;
   const l = dark ? Math.max(25, 48 - tier * 13) : Math.min(78, 55 + tier * 11);
   const hShift = (dark ? -8 : 12) * tier;
-  const newH = (((h + hShift) % 360) + 360) % 360;
+  const newH = ((h + hShift) % 360 + 360) % 360;
   return hslToHex(newH, chartS, l);
 }
 
@@ -5585,7 +5289,7 @@ var UNI = {
   // top-right: down+left
   cornerBL: "\u2570",
   // bottom-left: up+right
-  cornerBR: "\u256F",
+  cornerBR: "\u256F"
   // bottom-right: up+left
 };
 var ASC = {
@@ -5599,7 +5303,7 @@ var ASC = {
   cornerTL: "+",
   cornerTR: "+",
   cornerBL: "+",
-  cornerBR: "+",
+  cornerBR: "+"
 };
 function getSeriesColors(total, theme) {
   const accent = theme.accent ?? CHART_ACCENT_FALLBACK;
@@ -5625,10 +5329,7 @@ function roleToHex(role, theme) {
   }
 }
 function renderXYChartAscii(text, config, colorMode, theme) {
-  const lines = text
-    .split("\n")
-    .map((l) => l.trim())
-    .filter((l) => l.length > 0 && !l.startsWith("%%"));
+  const lines = text.split("\n").map((l) => l.trim()).filter((l) => l.length > 0 && !l.startsWith("%%"));
   const chart = parseXYChart(lines);
   const ch = config.useAscii ? ASC : UNI;
   if (chart.horizontal) {
@@ -5668,14 +5369,7 @@ function renderVertical(chart, ch, colorMode, theme) {
   };
   const bandCenter = (i) => plotLeft + Math.floor(bandW * (i + 0.5));
   if (hasTitle && titleRow >= 0) {
-    writeText(
-      canvas,
-      roles,
-      titleRow,
-      Math.floor(totalW / 2 - chart.title.length / 2),
-      chart.title,
-      "text",
-    );
+    writeText(canvas, roles, titleRow, Math.floor(totalW / 2 - chart.title.length / 2), chart.title, "text");
   }
   if (hasLegend) {
     const legendRow = hasTitle ? 1 : 0;
@@ -5721,8 +5415,7 @@ function renderVertical(chart, ch, colorMode, theme) {
   }
   const barEntries = [];
   for (let si = 0; si < chart.series.length; si++) {
-    if (chart.series[si].type === "bar")
-      barEntries.push({ data: chart.series[si].data, globalIdx: si });
+    if (chart.series[si].type === "bar") barEntries.push({ data: chart.series[si].data, globalIdx: si });
   }
   if (barEntries.length > 0) {
     const barCount = barEntries.length;
@@ -5751,26 +5444,12 @@ function renderVertical(chart, ch, colorMode, theme) {
   }
   const lineEntries = [];
   for (let si = 0; si < chart.series.length; si++) {
-    if (chart.series[si].type === "line")
-      lineEntries.push({ data: chart.series[si].data, globalIdx: si });
+    if (chart.series[si].type === "line") lineEntries.push({ data: chart.series[si].data, globalIdx: si });
   }
   for (const entry of lineEntries) {
     if (entry.data.length === 0) continue;
     const hexColor = seriesColors[entry.globalIdx];
-    drawStaircaseLine(
-      canvas,
-      roles,
-      entry.data,
-      bandCenter,
-      valueToRow,
-      plotTop,
-      plotH,
-      plotLeft,
-      bandW * dataCount,
-      ch,
-      hexColors,
-      hexColor,
-    );
+    drawStaircaseLine(canvas, roles, entry.data, bandCenter, valueToRow, plotTop, plotH, plotLeft, bandW * dataCount, ch, hexColors, hexColor);
   }
   return canvasToString2(canvas, roles, hexColors, colorMode, theme);
 }
@@ -5802,14 +5481,7 @@ function renderHorizontal(chart, ch, colorMode, theme) {
   };
   const bandMid = (i) => plotTop + Math.floor(bandH * (i + 0.5));
   if (hasTitle) {
-    writeText(
-      canvas,
-      roles,
-      0,
-      Math.floor(totalW / 2 - chart.title.length / 2),
-      chart.title,
-      "text",
-    );
+    writeText(canvas, roles, 0, Math.floor(totalW / 2 - chart.title.length / 2), chart.title, "text");
   }
   if (hasLegend) {
     const legendRow = hasTitle ? 1 : 0;
@@ -5850,8 +5522,7 @@ function renderHorizontal(chart, ch, colorMode, theme) {
   }
   const barEntries = [];
   for (let si = 0; si < chart.series.length; si++) {
-    if (chart.series[si].type === "bar")
-      barEntries.push({ data: chart.series[si].data, globalIdx: si });
+    if (chart.series[si].type === "bar") barEntries.push({ data: chart.series[si].data, globalIdx: si });
   }
   if (barEntries.length > 0) {
     const barCount = barEntries.length;
@@ -5878,47 +5549,20 @@ function renderHorizontal(chart, ch, colorMode, theme) {
   }
   const lineEntries = [];
   for (let si = 0; si < chart.series.length; si++) {
-    if (chart.series[si].type === "line")
-      lineEntries.push({ data: chart.series[si].data, globalIdx: si });
+    if (chart.series[si].type === "line") lineEntries.push({ data: chart.series[si].data, globalIdx: si });
   }
   for (const entry of lineEntries) {
     if (entry.data.length === 0) continue;
     const hexColor = seriesColors[entry.globalIdx];
-    drawHorizontalStaircaseLine(
-      canvas,
-      roles,
-      entry.data,
-      bandMid,
-      valueToCol,
-      plotTop,
-      plotH,
-      plotLeft,
-      plotW,
-      ch,
-      hexColors,
-      hexColor,
-    );
+    drawHorizontalStaircaseLine(canvas, roles, entry.data, bandMid, valueToCol, plotTop, plotH, plotLeft, plotW, ch, hexColors, hexColor);
   }
   return canvasToString2(canvas, roles, hexColors, colorMode, theme);
 }
-function drawStaircaseLine(
-  canvas,
-  roles,
-  data,
-  bandCenter,
-  valueToRow,
-  plotTop,
-  plotH,
-  plotLeft,
-  plotTotalW,
-  ch,
-  hexCanvas,
-  hexColor,
-) {
+function drawStaircaseLine(canvas, roles, data, bandCenter, valueToRow, plotTop, plotH, plotLeft, plotTotalW, ch, hexCanvas, hexColor) {
   if (data.length === 0) return;
   const points = data.map((v, i) => ({
     col: bandCenter(i),
-    row: valueToRow(v),
+    row: valueToRow(v)
   }));
   const drawAt = (col, row, char) => {
     const displayRow = plotTop + (plotH - 1 - row);
@@ -5969,34 +5613,18 @@ function drawStaircaseLine(
       }
     }
     if (i === points.length - 2) {
-      const trailEnd = Math.min(
-        plotLeft + plotTotalW - 1,
-        p2.col + Math.floor((p2.col - p1.col) / 4),
-      );
+      const trailEnd = Math.min(plotLeft + plotTotalW - 1, p2.col + Math.floor((p2.col - p1.col) / 4));
       for (let c = p2.col + 1; c <= trailEnd; c++) {
         drawAt(c, p2.row, ch.hLine);
       }
     }
   }
 }
-function drawHorizontalStaircaseLine(
-  canvas,
-  roles,
-  data,
-  bandMid,
-  valueToCol,
-  plotTop,
-  plotH,
-  plotLeft,
-  plotW,
-  ch,
-  hexCanvas,
-  hexColor,
-) {
+function drawHorizontalStaircaseLine(canvas, roles, data, bandMid, valueToCol, plotTop, plotH, plotLeft, plotW, ch, hexCanvas, hexColor) {
   if (data.length === 0) return;
   const points = data.map((v, i) => ({
     row: bandMid(i),
-    col: valueToCol(v),
+    col: valueToCol(v)
   }));
   const drawAt = (row, col, char) => {
     if (row >= plotTop && row < plotTop + plotH && col >= plotLeft && col < plotLeft + plotW) {
@@ -6043,8 +5671,7 @@ function drawHorizontalStaircaseLine(
 }
 function drawLegend(canvas, roles, hexCanvas, chart, row, totalW, ch, seriesColors) {
   const items = [];
-  let barIdx = 0,
-    lineIdx = 0;
+  let barIdx = 0, lineIdx = 0;
   for (let si = 0; si < chart.series.length; si++) {
     const s = chart.series[si];
     if (s.type === "bar") {
@@ -6118,15 +5745,13 @@ function canvasToString2(canvas, roles, hexCanvas, colorMode, theme) {
     if (end < 0) {
       lines.push("");
     } else {
-      lines.push(
-        colorizeRow(
-          chars.slice(0, end + 1),
-          rowRoles.slice(0, end + 1),
-          rowHex.slice(0, end + 1),
-          theme,
-          colorMode,
-        ),
-      );
+      lines.push(colorizeRow(
+        chars.slice(0, end + 1),
+        rowRoles.slice(0, end + 1),
+        rowHex.slice(0, end + 1),
+        theme,
+        colorMode
+      ));
     }
   }
   while (lines.length > 0 && lines[lines.length - 1] === "") {
@@ -6222,13 +5847,10 @@ function renderMermaidASCII(text, options = {}) {
     paddingX: options.paddingX ?? 5,
     paddingY: options.paddingY ?? 5,
     boxBorderPadding: options.boxBorderPadding ?? 1,
-    graphDirection: "TD",
+    graphDirection: "TD"
     // default, overridden for flowcharts below
   };
-  const colorMode =
-    options.colorMode === "auto" || options.colorMode === void 0
-      ? detectColorMode()
-      : options.colorMode;
+  const colorMode = options.colorMode === "auto" || options.colorMode === void 0 ? detectColorMode() : options.colorMode;
   const theme = { ...DEFAULT_ASCII_THEME, ...options.theme };
   const diagramType = detectDiagramType(text);
   switch (diagramType) {
@@ -6258,7 +5880,7 @@ function renderMermaidASCII(text, options = {}) {
       return canvasToString(graph.canvas, {
         roleCanvas: graph.roleCanvas,
         colorMode,
-        theme,
+        theme
       });
     }
   }
@@ -6283,12 +5905,12 @@ var FONT_SIZES = {
   /** Edge label text */
   edgeLabel: 11,
   /** Subgraph header text */
-  groupHeader: 12,
+  groupHeader: 12
 };
 var FONT_WEIGHTS = {
   nodeLabel: 500,
   edgeLabel: 400,
-  groupHeader: 600,
+  groupHeader: 600
 };
 var NODE_PADDING = {
   /** Horizontal padding inside rectangles/rounded/stadium (increased from 16 for better label fit) */
@@ -6296,18 +5918,18 @@ var NODE_PADDING = {
   /** Vertical padding inside rectangles/rounded/stadium */
   vertical: 10,
   /** Extra padding for diamond shapes (they need more space due to rotation) */
-  diamondExtra: 24,
+  diamondExtra: 24
 };
 var STROKE_WIDTHS = {
   outerBox: 1,
   innerBox: 0.75,
   /** Edge connector stroke (increased from 0.75 for better visibility) */
-  connector: 1,
+  connector: 1
 };
 var TEXT_BASELINE_SHIFT = "0.35em";
 var ARROW_HEAD = {
   width: 8,
-  height: 5,
+  height: 5
 };
 
 // src/elk-instance.ts
@@ -6449,7 +6071,7 @@ var DEFAULTS2 = {
   nodeSpacing: 28,
   layerSpacing: 48,
   mergeEdges: true,
-  thoroughness: 3,
+  thoroughness: 3
 };
 function directionToElk(dir) {
   switch (dir) {
@@ -6547,10 +6169,10 @@ function mermaidToElk(graph, opts) {
       "elk.layered.wrapping.strategy": "OFF",
       // Use SEPARATE when subgraphs have direction overrides (enables proper direction handling)
       // Use INCLUDE_CHILDREN otherwise (simpler cross-hierarchy edge routing)
-      "elk.hierarchyHandling": hasDirectionOverride ? "SEPARATE" : "INCLUDE_CHILDREN",
+      "elk.hierarchyHandling": hasDirectionOverride ? "SEPARATE" : "INCLUDE_CHILDREN"
     },
     children: [],
-    edges: [],
+    edges: []
   };
   const subgraphPorts = /* @__PURE__ */ new Map();
   if (hasDirectionOverride) {
@@ -6564,7 +6186,7 @@ function mermaidToElk(graph, opts) {
           portId,
           edgeIndex: index,
           direction: "outgoing",
-          internalNodeId: edge.source,
+          internalNodeId: edge.source
         });
       }
       if (targetSubgraph) {
@@ -6576,7 +6198,7 @@ function mermaidToElk(graph, opts) {
           portId,
           edgeIndex: index,
           direction: "incoming",
-          internalNodeId: edge.target,
+          internalNodeId: edge.target
         });
       }
     }
@@ -6588,7 +6210,7 @@ function mermaidToElk(graph, opts) {
         id,
         width: size.width,
         height: size.height,
-        labels: [{ text: node.label }],
+        labels: [{ text: node.label }]
       });
     }
   }
@@ -6599,53 +6221,39 @@ function mermaidToElk(graph, opts) {
     const elkEdge = {
       id: `e${index}`,
       sources: [edge.source],
-      targets: [edge.target],
+      targets: [edge.target]
     };
     if (edge.label) {
-      const metrics = measureMultilineText(
-        edge.label,
-        FONT_SIZES.edgeLabel,
-        FONT_WEIGHTS.edgeLabel,
-      );
-      elkEdge.labels = [
-        {
-          text: edge.label,
-          width: metrics.width + 8,
-          height: metrics.height + 6,
-          layoutOptions: {
-            "elk.edgeLabels.inline": "true",
-            "elk.edgeLabels.placement": "CENTER",
-          },
-        },
-      ];
+      const metrics = measureMultilineText(edge.label, FONT_SIZES.edgeLabel, FONT_WEIGHTS.edgeLabel);
+      elkEdge.labels = [{
+        text: edge.label,
+        width: metrics.width + 8,
+        height: metrics.height + 6,
+        layoutOptions: {
+          "elk.edgeLabels.inline": "true",
+          "elk.edgeLabels.placement": "CENTER"
+        }
+      }];
     }
     elkGraph.edges.push(elkEdge);
   }
   for (const { index, edge, sourceSubgraph, targetSubgraph } of crossHierarchyEdges) {
     const elkEdge = {
       id: `e${index}`,
-      sources:
-        hasDirectionOverride && sourceSubgraph ? [`${sourceSubgraph}_out_${index}`] : [edge.source],
-      targets:
-        hasDirectionOverride && targetSubgraph ? [`${targetSubgraph}_in_${index}`] : [edge.target],
+      sources: hasDirectionOverride && sourceSubgraph ? [`${sourceSubgraph}_out_${index}`] : [edge.source],
+      targets: hasDirectionOverride && targetSubgraph ? [`${targetSubgraph}_in_${index}`] : [edge.target]
     };
     if (edge.label) {
-      const metrics = measureMultilineText(
-        edge.label,
-        FONT_SIZES.edgeLabel,
-        FONT_WEIGHTS.edgeLabel,
-      );
-      elkEdge.labels = [
-        {
-          text: edge.label,
-          width: metrics.width + 8,
-          height: metrics.height + 6,
-          layoutOptions: {
-            "elk.edgeLabels.inline": "true",
-            "elk.edgeLabels.placement": "CENTER",
-          },
-        },
-      ];
+      const metrics = measureMultilineText(edge.label, FONT_SIZES.edgeLabel, FONT_WEIGHTS.edgeLabel);
+      elkEdge.labels = [{
+        text: edge.label,
+        width: metrics.width + 8,
+        height: metrics.height + 6,
+        layoutOptions: {
+          "elk.edgeLabels.inline": "true",
+          "elk.edgeLabels.placement": "CENTER"
+        }
+      }];
     }
     elkGraph.edges.push(elkEdge);
   }
@@ -6663,7 +6271,7 @@ function subgraphToElk(sg, graph, opts, edgesBySubgraph, subgraphPorts) {
     "elk.layered.spacing.edgeNodeBetweenLayers": "12",
     "elk.layered.nodePlacement.bk.fixedAlignment": "BALANCED",
     "elk.layered.spacing.nodeNodeBetweenLayers": String(opts.layerSpacing),
-    "elk.spacing.nodeNode": String(opts.nodeSpacing),
+    "elk.spacing.nodeNode": String(opts.nodeSpacing)
   };
   if (sg.direction) {
     layoutOptions["elk.direction"] = directionToElk(sg.direction);
@@ -6673,12 +6281,12 @@ function subgraphToElk(sg, graph, opts, edgesBySubgraph, subgraphPorts) {
     layoutOptions,
     labels: sg.label ? [{ text: sg.label }] : void 0,
     children: [],
-    edges: [],
+    edges: []
   };
   const ports = subgraphPorts.get(sg.id) ?? [];
   if (ports.length > 0) {
     elkNode.ports = ports.map((p) => ({
-      id: p.portId,
+      id: p.portId
       // Port side is determined by ELK based on edge direction
     }));
   }
@@ -6690,7 +6298,7 @@ function subgraphToElk(sg, graph, opts, edgesBySubgraph, subgraphPorts) {
         id: nodeId,
         width: size.width,
         height: size.height,
-        labels: [{ text: node.label }],
+        labels: [{ text: node.label }]
       });
     }
   }
@@ -6702,34 +6310,25 @@ function subgraphToElk(sg, graph, opts, edgesBySubgraph, subgraphPorts) {
     const elkEdge = {
       id: `e${index}`,
       sources: [edge.source],
-      targets: [edge.target],
+      targets: [edge.target]
     };
     if (edge.label) {
-      const metrics = measureMultilineText(
-        edge.label,
-        FONT_SIZES.edgeLabel,
-        FONT_WEIGHTS.edgeLabel,
-      );
-      elkEdge.labels = [
-        {
-          text: edge.label,
-          width: metrics.width + 8,
-          height: metrics.height + 6,
-          layoutOptions: {
-            "elk.edgeLabels.inline": "true",
-            "elk.edgeLabels.placement": "CENTER",
-          },
-        },
-      ];
+      const metrics = measureMultilineText(edge.label, FONT_SIZES.edgeLabel, FONT_WEIGHTS.edgeLabel);
+      elkEdge.labels = [{
+        text: edge.label,
+        width: metrics.width + 8,
+        height: metrics.height + 6,
+        layoutOptions: {
+          "elk.edgeLabels.inline": "true",
+          "elk.edgeLabels.placement": "CENTER"
+        }
+      }];
     }
     elkNode.edges.push(elkEdge);
   }
   for (const port of ports) {
     const internalEdgeId = `e${port.edgeIndex}_internal`;
-    const elkEdge =
-      port.direction === "incoming"
-        ? { id: internalEdgeId, sources: [port.portId], targets: [port.internalNodeId] }
-        : { id: internalEdgeId, sources: [port.internalNodeId], targets: [port.portId] };
+    const elkEdge = port.direction === "incoming" ? { id: internalEdgeId, sources: [port.portId], targets: [port.internalNodeId] } : { id: internalEdgeId, sources: [port.internalNodeId], targets: [port.portId] };
     elkNode.edges.push(elkEdge);
   }
   return elkNode;
@@ -6776,13 +6375,10 @@ function elkToPositioned(elkResult, graph, mergeEdges = false) {
   }
   extractNodesAndGroups(elkResult, graph, subgraphIds, nodes, groups, 0, 0);
   const allBounds = flattenGroupBounds(groups);
-  const margins =
-    allBounds.length > 0
-      ? {
-          leftX: Math.min(...allBounds.map((b) => b.x)) - 20,
-          rightX: Math.max(...allBounds.map((b) => b.right)) + 20,
-        }
-      : void 0;
+  const margins = allBounds.length > 0 ? {
+    leftX: Math.min(...allBounds.map((b) => b.x)) - 20,
+    rightX: Math.max(...allBounds.map((b) => b.right)) + 20
+  } : void 0;
   extractEdgesRecursively(elkResult, graph, edges, 0, 0, margins);
   alignLayerNodes(nodes, edges, graph.direction);
   if (mergeEdges) {
@@ -6818,7 +6414,7 @@ function elkToPositioned(elkResult, graph, mergeEdges = false) {
     height,
     nodes,
     edges,
-    groups,
+    groups
   };
 }
 function extractNodesAndGroups(elkNode, graph, subgraphIds, nodes, groups, offsetX, offsetY) {
@@ -6839,7 +6435,7 @@ function extractNodesAndGroups(elkNode, graph, subgraphIds, nodes, groups, offse
         y,
         width,
         height,
-        children: childGroups,
+        children: childGroups
       });
     } else {
       const mNode = graph.nodes.get(child.id);
@@ -6853,7 +6449,7 @@ function extractNodesAndGroups(elkNode, graph, subgraphIds, nodes, groups, offse
           y,
           width,
           height,
-          inlineStyle,
+          inlineStyle
         });
       }
       if (child.children && child.children.length > 0) {
@@ -6880,7 +6476,7 @@ function calculatePathMidpoint(points) {
       const t = remaining / segLen;
       return {
         x: points[i - 1].x + t * dx,
-        y: points[i - 1].y + t * dy,
+        y: points[i - 1].y + t * dy
       };
     }
     remaining -= segLen;
@@ -6933,7 +6529,7 @@ function extractEdgesRecursively(elkNode, graph, edges, offsetX, offsetY, margin
       hasArrowEnd: originalEdge.hasArrowEnd,
       points: orthogonalPoints,
       labelPosition,
-      inlineStyle: resolveEdgeStyle(edgeIndex, graph),
+      inlineStyle: resolveEdgeStyle(edgeIndex, graph)
     });
   }
 }
@@ -6984,7 +6580,7 @@ function collectEdgeSegments(elkNode, segments, offsetX, offsetY) {
         const section = elkEdge.sections[0];
         points.push({
           x: section.startPoint.x + offsetX,
-          y: section.startPoint.y + offsetY,
+          y: section.startPoint.y + offsetY
         });
         if (section.bendPoints) {
           for (const bp of section.bendPoints) {
@@ -6993,7 +6589,7 @@ function collectEdgeSegments(elkNode, segments, offsetX, offsetY) {
         }
         points.push({
           x: section.endPoint.x + offsetX,
-          y: section.endPoint.y + offsetY,
+          y: section.endPoint.y + offsetY
         });
       }
       let labelPosition;
@@ -7002,7 +6598,7 @@ function collectEdgeSegments(elkNode, segments, offsetX, offsetY) {
         if (label.x != null && label.y != null) {
           labelPosition = {
             x: label.x + (label.width ?? 0) / 2 + offsetX,
-            y: label.y + (label.height ?? 0) / 2 + offsetY,
+            y: label.y + (label.height ?? 0) / 2 + offsetY
           };
         }
       }
@@ -7081,14 +6677,18 @@ function alignLayerNodes(nodes, edges, direction) {
     connectedPairs.add(`${edge.target}:${edge.source}`);
   }
   const THRESHOLD = DEFAULTS2.layerSpacing * 0.6;
-  const sorted = [...nodes].sort((a, b) => (isHorizontal ? a.x - b.x : a.y - b.y));
+  const sorted = [...nodes].sort(
+    (a, b) => isHorizontal ? a.x - b.x : a.y - b.y
+  );
   const layers = [];
   let currentLayer = [sorted[0]];
   for (let i = 1; i < sorted.length; i++) {
     const pos = isHorizontal ? sorted[i].x : sorted[i].y;
     const prevPos = isHorizontal ? sorted[i - 1].x : sorted[i - 1].y;
     const gap = pos - prevPos;
-    const hasEdgeToLayer = currentLayer.some((n) => connectedPairs.has(`${n.id}:${sorted[i].id}`));
+    const hasEdgeToLayer = currentLayer.some(
+      (n) => connectedPairs.has(`${n.id}:${sorted[i].id}`)
+    );
     if (gap <= THRESHOLD && !hasEdgeToLayer) {
       currentLayer.push(sorted[i]);
     } else {
@@ -7100,7 +6700,7 @@ function alignLayerNodes(nodes, edges, direction) {
   const deltas = /* @__PURE__ */ new Map();
   for (const layer of layers) {
     if (layer.length <= 1) continue;
-    const positions = layer.map((n) => (isHorizontal ? n.x : n.y));
+    const positions = layer.map((n) => isHorizontal ? n.x : n.y);
     const min = Math.min(...positions);
     const max = Math.max(...positions);
     if (max - min <= 1) continue;
@@ -7217,9 +6817,7 @@ function bundleEdgePaths(edges, nodes, groups, direction) {
     if (isHorizontal) {
       const exitX = isLR ? source.x + source.width : source.x;
       const exitY = srcCY;
-      const nearestX = isLR
-        ? Math.min(...targets.map((t) => t.node.x))
-        : Math.max(...targets.map((t) => t.node.x + t.node.width));
+      const nearestX = isLR ? Math.min(...targets.map((t) => t.node.x)) : Math.max(...targets.map((t) => t.node.x + t.node.width));
       let junctionX = exitX + (nearestX - exitX) / 2;
       junctionX = adjustJunctionForGroups(junctionX, srcCX, srcCY, groups, direction);
       for (const { edge, node: target } of targets) {
@@ -7229,16 +6827,14 @@ function bundleEdgePaths(edges, nodes, groups, direction) {
           { x: exitX, y: exitY },
           { x: junctionX, y: exitY },
           { x: junctionX, y: entryY },
-          { x: entryX, y: entryY },
+          { x: entryX, y: entryY }
         ];
         processed.add(edge);
       }
     } else {
       const exitX = srcCX;
       const exitY = isBT ? source.y : source.y + source.height;
-      const nearestY = isBT
-        ? Math.max(...targets.map((t) => t.node.y + t.node.height))
-        : Math.min(...targets.map((t) => t.node.y));
+      const nearestY = isBT ? Math.max(...targets.map((t) => t.node.y + t.node.height)) : Math.min(...targets.map((t) => t.node.y));
       let junctionY = exitY + (nearestY - exitY) / 2;
       junctionY = adjustJunctionForGroups(junctionY, srcCX, srcCY, groups, direction);
       for (const { edge, node: target } of targets) {
@@ -7248,7 +6844,7 @@ function bundleEdgePaths(edges, nodes, groups, direction) {
           { x: exitX, y: exitY },
           { x: exitX, y: junctionY },
           { x: entryX, y: junctionY },
-          { x: entryX, y: entryY },
+          { x: entryX, y: entryY }
         ];
         processed.add(edge);
       }
@@ -7281,9 +6877,7 @@ function bundleEdgePaths(edges, nodes, groups, direction) {
     if (isHorizontal) {
       const entryX = isLR ? target.x : target.x + target.width;
       const entryY = tgtCY;
-      const farthestX = isLR
-        ? Math.max(...sources.map((s) => s.node.x + s.node.width))
-        : Math.min(...sources.map((s) => s.node.x));
+      const farthestX = isLR ? Math.max(...sources.map((s) => s.node.x + s.node.width)) : Math.min(...sources.map((s) => s.node.x));
       let junctionX = farthestX + (entryX - farthestX) / 2;
       junctionX = adjustJunctionForGroups(junctionX, tgtCX, tgtCY, groups, direction);
       for (const { edge, node: src } of sources) {
@@ -7293,15 +6887,13 @@ function bundleEdgePaths(edges, nodes, groups, direction) {
           { x: exitX, y: exitY },
           { x: junctionX, y: exitY },
           { x: junctionX, y: entryY },
-          { x: entryX, y: entryY },
+          { x: entryX, y: entryY }
         ];
       }
     } else {
       const entryX = tgtCX;
       const entryY = isBT ? target.y + target.height : target.y;
-      const farthestY = isBT
-        ? Math.min(...sources.map((s) => s.node.y))
-        : Math.max(...sources.map((s) => s.node.y + s.node.height));
+      const farthestY = isBT ? Math.min(...sources.map((s) => s.node.y)) : Math.max(...sources.map((s) => s.node.y + s.node.height));
       let junctionY = farthestY + (entryY - farthestY) / 2;
       junctionY = adjustJunctionForGroups(junctionY, tgtCX, tgtCY, groups, direction);
       for (const { edge, node: src } of sources) {
@@ -7311,7 +6903,7 @@ function bundleEdgePaths(edges, nodes, groups, direction) {
           { x: exitX, y: exitY },
           { x: exitX, y: junctionY },
           { x: entryX, y: junctionY },
-          { x: entryX, y: entryY },
+          { x: entryX, y: entryY }
         ];
       }
     }
@@ -7361,8 +6953,7 @@ function renderSvg(graph, colors, font = "Inter", transparent = false) {
 function arrowMarkerDefs() {
   const w = ARROW_HEAD.width;
   const h = ARROW_HEAD.height;
-  const arrowStyle =
-    'fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round"';
+  const arrowStyle = 'fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round"';
   const refX = w - 1;
   return (
     // Forward arrow (marker-end) — orient="auto" ensures arrow points along line direction
@@ -7395,23 +6986,22 @@ function renderGroup(group, font) {
   const headerHeight = FONT_SIZES.groupHeader + 16;
   const parts = [];
   parts.push(
-    `<g class="subgraph" data-id="${escapeAttr(group.id)}" data-label="${escapeAttr(group.label)}">`,
+    `<g class="subgraph" data-id="${escapeAttr(group.id)}" data-label="${escapeAttr(group.label)}">`
   );
   parts.push(
-    `  <rect x="${group.x}" y="${group.y}" width="${group.width}" height="${group.height}" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="${STROKE_WIDTHS.outerBox}" />`,
+    `  <rect x="${group.x}" y="${group.y}" width="${group.width}" height="${group.height}" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="${STROKE_WIDTHS.outerBox}" />`
   );
   parts.push(
-    `  <rect x="${group.x}" y="${group.y}" width="${group.width}" height="${headerHeight}" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="${STROKE_WIDTHS.outerBox}" />`,
+    `  <rect x="${group.x}" y="${group.y}" width="${group.width}" height="${headerHeight}" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="${STROKE_WIDTHS.outerBox}" />`
   );
   parts.push(
-    "  " +
-      renderMultilineText(
-        group.label,
-        group.x + 12,
-        group.y + headerHeight / 2,
-        FONT_SIZES.groupHeader,
-        `font-size="${FONT_SIZES.groupHeader}" font-weight="${FONT_WEIGHTS.groupHeader}" fill="var(--_text-sec)"`,
-      ),
+    "  " + renderMultilineText(
+      group.label,
+      group.x + 12,
+      group.y + headerHeight / 2,
+      FONT_SIZES.groupHeader,
+      `font-size="${FONT_SIZES.groupHeader}" font-weight="${FONT_WEIGHTS.groupHeader}" fill="var(--_text-sec)"`
+    )
   );
   for (const child of group.children) {
     parts.push(renderGroup(child, font));
@@ -7423,8 +7013,7 @@ function renderEdge(edge) {
   if (edge.points.length < 2) return "";
   const pathData = pointsToPolylinePath(edge.points);
   const dashArray = edge.style === "dotted" ? ' stroke-dasharray="4 4"' : "";
-  const baseStrokeWidth =
-    edge.style === "thick" ? STROKE_WIDTHS.connector * 2 : STROKE_WIDTHS.connector;
+  const baseStrokeWidth = edge.style === "thick" ? STROKE_WIDTHS.connector * 2 : STROKE_WIDTHS.connector;
   const strokeColor = escapeAttr(edge.inlineStyle?.stroke ?? "var(--_line)");
   const strokeWidth = escapeAttr(edge.inlineStyle?.["stroke-width"] ?? String(baseStrokeWidth));
   const suffix = edge.inlineStyle?.stroke ? `-${markerSuffix(edge.inlineStyle.stroke)}` : "";
@@ -7437,7 +7026,7 @@ function renderEdge(edge) {
     `data-to="${escapeAttr(edge.target)}"`,
     `data-style="${edge.style}"`,
     `data-arrow-start="${edge.hasArrowStart}"`,
-    `data-arrow-end="${edge.hasArrowEnd}"`,
+    `data-arrow-end="${edge.hasArrowEnd}"`
   ];
   if (edge.label) {
     dataAttrs.push(`data-label="${escapeAttr(edge.label)}"`);
@@ -7463,7 +7052,7 @@ function renderEdgeLabel(edge, font) {
     // Use --_text-sec for better contrast (was --_text-muted)
     `text-anchor="middle" font-size="${FONT_SIZES.edgeLabel}" font-weight="${FONT_WEIGHTS.edgeLabel}" fill="var(--_text-sec)"`,
     // Increased stroke width from 0.5 to 1 for better label separation from edges
-    `rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1"`,
+    `rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1"`
   );
   return `<g class="edge-label" data-from="${escapeAttr(edge.source)}" data-to="${escapeAttr(edge.target)}" data-label="${escapeAttr(label)}">
   ${content.replace(/\n/g, "\n  ")}
@@ -7483,7 +7072,7 @@ function edgeMidpoint(points) {
       const t = remaining / segLen;
       return {
         x: points[i - 1].x + t * (points[i].x - points[i - 1].x),
-        y: points[i - 1].y + t * (points[i].y - points[i - 1].y),
+        y: points[i - 1].y + t * (points[i].y - points[i - 1].y)
       };
     }
     remaining -= segLen;
@@ -7498,7 +7087,7 @@ function renderNode(node, font) {
   const label = renderNodeLabel(node, font);
   const parts = [];
   parts.push(
-    `<g class="node" data-id="${escapeAttr(node.id)}" data-label="${escapeAttr(node.label)}" data-shape="${node.shape}">`,
+    `<g class="node" data-id="${escapeAttr(node.id)}" data-label="${escapeAttr(node.label)}" data-shape="${node.shape}">`
   );
   parts.push(`  ${shape.replace(/\n/g, "\n  ")}`);
   if (label) {
@@ -7572,7 +7161,7 @@ function renderDiamond(x, y, w, h, fill, stroke, sw) {
     // right
     `${cx},${cy + hh}`,
     // bottom
-    `${cx - hw},${cy}`,
+    `${cx - hw},${cy}`
     // left
   ].join(" ");
   return `<polygon points="${points}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}" />`;
@@ -7604,7 +7193,7 @@ function renderHexagon(x, y, w, h, fill, stroke, sw) {
     // bottom-right
     `${x + inset},${y + h}`,
     // bottom-left
-    `${x},${y + h / 2}`,
+    `${x},${y + h / 2}`
     // mid-left
   ].join(" ");
   return `<polygon points="${points}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}" />`;
@@ -7634,7 +7223,7 @@ function renderAsymmetric(x, y, w, h, fill, stroke, sw) {
     // bottom-right
     `${x + indent},${y + h}`,
     // bottom-left (indented)
-    `${x},${y + h / 2}`,
+    `${x},${y + h / 2}`
     // left point
   ].join(" ");
   return `<polygon points="${points}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}" />`;
@@ -7648,7 +7237,7 @@ function renderTrapezoid(x, y, w, h, fill, stroke, sw) {
     // top-right (indented)
     `${x + w},${y + h}`,
     // bottom-right (full width)
-    `${x},${y + h}`,
+    `${x},${y + h}`
     // bottom-left (full width)
   ].join(" ");
   return `<polygon points="${points}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}" />`;
@@ -7662,7 +7251,7 @@ function renderTrapezoidAlt(x, y, w, h, fill, stroke, sw) {
     // top-right (full width)
     `${x + w - inset},${y + h}`,
     // bottom-right (indented)
-    `${x + inset},${y + h}`,
+    `${x + inset},${y + h}`
     // bottom-left (indented)
   ].join(" ");
   return `<polygon points="${points}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}" />`;
@@ -7693,15 +7282,11 @@ function renderNodeLabel(node, font) {
     cx,
     cy,
     FONT_SIZES.nodeLabel,
-    `text-anchor="middle" font-size="${FONT_SIZES.nodeLabel}" font-weight="${FONT_WEIGHTS.nodeLabel}" fill="${textColor}"`,
+    `text-anchor="middle" font-size="${FONT_SIZES.nodeLabel}" font-weight="${FONT_WEIGHTS.nodeLabel}" fill="${textColor}"`
   );
 }
 function escapeAttr(value) {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/"/g, "&quot;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
+  return value.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
 // src/sequence/layout.ts
@@ -7734,20 +7319,11 @@ var SEQ = {
   noteWidth: 60,
   notePadX: 12,
   notePadY: 6,
-  noteGap: 10,
+  noteGap: 10
 };
 function layoutSequenceDiagram(diagram, _options = {}) {
   if (diagram.actors.length === 0) {
-    return {
-      width: 0,
-      height: 0,
-      actors: [],
-      lifelines: [],
-      messages: [],
-      activations: [],
-      blocks: [],
-      notes: [],
-    };
+    return { width: 0, height: 0, actors: [], lifelines: [], messages: [], activations: [], blocks: [], notes: [] };
   }
   const actorWidths = diagram.actors.map((a) => {
     const textW = estimateTextWidth(a.label, FONT_SIZES.nodeLabel, FONT_WEIGHTS.nodeLabel);
@@ -7774,7 +7350,7 @@ function layoutSequenceDiagram(diagram, _options = {}) {
     x: actorCenterX[i],
     y: actorY,
     width: actorWidths[i],
-    height: SEQ.actorHeight,
+    height: SEQ.actorHeight
   }));
   let messageY = actorY + SEQ.actorHeight + SEQ.headerGap;
   const messages = [];
@@ -7815,7 +7391,7 @@ function layoutSequenceDiagram(diagram, _options = {}) {
       x1,
       x2,
       y: messageY,
-      isSelf,
+      isSelf
     });
     if (msg.activate) {
       if (!activationStacks.has(msg.to)) {
@@ -7836,7 +7412,7 @@ function layoutSequenceDiagram(diagram, _options = {}) {
           x: actorCenterX[idx] - SEQ.activationWidth / 2 + xOffset,
           topY: startY,
           bottomY: messageY,
-          width: SEQ.activationWidth,
+          width: SEQ.activationWidth
         });
       }
     }
@@ -7848,21 +7424,18 @@ function layoutSequenceDiagram(diagram, _options = {}) {
       for (const note of notesForMsg) {
         const noteW = Math.max(
           SEQ.noteWidth,
-          estimateTextWidth(note.text, FONT_SIZES.edgeLabel, FONT_WEIGHTS.edgeLabel) +
-            SEQ.notePadX * 2,
+          estimateTextWidth(note.text, FONT_SIZES.edgeLabel, FONT_WEIGHTS.edgeLabel) + SEQ.notePadX * 2
         );
         const noteH = FONT_SIZES.edgeLabel + SEQ.notePadY * 2;
         const firstActorIdx = actorIndex.get(note.actorIds[0] ?? "") ?? 0;
         let noteX;
         if (note.position === "left") {
-          noteX =
-            actorCenterX[firstActorIdx] - actorWidths[firstActorIdx] / 2 - noteW - SEQ.noteGap;
+          noteX = actorCenterX[firstActorIdx] - actorWidths[firstActorIdx] / 2 - noteW - SEQ.noteGap;
         } else if (note.position === "right") {
           noteX = actorCenterX[firstActorIdx] + actorWidths[firstActorIdx] / 2 + SEQ.noteGap;
         } else {
           if (note.actorIds.length > 1) {
-            const lastActorIdx =
-              actorIndex.get(note.actorIds[note.actorIds.length - 1] ?? "") ?? firstActorIdx;
+            const lastActorIdx = actorIndex.get(note.actorIds[note.actorIds.length - 1] ?? "") ?? firstActorIdx;
             noteX = (actorCenterX[firstActorIdx] + actorCenterX[lastActorIdx]) / 2 - noteW / 2;
           } else {
             noteX = actorCenterX[firstActorIdx] - noteW / 2;
@@ -7875,7 +7448,7 @@ function layoutSequenceDiagram(diagram, _options = {}) {
           width: noteW,
           height: noteH,
           position: note.position,
-          actors: note.actorIds,
+          actors: note.actorIds
         });
         noteY += noteH + 4;
       }
@@ -7891,7 +7464,7 @@ function layoutSequenceDiagram(diagram, _options = {}) {
         x: actorCenterX[idx] - SEQ.activationWidth / 2 + xOffset,
         topY: startY,
         bottomY: messageY - SEQ.messageRowHeight / 2,
-        width: SEQ.activationWidth,
+        width: SEQ.activationWidth
       });
     }
   }
@@ -7921,18 +7494,10 @@ function layoutSequenceDiagram(diagram, _options = {}) {
       let offset = 28;
       if (d.label && msg?.label) {
         const divLabelText = `[${d.label}]`;
-        const divLabelW = estimateTextWidth(
-          divLabelText,
-          FONT_SIZES.edgeLabel,
-          FONT_WEIGHTS.edgeLabel,
-        );
+        const divLabelW = estimateTextWidth(divLabelText, FONT_SIZES.edgeLabel, FONT_WEIGHTS.edgeLabel);
         const divLabelLeft = blockLeft + 8;
         const divLabelRight = divLabelLeft + divLabelW;
-        const msgLabelW = estimateTextWidth(
-          msg.label,
-          FONT_SIZES.edgeLabel,
-          FONT_WEIGHTS.edgeLabel,
-        );
+        const msgLabelW = estimateTextWidth(msg.label, FONT_SIZES.edgeLabel, FONT_WEIGHTS.edgeLabel);
         const msgLabelLeft = msg.isSelf ? msg.x1 + 36 : (msg.x1 + msg.x2) / 2 - msgLabelW / 2;
         const msgLabelRight = msgLabelLeft + msgLabelW;
         if (divLabelRight > msgLabelLeft && divLabelLeft < msgLabelRight) {
@@ -7948,7 +7513,7 @@ function layoutSequenceDiagram(diagram, _options = {}) {
       y: blockTop,
       width: blockRight - blockLeft,
       height: blockBottom - blockTop,
-      dividers,
+      dividers
     };
   });
   const notes = positionedNotes;
@@ -7994,7 +7559,7 @@ function layoutSequenceDiagram(diagram, _options = {}) {
     actorId: a.id,
     x: actorCenterX[i],
     topY: actorY + SEQ.actorHeight,
-    bottomY: diagramBottom - SEQ.padding,
+    bottomY: diagramBottom - SEQ.padding
   }));
   const diagramWidth = globalMaxX + shiftX + SEQ.padding;
   const diagramHeight = diagramBottom;
@@ -8006,7 +7571,7 @@ function layoutSequenceDiagram(diagram, _options = {}) {
     messages,
     activations,
     blocks,
-    notes,
+    notes
   };
 }
 
@@ -8053,10 +7618,10 @@ function renderActor(actor) {
   const { id, x, y, width, height, label, type } = actor;
   const parts = [];
   parts.push(
-    `<g class="actor" data-id="${escapeAttr2(id)}" data-label="${escapeAttr2(label)}" data-type="${type}">`,
+    `<g class="actor" data-id="${escapeAttr2(id)}" data-label="${escapeAttr2(label)}" data-type="${type}">`
   );
   if (type === "actor") {
-    const s = (height / 24) * 0.9;
+    const s = height / 24 * 0.9;
     const tx = x - 12 * s;
     const ty = y + (height - 24 * s) / 2;
     const sw = STROKE_WIDTHS.outerBox / s;
@@ -8066,32 +7631,30 @@ function renderActor(actor) {
     <path d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" fill="none" stroke="${iconStroke}" stroke-width="${sw}" />
     <path d="M15 10C15 11.6569 13.6569 13 12 13C10.3431 13 9 11.6569 9 10C9 8.34315 10.3431 7 12 7C13.6569 7 15 8.34315 15 10Z" fill="none" stroke="${iconStroke}" stroke-width="${sw}" />
     <path d="M5.62842 18.3563C7.08963 17.0398 9.39997 16 12 16C14.6 16 16.9104 17.0398 18.3716 18.3563" fill="none" stroke="${iconStroke}" stroke-width="${sw}" />
-  </g>`,
+  </g>`
     );
     parts.push(
-      "  " +
-        renderMultilineText(
-          label,
-          x,
-          y + height + 14,
-          FONT_SIZES.nodeLabel,
-          `font-size="${FONT_SIZES.nodeLabel}" text-anchor="middle" font-weight="${FONT_WEIGHTS.nodeLabel}" fill="var(--_text)"`,
-        ),
+      "  " + renderMultilineText(
+        label,
+        x,
+        y + height + 14,
+        FONT_SIZES.nodeLabel,
+        `font-size="${FONT_SIZES.nodeLabel}" text-anchor="middle" font-weight="${FONT_WEIGHTS.nodeLabel}" fill="var(--_text)"`
+      )
     );
   } else {
     const boxX = x - width / 2;
     parts.push(
-      `  <rect x="${boxX}" y="${y}" width="${width}" height="${height}" rx="4" ry="4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="${STROKE_WIDTHS.outerBox}" />`,
+      `  <rect x="${boxX}" y="${y}" width="${width}" height="${height}" rx="4" ry="4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="${STROKE_WIDTHS.outerBox}" />`
     );
     parts.push(
-      "  " +
-        renderMultilineText(
-          label,
-          x,
-          y + height / 2,
-          FONT_SIZES.nodeLabel,
-          `font-size="${FONT_SIZES.nodeLabel}" text-anchor="middle" font-weight="${FONT_WEIGHTS.nodeLabel}" fill="var(--_text)"`,
-        ),
+      "  " + renderMultilineText(
+        label,
+        x,
+        y + height / 2,
+        FONT_SIZES.nodeLabel,
+        `font-size="${FONT_SIZES.nodeLabel}" text-anchor="middle" font-weight="${FONT_WEIGHTS.nodeLabel}" fill="var(--_text)"`
+      )
     );
   }
   parts.push("</g>");
@@ -8108,39 +7671,37 @@ function renderMessage(msg) {
   const dashArray = msg.lineStyle === "dashed" ? ' stroke-dasharray="6 4"' : "";
   const markerId = msg.arrowHead === "filled" ? "seq-arrow" : "seq-arrow-open";
   parts.push(
-    `<g class="message" data-from="${escapeAttr2(msg.from)}" data-to="${escapeAttr2(msg.to)}" data-label="${escapeAttr2(msg.label)}" data-line-style="${msg.lineStyle}" data-arrow-head="${msg.arrowHead}" data-self="${msg.isSelf}">`,
+    `<g class="message" data-from="${escapeAttr2(msg.from)}" data-to="${escapeAttr2(msg.to)}" data-label="${escapeAttr2(msg.label)}" data-line-style="${msg.lineStyle}" data-arrow-head="${msg.arrowHead}" data-self="${msg.isSelf}">`
   );
   if (msg.isSelf) {
     const loopW = 30;
     const loopH = 20;
     const labelPadding = 8;
     parts.push(
-      `  <polyline points="${msg.x1},${msg.y} ${msg.x1 + loopW},${msg.y} ${msg.x1 + loopW},${msg.y + loopH} ${msg.x2},${msg.y + loopH}" fill="none" stroke="var(--_line)" stroke-width="${STROKE_WIDTHS.connector}"${dashArray} marker-end="url(#${markerId})" />`,
+      `  <polyline points="${msg.x1},${msg.y} ${msg.x1 + loopW},${msg.y} ${msg.x1 + loopW},${msg.y + loopH} ${msg.x2},${msg.y + loopH}" fill="none" stroke="var(--_line)" stroke-width="${STROKE_WIDTHS.connector}"${dashArray} marker-end="url(#${markerId})" />`
     );
     parts.push(
-      "  " +
-        renderMultilineText(
-          msg.label,
-          msg.x1 + loopW + labelPadding,
-          msg.y + loopH / 2,
-          FONT_SIZES.edgeLabel,
-          `font-size="${FONT_SIZES.edgeLabel}" text-anchor="start" font-weight="${FONT_WEIGHTS.edgeLabel}" fill="var(--_text-muted)"`,
-        ),
+      "  " + renderMultilineText(
+        msg.label,
+        msg.x1 + loopW + labelPadding,
+        msg.y + loopH / 2,
+        FONT_SIZES.edgeLabel,
+        `font-size="${FONT_SIZES.edgeLabel}" text-anchor="start" font-weight="${FONT_WEIGHTS.edgeLabel}" fill="var(--_text-muted)"`
+      )
     );
   } else {
     parts.push(
-      `  <line x1="${msg.x1}" y1="${msg.y}" x2="${msg.x2}" y2="${msg.y}" stroke="var(--_line)" stroke-width="${STROKE_WIDTHS.connector}"${dashArray} marker-end="url(#${markerId})" />`,
+      `  <line x1="${msg.x1}" y1="${msg.y}" x2="${msg.x2}" y2="${msg.y}" stroke="var(--_line)" stroke-width="${STROKE_WIDTHS.connector}"${dashArray} marker-end="url(#${markerId})" />`
     );
     const midX = (msg.x1 + msg.x2) / 2;
     parts.push(
-      "  " +
-        renderMultilineText(
-          msg.label,
-          midX,
-          msg.y - 10,
-          FONT_SIZES.edgeLabel,
-          `font-size="${FONT_SIZES.edgeLabel}" text-anchor="middle" font-weight="${FONT_WEIGHTS.edgeLabel}" fill="var(--_text-muted)"`,
-        ),
+      "  " + renderMultilineText(
+        msg.label,
+        midX,
+        msg.y - 10,
+        FONT_SIZES.edgeLabel,
+        `font-size="${FONT_SIZES.edgeLabel}" text-anchor="middle" font-weight="${FONT_WEIGHTS.edgeLabel}" fill="var(--_text-muted)"`
+      )
     );
   }
   parts.push("</g>");
@@ -8149,42 +7710,41 @@ function renderMessage(msg) {
 function renderBlock(block) {
   const parts = [];
   const labelAttr = block.label ? ` data-label="${escapeAttr2(block.label)}"` : "";
-  parts.push(`<g class="block" data-type="${escapeAttr2(block.type)}"${labelAttr}>`);
   parts.push(
-    `  <rect x="${block.x}" y="${block.y}" width="${block.width}" height="${block.height}" rx="0" ry="0" fill="none" stroke="var(--_node-stroke)" stroke-width="${STROKE_WIDTHS.outerBox}" />`,
+    `<g class="block" data-type="${escapeAttr2(block.type)}"${labelAttr}>`
+  );
+  parts.push(
+    `  <rect x="${block.x}" y="${block.y}" width="${block.width}" height="${block.height}" rx="0" ry="0" fill="none" stroke="var(--_node-stroke)" stroke-width="${STROKE_WIDTHS.outerBox}" />`
   );
   const labelText = `${block.type}${block.label ? ` [${block.label}]` : ""}`;
   const firstLine = labelText.split("\n")[0];
-  const tabWidth =
-    estimateTextWidth(firstLine, FONT_SIZES.edgeLabel, FONT_WEIGHTS.groupHeader) + 16;
+  const tabWidth = estimateTextWidth(firstLine, FONT_SIZES.edgeLabel, FONT_WEIGHTS.groupHeader) + 16;
   const tabHeight = 18;
   parts.push(
-    `  <rect x="${block.x}" y="${block.y}" width="${tabWidth}" height="${tabHeight}" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="${STROKE_WIDTHS.outerBox}" />`,
+    `  <rect x="${block.x}" y="${block.y}" width="${tabWidth}" height="${tabHeight}" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="${STROKE_WIDTHS.outerBox}" />`
   );
   parts.push(
-    "  " +
-      renderMultilineText(
-        labelText,
-        block.x + 6,
-        block.y + tabHeight / 2,
-        FONT_SIZES.edgeLabel,
-        `font-size="${FONT_SIZES.edgeLabel}" font-weight="${FONT_WEIGHTS.groupHeader}" fill="var(--_text-sec)"`,
-      ),
+    "  " + renderMultilineText(
+      labelText,
+      block.x + 6,
+      block.y + tabHeight / 2,
+      FONT_SIZES.edgeLabel,
+      `font-size="${FONT_SIZES.edgeLabel}" font-weight="${FONT_WEIGHTS.groupHeader}" fill="var(--_text-sec)"`
+    )
   );
   for (const divider of block.dividers) {
     parts.push(
-      `  <line x1="${block.x}" y1="${divider.y}" x2="${block.x + block.width}" y2="${divider.y}" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />`,
+      `  <line x1="${block.x}" y1="${divider.y}" x2="${block.x + block.width}" y2="${divider.y}" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />`
     );
     if (divider.label) {
       parts.push(
-        "  " +
-          renderMultilineText(
-            `[${divider.label}]`,
-            block.x + 8,
-            divider.y + 14,
-            FONT_SIZES.edgeLabel,
-            `font-size="${FONT_SIZES.edgeLabel}" text-anchor="start" font-weight="${FONT_WEIGHTS.edgeLabel}" fill="var(--_text-muted)"`,
-          ),
+        "  " + renderMultilineText(
+          `[${divider.label}]`,
+          block.x + 8,
+          divider.y + 14,
+          FONT_SIZES.edgeLabel,
+          `font-size="${FONT_SIZES.edgeLabel}" text-anchor="start" font-weight="${FONT_WEIGHTS.edgeLabel}" fill="var(--_text-muted)"`
+        )
       );
     }
   }
@@ -8194,17 +7754,14 @@ function renderBlock(block) {
 function renderNote(note) {
   const foldSize = 6;
   const { x, y, width: w, height: h } = note;
-  const actorsAttr =
-    note.actors && note.actors.length > 0
-      ? ` data-actors="${note.actors.map(escapeAttr2).join(",")}"`
-      : "";
+  const actorsAttr = note.actors && note.actors.length > 0 ? ` data-actors="${note.actors.map(escapeAttr2).join(",")}"` : "";
   const positionAttr = note.position ? ` data-position="${escapeAttr2(note.position)}"` : "";
   const bodyPoints = [
     `${x},${y}`,
     `${x + w - foldSize},${y}`,
     `${x + w},${y + foldSize}`,
     `${x + w},${y + h}`,
-    `${x},${y + h}`,
+    `${x},${y + h}`
   ].join(" ");
   return `<g class="note"${positionAttr}${actorsAttr}>
   <polygon points="${bodyPoints}" fill="var(--bg)" stroke="var(--_node-stroke)" stroke-width="${STROKE_WIDTHS.innerBox}" />
@@ -8214,16 +7771,12 @@ function renderNote(note) {
     x + w / 2,
     y + h / 2,
     FONT_SIZES.edgeLabel,
-    `font-size="${FONT_SIZES.edgeLabel}" text-anchor="middle" font-weight="${FONT_WEIGHTS.edgeLabel}" fill="var(--_text-muted)"`,
+    `font-size="${FONT_SIZES.edgeLabel}" text-anchor="middle" font-weight="${FONT_WEIGHTS.edgeLabel}" fill="var(--_text-muted)"`
   )}
 </g>`;
 }
 function escapeAttr2(value) {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/"/g, "&quot;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
+  return value.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
 // src/class/layout.ts
@@ -8239,31 +7792,18 @@ var CLS = {
   memberFontSize: 11,
   memberFontWeight: 400,
   nodeSpacing: 40,
-  layerSpacing: 60,
+  layerSpacing: 60
 };
 function buildClassElkGraph(diagram, _options) {
   const classSizes = /* @__PURE__ */ new Map();
   for (const cls of diagram.classes) {
-    const headerHeight = cls.annotation
-      ? CLS.headerBaseHeight + CLS.annotationHeight
-      : CLS.headerBaseHeight;
-    const attrHeight =
-      cls.attributes.length > 0
-        ? cls.attributes.length * CLS.memberRowHeight + CLS.sectionPadY
-        : CLS.emptySectionHeight;
-    const methodHeight =
-      cls.methods.length > 0
-        ? cls.methods.length * CLS.memberRowHeight + CLS.sectionPadY
-        : CLS.emptySectionHeight;
+    const headerHeight = cls.annotation ? CLS.headerBaseHeight + CLS.annotationHeight : CLS.headerBaseHeight;
+    const attrHeight = cls.attributes.length > 0 ? cls.attributes.length * CLS.memberRowHeight + CLS.sectionPadY : CLS.emptySectionHeight;
+    const methodHeight = cls.methods.length > 0 ? cls.methods.length * CLS.memberRowHeight + CLS.sectionPadY : CLS.emptySectionHeight;
     const headerTextW = estimateTextWidth(cls.label, FONT_SIZES.nodeLabel, FONT_WEIGHTS.nodeLabel);
     const maxAttrW = maxMemberWidth(cls.attributes);
     const maxMethodW = maxMemberWidth(cls.methods);
-    const width = Math.max(
-      CLS.minWidth,
-      headerTextW + CLS.boxPadX * 2,
-      maxAttrW + CLS.boxPadX * 2,
-      maxMethodW + CLS.boxPadX * 2,
-    );
+    const width = Math.max(CLS.minWidth, headerTextW + CLS.boxPadX * 2, maxAttrW + CLS.boxPadX * 2, maxMethodW + CLS.boxPadX * 2);
     const height = headerHeight + attrHeight + methodHeight;
     classSizes.set(cls.id, { width, height, headerHeight, attrHeight, methodHeight });
   }
@@ -8276,10 +7816,10 @@ function buildClassElkGraph(diagram, _options) {
       "elk.layered.spacing.nodeNodeBetweenLayers": String(CLS.layerSpacing),
       "elk.padding": `[top=${CLS.padding},left=${CLS.padding},bottom=${CLS.padding},right=${CLS.padding}]`,
       "elk.edgeRouting": "ORTHOGONAL",
-      "elk.edgeLabels.placement": "CENTER",
+      "elk.edgeLabels.placement": "CENTER"
     },
     children: [],
-    edges: [],
+    edges: []
   };
   for (const cls of diagram.classes) {
     const size = classSizes.get(cls.id);
@@ -8316,7 +7856,7 @@ function extractClassLayout(result, diagram, classSizes) {
         height: child.height ?? size.height,
         headerHeight: size.headerHeight,
         attrHeight: size.attrHeight,
-        methodHeight: size.methodHeight,
+        methodHeight: size.methodHeight
       });
     }
   }
@@ -8341,7 +7881,7 @@ function extractClassLayout(result, diagram, classSizes) {
       if (label.x != null && label.y != null) {
         labelPosition = {
           x: label.x + (label.width ?? 0) / 2,
-          y: label.y + (label.height ?? 0) / 2,
+          y: label.y + (label.height ?? 0) / 2
         };
       }
     }
@@ -8354,14 +7894,14 @@ function extractClassLayout(result, diagram, classSizes) {
       fromCardinality: rel.fromCardinality,
       toCardinality: rel.toCardinality,
       points,
-      labelPosition,
+      labelPosition
     });
   }
   return {
     width: result.width ?? 600,
     height: result.height ?? 400,
     classes: positionedClasses,
-    relationships,
+    relationships
   };
 }
 function layoutClassDiagramSync(diagram, options = {}) {
@@ -8394,7 +7934,7 @@ var CLS_FONT = {
   memberSize: 11,
   memberWeight: 400,
   annotationSize: 10,
-  annotationWeight: 500,
+  annotationWeight: 500
 };
 function renderClassSvg(diagram, colors, font = "Inter", transparent = false) {
   const parts = [];
@@ -8437,35 +7977,34 @@ function renderClassBox(cls) {
   const parts = [];
   const annotationAttr = cls.annotation ? ` data-annotation="${escapeAttr3(cls.annotation)}"` : "";
   parts.push(
-    `<g class="class-node" data-id="${escapeAttr3(cls.id)}" data-label="${escapeAttr3(cls.label)}"${annotationAttr}>`,
+    `<g class="class-node" data-id="${escapeAttr3(cls.id)}" data-label="${escapeAttr3(cls.label)}"${annotationAttr}>`
   );
   parts.push(
-    `  <rect x="${x}" y="${y}" width="${width}" height="${height}" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="${STROKE_WIDTHS.outerBox}" />`,
+    `  <rect x="${x}" y="${y}" width="${width}" height="${height}" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="${STROKE_WIDTHS.outerBox}" />`
   );
   parts.push(
-    `  <rect x="${x}" y="${y}" width="${width}" height="${headerHeight}" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="${STROKE_WIDTHS.outerBox}" />`,
+    `  <rect x="${x}" y="${y}" width="${width}" height="${headerHeight}" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="${STROKE_WIDTHS.outerBox}" />`
   );
   let nameY = y + headerHeight / 2;
   if (cls.annotation) {
     const annotY = y + 12;
     parts.push(
-      `  <text x="${x + width / 2}" y="${annotY}" text-anchor="middle" dy="${TEXT_BASELINE_SHIFT}" font-size="${CLS_FONT.annotationSize}" font-weight="${CLS_FONT.annotationWeight}" font-style="italic" fill="var(--_text-muted)">&lt;&lt;${escapeXml3(cls.annotation)}&gt;&gt;</text>`,
+      `  <text x="${x + width / 2}" y="${annotY}" text-anchor="middle" dy="${TEXT_BASELINE_SHIFT}" font-size="${CLS_FONT.annotationSize}" font-weight="${CLS_FONT.annotationWeight}" font-style="italic" fill="var(--_text-muted)">&lt;&lt;${escapeXml3(cls.annotation)}&gt;&gt;</text>`
     );
     nameY = y + headerHeight / 2 + 6;
   }
   parts.push(
-    "  " +
-      renderMultilineText(
-        cls.label,
-        x + width / 2,
-        nameY,
-        FONT_SIZES.nodeLabel,
-        `text-anchor="middle" font-size="${FONT_SIZES.nodeLabel}" font-weight="700" fill="var(--_text)"`,
-      ),
+    "  " + renderMultilineText(
+      cls.label,
+      x + width / 2,
+      nameY,
+      FONT_SIZES.nodeLabel,
+      `text-anchor="middle" font-size="${FONT_SIZES.nodeLabel}" font-weight="700" fill="var(--_text)"`
+    )
   );
   const attrTop = y + headerHeight;
   parts.push(
-    `  <line x1="${x}" y1="${attrTop}" x2="${x + width}" y2="${attrTop}" stroke="var(--_node-stroke)" stroke-width="${STROKE_WIDTHS.innerBox}" />`,
+    `  <line x1="${x}" y1="${attrTop}" x2="${x + width}" y2="${attrTop}" stroke="var(--_node-stroke)" stroke-width="${STROKE_WIDTHS.innerBox}" />`
   );
   const memberRowH = 20;
   for (let i = 0; i < cls.attributes.length; i++) {
@@ -8475,7 +8014,7 @@ function renderClassBox(cls) {
   }
   const methodTop = attrTop + attrHeight;
   parts.push(
-    `  <line x1="${x}" y1="${methodTop}" x2="${x + width}" y2="${methodTop}" stroke="var(--_node-stroke)" stroke-width="${STROKE_WIDTHS.innerBox}" />`,
+    `  <line x1="${x}" y1="${methodTop}" x2="${x + width}" y2="${methodTop}" stroke="var(--_node-stroke)" stroke-width="${STROKE_WIDTHS.innerBox}" />`
   );
   for (let i = 0; i < cls.methods.length; i++) {
     const member = cls.methods[i];
@@ -8511,7 +8050,7 @@ function renderRelationship(rel) {
     `data-from="${escapeAttr3(rel.from)}"`,
     `data-to="${escapeAttr3(rel.to)}"`,
     `data-type="${rel.type}"`,
-    `data-marker-at="${rel.markerAt}"`,
+    `data-marker-at="${rel.markerAt}"`
   ];
   if (rel.label) {
     dataAttrs.push(`data-label="${escapeAttr3(rel.label)}"`);
@@ -8561,8 +8100,8 @@ function renderRelationshipLabels(rel) {
         pos.x,
         pos.y - 8,
         FONT_SIZES.edgeLabel,
-        `font-size="${FONT_SIZES.edgeLabel}" text-anchor="middle" font-weight="${FONT_WEIGHTS.edgeLabel}" fill="var(--_text-muted)"`,
-      ),
+        `font-size="${FONT_SIZES.edgeLabel}" text-anchor="middle" font-weight="${FONT_WEIGHTS.edgeLabel}" fill="var(--_text-muted)"`
+      )
     );
   }
   if (rel.fromCardinality) {
@@ -8575,8 +8114,8 @@ function renderRelationshipLabels(rel) {
         p.x + offset.x,
         p.y + offset.y,
         FONT_SIZES.edgeLabel,
-        `font-size="${FONT_SIZES.edgeLabel}" text-anchor="middle" font-weight="${FONT_WEIGHTS.edgeLabel}" fill="var(--_text-muted)"`,
-      ),
+        `font-size="${FONT_SIZES.edgeLabel}" text-anchor="middle" font-weight="${FONT_WEIGHTS.edgeLabel}" fill="var(--_text-muted)"`
+      )
     );
   }
   if (rel.toCardinality) {
@@ -8589,8 +8128,8 @@ function renderRelationshipLabels(rel) {
         p.x + offset.x,
         p.y + offset.y,
         FONT_SIZES.edgeLabel,
-        `font-size="${FONT_SIZES.edgeLabel}" text-anchor="middle" font-weight="${FONT_WEIGHTS.edgeLabel}" fill="var(--_text-muted)"`,
-      ),
+        `font-size="${FONT_SIZES.edgeLabel}" text-anchor="middle" font-weight="${FONT_WEIGHTS.edgeLabel}" fill="var(--_text-muted)"`
+      )
     );
   }
   return parts.join("\n");
@@ -8610,11 +8149,7 @@ function cardinalityOffset(from, to) {
 }
 var escapeXml3 = escapeXml;
 function escapeAttr3(value) {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/"/g, "&quot;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
+  return value.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
 // src/er/layout.ts
@@ -8627,16 +8162,12 @@ var ER = {
   attrFontSize: 11,
   attrFontWeight: 400,
   nodeSpacing: 70,
-  layerSpacing: 90,
+  layerSpacing: 90
 };
 function buildErElkGraph(diagram, _options) {
   const entitySizes = /* @__PURE__ */ new Map();
   for (const entity of diagram.entities) {
-    const headerTextW = estimateTextWidth(
-      entity.label,
-      FONT_SIZES.nodeLabel,
-      FONT_WEIGHTS.nodeLabel,
-    );
+    const headerTextW = estimateTextWidth(entity.label, FONT_SIZES.nodeLabel, FONT_WEIGHTS.nodeLabel);
     let maxAttrW = 0;
     for (const attr of entity.attributes) {
       const attrText = `${attr.type}  ${attr.name}${attr.keys.length > 0 ? "  " + attr.keys.join(",") : ""}`;
@@ -8656,10 +8187,10 @@ function buildErElkGraph(diagram, _options) {
       "elk.layered.spacing.nodeNodeBetweenLayers": String(ER.layerSpacing),
       "elk.padding": `[top=${ER.padding},left=${ER.padding},bottom=${ER.padding},right=${ER.padding}]`,
       "elk.edgeRouting": "ORTHOGONAL",
-      "elk.edgeLabels.placement": "CENTER",
+      "elk.edgeLabels.placement": "CENTER"
     },
     children: [],
-    edges: [],
+    edges: []
   };
   for (const entity of diagram.entities) {
     const size = entitySizes.get(entity.id);
@@ -8692,7 +8223,7 @@ function extractErLayout(result, diagram, entitySizes) {
         width: child.width ?? entitySizes.get(entity.id).width,
         height: child.height ?? entitySizes.get(entity.id).height,
         headerHeight: ER.headerHeight,
-        rowHeight: ER.rowHeight,
+        rowHeight: ER.rowHeight
       });
     }
   }
@@ -8718,14 +8249,14 @@ function extractErLayout(result, diagram, entitySizes) {
       cardinality2: rel.cardinality2,
       label: rel.label,
       identifying: rel.identifying,
-      points,
+      points
     });
   }
   return {
     width: result.width ?? 600,
     height: result.height ?? 400,
     entities: positionedEntities,
-    relationships,
+    relationships
   };
 }
 function layoutErDiagramSync(diagram, options = {}) {
@@ -8742,7 +8273,7 @@ var ER_FONT = {
   attrSize: 11,
   attrWeight: 400,
   keySize: 9,
-  keyWeight: 600,
+  keyWeight: 600
 };
 function renderErSvg(diagram, colors, font = "Inter", transparent = false) {
   const parts = [];
@@ -8768,26 +8299,27 @@ function renderErSvg(diagram, colors, font = "Inter", transparent = false) {
 function renderEntityBox(entity) {
   const { id, x, y, width, height, headerHeight, rowHeight, label, attributes } = entity;
   const parts = [];
-  parts.push(`<g class="entity" data-id="${escapeAttr4(id)}" data-label="${escapeAttr4(label)}">`);
   parts.push(
-    `  <rect x="${x}" y="${y}" width="${width}" height="${height}" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="${STROKE_WIDTHS.outerBox}" />`,
+    `<g class="entity" data-id="${escapeAttr4(id)}" data-label="${escapeAttr4(label)}">`
   );
   parts.push(
-    `  <rect x="${x}" y="${y}" width="${width}" height="${headerHeight}" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="${STROKE_WIDTHS.outerBox}" />`,
+    `  <rect x="${x}" y="${y}" width="${width}" height="${height}" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="${STROKE_WIDTHS.outerBox}" />`
   );
   parts.push(
-    "  " +
-      renderMultilineText(
-        label,
-        x + width / 2,
-        y + headerHeight / 2,
-        FONT_SIZES.nodeLabel,
-        `text-anchor="middle" font-size="${FONT_SIZES.nodeLabel}" font-weight="700" fill="var(--_text)"`,
-      ),
+    `  <rect x="${x}" y="${y}" width="${width}" height="${headerHeight}" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="${STROKE_WIDTHS.outerBox}" />`
+  );
+  parts.push(
+    "  " + renderMultilineText(
+      label,
+      x + width / 2,
+      y + headerHeight / 2,
+      FONT_SIZES.nodeLabel,
+      `text-anchor="middle" font-size="${FONT_SIZES.nodeLabel}" font-weight="700" fill="var(--_text)"`
+    )
   );
   const attrTop = y + headerHeight;
   parts.push(
-    `  <line x1="${x}" y1="${attrTop}" x2="${x + width}" y2="${attrTop}" stroke="var(--_node-stroke)" stroke-width="${STROKE_WIDTHS.innerBox}" />`,
+    `  <line x1="${x}" y1="${attrTop}" x2="${x + width}" y2="${attrTop}" stroke="var(--_node-stroke)" stroke-width="${STROKE_WIDTHS.innerBox}" />`
   );
   for (let i = 0; i < attributes.length; i++) {
     const attr = attributes[i];
@@ -8796,7 +8328,7 @@ function renderEntityBox(entity) {
   }
   if (attributes.length === 0) {
     parts.push(
-      `  <text x="${x + width / 2}" y="${attrTop + rowHeight / 2}" text-anchor="middle" dy="${TEXT_BASELINE_SHIFT}" font-size="${ER_FONT.attrSize}" fill="var(--_text-faint)" font-style="italic">(no attributes)</text>`,
+      `  <text x="${x + width / 2}" y="${attrTop + rowHeight / 2}" text-anchor="middle" dy="${TEXT_BASELINE_SHIFT}" font-size="${ER_FONT.attrSize}" fill="var(--_text-faint)" font-style="italic">(no attributes)</text>`
     );
   }
   parts.push("</g>");
@@ -8814,19 +8346,19 @@ function renderAttribute(attr, boxX, y, boxWidth) {
     const keyText = attr.keys.join(",");
     keyWidth = estimateTextWidth(keyText, ER_FONT.keySize, ER_FONT.keyWeight) + 8;
     parts.push(
-      `<rect x="${boxX + 6}" y="${y - 7}" width="${keyWidth}" height="14" rx="2" ry="2" fill="var(--_key-badge)" />`,
+      `<rect x="${boxX + 6}" y="${y - 7}" width="${keyWidth}" height="14" rx="2" ry="2" fill="var(--_key-badge)" />`
     );
     parts.push(
-      `<text x="${boxX + 6 + keyWidth / 2}" y="${y}" text-anchor="middle" dy="${TEXT_BASELINE_SHIFT}" font-size="${ER_FONT.keySize}" font-weight="${ER_FONT.keyWeight}" fill="var(--_text-sec)">${attr.keys.join(",")}</text>`,
+      `<text x="${boxX + 6 + keyWidth / 2}" y="${y}" text-anchor="middle" dy="${TEXT_BASELINE_SHIFT}" font-size="${ER_FONT.keySize}" font-weight="${ER_FONT.keyWeight}" fill="var(--_text-sec)">${attr.keys.join(",")}</text>`
     );
   }
   const typeX = boxX + 8 + (keyWidth > 0 ? keyWidth + 6 : 0);
   parts.push(
-    `<text x="${typeX}" y="${y}" class="mono" dy="${TEXT_BASELINE_SHIFT}" font-size="${ER_FONT.attrSize}" font-weight="${ER_FONT.attrWeight}"><tspan fill="var(--_text-muted)">${escapeXml4(attr.type)}</tspan></text>`,
+    `<text x="${typeX}" y="${y}" class="mono" dy="${TEXT_BASELINE_SHIFT}" font-size="${ER_FONT.attrSize}" font-weight="${ER_FONT.attrWeight}"><tspan fill="var(--_text-muted)">${escapeXml4(attr.type)}</tspan></text>`
   );
   const nameX = boxX + boxWidth - 8;
   parts.push(
-    `<text x="${nameX}" y="${y}" class="mono" text-anchor="end" dy="${TEXT_BASELINE_SHIFT}" font-size="${ER_FONT.attrSize}" font-weight="${ER_FONT.attrWeight}"><tspan fill="var(--_text-sec)">${escapeXml4(attr.name)}</tspan></text>`,
+    `<text x="${nameX}" y="${y}" class="mono" text-anchor="end" dy="${TEXT_BASELINE_SHIFT}" font-size="${ER_FONT.attrSize}" font-weight="${ER_FONT.attrWeight}"><tspan fill="var(--_text-sec)">${escapeXml4(attr.name)}</tspan></text>`
   );
   if (hasComment) {
     parts.push("</g>");
@@ -8844,7 +8376,7 @@ function renderRelationshipLine(rel) {
     `data-entity2="${escapeAttr4(rel.entity2)}"`,
     `data-cardinality1="${rel.cardinality1}"`,
     `data-cardinality2="${rel.cardinality2}"`,
-    `data-identifying="${rel.identifying}"`,
+    `data-identifying="${rel.identifying}"`
   ];
   return `<polyline ${dataAttrs.join(" ")}${labelAttr} points="${pathData}" fill="none" stroke="var(--_line)" stroke-width="${STROKE_WIDTHS.connector}"${dashArray} />`;
 }
@@ -8856,12 +8388,12 @@ function renderRelationshipLabel(rel) {
   const bgH = metrics.height + 6;
   return `<rect x="${mid.x - bgW / 2}" y="${mid.y - bgH / 2}" width="${bgW}" height="${bgH}" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
 ${renderMultilineText(
-  rel.label,
-  mid.x,
-  mid.y,
-  FONT_SIZES.edgeLabel,
-  `text-anchor="middle" font-size="${FONT_SIZES.edgeLabel}" font-weight="${FONT_WEIGHTS.edgeLabel}" fill="var(--_text-muted)"`,
-)}`;
+    rel.label,
+    mid.x,
+    mid.y,
+    FONT_SIZES.edgeLabel,
+    `text-anchor="middle" font-size="${FONT_SIZES.edgeLabel}" font-weight="${FONT_WEIGHTS.edgeLabel}" fill="var(--_text-muted)"`
+  )}`;
 }
 function renderCardinality(rel) {
   if (rel.points.length < 2) return "";
@@ -8895,12 +8427,12 @@ function renderCrowsFoot(point, toward, cardinality) {
   if (hasOneLine) {
     const halfW = 6;
     parts.push(
-      `<line x1="${tipX + px * halfW}" y1="${tipY + py * halfW}" x2="${tipX - px * halfW}" y2="${tipY - py * halfW}" stroke="var(--_line)" stroke-width="${sw}" />`,
+      `<line x1="${tipX + px * halfW}" y1="${tipY + py * halfW}" x2="${tipX - px * halfW}" y2="${tipY - py * halfW}" stroke="var(--_line)" stroke-width="${sw}" />`
     );
     const line2X = tipX - ux * 4;
     const line2Y = tipY - uy * 4;
     parts.push(
-      `<line x1="${line2X + px * halfW}" y1="${line2Y + py * halfW}" x2="${line2X - px * halfW}" y2="${line2Y - py * halfW}" stroke="var(--_line)" stroke-width="${sw}" />`,
+      `<line x1="${line2X + px * halfW}" y1="${line2Y + py * halfW}" x2="${line2X - px * halfW}" y2="${line2Y - py * halfW}" stroke="var(--_line)" stroke-width="${sw}" />`
     );
   }
   if (hasCrowsFoot) {
@@ -8909,15 +8441,15 @@ function renderCrowsFoot(point, toward, cardinality) {
     const cfTipY = tipY;
     parts.push(
       // Top fan line
-      `<line x1="${cfTipX + px * fanW}" y1="${cfTipY + py * fanW}" x2="${backX}" y2="${backY}" stroke="var(--_line)" stroke-width="${sw}" />`,
+      `<line x1="${cfTipX + px * fanW}" y1="${cfTipY + py * fanW}" x2="${backX}" y2="${backY}" stroke="var(--_line)" stroke-width="${sw}" />`
     );
     parts.push(
       // Center line
-      `<line x1="${cfTipX}" y1="${cfTipY}" x2="${backX}" y2="${backY}" stroke="var(--_line)" stroke-width="${sw}" />`,
+      `<line x1="${cfTipX}" y1="${cfTipY}" x2="${backX}" y2="${backY}" stroke="var(--_line)" stroke-width="${sw}" />`
     );
     parts.push(
       // Bottom fan line
-      `<line x1="${cfTipX - px * fanW}" y1="${cfTipY - py * fanW}" x2="${backX}" y2="${backY}" stroke="var(--_line)" stroke-width="${sw}" />`,
+      `<line x1="${cfTipX - px * fanW}" y1="${cfTipY - py * fanW}" x2="${backX}" y2="${backY}" stroke="var(--_line)" stroke-width="${sw}" />`
     );
   }
   if (hasCircle) {
@@ -8925,7 +8457,7 @@ function renderCrowsFoot(point, toward, cardinality) {
     const circleX = point.x - ux * circleOffset;
     const circleY = point.y - uy * circleOffset;
     parts.push(
-      `<circle cx="${circleX}" cy="${circleY}" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="${sw}" />`,
+      `<circle cx="${circleX}" cy="${circleY}" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="${sw}" />`
     );
   }
   return parts.join("\n");
@@ -8950,7 +8482,7 @@ function midpoint2(points) {
       const t = segLen > 0 ? (halfLen - walked) / segLen : 0;
       return {
         x: points[i - 1].x + dx * t,
-        y: points[i - 1].y + dy * t,
+        y: points[i - 1].y + dy * t
       };
     }
     walked += segLen;
@@ -8959,11 +8491,7 @@ function midpoint2(points) {
 }
 var escapeXml4 = escapeXml;
 function escapeAttr4(value) {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/"/g, "&quot;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
+  return value.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
 // src/xychart/layout.ts
@@ -8992,7 +8520,7 @@ var XY = {
   legendSwatchW: 14,
   legendSwatchH: 14,
   legendGap: 6,
-  legendItemGap: 16,
+  legendItemGap: 16
 };
 function layoutXYChart(chart, _options = {}) {
   if (chart.horizontal) return layoutHorizontal(chart);
@@ -9006,10 +8534,8 @@ function layoutVertical(chart) {
   const yRange = chart.yAxis.range;
   const yTicks = niceTickValues2(yRange.min, yRange.max);
   const maxYLabelWidth = Math.max(
-    ...yTicks.map((v) =>
-      estimateTextWidth(formatTickValue2(v), XY.axisLabelFontSize, XY.axisLabelFontWeight),
-    ),
-    XY.yLabelWidth,
+    ...yTicks.map((v) => estimateTextWidth(formatTickValue2(v), XY.axisLabelFontSize, XY.axisLabelFontWeight)),
+    XY.yLabelWidth
   );
   const top = XY.padding + (hasTitle ? XY.titleHeight : 0) + (hasLegend ? XY.legendHeight : 0);
   const bottom = XY.padding + XY.xLabelHeight + (hasXTitle ? XY.axisTitlePad : 0);
@@ -9036,13 +8562,13 @@ function layoutVertical(chart) {
     ty: yScale(v),
     labelX: left - XY.yLabelGap,
     labelY: yScale(v),
-    textAnchor: "end",
+    textAnchor: "end"
   }));
   const gridLines = yTicks.map((v) => ({
     x1: left,
     y1: yScale(v),
     x2: left + plotW,
-    y2: yScale(v),
+    y2: yScale(v)
   }));
   const catLabels = getCategoryLabels2(chart, dataCount);
   const colorMap = chart.series.map((_, i) => i);
@@ -9055,32 +8581,15 @@ function layoutVertical(chart) {
   const xAxisObj = {
     ticks: xTicks,
     line: xAxisLine,
-    ...(hasXTitle
-      ? { title: { text: chart.xAxis.title, x: left + plotW / 2, y: totalH - XY.padding } }
-      : {}),
+    ...hasXTitle ? { title: { text: chart.xAxis.title, x: left + plotW / 2, y: totalH - XY.padding } } : {}
   };
   const yAxisObj = {
     ticks: yAxisTicks,
     line: yAxisLine,
-    ...(hasYTitle
-      ? { title: { text: chart.yAxis.title, x: XY.padding + 4, y: top + plotH / 2, rotate: -90 } }
-      : {}),
+    ...hasYTitle ? { title: { text: chart.yAxis.title, x: XY.padding + 4, y: top + plotH / 2, rotate: -90 } } : {}
   };
-  const titleObj = hasTitle
-    ? { text: chart.title, x: totalW / 2, y: XY.padding + XY.titleFontSize }
-    : void 0;
-  return {
-    width: totalW,
-    height: totalH,
-    title: titleObj,
-    xAxis: xAxisObj,
-    yAxis: yAxisObj,
-    plotArea,
-    bars,
-    lines,
-    gridLines,
-    legend,
-  };
+  const titleObj = hasTitle ? { text: chart.title, x: totalW / 2, y: XY.padding + XY.titleFontSize } : void 0;
+  return { width: totalW, height: totalH, title: titleObj, xAxis: xAxisObj, yAxis: yAxisObj, plotArea, bars, lines, gridLines, legend };
 }
 function layoutHorizontal(chart) {
   const hasTitle = !!chart.title;
@@ -9093,7 +8602,7 @@ function layoutHorizontal(chart) {
   const catLabels = getCategoryLabels2(chart, dataCount);
   const maxCatLabelWidth = Math.max(
     ...catLabels.map((l) => estimateTextWidth(l, XY.axisLabelFontSize, XY.axisLabelFontWeight)),
-    40,
+    40
   );
   const top = XY.padding + (hasTitle ? XY.titleHeight : 0) + (hasLegend ? XY.legendHeight : 0);
   const bottom = XY.padding + XY.xLabelHeight + (hasYTitle ? XY.axisTitlePad : 0);
@@ -9118,7 +8627,7 @@ function layoutHorizontal(chart) {
     ty: top + plotH + XY.tickLength,
     labelX: valueScale(v),
     labelY: top + plotH + 18,
-    textAnchor: "middle",
+    textAnchor: "middle"
   }));
   const yTicks = catLabels.map((label, i) => ({
     label,
@@ -9128,13 +8637,13 @@ function layoutHorizontal(chart) {
     ty: catScale(i),
     labelX: left - XY.yLabelGap,
     labelY: catScale(i),
-    textAnchor: "end",
+    textAnchor: "end"
   }));
   const gridLines = valueTicks.map((v) => ({
     x1: valueScale(v),
     y1: top,
     x2: valueScale(v),
-    y2: top + plotH,
+    y2: top + plotH
   }));
   const colorMap = chart.series.map((_, i) => i);
   const barSeries = chart.series.filter((s) => s.type === "bar");
@@ -9144,8 +8653,7 @@ function layoutHorizontal(chart) {
     const usable = bandHeight * (1 - XY.barPadRatio);
     const rawBarH = barCount > 1 ? (usable - (barCount - 1) * XY.barGroupGap) / barCount : usable;
     const singleBarH = Math.min(rawBarH, XY.maxBarWidth);
-    const groupH =
-      barCount > 1 ? singleBarH * barCount + XY.barGroupGap * (barCount - 1) : singleBarH;
+    const groupH = barCount > 1 ? singleBarH * barCount + XY.barGroupGap * (barCount - 1) : singleBarH;
     let bIdx = 0;
     let seriesArrayIdx = 0;
     for (const s of chart.series) {
@@ -9167,7 +8675,7 @@ function layoutHorizontal(chart) {
           value: s.data[i],
           label: catLabels[i],
           seriesIndex: bIdx,
-          colorIndex: colorMap[seriesArrayIdx],
+          colorIndex: colorMap[seriesArrayIdx]
         });
       }
       bIdx++;
@@ -9182,12 +8690,7 @@ function layoutHorizontal(chart) {
       lineSeriesIdx++;
       continue;
     }
-    const points = s.data.map((v, i) => ({
-      x: valueScale(v),
-      y: catScale(i),
-      value: v,
-      label: catLabels[i],
-    }));
+    const points = s.data.map((v, i) => ({ x: valueScale(v), y: catScale(i), value: v, label: catLabels[i] }));
     lines.push({ points, seriesIndex: lineIdx, colorIndex: colorMap[lineSeriesIdx] });
     lineIdx++;
     lineSeriesIdx++;
@@ -9197,35 +8700,17 @@ function layoutHorizontal(chart) {
   const xAxisObj = {
     ticks: xTicks,
     line: xAxisLine,
-    ...(hasYTitle
-      ? { title: { text: chart.yAxis.title, x: left + plotW / 2, y: totalH - XY.padding } }
-      : {}),
+    ...hasYTitle ? { title: { text: chart.yAxis.title, x: left + plotW / 2, y: totalH - XY.padding } } : {}
   };
   const yAxisObj = {
     ticks: yTicks,
     line: yAxisLine,
-    ...(hasXTitle
-      ? { title: { text: chart.xAxis.title, x: XY.padding + 4, y: top + plotH / 2, rotate: -90 } }
-      : {}),
+    ...hasXTitle ? { title: { text: chart.xAxis.title, x: XY.padding + 4, y: top + plotH / 2, rotate: -90 } } : {}
   };
-  const titleObj = hasTitle
-    ? { text: chart.title, x: totalW / 2, y: XY.padding + XY.titleFontSize }
-    : void 0;
+  const titleObj = hasTitle ? { text: chart.title, x: totalW / 2, y: XY.padding + XY.titleFontSize } : void 0;
   const legendY = XY.padding + (hasTitle ? XY.titleHeight : 0) + XY.legendHeight / 2;
   const legend = hasLegend ? buildLegendItems(chart, totalW / 2, legendY, colorMap) : [];
-  return {
-    width: totalW,
-    height: totalH,
-    horizontal: true,
-    title: titleObj,
-    xAxis: xAxisObj,
-    yAxis: yAxisObj,
-    plotArea,
-    bars,
-    lines,
-    gridLines,
-    legend,
-  };
+  return { width: totalW, height: totalH, horizontal: true, title: titleObj, xAxis: xAxisObj, yAxis: yAxisObj, plotArea, bars, lines, gridLines, legend };
 }
 function getDataCount2(chart) {
   if (chart.xAxis.categories) return chart.xAxis.categories.length;
@@ -9254,7 +8739,7 @@ function buildXTicks(chart, xScale, axisY, _bandWidth) {
     ty: axisY + XY.tickLength,
     labelX: xScale(i),
     labelY: axisY + 18,
-    textAnchor: "middle",
+    textAnchor: "middle"
   }));
 }
 function layoutBars(chart, xScale, yScale, bandWidth, yMin, catLabels, colorMap) {
@@ -9264,8 +8749,7 @@ function layoutBars(chart, xScale, yScale, bandWidth, yMin, catLabels, colorMap)
   const usable = bandWidth * (1 - XY.barPadRatio);
   const rawBarW = barCount > 1 ? (usable - (barCount - 1) * XY.barGroupGap) / barCount : usable;
   const singleBarW = Math.min(rawBarW, XY.maxBarWidth);
-  const groupW =
-    barCount > 1 ? singleBarW * barCount + XY.barGroupGap * (barCount - 1) : singleBarW;
+  const groupW = barCount > 1 ? singleBarW * barCount + XY.barGroupGap * (barCount - 1) : singleBarW;
   const bars = [];
   let bIdx = 0;
   let seriesArrayIdx = 0;
@@ -9288,7 +8772,7 @@ function layoutBars(chart, xScale, yScale, bandWidth, yMin, catLabels, colorMap)
         value: s.data[i],
         label: catLabels[i],
         seriesIndex: bIdx,
-        colorIndex: colorMap[seriesArrayIdx],
+        colorIndex: colorMap[seriesArrayIdx]
       });
     }
     bIdx++;
@@ -9305,12 +8789,7 @@ function layoutLines(chart, xScale, yScale, catLabels, colorMap) {
       seriesArrayIdx++;
       continue;
     }
-    const points = s.data.map((v, i) => ({
-      x: xScale(i),
-      y: yScale(v),
-      value: v,
-      label: catLabels[i],
-    }));
+    const points = s.data.map((v, i) => ({ x: xScale(i), y: yScale(v), value: v, label: catLabels[i] }));
     lines.push({ points, seriesIndex: lineIdx, colorIndex: colorMap[seriesArrayIdx] });
     lineIdx++;
     seriesArrayIdx++;
@@ -9341,19 +8820,11 @@ function formatTickValue2(v) {
 }
 function buildLegendItems(chart, centerX, y, colorMap) {
   const items = [];
-  let barIdx = 0,
-    lineIdx = 0;
+  let barIdx = 0, lineIdx = 0;
   for (let si = 0; si < chart.series.length; si++) {
     const s = chart.series[si];
     const label = s.type === "bar" ? `Bar ${barIdx + 1}` : `Line ${lineIdx + 1}`;
-    items.push({
-      label,
-      x: 0,
-      y,
-      type: s.type,
-      seriesIndex: s.type === "bar" ? barIdx : lineIdx,
-      colorIndex: colorMap[si],
-    });
+    items.push({ label, x: 0, y, type: s.type, seriesIndex: s.type === "bar" ? barIdx : lineIdx, colorIndex: colorMap[si] });
     if (s.type === "bar") barIdx++;
     else lineIdx++;
   }
@@ -9382,7 +8853,7 @@ var CHART_FONT = {
   legendWeight: 400,
   dotRadius: 5,
   lineWidth: 2.5,
-  barRadius: 8,
+  barRadius: 8
 };
 var TIP = {
   fontSize: 15,
@@ -9392,37 +8863,22 @@ var TIP = {
   offsetY: 12,
   rx: 8,
   minY: 4,
-  pointerSize: 6,
+  pointerSize: 6
 };
 function renderXYChartSvg(chart, colors, font = "Inter", transparent = false, interactive = false) {
   const parts = [];
-  const maxColorIdx = Math.max(
-    0,
-    ...chart.bars.map((b) => b.colorIndex),
-    ...chart.lines.map((l) => l.colorIndex),
-  );
-  const svgTag = svgOpenTag(chart.width, chart.height, colors, transparent).replace(
-    "<svg ",
-    `<svg data-xychart-colors="${maxColorIdx}" `,
-  );
+  const maxColorIdx = Math.max(0, ...chart.bars.map((b) => b.colorIndex), ...chart.lines.map((l) => l.colorIndex));
+  const svgTag = svgOpenTag(chart.width, chart.height, colors, transparent).replace("<svg ", `<svg data-xychart-colors="${maxColorIdx}" `);
   parts.push(svgTag);
   parts.push(buildStyleBlock(font, false));
   const maxLinePoints = Math.max(...chart.lines.map((l) => l.points.length), 0);
   const sparse = maxLinePoints > 0 && maxLinePoints <= 12;
-  const { style: chartCss, defs: chartDefs } = chartStyles(
-    chart,
-    interactive,
-    sparse,
-    colors.accent,
-    colors.bg,
-  );
+  const { style: chartCss, defs: chartDefs } = chartStyles(chart, interactive, sparse, colors.accent, colors.bg);
   parts.push(chartCss);
   if (chartDefs) parts.push(chartDefs);
   const { plotArea } = chart;
   const xTicks = chart.xAxis.ticks.map((t) => t.x);
-  const yVals = chart.horizontal
-    ? chart.yAxis.ticks.map((t) => t.y)
-    : chart.gridLines.map((g) => g.y1);
+  const yVals = chart.horizontal ? chart.yAxis.ticks.map((t) => t.y) : chart.gridLines.map((g) => g.y1);
   const xBase = xTicks.length > 1 ? Math.abs(xTicks[1] - xTicks[0]) : plotArea.width / 6;
   const yBase = yVals.length > 1 ? Math.abs(yVals[1] - yVals[0]) : plotArea.height / 6;
   const xGap = xBase / Math.max(1, Math.round(xBase / 20));
@@ -9439,29 +8895,23 @@ function renderXYChartSvg(chart, colors, font = "Inter", transparent = false, in
   const barOverlay = [];
   for (const bar of chart.bars) {
     const dataAttrs = ` data-value="${bar.value}"${bar.label ? ` data-label="${escapeXml5(bar.label)}"` : ""}`;
-    const barPath = chart.horizontal
-      ? roundedRightBarPath(bar.x, bar.y, bar.width, bar.height, CHART_FONT.barRadius)
-      : roundedTopBarPath(bar.x, bar.y, bar.width, bar.height, CHART_FONT.barRadius);
+    const barPath = chart.horizontal ? roundedRightBarPath(bar.x, bar.y, bar.width, bar.height, CHART_FONT.barRadius) : roundedTopBarPath(bar.x, bar.y, bar.width, bar.height, CHART_FONT.barRadius);
     parts.push(
-      `<path d="${barPath}" class="xychart-bar xychart-color-${bar.colorIndex}"${dataAttrs}/>`,
+      `<path d="${barPath}" class="xychart-bar xychart-color-${bar.colorIndex}"${dataAttrs}/>`
     );
     if (interactive) {
       const tipText = formatTipValue(bar.value);
       const tipTitle = bar.label ? `${bar.label}: ${tipText}` : tipText;
       const tip = tooltipAbove(bar.x + bar.width / 2, bar.y, tipText);
       barOverlay.push(
-        `<g class="xychart-bar-group"><rect x="${r(bar.x)}" y="${r(bar.y)}" width="${r(bar.width)}" height="${r(bar.height)}" fill="transparent"/><title>${escapeXml5(tipTitle)}</title>` +
-          tip +
-          `</g>`,
+        `<g class="xychart-bar-group"><rect x="${r(bar.x)}" y="${r(bar.y)}" width="${r(bar.width)}" height="${r(bar.height)}" fill="transparent"/><title>${escapeXml5(tipTitle)}</title>` + tip + `</g>`
       );
     }
   }
   for (const line of chart.lines) {
     if (line.points.length === 0) continue;
     const d = smoothCurvePath(line.points);
-    parts.push(
-      `<path d="${d}" class="xychart-line-shadow xychart-color-${line.colorIndex}" transform="translate(0,2)"/>`,
-    );
+    parts.push(`<path d="${d}" class="xychart-line-shadow xychart-color-${line.colorIndex}" transform="translate(0,2)"/>`);
     parts.push(`<path d="${d}" class="xychart-line xychart-color-${line.colorIndex}"/>`);
   }
   const dotOverlay = [];
@@ -9475,14 +8925,7 @@ function renderXYChartSvg(chart, colors, font = "Inter", transparent = false, in
       for (const p of line.points) {
         const key = r(p.x);
         if (!columns.has(key)) columns.set(key, []);
-        columns.get(key).push({
-          x: p.x,
-          y: p.y,
-          value: p.value,
-          label: p.label,
-          seriesIndex: line.seriesIndex,
-          colorIndex: line.colorIndex,
-        });
+        columns.get(key).push({ x: p.x, y: p.y, value: p.value, label: p.label, seriesIndex: line.seriesIndex, colorIndex: line.colorIndex });
       }
     }
     for (const entries of columns.values()) {
@@ -9495,7 +8938,7 @@ function renderXYChartSvg(chart, colors, font = "Inter", transparent = false, in
         const hitArea = `<rect x="${r(cx - hitPad)}" y="${r(topY - hitPad)}" width="${r(hitPad * 2)}" height="${r(botY - topY + hitPad * 2)}" fill="transparent" class="xychart-hit"/>`;
         const tipEntries = entries.map((e) => ({
           text: formatTipValue(e.value),
-          legendLabel: lineLegendLabels.get(e.seriesIndex) || `Line ${e.seriesIndex + 1}`,
+          legendLabel: lineLegendLabels.get(e.seriesIndex) || `Line ${e.seriesIndex + 1}`
         }));
         const tip = multiTooltipAbove(cx, topY - CHART_FONT.dotRadius, label, tipEntries);
         const valStrs = tipEntries.map((e) => e.text);
@@ -9513,17 +8956,15 @@ function renderXYChartSvg(chart, colors, font = "Inter", transparent = false, in
         const tipText = formatTipValue(e.value);
         const tipTitle = e.label ? `${e.label}: ${tipText}` : tipText;
         const tip = tooltipAbove(cx, e.y - CHART_FONT.dotRadius, tipText);
-        const hitArea = sparse
-          ? `<circle cx="${r(cx)}" cy="${r(e.y)}" r="${CHART_FONT.dotRadius * 3}" fill="transparent" class="xychart-hit"/>`
-          : "";
+        const hitArea = sparse ? `<circle cx="${r(cx)}" cy="${r(e.y)}" r="${CHART_FONT.dotRadius * 3}" fill="transparent" class="xychart-hit"/>` : "";
         dotOverlay.push(
-          `<g class="xychart-dot-group">${hitArea}<circle cx="${r(e.x)}" cy="${r(e.y)}" r="${CHART_FONT.dotRadius}" class="xychart-dot xychart-color-${e.colorIndex}"${dataAttrs}/><title>${escapeXml5(tipTitle)}</title>${tip}</g>`,
+          `<g class="xychart-dot-group">${hitArea}<circle cx="${r(e.x)}" cy="${r(e.y)}" r="${CHART_FONT.dotRadius}" class="xychart-dot xychart-color-${e.colorIndex}"${dataAttrs}/><title>${escapeXml5(tipTitle)}</title>${tip}</g>`
         );
       } else {
         for (const e of entries) {
           const dataAttrs = ` data-value="${e.value}"${e.label ? ` data-label="${escapeXml5(e.label)}"` : ""}`;
           parts.push(
-            `<circle cx="${r(e.x)}" cy="${r(e.y)}" r="${CHART_FONT.dotRadius}" class="xychart-dot xychart-color-${e.colorIndex}"${dataAttrs}/>`,
+            `<circle cx="${r(e.x)}" cy="${r(e.y)}" r="${CHART_FONT.dotRadius}" class="xychart-dot xychart-color-${e.colorIndex}"${dataAttrs}/>`
           );
         }
       }
@@ -9531,49 +8972,48 @@ function renderXYChartSvg(chart, colors, font = "Inter", transparent = false, in
   }
   for (const tick of chart.xAxis.ticks) {
     parts.push(
-      `<text x="${tick.labelX}" y="${tick.labelY}" text-anchor="${tick.textAnchor}" font-size="${CHART_FONT.labelSize}" font-weight="${CHART_FONT.labelWeight}" dy="${TEXT_BASELINE_SHIFT}" class="xychart-label">${escapeXml5(tick.label)}</text>`,
+      `<text x="${tick.labelX}" y="${tick.labelY}" text-anchor="${tick.textAnchor}" font-size="${CHART_FONT.labelSize}" font-weight="${CHART_FONT.labelWeight}" dy="${TEXT_BASELINE_SHIFT}" class="xychart-label">${escapeXml5(tick.label)}</text>`
     );
   }
   for (const tick of chart.yAxis.ticks) {
     parts.push(
-      `<text x="${tick.labelX}" y="${tick.labelY}" text-anchor="${tick.textAnchor}" font-size="${CHART_FONT.labelSize}" font-weight="${CHART_FONT.labelWeight}" dy="${TEXT_BASELINE_SHIFT}" class="xychart-label">${escapeXml5(tick.label)}</text>`,
+      `<text x="${tick.labelX}" y="${tick.labelY}" text-anchor="${tick.textAnchor}" font-size="${CHART_FONT.labelSize}" font-weight="${CHART_FONT.labelWeight}" dy="${TEXT_BASELINE_SHIFT}" class="xychart-label">${escapeXml5(tick.label)}</text>`
     );
   }
   if (chart.xAxis.title) {
     const t = chart.xAxis.title;
     const transform = t.rotate ? ` transform="rotate(${t.rotate},${t.x},${t.y})"` : "";
     parts.push(
-      `<text x="${t.x}" y="${t.y}" text-anchor="middle"${transform} font-size="${CHART_FONT.axisTitleSize}" font-weight="${CHART_FONT.axisTitleWeight}" dy="${TEXT_BASELINE_SHIFT}" class="xychart-axis-title">${escapeXml5(t.text)}</text>`,
+      `<text x="${t.x}" y="${t.y}" text-anchor="middle"${transform} font-size="${CHART_FONT.axisTitleSize}" font-weight="${CHART_FONT.axisTitleWeight}" dy="${TEXT_BASELINE_SHIFT}" class="xychart-axis-title">${escapeXml5(t.text)}</text>`
     );
   }
   if (chart.yAxis.title) {
     const t = chart.yAxis.title;
     const transform = t.rotate ? ` transform="rotate(${t.rotate},${t.x},${t.y})"` : "";
     parts.push(
-      `<text x="${t.x}" y="${t.y}" text-anchor="middle"${transform} font-size="${CHART_FONT.axisTitleSize}" font-weight="${CHART_FONT.axisTitleWeight}" dy="${TEXT_BASELINE_SHIFT}" class="xychart-axis-title">${escapeXml5(t.text)}</text>`,
+      `<text x="${t.x}" y="${t.y}" text-anchor="middle"${transform} font-size="${CHART_FONT.axisTitleSize}" font-weight="${CHART_FONT.axisTitleWeight}" dy="${TEXT_BASELINE_SHIFT}" class="xychart-axis-title">${escapeXml5(t.text)}</text>`
     );
   }
   if (chart.title) {
     parts.push(
-      `<text x="${chart.title.x}" y="${chart.title.y}" text-anchor="middle" font-size="${CHART_FONT.titleSize}" font-weight="${CHART_FONT.titleWeight}" dy="${TEXT_BASELINE_SHIFT}" class="xychart-title">${escapeXml5(chart.title.text)}</text>`,
+      `<text x="${chart.title.x}" y="${chart.title.y}" text-anchor="middle" font-size="${CHART_FONT.titleSize}" font-weight="${CHART_FONT.titleWeight}" dy="${TEXT_BASELINE_SHIFT}" class="xychart-title">${escapeXml5(chart.title.text)}</text>`
     );
   }
   for (const item of chart.legend) {
-    const swatchW = 14,
-      swatchH = 14;
+    const swatchW = 14, swatchH = 14;
     const gap = 6;
     if (item.type === "bar") {
       parts.push(
-        `<rect x="${item.x}" y="${item.y - swatchH / 2}" width="${swatchW}" height="${swatchH}" rx="3" class="xychart-bar xychart-color-${item.colorIndex}"/>`,
+        `<rect x="${item.x}" y="${item.y - swatchH / 2}" width="${swatchW}" height="${swatchH}" rx="3" class="xychart-bar xychart-color-${item.colorIndex}"/>`
       );
     } else {
       const ly = item.y;
       parts.push(
-        `<line x1="${item.x}" y1="${ly}" x2="${item.x + swatchW}" y2="${ly}" stroke-width="${CHART_FONT.lineWidth}" stroke-linecap="round" class="xychart-legend-line xychart-color-${item.colorIndex}"/>`,
+        `<line x1="${item.x}" y1="${ly}" x2="${item.x + swatchW}" y2="${ly}" stroke-width="${CHART_FONT.lineWidth}" stroke-linecap="round" class="xychart-legend-line xychart-color-${item.colorIndex}"/>`
       );
     }
     parts.push(
-      `<text x="${item.x + swatchW + gap}" y="${item.y}" text-anchor="start" font-size="${CHART_FONT.legendSize}" font-weight="${CHART_FONT.legendWeight}" dy="${TEXT_BASELINE_SHIFT}" class="xychart-label">${escapeXml5(item.label)}</text>`,
+      `<text x="${item.x + swatchW + gap}" y="${item.y}" text-anchor="start" font-size="${CHART_FONT.legendSize}" font-weight="${CHART_FONT.legendWeight}" dy="${TEXT_BASELINE_SHIFT}" class="xychart-label">${escapeXml5(item.label)}</text>`
     );
   }
   for (const g of barOverlay) parts.push(g);
@@ -9588,42 +9028,28 @@ function chartStyles(chart, interactive, sparse, themeAccent, bgColor) {
   for (const l of chart.lines) colorIndices.add(l.colorIndex);
   const colorVarDefs = [];
   for (const idx of [...colorIndices].sort((a, b) => a - b)) {
-    const value =
-      idx === 0
-        ? `var(--accent, ${CHART_ACCENT_FALLBACK})`
-        : getSeriesColor(idx, accentHex, bgColor);
+    const value = idx === 0 ? `var(--accent, ${CHART_ACCENT_FALLBACK})` : getSeriesColor(idx, accentHex, bgColor);
     colorVarDefs.push(`    --xychart-color-${idx}: ${value};`);
-    colorVarDefs.push(
-      `    --xychart-bar-fill-${idx}: color-mix(in srgb, var(--bg) 75%, var(--xychart-color-${idx}) 25%);`,
-    );
+    colorVarDefs.push(`    --xychart-bar-fill-${idx}: color-mix(in srgb, var(--bg) 75%, var(--xychart-color-${idx}) 25%);`);
   }
   const seriesRules = [];
   for (const idx of [...colorIndices].sort((a, b) => a - b)) {
     const color = `var(--xychart-color-${idx})`;
-    seriesRules.push(
-      `  .xychart-bar.xychart-color-${idx} { stroke: ${color}; fill: var(--xychart-bar-fill-${idx}); }`,
-    );
-    seriesRules.push(
-      `  path.xychart-color-${idx}, line.xychart-color-${idx} { stroke: ${color}; }`,
-    );
+    seriesRules.push(`  .xychart-bar.xychart-color-${idx} { stroke: ${color}; fill: var(--xychart-bar-fill-${idx}); }`);
+    seriesRules.push(`  path.xychart-color-${idx}, line.xychart-color-${idx} { stroke: ${color}; }`);
     seriesRules.push(`  circle.xychart-color-${idx} { fill: ${color}; }`);
   }
-  const tipRules = interactive
-    ? `
+  const tipRules = interactive ? `
   .xychart-tip { opacity: 0; pointer-events: none; }
   .xychart-tip-bg { fill: var(--_text); filter: drop-shadow(0 1px 3px color-mix(in srgb, var(--fg) 20%, transparent)); }
   .xychart-tip-text { fill: var(--bg); font-size: ${TIP.fontSize}px; font-weight: ${TIP.fontWeight}; }
   .xychart-tip-ptr { fill: var(--_text); }
   .xychart-bar-group:hover .xychart-tip,
-  .xychart-dot-group:hover .xychart-tip { opacity: 1; }`
-    : "";
-  const colorVarsBlock =
-    colorVarDefs.length > 0
-      ? `
+  .xychart-dot-group:hover .xychart-tip { opacity: 1; }` : "";
+  const colorVarsBlock = colorVarDefs.length > 0 ? `
   svg {
 ${colorVarDefs.join("\n")}
-  }`
-      : "";
+  }` : "";
   const style = `<style>
   .xychart-grid { fill: var(--_inner-stroke); stroke: none; opacity: 0.65; }
   .xychart-bar { stroke-width: 1.5; }
@@ -9659,7 +9085,7 @@ function roundedTopBarPath(x, y, w, h, radius) {
     // bottom edge
     `Q${r(x)},${r(y + h)} ${r(x)},${r(y + h - rr)}`,
     // bottom-left
-    "Z",
+    "Z"
   ].join(" ");
 }
 function roundedRightBarPath(x, y, w, h, radius) {
@@ -9686,7 +9112,7 @@ function roundedRightBarPath(x, y, w, h, radius) {
     // left edge
     `Q${r(x)},${r(y)} ${r(x + rr)},${r(y)}`,
     // top-left
-    "Z",
+    "Z"
   ].join(" ");
 }
 function smoothCurvePath(points) {
@@ -9724,9 +9150,9 @@ function smoothCurvePath(points) {
   }
   const slopes = new Array(n).fill(0);
   for (let i = 0; i < n - 1; i++) {
-    slopes[i] = delta[i] - (h[i] * (2 * c[i] + c[i + 1])) / 3;
+    slopes[i] = delta[i] - h[i] * (2 * c[i] + c[i + 1]) / 3;
   }
-  slopes[n - 1] = delta[n - 2] + (h[n - 2] * c[n - 2]) / 3;
+  slopes[n - 1] = delta[n - 2] + h[n - 2] * c[n - 2] / 3;
   let path = `M${r(points[0].x)},${r(points[0].y)}`;
   for (let i = 0; i < n - 1; i++) {
     const seg = h[i] / 3;
@@ -9743,13 +9169,11 @@ function multiTooltipAbove(cx, topY, label, entries) {
   const padY = 6;
   const labelGap = 10;
   const headingW = estimateTextWidth(label, TIP.fontSize, 600);
-  const maxRowW = Math.max(
-    ...entries.map((e) => {
-      const legendW = estimateTextWidth(e.legendLabel, TIP.fontSize, TIP.fontWeight);
-      const valW = estimateTextWidth(e.text, TIP.fontSize, TIP.fontWeight);
-      return legendW + labelGap + valW;
-    }),
-  );
+  const maxRowW = Math.max(...entries.map((e) => {
+    const legendW = estimateTextWidth(e.legendLabel, TIP.fontSize, TIP.fontWeight);
+    const valW = estimateTextWidth(e.text, TIP.fontSize, TIP.fontWeight);
+    return legendW + labelGap + valW;
+  }));
   const bgW = Math.max(headingW, maxRowW) + TIP.padX * 2;
   const bgH = padY + lineH + entries.length * lineH + padY;
   const tipY = Math.max(TIP.minY, topY - TIP.offsetY - bgH - TIP.pointerSize);
@@ -9783,11 +9207,7 @@ function tooltipAbove(cx, topY, text) {
   const ptrY = tipY + bgH;
   const ps = TIP.pointerSize;
   const pointer = `<polygon points="${r(ptrX - ps)},${r(ptrY)} ${r(ptrX + ps)},${r(ptrY)} ${r(ptrX)},${r(ptrY + ps)}" class="xychart-tip xychart-tip-ptr"/>`;
-  return (
-    `<rect x="${r(bgX)}" y="${r(tipY)}" width="${r(bgW)}" height="${bgH}" rx="${TIP.rx}" class="xychart-tip xychart-tip-bg"/>` +
-    pointer +
-    `<text x="${r(textX)}" y="${r(textY)}" text-anchor="middle" dy="${TEXT_BASELINE_SHIFT}" class="xychart-tip xychart-tip-text">${escapeXml5(text)}</text>`
-  );
+  return `<rect x="${r(bgX)}" y="${r(tipY)}" width="${r(bgW)}" height="${bgH}" rx="${TIP.rx}" class="xychart-tip xychart-tip-bg"/>` + pointer + `<text x="${r(textX)}" y="${r(textY)}" text-anchor="middle" dy="${TEXT_BASELINE_SHIFT}" class="xychart-tip xychart-tip-text">${escapeXml5(text)}</text>`;
 }
 function formatTipValue(v) {
   if (Number.isInteger(v)) return v.toLocaleString("en-US");
@@ -9797,11 +9217,7 @@ function r(n) {
   return String(Math.round(n * 10) / 10);
 }
 function escapeXml5(text) {
-  return text
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
+  return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 
 // src/index.ts
@@ -9821,7 +9237,7 @@ function buildColors(options) {
     accent: options.accent,
     muted: options.muted,
     surface: options.surface,
-    border: options.border,
+    border: options.border
   };
 }
 function renderMermaidSVG(text, options = {}) {
@@ -9830,10 +9246,7 @@ function renderMermaidSVG(text, options = {}) {
   const font = options.font ?? "Inter";
   const transparent = options.transparent ?? false;
   const diagramType = detectDiagramType2(text);
-  const lines = text
-    .split("\n")
-    .map((l) => l.trim())
-    .filter((l) => l.length > 0 && !l.startsWith("%%"));
+  const lines = text.split("\n").map((l) => l.trim()).filter((l) => l.length > 0 && !l.startsWith("%%"));
   switch (diagramType) {
     case "sequence": {
       const diagram = parseSequenceDiagram(lines);
@@ -9878,6 +9291,6 @@ export {
   renderMermaidAscii,
   renderMermaidSVG,
   renderMermaidSVGAsync,
-  renderMermaidSync,
+  renderMermaidSync
 };
 //# sourceMappingURL=index.js.map

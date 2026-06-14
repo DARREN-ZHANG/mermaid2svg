@@ -21,4 +21,4 @@ expect:
     containsText: []
 skip:
   enabled: true
-  reason: "Mermaid 11.15 cannot parse erDiagram relationship }|--o{ (parse error); tracked as upstream limitation"
+  reason: Mermaid 11.15 cannot parse erDiagram relationship }|--o{ (parse error); tracked as upstream limitation

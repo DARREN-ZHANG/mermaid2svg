@@ -10,8 +10,8 @@ export const SIZE_DATA = {
   },
   ours: {
     label: "mermaid2svg",
-    entry: "demo/dist/assets/index-jBzPFP_h.js",
-    rawBytes: 218660,
-    gzipBytes: 70550,
+    entry: "demo/dist/assets/index-BBHp0ad-.js",
+    rawBytes: 218752,
+    gzipBytes: 70616,
   },
 };

@@ -28,6 +28,15 @@ const REPO_FULL = {
 // 最小核心样本门槛，低于此值说明候选集意外收缩，必须中止
 const MIN_MINIMAL_CORE_ACCEPTED = 101;
 
+// Mermaid 上游能力限制：这些用例的 Mermaid 解析/渲染会失败，
+// 标记为 skip 避免阻塞测试套件；从 docs/init/test-candidates.json 抽取时应用此覆盖
+const SKIP_OVERRIDES = {
+  "bm-019":
+    "Mermaid 11.15 cannot parse erDiagram relationship }|--o{ (parse error); tracked as upstream limitation",
+  "mm-fc-020":
+    "Mermaid 11.15 produces invalid SVG root when <br> appears in flowchart node labels; tracked as upstream limitation",
+};
+
 // 按 ID 稳定排序，便于人工 review
 const sortById = (list) => [...list].sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
 
@@ -96,33 +105,33 @@ const selectTests = (candidates) => {
 };
 
 // 构建单条 YAML 测试对象
-const buildTestYaml = (c) => ({
-  id: c.id,
-  source: {
-    repo: REPO_FULL[c.sourceRepo] || c.sourceRepo,
-    path: c.sourcePath,
-    url: null,
-  },
-  diagram: {
-    type: c.type,
-    title: null,
-  },
-  input: {
-    mermaid: c.input,
-  },
-  expect: {
-    render: true,
-    svg: {
-      root: true,
-      viewBox: true,
-      containsText: [],
+const buildTestYaml = (c) => {
+  const skipOverride = SKIP_OVERRIDES[c.id];
+  return {
+    id: c.id,
+    source: {
+      repo: REPO_FULL[c.sourceRepo] || c.sourceRepo,
+      path: c.sourcePath,
+      url: null,
     },
-  },
-  skip: {
-    enabled: false,
-    reason: null,
-  },
-});
+    diagram: {
+      type: c.type,
+      title: null,
+    },
+    input: {
+      mermaid: c.input,
+    },
+    expect: {
+      render: true,
+      svg: {
+        root: true,
+        viewBox: true,
+        containsText: [],
+      },
+    },
+    skip: skipOverride ? { enabled: true, reason: skipOverride } : { enabled: false, reason: null },
+  };
+};
 
 // 生成 test/schema.yml 内容
 const SCHEMA_YML = `# Mermaid YAML 测试 Schema
