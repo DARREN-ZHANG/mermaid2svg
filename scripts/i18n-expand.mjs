@@ -4,13 +4,15 @@
 // 跑完后可保留作为参考，或删除。
 
 import { readdir, readFile, writeFile } from "node:fs/promises";
+import { join } from "node:path";
+import ERR from "@3-/log/ERR.js";
 
-const I18N_DIR = "demo/i18n";
-const SKIP_FILES = new Set(["zh.js", "en.js"]);
+const I18N_DIR = join(import.meta.dirname, "..", "demo", "i18n"),
+  SKIP_FILES = new Set(["zh.js", "en.js"]);
 
 // 通过动态导入读取 JS 模块的 names 数组，避免正则无法处理转义引号
 const readNames = async (file) => {
-  const mod = await import("../" + file);
+  const mod = await import(file);
   return mod.default().names;
 };
 
@@ -23,15 +25,18 @@ const extractFirst8 = async (file) => {
   return names.slice(0, 8);
 };
 
+// 将字符串序列化为双引号 JS 字符串字面量，转义其中的双引号和反斜杠
+const jsString = (s) => '"' + s.replace(/\\/g, "\\\\").replace(/"/g, '\\"') + '"';
+
 // 替换源文件中的 names 数组为新数组
 const replaceNames = (content, newNames) => {
   // 缩进 4 空格，每行一项，符合现有风格
-  const body = "names: [\n" + newNames.map((n) => '    "' + n + '",').join("\n") + "\n  ],";
+  const body = "names: [\n" + newNames.map((n) => "    " + jsString(n) + ",").join("\n") + "\n  ],";
   return content.replace(/names:\s*\[([\s\S]*?)\],?/, body);
 };
 
 const main = async () => {
-  const enNames = await readNames(I18N_DIR + "/en.js");
+  const enNames = await readNames(join(I18N_DIR, "en.js"));
   if (enNames.length !== 24) {
     throw new Error("en.js names 应有 24 项，实际 " + enNames.length);
   }
@@ -42,11 +47,11 @@ const main = async () => {
   console.log("Processing " + files.length + " files...");
   let processed = 0;
   for (const f of files) {
-    const filepath = I18N_DIR + "/" + f;
-    const content = await readFile(filepath, "utf8");
-    const first8 = await extractFirst8(filepath);
-    const newNames = [...first8, ...enTail16];
-    const newContent = replaceNames(content, newNames);
+    const filepath = join(I18N_DIR, f),
+      content = await readFile(filepath, "utf8"),
+      first8 = await extractFirst8(filepath),
+      newNames = [...first8, ...enTail16],
+      newContent = replaceNames(content, newNames);
     await writeFile(filepath, newContent);
     processed++;
   }
@@ -54,6 +59,6 @@ const main = async () => {
 };
 
 main().catch((e) => {
-  console.error(e);
+  ERR(e);
   process.exit(1);
 });
