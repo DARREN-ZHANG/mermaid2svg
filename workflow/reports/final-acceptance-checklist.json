@@ -1,15 +1,35 @@
 {
-  "generatedAt": "2026-06-14T10:00:00.000Z",
+  "generatedAt": "2026-06-14T11:30:00.000Z",
   "loop": "final-audit-loop",
   "auditMethod": "machine-check + human-review-pending",
-  "gitCommit": "542a2e9",
+  "gitCommit": "5b4ba6e",
   "overallVerdict": "pending-human-signoff",
   "summary": {
     "totalChecks": 56,
     "machinePass": 44,
     "machineFail": 0,
     "humanPending": 12,
-    "blockingGaps": ["docs/dev-workflow.md created this loop", "README.md still upstream (deferred)", "Cloudflare Pages public deploy pending human action"]
+    "blockingGaps": ["README.md still upstream content (deferred to human gate)", "Cloudflare Pages public deploy pending human action"]
+  },
+  "reVerification": {
+    "runAt": "2026-06-14T11:30:00.000Z",
+    "runBy": "final-audit-loop re-verification pass",
+    "toolchain": { "bun": "1.3.14", "node": "v24.14.0" },
+    "commands": [
+      { "cmd": "bun extract/run.js", "exitCode": 0, "result": "18 tests generated, 109 skipped" },
+      { "cmd": "bun test test/render-yml.test.mjs", "exitCode": 0, "result": "19 pass, 0 fail" },
+      { "cmd": "bun test test/svg-output.test.mjs", "exitCode": 0, "result": "29 pass, 0 fail" },
+      { "cmd": "bun test test/compare.test.js", "exitCode": 0, "result": "421 pass, 0 fail (upstream MathML regression intact)" },
+      { "cmd": "./sh/check.js", "exitCode": 0, "result": "75 locale files, all keys present; 73 fallback locales warn >5% similarity (acceptable per HG-5)" },
+      { "cmd": "bun run build", "exitCode": 0, "result": "demo/dist/index.html exists; entry index-CsSmk8RF.js 186,578 bytes / gzip 46,184" },
+      { "cmd": "test -f extract/run.js && test -f extract/report.json && test -f test/schema.yml && test -f workflow/reports/size-report.json && test -f workflow/reports/i18n-report.json && test -f docs/i18n-language-map.md && test -f docs/dev-workflow.md && test -f docs/final-audit/final-report.md && test -f wrangler.toml && test -f demo/public/_headers", "exitCode": 0, "result": "all deliverable artifacts present" },
+      { "cmd": "ls test/*.yml | wc -l", "exitCode": 0, "result": "19 (18 test yml + 1 schema.yml)" },
+      { "cmd": "ls demo/i18n/*.js | wc -l", "exitCode": 0, "result": "75 locale files" },
+      { "cmd": "git diff dfc9d09 HEAD --stat -- src/ (excluding src/render/)", "exitCode": 0, "result": "0 changes to src/ outside render/" },
+      { "cmd": "git diff dfc9d09 HEAD --stat -- references/ plugin/ blog/", "exitCode": 0, "result": "0 changes to protected dirs" },
+      { "cmd": "git log --oneline dfc9d09..HEAD -- lib/", "exitCode": 0, "result": "1 commit d0e9b0a (minify.js auto-regen, not manual edit)" }
+    ],
+    "outcome": "all machine-verifiable criteria re-confirmed pass; no regressions since prior checklist generation"
   },
   "deliverables": {
     "D1_extract_run_js": { "type": "machine", "status": "pass", "evidence": "test -f extract/run.js; bun extract/run.js exit 0; output: 18 tests, 109 skipped" },
@@ -19,8 +39,8 @@
     "D5_schema_validates_first": { "type": "machine", "status": "pass", "evidence": "render-yml.test.mjs: 19 pass 0 fail; schema validation precedes render step" },
     "D6_size_report_json": { "type": "machine", "status": "pass", "evidence": "workflow/reports/size-report.json exists; beautifulMermaid raw 328094 gzip 66816; ours raw 127082 gzip 41785; entry index-BzHJhuCY.js" },
     "D7_i18n_report": { "type": "machine", "status": "pass", "evidence": "Both docs/i18n-language-map.md and workflow/reports/i18n-report.json exist; 75 locales, 19 keys, 0 missing" },
-    "D8_dev_workflow_md": { "type": "machine", "status": "pass", "evidence": "docs/dev-workflow.md created this loop (was gap G1, now resolved)" },
-    "D9_readme_md": { "type": "human", "status": "pending-human", "evidence": "README.md still reflects upstream @webc.site/math content; deferred to human gate per final-audit plan G2" },
+    "D8_dev_workflow_md": { "type": "machine", "status": "pass", "evidence": "docs/dev-workflow.md exists (331 lines); covers Codex/OpenCode/Orchestrator roles, auto-loop, retry/blocked/manual-review rules, final gate (was gap G1, resolved in prior audit pass)" },
+    "D9_readme_md": { "type": "human", "status": "pending-human", "evidence": "README.md still reflects upstream @webc.site/math LaTeX/MathML content (line 7 title = '@webc.site/math'); deferred to human gate per final-audit plan G2; README.md outside final-audit-loop allowed files" },
     "D10_cf_pages_config": { "type": "machine", "status": "pass", "evidence": "wrangler.toml + demo/public/_headers exist; deployment-report verdict=deployment-ready-local-verified" },
     "D11_page_deliverables": { "type": "machine+human", "status": "pass-machine", "evidence": "demo/index.pug, demo/index.js, demo/style.styl, demo/const/{mermaidExamples,themes,sizeData}.js all present; 8 diagram types, 9 themes, SVG chart wired" },
     "D12_final_report": { "type": "machine", "status": "pass", "evidence": "docs/final-audit/final-report.md generated this loop" }
@@ -212,8 +232,8 @@
       "title": "Test commands runnable",
       "type": "machine",
       "status": "pass",
-      "verifyCommand": "bun test test/render-yml.test.mjs; bun test test/svg-output.test.mjs",
-      "verifyResult": "render-yml: 19 pass 0 fail; svg-output: 29 pass 0 fail"
+      "verifyCommand": "bun test test/render-yml.test.mjs; bun test test/svg-output.test.mjs; bun test test/compare.test.js",
+      "verifyResult": "render-yml: 19 pass 0 fail; svg-output: 29 pass 0 fail; compare (upstream MathML): 421 pass 0 fail"
     },
     "AC-TECH-001": {
       "title": "Small and focused, no over-engineering",
@@ -271,12 +291,12 @@
     "small_and_focused": "pending-human"
   },
   "protectedFilesAudit": {
-    "src_non_render": "unchanged since baseline (dfc9d09)",
+    "src_non_render": "unchanged since baseline (dfc9d09): git diff dfc9d09 HEAD --stat on src/*.js/src/*.ts excluding src/render/ = 0 changes",
     "lib": "auto-regenerated by minify.js in 1 commit (d0e9b0a environment fix); not manually edited",
-    "references": "unchanged since baseline",
-    "plugin": "unchanged since baseline",
-    "blog": "unchanged since baseline",
-    "parent_docs": "unchanged since baseline"
+    "references": "unchanged since baseline (dfc9d09): 0 commits touching references/",
+    "plugin": "unchanged since baseline (dfc9d09): 0 commits touching plugin/",
+    "blog": "unchanged since baseline (dfc9d09): 0 commits touching blog/",
+    "parent_docs": "canonical spec/acceptance/architecture docs unchanged; protected by loop blocked-files constraint"
   },
   "gaps": [
     {
@@ -295,10 +315,10 @@
     },
     {
       "id": "G4",
-      "description": "Size report entry hash may differ from latest build after subsequent loops",
+      "description": "Size report entry hash differs from latest build after subsequent loops",
       "severity": "non-blocking",
       "status": "noted",
-      "reason": "size-report.json records index-BzHJhuCY.js from size-loop; deploy-loop build produced index-CsSmk8RF.js; data was real at generation time, regenerable via bun sh/size-report.js"
+      "reason": "size-report.json records index-BzHJhuCY.js (127,082 / 41,785 gzip) from size-loop build; current build produces index-CsSmk8RF.js (186,578 / 46,184 gzip) due to i18n locale modules bundled into entry chunk; data was real at generation time, regenerable via 'bun sh/size-report.js'; methodology finding 'aggregation-scope' already recorded in size-report.json verification.findings"
     }
   ],
   "humanReviewChecklist": [
@@ -311,8 +331,9 @@
   ],
   "signOffReadiness": {
     "allMachineChecksPass": true,
+    "machineReVerificationDate": "2026-06-14T11:30:00.000Z",
     "humanReviewsRemaining": 6,
     "blockingForFinalSignoff": ["H5 (CF Pages public deploy)", "H1-H4 human review conclusion"],
-    "recommendation": "All machine-verifiable criteria pass. Human gate required for visual design review, deploy execution, and README rewrite before final submission."
+    "recommendation": "All machine-verifiable criteria re-confirmed pass on 2026-06-14. Human gate required for visual design review, deploy execution, and README rewrite before final submission. No code changes needed for remaining items."
   }
 }
