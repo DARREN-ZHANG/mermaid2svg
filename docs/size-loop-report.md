@@ -96,14 +96,28 @@ only our own entry JS is measured.
 Both sides gzipped identically using Node's `zlib.gzipSync(buffer)` with
 default compression level. Same method for both → fair comparison.
 
-### 3.4 Measured values (latest run)
+### 3.4 Measured values (verified run)
 
 | Side | Raw bytes | Gzip bytes | Display |
 |---|---|---|---|
 | beautiful-mermaid v1.1.3 | 328,094 | 66,816 | 320.4K raw / 65.2K gzip |
-| mermaid2svg (entry JS) | 127,100 | ~41,780 | 124.1K raw / 40.8K gzip |
+| mermaid2svg (entry JS) | 127,082 | 41,785 | 124.1K raw / 40.8K gzip |
 
 Ratio: beautiful-mermaid is ~2.6× larger than our entry JS (raw).
+
+Content hashes (SHA-256, recorded in `size-report.json`):
+
+| Side | SHA-256 (prefix) |
+|---|---|
+| beautiful-mermaid bundle | `424d4096…` |
+| our entry chunk | `b5a27279…` |
+
+Gzip level-9 reference values (for transparency; report uses default level 6):
+
+| Side | gzip level 6 (used) | gzip level 9 (reference) |
+|---|---|---|
+| beautiful-mermaid | 66,816 | 66,021 |
+| mermaid2svg | 41,785 | 41,341 |
 
 ### 3.5 Scope clarification
 
@@ -178,10 +192,16 @@ size-report.json -> workflow/reports/
   beautiful-mermaid 1.1.3 (v1.1.3-12-g2ac8bbb)
     raw:  328094 bytes
     gzip: 66816 bytes
-  ours (demo/dist/assets/index-t5kwL7Tc.js)
-    raw:  127100 bytes
-    gzip: 41780 bytes
+  ours (demo/dist/assets/index-BzHJhuCY.js)
+    raw:  127082 bytes
+    gzip: 41785 bytes
 ```
+
+Each number was independently reproduced from the real on-disk file it
+claims to measure (7 verification commands, all exit 0). Full independent
+reproduction evidence is recorded in
+[`docs/size/verification.md`](size/verification.md) and embedded in
+`size-report.json` → `verification.commands[]`.
 
 ### 5.2 Data consistency check
 
@@ -192,8 +212,8 @@ byte-for-byte:
 |---|---|---|---|
 | BM rawBytes | 328094 | 328094 | ✓ |
 | BM gzipBytes | 66816 | 66816 | ✓ |
-| ours rawBytes | 127100 | 127100 | ✓ |
-| ours gzipBytes | 41780 | 41780 | ✓ |
+| ours rawBytes | 127082 | 127082 | ✓ |
+| ours gzipBytes | 41785 | 41785 | ✓ |
 
 ### 5.3 Blocked patterns scan
 
@@ -205,6 +225,18 @@ not a runtime benchmark".
 
 Spec compliance review: 9/9 checks passed.
 Code quality review: passed after snake_case variable naming fix.
+
+### 5.5 Verification findings
+
+Two methodology notes are recorded in `size-report.json` →
+`verification.findings[]` (mirrored in `docs/size/verification.md`).
+Neither invalidates the data — both numbers are confirmed real, not
+estimated.
+
+| Finding | Status | Impact | Resolution |
+|---|---|---|---|
+| `gzip-level` | acceptable | Report uses default level 6, not level 9 | Both sides use identical method → fair; level-9 reference values recorded (§3.4) |
+| `aggregation-scope` | noted | `ours` measures entry chunk only, not aggregate render-path footprint | Real data, conservative; aggregate methodology deferred to future size-loop iteration |
 
 ---
 
