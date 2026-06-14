@@ -1,91 +1,22 @@
 {
-  "generatedAt": "2026-06-14T07:11:23.370Z",
-  "verifiedAt": "2026-06-14T08:30:00.000Z",
+  "generatedAt": "2026-06-14T13:27:28.121Z",
   "loop": "size-loop",
-  "gzipMethod": "zlib.gzipSync (default level 6); both sides identical → fair comparison",
-  "scopeNote": "JS file size only; performance proxy, not a runtime benchmark.",
   "beautifulMermaid": {
     "source": {
-      "repo": "lukilabs/beautiful-mermaid",
-      "url": "https://github.com/lukilabs/beautiful-mermaid",
-      "localPath": "references/beautiful-mermaid",
-      "commit": "2ac8bbbb060ca0a65a6a21f3200bd99b1587b488",
-      "gitDescribe": "v1.1.3-12-g2ac8bbb",
-      "version": "1.1.3",
-      "bundleMethod": "bun build with externals [elkjs, entities] matching tsup.config.ts"
+      "kind": "cdn",
+      "url": "https://www.unpkg.com/beautiful-mermaid@1.1.3/dist/index.js"
     },
-    "rawBytes": 328094,
-    "gzipBytes": 66816,
-    "contentSha256": "424d409621c03ac630b534bbe85fce9cc4184490232e7f23984bc840451f0527"
+    "rawBytes": 335537,
+    "gzipBytes": 68977,
+    "contentSha256": "54acbb8c0d458bfed51bd5e116eb64d475390ac1893bc25a31148646fd9a2c39"
   },
   "ours": {
-    "entry": "demo/dist/assets/index-BzHJhuCY.js",
-    "rawBytes": 127082,
-    "gzipBytes": 41785,
-    "contentSha256": "b5a2727922999d882e8c6bf0d83649f80ff673290cc1188d9261901b88202230"
+    "entry": "demo/dist/assets/index-oOltL5a-.js",
+    "rawBytes": 218564,
+    "gzipBytes": 70534
   },
   "verification": {
-    "beautifulMermaidBundledFromLocal": true,
-    "ourEntryFromRealBuild": true,
-    "pageMatchesReport": true,
-    "rawBytesIndependentMatch": true,
-    "gzipBytesReproducibleSameMethod": true,
-    "gitProvenanceConfirmed": true,
-    "commands": [
-      {
-        "cmd": "bun sh/size-report.js",
-        "purpose": "regenerate report from real artifacts",
-        "exitCode": 0,
-        "output": "beautiful-mermaid raw: 328094 gzip: 66816; ours raw: 127082 gzip: 41785"
-      },
-      {
-        "cmd": "wc -c demo/dist/assets/index-BzHJhuCY.js",
-        "purpose": "independent raw byte count — our entry chunk",
-        "exitCode": 0,
-        "output": "127082"
-      },
-      {
-        "cmd": "bun -e \"gzipSync(readFileSync('demo/dist/assets/index-BzHJhuCY.js')).length\"",
-        "purpose": "independent gzip byte count (zlib default level 6) — our entry chunk",
-        "exitCode": 0,
-        "output": "41785"
-      },
-      {
-        "cmd": "bun build references/beautiful-mermaid/src/index.ts --external elkjs --external entities --outfile $TMPDIR/bm-bundle.js (via execSync inside bun -e, matching sh/size-report.js)",
-        "purpose": "independent reproduction — beautiful-mermaid bundle",
-        "exitCode": 0,
-        "output": "raw: 328094 gzip: 66816 sha256: 424d4096..."
-      },
-      {
-        "cmd": "git -C references/beautiful-mermaid rev-parse HEAD",
-        "purpose": "confirm pinned commit",
-        "exitCode": 0,
-        "output": "2ac8bbbb060ca0a65a6a21f3200bd99b1587b488"
-      },
-      {
-        "cmd": "git -C references/beautiful-mermaid describe --tags",
-        "purpose": "confirm version tag",
-        "exitCode": 0,
-        "output": "v1.1.3-12-g2ac8bbb"
-      },
-      {
-        "cmd": "shasum -a 256 demo/dist/assets/index-BzHJhuCY.js",
-        "purpose": "content hash — our entry chunk",
-        "exitCode": 0,
-        "output": "b5a2727922999d882e8c6bf0d83649f80ff673290cc1188d9261901b88202230"
-      }
-    ],
-    "findings": [
-      {
-        "id": "gzip-level",
-        "status": "acceptable",
-        "detail": "Report uses zlib.gzipSync default (level 6), not level 9 as docs/size/size-plan.md §4.1 recommends. Both sides use the identical method so the comparison is internally fair. Level-9 reference values recorded in docs/size/verification.md for transparency."
-      },
-      {
-        "id": "aggregation-scope",
-        "status": "noted",
-        "detail": "ours.rawBytes measures only the entry chunk (index-HASH.js), not the aggregate of all Vite-render-path chunks. docs/size/size-plan.md §3.2 recommends aggregating reachable chunks. This is a known methodology gap deferred to a future size-loop iteration; it does not affect the current verification that data is real (not estimated)."
-      }
-    ]
+    "beautifulMermaidFromCdn": true,
+    "ourEntryFromRealBuild": true
   }
 }
