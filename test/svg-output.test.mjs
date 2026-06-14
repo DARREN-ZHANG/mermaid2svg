@@ -26,14 +26,14 @@ const OK = 0,
 const schema = yaml.load(readFileSync(SCHEMA_FILE, "utf8"));
 
 const all_cases = readdirSync(TEST_DIR)
-  .filter(f => f.endsWith(".yml") && f !== "schema.yml")
+  .filter((f) => f.endsWith(".yml") && f !== "schema.yml")
   .sort()
-  .map(f => ({ file: f, data: yaml.load(readFileSync(path.join(TEST_DIR, f), "utf8")) }));
+  .map((f) => ({ file: f, data: yaml.load(readFileSync(path.join(TEST_DIR, f), "utf8")) }));
 
 // schema 类型检查
 const checkType = (val, type_def) => {
   if (Array.isArray(type_def))
-    return type_def.some(t => (t === "null" ? val === null : checkType(val, t)));
+    return type_def.some((t) => (t === "null" ? val === null : checkType(val, t)));
   if (type_def === "object") return val !== null && typeof val === "object" && !Array.isArray(val);
   if (type_def === "array") return Array.isArray(val);
   return typeof val === type_def;
@@ -58,10 +58,8 @@ const validateObj = (obj, def, prefix) => {
 
 // 渲染前做 schema 校验
 const schema_errors = [];
-for (const c of all_cases)
-  schema_errors.push(...validateObj(c.data, schema, c.data.id));
-if (schema_errors.length)
-  throw new Error("schema validation failed:\n" + schema_errors.join("\n"));
+for (const c of all_cases) schema_errors.push(...validateObj(c.data, schema, c.data.id));
+if (schema_errors.length) throw new Error("schema validation failed:\n" + schema_errors.join("\n"));
 
 const RULES = ["svg-root", "viewBox", "no-runtime-js", "deterministic", "error-shape"],
   corpus_results = [],
@@ -108,9 +106,13 @@ const evalCase = async (mermaid_text) => {
       const norm_svg2 = typeof norm2[1] === "string" ? norm2[1] : "",
         vol_re = /m2s-\d+/,
         canonical = "mermaid-svg";
-      rules["deterministic"] = norm_code1 === OK && norm2[0] === OK &&
-        !vol_re.test(norm_svg1) && norm_svg1.includes(canonical) &&
-        !vol_re.test(norm_svg2) && norm_svg2.includes(canonical);
+      rules["deterministic"] =
+        norm_code1 === OK &&
+        norm2[0] === OK &&
+        !vol_re.test(norm_svg1) &&
+        norm_svg1.includes(canonical) &&
+        !vol_re.test(norm_svg2) &&
+        norm_svg2.includes(canonical);
     } else {
       rules["deterministic"] = false;
     }
@@ -123,8 +125,7 @@ const evalCase = async (mermaid_text) => {
 };
 
 // 在浏览器中调用 normalizeSvg，返回 [code, string]
-const normalizeInPage = (raw) =>
-  page.evaluate((svg) => window.__norm.normalizeSvg(svg), raw);
+const normalizeInPage = (raw) => page.evaluate((svg) => window.__norm.normalizeSvg(svg), raw);
 
 describe("svg-output", () => {
   before(async () => {
@@ -146,7 +147,7 @@ describe("svg-output", () => {
       vite.middlewares(req, res);
     });
 
-    await new Promise(resolve => httpServer.listen(0, "127.0.0.1", resolve));
+    await new Promise((resolve) => httpServer.listen(0, "127.0.0.1", resolve));
     const port = httpServer.address().port,
       baseUrl = "http://127.0.0.1:" + port;
 
@@ -155,10 +156,13 @@ describe("svg-output", () => {
     await page.goto(baseUrl + HARNESS_PATH);
 
     // 预加载渲染器和 normalize-svg 归一化器到页面全局
-    await page.evaluate(async (urls) => {
-      window.__m2s = await import(urls[0]);
-      window.__norm = await import(urls[1]);
-    }, [baseUrl + RENDERER_PATH, baseUrl + NORMALIZER_PATH]);
+    await page.evaluate(
+      async (urls) => {
+        window.__m2s = await import(urls[0]);
+        window.__norm = await import(urls[1]);
+      },
+      [baseUrl + RENDERER_PATH, baseUrl + NORMALIZER_PATH],
+    );
 
     // 评估全部 corpus 用例
     for (const c of all_cases) {
@@ -180,8 +184,7 @@ describe("svg-output", () => {
   // schema 校验
   test("schema: all YAML cases match test/schema.yml", () => {
     const errs = [];
-    for (const c of all_cases)
-      errs.push(...validateObj(c.data, schema, c.data.id));
+    for (const c of all_cases) errs.push(...validateObj(c.data, schema, c.data.id));
     assert.deepEqual(errs, [], "schema validation failures:\n" + errs.join("\n"));
   });
 
@@ -191,10 +194,9 @@ describe("svg-output", () => {
     if (d.skip && d.skip.enabled) continue;
 
     test("corpus: " + d.id, () => {
-      const r = corpus_results.find(x => x.id === d.id);
+      const r = corpus_results.find((x) => x.id === d.id);
       assert.ok(r, "no result for " + d.id);
-      for (const rule of RULES)
-        assert.ok(r.rules[rule], rule + " failed for " + d.id);
+      for (const rule of RULES) assert.ok(r.rules[rule], rule + " failed for " + d.id);
     });
   }
 
@@ -222,7 +224,8 @@ describe("svg-output", () => {
   });
 
   test("synthetic: script removal", async () => {
-    const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" width="10" height="10"><script>alert(1)</script><rect/></svg>';
+    const svg =
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" width="10" height="10"><script>alert(1)</script><rect/></svg>';
     const [code, out] = await normalizeInPage(svg);
     const passed = code === OK && !/<script/i.test(out);
     synthetic_results.push({ rule: "script-removal", passed });
@@ -230,7 +233,8 @@ describe("svg-output", () => {
   });
 
   test("synthetic: event handler removal", async () => {
-    const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><rect onclick="bad()" width="5" height="5"/></svg>';
+    const svg =
+      '<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><rect onclick="bad()" width="5" height="5"/></svg>';
     const [code, out] = await normalizeInPage(svg);
     const passed = code === OK && !/onclick/i.test(out);
     synthetic_results.push({ rule: "event-handler-removal", passed });
@@ -238,7 +242,8 @@ describe("svg-output", () => {
   });
 
   test("synthetic: javascript uri removal", async () => {
-    const svg = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 10 10" width="10" height="10"><a xlink:href="javascript:alert(1)"><rect/></a></svg>';
+    const svg =
+      '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 10 10" width="10" height="10"><a xlink:href="javascript:alert(1)"><rect/></a></svg>';
     const [code, out] = await normalizeInPage(svg);
     const passed = code === OK && !/javascript:/i.test(out);
     synthetic_results.push({ rule: "javascript-uri-removal", passed });
@@ -254,7 +259,8 @@ describe("svg-output", () => {
   });
 
   test("synthetic: viewBox preserved", async () => {
-    const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" width="10" height="10"><rect/></svg>';
+    const svg =
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" width="10" height="10"><rect/></svg>';
     const [code, out] = await normalizeInPage(svg);
     const passed = code === OK && out.includes('viewBox="0 0 10 10"');
     synthetic_results.push({ rule: "viewBox-preserved", passed });
@@ -262,7 +268,8 @@ describe("svg-output", () => {
   });
 
   test("synthetic: normalize same svg twice is deterministic", async () => {
-    const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" width="10" height="10"><rect width="5" height="5"/></svg>';
+    const svg =
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" width="10" height="10"><rect width="5" height="5"/></svg>';
     const [, out_a] = await normalizeInPage(svg),
       [, out_b] = await normalizeInPage(svg);
     const passed = out_a === out_b;
@@ -273,8 +280,18 @@ describe("svg-output", () => {
   test("synthetic: id rewrite determinism", async () => {
     const NS = 'xmlns="http://www.w3.org/2000/svg"',
       VB = 'viewBox="0 0 10 10" width="10" height="10"',
-      svg_a = '<svg id="m2s-1" ' + NS + " " + VB + '><style>#m2s-1 .node{fill:red}</style><rect id="m2s-1-rect"/></svg>',
-      svg_b = '<svg id="m2s-2" ' + NS + " " + VB + '><style>#m2s-2 .node{fill:red}</style><rect id="m2s-2-rect"/></svg>';
+      svg_a =
+        '<svg id="m2s-1" ' +
+        NS +
+        " " +
+        VB +
+        '><style>#m2s-1 .node{fill:red}</style><rect id="m2s-1-rect"/></svg>',
+      svg_b =
+        '<svg id="m2s-2" ' +
+        NS +
+        " " +
+        VB +
+        '><style>#m2s-2 .node{fill:red}</style><rect id="m2s-2-rect"/></svg>';
     const [, out_a] = await normalizeInPage(svg_a),
       [, out_b] = await normalizeInPage(svg_b);
     const passed = out_a === out_b;
@@ -300,17 +317,17 @@ const writeReport = () => {
   }
 
   const total = corpus_results.length,
-    passed_count = corpus_results.filter(cr => RULES.every(r => cr.rules[r])).length,
+    passed_count = corpus_results.filter((cr) => RULES.every((r) => cr.rules[r])).length,
     failed_count = total - passed_count,
-    all_deterministic = corpus_results.every(cr => cr.rules["deterministic"]);
+    all_deterministic = corpus_results.every((cr) => cr.rules["deterministic"]);
 
-  const checkedRules = RULES.map(r => ({
+  const checkedRules = RULES.map((r) => ({
     rule: r,
     passed: rule_counts[r].passed,
     failed: rule_counts[r].failed,
   }));
 
-  const syntheticRules = synthetic_results.map(s => ({
+  const syntheticRules = synthetic_results.map((s) => ({
     rule: s.rule,
     passed: s.passed,
   }));

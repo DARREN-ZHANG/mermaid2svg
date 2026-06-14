@@ -24,14 +24,14 @@ const schema = yaml.load(readFileSync(SCHEMA_FILE, "utf8"));
 
 // 读取所有测试用例 (排除 schema.yml)
 const all_cases = readdirSync(TEST_DIR)
-  .filter(f => f.endsWith(".yml") && f !== "schema.yml")
+  .filter((f) => f.endsWith(".yml") && f !== "schema.yml")
   .sort()
-  .map(f => ({ file: f, data: yaml.load(readFileSync(path.join(TEST_DIR, f), "utf8")) }));
+  .map((f) => ({ file: f, data: yaml.load(readFileSync(path.join(TEST_DIR, f), "utf8")) }));
 
 // schema 类型检查，支持 [type, "null"] 联合类型
 const checkType = (val, type_def) => {
   if (Array.isArray(type_def))
-    return type_def.some(t => (t === "null" ? val === null : checkType(val, t)));
+    return type_def.some((t) => (t === "null" ? val === null : checkType(val, t)));
   if (type_def === "object") return val !== null && typeof val === "object" && !Array.isArray(val);
   if (type_def === "array") return Array.isArray(val);
   return typeof val === type_def;
@@ -57,8 +57,7 @@ const validateObj = (obj, def, prefix) => {
 
 // 渲染前做 schema 校验，不合格则直接阻止渲染
 const schema_errors = [];
-for (const c of all_cases)
-  schema_errors.push(...validateObj(c.data, schema, c.data.id));
+for (const c of all_cases) schema_errors.push(...validateObj(c.data, schema, c.data.id));
 if (schema_errors.length)
   throw new Error("schema validation failed before render:\n" + schema_errors.join("\n"));
 
@@ -88,7 +87,7 @@ describe("render-yml", () => {
       vite.middlewares(req, res);
     });
 
-    await new Promise(resolve => httpServer.listen(0, "127.0.0.1", resolve));
+    await new Promise((resolve) => httpServer.listen(0, "127.0.0.1", resolve));
     const port = httpServer.address().port,
       baseUrl = "http://127.0.0.1:" + port;
 
@@ -106,8 +105,13 @@ describe("render-yml", () => {
       const d = c.data;
       if (d.skip && d.skip.enabled) {
         results.push({
-          id: d.id, diagramType: d.diagram.type, source: d.source.repo,
-          ok: false, skipped: true, errorCode: -1, error: d.skip.reason,
+          id: d.id,
+          diagramType: d.diagram.type,
+          source: d.source.repo,
+          ok: false,
+          skipped: true,
+          errorCode: -1,
+          error: d.skip.reason,
         });
         continue;
       }
@@ -118,8 +122,12 @@ describe("render-yml", () => {
         svg = typeof out[1] === "string" ? out[1] : "",
         ok = code === OK && svg.includes("<svg") && /viewBox=/.test(svg);
       results.push({
-        id: d.id, diagramType: d.diagram.type, source: d.source.repo,
-        ok, skipped: false, errorCode: code,
+        id: d.id,
+        diagramType: d.diagram.type,
+        source: d.source.repo,
+        ok,
+        skipped: false,
+        errorCode: code,
         error: code === OK ? null : out[1],
         svg: ok ? svg : null,
       });
@@ -137,8 +145,7 @@ describe("render-yml", () => {
   // schema 校验：所有 YAML 必须匹配 test/schema.yml
   test("schema: all YAML cases match test/schema.yml", () => {
     const errs = [];
-    for (const c of all_cases)
-      errs.push(...validateObj(c.data, schema, c.data.id));
+    for (const c of all_cases) errs.push(...validateObj(c.data, schema, c.data.id));
     assert.deepEqual(errs, [], "schema validation failures:\n" + errs.join("\n"));
   });
 
@@ -148,7 +155,7 @@ describe("render-yml", () => {
     if (d.skip && d.skip.enabled) continue;
 
     test("render: " + d.id, () => {
-      const r = results.find(x => x.id === d.id);
+      const r = results.find((x) => x.id === d.id);
       assert.ok(r, "no render result for " + d.id);
       assert.equal(r.errorCode, OK, "render failed (code " + r.errorCode + "): " + r.error);
       assert.ok(r.svg.includes("<svg"), "SVG root missing");
@@ -162,9 +169,9 @@ describe("render-yml", () => {
 
 // 生成渲染能力报告
 const writeCapabilities = () => {
-  const supported = results.filter(r => r.ok),
-    unsupported = results.filter(r => !r.ok && !r.skipped),
-    skipped = results.filter(r => r.skipped);
+  const supported = results.filter((r) => r.ok),
+    unsupported = results.filter((r) => !r.ok && !r.skipped),
+    skipped = results.filter((r) => r.skipped);
 
   // 按 diagram type 聚合
   const by_type = {};
@@ -178,12 +185,17 @@ const writeCapabilities = () => {
   if (!existsSync(REPORT_DIR)) mkdirSync(REPORT_DIR, { recursive: true });
   const report = {
     generatedAt: new Date().toISOString(),
-    supported: supported.map(r => ({
-      id: r.id, diagramType: r.diagramType, source: r.source,
+    supported: supported.map((r) => ({
+      id: r.id,
+      diagramType: r.diagramType,
+      source: r.source,
     })),
-    unsupported: unsupported.map(r => ({
-      id: r.id, diagramType: r.diagramType, source: r.source,
-      errorCode: r.errorCode, error: r.error,
+    unsupported: unsupported.map((r) => ({
+      id: r.id,
+      diagramType: r.diagramType,
+      source: r.source,
+      errorCode: r.errorCode,
+      error: r.error,
     })),
     byDiagramType: by_type,
     summary: {
