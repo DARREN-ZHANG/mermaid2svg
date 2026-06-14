@@ -44,17 +44,19 @@ const openHarness = async (modulePaths) => {
   await page.goto(baseUrl + HARNESS_PATH);
 
   // 预加载模块到页面全局 window.__mods 数组
+  // 并行导入：ES 规范保证 Promise.all 结果顺序与入参数组一致，可安全替代顺序加载
   const urls = modulePaths.map((p) => baseUrl + p);
   await page.evaluate(async (u) => {
     window.__mods = await Promise.all(u.map((url) => import(url)));
   }, urls);
 
   // 异步清理：关闭浏览器、页面、HTTP 服务器、Vite 服务器
+  // 每步单独 try-catch，避免单个资源失败导致后续资源泄漏
   const close = async () => {
-    await page?.close();
-    await browser?.close();
+    await page?.close().catch(() => {});
+    await browser?.close().catch(() => {});
     httpServer?.close();
-    await vite?.close();
+    await vite?.close().catch(() => {});
   };
 
   return [browser, page, close];
