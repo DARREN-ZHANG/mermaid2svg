@@ -101,7 +101,12 @@
       "status": "pass"
     },
     "mathLeftoversAbsent": {
-      "checkedFiles": ["demo/index.pug", "demo/index.js", "demo/const/mermaidExamples.js", "demo/style.styl"],
+      "checkedFiles": [
+        "demo/index.pug",
+        "demo/index.js",
+        "demo/const/mermaidExamples.js",
+        "demo/style.styl"
+      ],
       "found": 0,
       "note": "upstream i18n files (demo/i18n/*.js) still contain Math keys; deferred to I18N Loop",
       "status": "pass"

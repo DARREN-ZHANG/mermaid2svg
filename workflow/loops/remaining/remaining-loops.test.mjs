@@ -278,8 +278,8 @@ test("remaining validators reject missing required inputs and outputs", async ()
     });
 
     // 已完整交付的 loop（全部输入和输出都存在）不满足"拒绝缺失产物"测试前提，跳过
-    const allDelivered = [...loop.requiredInputs, ...loop.requiredOutputs].every(
-      (p) => existsSync(p),
+    const allDelivered = [...loop.requiredInputs, ...loop.requiredOutputs].every((p) =>
+      existsSync(p),
     );
     if (allDelivered) continue;
 

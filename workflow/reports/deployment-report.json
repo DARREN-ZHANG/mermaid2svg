@@ -15,7 +15,11 @@
     "frameworkPreset": "none",
     "envVarsRequired": [],
     "envVarsOptional": [
-      { "name": "BUN_VERSION", "value": "1.3.14", "purpose": "pin bun version on CF Pages build image" }
+      {
+        "name": "BUN_VERSION",
+        "value": "1.3.14",
+        "purpose": "pin bun version on CF Pages build image"
+      }
     ],
     "lockfile": "bun.lock",
     "runtimeDepsBundled": ["mermaid"],
@@ -52,7 +56,12 @@
     "assetChunkCount": 77,
     "keyArtifacts": [
       { "path": "demo/dist/index.html", "rawBytes": 4418, "gzipBytes": 1562 },
-      { "path": "demo/dist/assets/index-CsSmk8RF.js", "rawBytes": 186578, "gzipBytes": 46184, "role": "entry" },
+      {
+        "path": "demo/dist/assets/index-CsSmk8RF.js",
+        "rawBytes": 186578,
+        "gzipBytes": 46184,
+        "role": "entry"
+      },
       { "path": "demo/dist/assets/index-B_6EgLaf.css", "rawBytes": 31854, "gzipBytes": 6025 }
     ],
     "headersCopiedToDist": true,
@@ -71,10 +80,7 @@
   "pathCorrectness": {
     "assetPathMode": "absolute-root",
     "viteBase": "/",
-    "htmlReferences": [
-      "/assets/index-CsSmk8RF.js",
-      "/assets/index-B_6EgLaf.css"
-    ],
+    "htmlReferences": ["/assets/index-CsSmk8RF.js", "/assets/index-B_6EgLaf.css"],
     "validForRootDomainDeploy": true,
     "subpathDeployNote": "若部署到子路径需将 Vite base 设为子路径并同步 i18n fetch 前缀；当前规划为根域部署"
   },

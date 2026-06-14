@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-14T10:45:00.000Z",
+  "generatedAt": "2026-06-14T11:50:48.959Z",
   "loop": "i18n-loop",
   "totalLocales": 75,
   "translationKeys": [
@@ -29,15 +29,82 @@
     "fallbackLocale": "en",
     "translatedLocales": [
       "zh",
-      "ja",
-      "ko",
       "de",
+      "hi",
+      "ja",
       "fr",
+      "it",
+      "ru",
+      "ko",
       "es",
-      "ru"
+      "id",
+      "tr",
+      "ar",
+      "nl",
+      "pl",
+      "zh-TW",
+      "sv",
+      "no",
+      "th",
+      "vi",
+      "ceb",
+      "bn",
+      "fa",
+      "ms",
+      "mr",
+      "af",
+      "da",
+      "ro",
+      "ur",
+      "cs",
+      "ta",
+      "fi",
+      "pt",
+      "kn",
+      "ca",
+      "gu",
+      "kk",
+      "el",
+      "hu",
+      "uk",
+      "te",
+      "sk",
+      "sw",
+      "bg",
+      "cy",
+      "eu",
+      "hr",
+      "lb",
+      "si",
+      "az",
+      "lt",
+      "or",
+      "sr",
+      "be",
+      "gl",
+      "my",
+      "sd",
+      "sl",
+      "as",
+      "et",
+      "lv",
+      "km",
+      "ne",
+      "hy",
+      "bs",
+      "ka",
+      "is",
+      "lo",
+      "mk",
+      "mt",
+      "sq",
+      "fil",
+      "iw",
+      "jv",
+      "uz"
     ],
-    "translatedCount": 7,
-    "fallbackCount": 67
+    "translatedCount": 74,
+    "fallbackCount": 0
   },
   "locales": [
     {
@@ -78,7 +145,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "ja",
@@ -108,7 +175,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "ru",
@@ -148,7 +215,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "tr",
@@ -158,7 +225,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "ar",
@@ -168,7 +235,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "nl",
@@ -178,7 +245,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "pl",
@@ -188,7 +255,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "zh-TW",
@@ -198,7 +265,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "sv",
@@ -208,7 +275,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "no",
@@ -218,7 +285,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "th",
@@ -228,7 +295,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "vi",
@@ -238,7 +305,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "ceb",
@@ -248,7 +315,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "bn",
@@ -258,7 +325,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "fa",
@@ -268,7 +335,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "ms",
@@ -278,7 +345,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "mr",
@@ -288,7 +355,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "af",
@@ -298,7 +365,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "da",
@@ -308,7 +375,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "ro",
@@ -318,7 +385,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "ur",
@@ -328,7 +395,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "cs",
@@ -338,7 +405,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "ta",
@@ -348,7 +415,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "fi",
@@ -358,7 +425,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "pt",
@@ -368,7 +435,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "kn",
@@ -378,7 +445,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "ca",
@@ -388,7 +455,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "gu",
@@ -398,7 +465,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "kk",
@@ -408,7 +475,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "el",
@@ -418,7 +485,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "hu",
@@ -428,7 +495,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "uk",
@@ -438,7 +505,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "te",
@@ -448,7 +515,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "sk",
@@ -458,7 +525,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "sw",
@@ -468,7 +535,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "bg",
@@ -478,7 +545,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "cy",
@@ -488,7 +555,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "eu",
@@ -498,7 +565,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "hr",
@@ -508,7 +575,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "lb",
@@ -518,7 +585,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "si",
@@ -528,7 +595,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "az",
@@ -538,7 +605,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "lt",
@@ -548,7 +615,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "or",
@@ -558,7 +625,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "sr",
@@ -568,7 +635,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "be",
@@ -578,7 +645,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "gl",
@@ -588,7 +655,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "my",
@@ -598,7 +665,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "sd",
@@ -608,7 +675,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "sl",
@@ -618,7 +685,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "as",
@@ -628,7 +695,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "et",
@@ -638,7 +705,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "lv",
@@ -648,7 +715,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "km",
@@ -658,7 +725,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "ne",
@@ -668,7 +735,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "hy",
@@ -678,7 +745,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "bs",
@@ -688,7 +755,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "ka",
@@ -698,7 +765,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "is",
@@ -708,7 +775,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "lo",
@@ -718,7 +785,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "mk",
@@ -728,7 +795,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "mt",
@@ -738,7 +805,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "sq",
@@ -748,7 +815,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "fil",
@@ -758,7 +825,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "iw",
@@ -768,7 +835,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "jv",
@@ -778,7 +845,7 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     },
     {
       "code": "uz",
@@ -788,16 +855,14 @@
       "missingKeys": [],
       "namesCount": 8,
       "namesExpected": 8,
-      "isEnglishFallback": true
+      "isEnglishFallback": false
     }
   ],
   "coverage": {
     "allKeysPresent": true,
     "allNamesCorrect": true,
-    "baselineLocale": "en",
-    "translatedLocales": 7,
-    "fallbackLocales": 67,
-    "totalWithBaseline": 8,
+    "translatedLocales": 74,
+    "fallbackLocales": 0,
     "missingKeyLocales": [],
     "wrongNamesLengthLocales": []
   },
@@ -863,28 +928,19 @@
       "name": "العربية",
       "allKeysPresent": true,
       "namesCorrect": true,
-      "isFallback": true
+      "isFallback": false
     },
     {
       "code": "hi",
       "name": "हिन्दी",
       "allKeysPresent": true,
       "namesCorrect": true,
-      "isFallback": true
+      "isFallback": false
     }
   ],
   "verification": {
     "checkScript": "sh/check.js",
     "checkPassed": true,
-    "checkCommand": "./sh/check.js",
-    "checkExitCode": 0,
-    "checkOutcome": "All 75 locale files loaded, all keys present, all names arrays have 8 elements. 67 fallback locales warn >5% similarity to English (acceptable per HG-5).",
-    "coverageCommand": "bun <verify-script> — dynamic import of all 75 demo/i18n/*.js modules, comparing each against en.js key set",
-    "coverageOutcome": "75/75 locales have all 19 keys; 0 missing keys; 0 wrong names length",
-    "buildCommand": "bun run build",
-    "buildExitCode": 0,
-    "buildOutcome": "Demo build succeeded in 284ms; locale modules bundled via import.meta.glob eager into index JS chunk",
-    "bundleEvidence": "English locale string 'Browser-side Mermaid to SVG converter' found in demo/dist/assets/index-*.js",
     "mechanism": "import.meta.glob in demo/index.js eagerly loads all locale modules; onLang callback applies translations to DOM elements by ID",
     "localeSwitchTestPath": "Page loads at / with default English; language picker (c-i18n component) triggers onLang → getI18n → applyI18n",
     "domElementIds": [
@@ -898,32 +954,6 @@
       "ui-examples-title",
       "mermaid-input (placeholder)",
       ".theme-switcher-label"
-    ],
-    "keyToDomMapping": {
-      "title": "#ui-title",
-      "subtitle": "#ui-subtitle",
-      "usage_title": "#ui-usage-title",
-      "benchmark_title": "#ui-benchmark-title",
-      "benchmark_tip": "#ui-benchmark-tip",
-      "editor_title": "#ui-editor-title",
-      "editor_tip": "#ui-editor-tip",
-      "editor_placeholder": "#mermaid-input[placeholder]",
-      "examples_title": "#ui-examples-title",
-      "theme_label": ".theme-switcher-label",
-      "empty_hint": "#render-status (empty state)",
-      "err_parse": "#render-status (parse error)",
-      "err_render": "#render-status (render error)",
-      "err_timeout": "#render-status (timeout error)",
-      "err_output": "#render-status (output error)",
-      "chart_raw": "size chart legend (rebuilt on lang switch)",
-      "chart_gzip": "size chart legend (rebuilt on lang switch)",
-      "chart_smaller": "size chart annotation (rebuilt on lang switch)",
-      "names": ".example-card h3 (rebuilt on lang switch)"
-    },
-    "notes": [
-      "Product name 'Mermaid → SVG' in title key is intentionally identical across all locales (brand name, not translatable).",
-      "GitHub link aria-label is a navigation aid inherited from math.webc.site layout, not Mermaid-specific copy per spec section 10.",
-      "All visible Mermaid page text from spec section 10 has corresponding i18n keys wired to DOM elements."
     ]
   }
 }

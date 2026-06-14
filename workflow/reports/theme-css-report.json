@@ -14,7 +14,12 @@
     "provenanceVerified": true
   },
   "themes": [
-    { "id": "mermaid-default", "label": "Mermaid Default", "provenanceMatch": "n/a", "note": "sentinel: disables overlay, shows native Mermaid look" },
+    {
+      "id": "mermaid-default",
+      "label": "Mermaid Default",
+      "provenanceMatch": "n/a",
+      "note": "sentinel: disables overlay, shows native Mermaid look"
+    },
     { "id": "zinc-light", "label": "Zinc Light", "provenanceMatch": true },
     { "id": "zinc-dark", "label": "Zinc Dark", "provenanceMatch": true },
     { "id": "tokyo-night", "label": "Tokyo Night", "provenanceMatch": true },
@@ -39,8 +44,25 @@
     "files": ["demo/const/themes.js", "demo/index.js", "demo/index.pug", "demo/style.styl"]
   },
   "coverage": {
-    "diagramTypesTargeted": ["flowchart", "sequenceDiagram", "classDiagram", "stateDiagram-v2", "erDiagram", "pie", "gantt", "xychart-beta"],
-    "selectorRoles": ["canvas-background", "root-text", "primary-text", "secondary-text", "node-fill-stroke", "edges", "markers-arrows"],
+    "diagramTypesTargeted": [
+      "flowchart",
+      "sequenceDiagram",
+      "classDiagram",
+      "stateDiagram-v2",
+      "erDiagram",
+      "pie",
+      "gantt",
+      "xychart-beta"
+    ],
+    "selectorRoles": [
+      "canvas-background",
+      "root-text",
+      "primary-text",
+      "secondary-text",
+      "node-fill-stroke",
+      "edges",
+      "markers-arrows"
+    ],
     "knownLimitation": "some relationship-arrowhead rules in classDiagram/erDiagram use !important in Mermaid's embedded style and are not overridden by the overlay; relationship lines themselves are themed."
   },
   "verification": {
@@ -77,7 +99,13 @@
     "renderFlowIsolation": {
       "method": "git show --name-only across theme commits 4805e65, ab1f96a, b7da3a6, 13efbf4",
       "srcTouched": false,
-      "filesTouched": ["demo/const/themes.js", "demo/index.js", "demo/index.pug", "demo/style.styl", "demo/theme.css"]
+      "filesTouched": [
+        "demo/const/themes.js",
+        "demo/index.js",
+        "demo/index.pug",
+        "demo/style.styl",
+        "demo/theme.css"
+      ]
     },
     "blockedPatternsFound": 0,
     "blockedPatternsScan": "grep demo/** (*.js,*.pug,*.styl,*.css) for puppeteer|mermaid-cli|screenshot|toDataURL|canvas.(toBlob|getImageData)|server-render = 0",

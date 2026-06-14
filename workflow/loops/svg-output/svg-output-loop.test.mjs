@@ -222,7 +222,9 @@ test("svg output validators reject missing artifacts and blocked compatibility p
     "valid compatibility tests should pass validation",
   );
   assert.ok(
-    !result.errors.some((error) => error.includes("workflow/reports/svg-output-compatibility.json")),
+    !result.errors.some((error) =>
+      error.includes("workflow/reports/svg-output-compatibility.json"),
+    ),
     "valid compatibility report should pass validation",
   );
 

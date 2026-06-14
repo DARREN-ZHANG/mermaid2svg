@@ -1,7 +1,7 @@
 {
   "loop": "final-audit-loop",
-  "status": "running",
-  "currentPhase": "final-report",
+  "status": "completed",
+  "currentPhase": null,
   "attempts": {
     "preflight": 1,
     "plan": 1,
@@ -9,16 +9,11 @@
     "verification": 1,
     "final-report": 1
   },
-  "completedPhases": [
-    "preflight",
-    "plan",
-    "implementation",
-    "verification"
-  ],
+  "completedPhases": ["preflight", "plan", "implementation", "verification", "final-report"],
   "blockedReason": null,
   "startedAt": "2026-06-14T07:59:52.977Z",
-  "finishedAt": null,
-  "heartbeatAt": "2026-06-14T08:30:08.629Z",
+  "finishedAt": "2026-06-14T08:30:58.869Z",
+  "heartbeatAt": null,
   "pid": 47272,
   "crashRecovery": null,
   "lastInterruptedSignal": null

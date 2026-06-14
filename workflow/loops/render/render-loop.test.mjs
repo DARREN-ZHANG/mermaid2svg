@@ -10,10 +10,14 @@ const ensureCapabilitiesReport = () => {
   const file = "workflow/reports/render-capabilities.json";
   if (existsSync(file)) return;
   mkdirSync("workflow/reports", { recursive: true });
-  writeFileSync(file, JSON.stringify({
-    supported: [], unsupported: [],
-    summary: { total: 0, supported: 0, unsupported: 0 },
-  }));
+  writeFileSync(
+    file,
+    JSON.stringify({
+      supported: [],
+      unsupported: [],
+      summary: { total: 0, supported: 0, unsupported: 0 },
+    }),
+  );
 };
 const readJson = (path) =>
   path.endsWith(".jsonc") ? parseJsonc(read(path)) : JSON.parse(read(path));
