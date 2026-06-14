@@ -72,6 +72,13 @@ describe("render-speed", () => {
       { renderer: baseUrl + RENDERER_PATH, normalizer: baseUrl + NORMALIZER_PATH }
     );
 
+    // JIT 预热：Mermaid 首次渲染会触发懒加载与代码编译，
+    // 即便 optimizeDeps 已预打包也无法完全消除。
+    // 在测量循环前做一次丢弃结果的预热渲染，避免首个用例被 JIT 开销污染。
+    await page.evaluate(async () => {
+      await window.__m2s.renderMermaidToSvg("graph LR\n  A-->B");
+    });
+
     // 逐条测量可执行用例
     for (const c of measurableCases) {
       const d = c.data;
@@ -163,7 +170,10 @@ const percentile = (sortedValues, p) => {
 
 // 生成速度报告 JSON
 const writeSpeedReport = () => {
-  const totals = speedRecords.map((r) => r.totalMs).sort((a, b) => a - b);
+  // 仅统计成功渲染的用例（code === OK），
+  // 失败用例仍记录在 cases[] 数组中以保持可观测性，但不参与汇总统计。
+  const okRecords = speedRecords.filter((r) => r.code === OK);
+  const totals = okRecords.map((r) => r.totalMs).sort((a, b) => a - b);
   const n = totals.length;
   const sum = totals.reduce((acc, v) => acc + v, 0);
   const avgMs = n > 0 ? round3(sum / n) : 0;
@@ -171,15 +181,15 @@ const writeSpeedReport = () => {
   const p95Ms = round3(percentile(totals, 0.95));
   const maxMs = n > 0 ? round3(totals[n - 1]) : 0;
 
-  // 按 totalMs 降序取最慢 10 条
-  const slowest = [...speedRecords]
+  // 按 totalMs 降序取最慢 10 条（同样仅含成功用例）
+  const slowest = [...okRecords]
     .sort((a, b) => b.totalMs - a.totalMs)
     .slice(0, 10);
 
   if (!existsSync(REPORT_DIR)) mkdirSync(REPORT_DIR, { recursive: true });
   const report = {
     generatedAt: new Date().toISOString(),
-    caseCount: n,
+    caseCount: speedRecords.length,
     environment: {
       browser: "chromium",
       tool: "playwright",
