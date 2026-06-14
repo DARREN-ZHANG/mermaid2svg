@@ -162,8 +162,8 @@ const flowchart = "graph TD\n" + "A[Start] --> B[Process] --> C[End]",
     "  <<abstract>>\n" +
     "  +log(String) void\n" +
     "}\n" +
-    "note for Strategy \"策略接口：定义算法族\"\n" +
-    "note for Context \"上下文：持有策略引用\"\n" +
+    'note for Strategy "策略接口：定义算法族"\n' +
+    'note for Context "上下文：持有策略引用"\n' +
     "Strategy <|.. AddStrategy\n" +
     "Strategy <|.. SubStrategy\n" +
     "Strategy <|.. MulStrategy\n" +

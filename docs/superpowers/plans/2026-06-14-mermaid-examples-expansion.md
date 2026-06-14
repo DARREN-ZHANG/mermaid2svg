@@ -14,16 +14,16 @@
 
 ## 文件结构
 
-| 文件 | 责任 | 本计划是否修改 |
-|------|------|---------------|
-| `demo/const/mermaidExamples.js` | 示例源数据数组（24 条元组） | 是（追加 16 条 + 改前 8 条 displayName） |
-| `demo/i18n/zh.js` `demo/i18n/en.js` | 完整翻译（24 项 names） | 是（前 8 改名 + 追加后 16） |
-| `demo/i18n/{其余 76 种语言}.js` | 渐进本地化 | 是（前 8 保留 + 追加后 16 英文占位） |
-| `test/render-examples.test.mjs` | 全量示例渲染测试（防回归） | 是（新建） |
-| `test/lib/renderHarness.mjs` | Playwright + Vite harness（已存在） | 否 |
-| `package.json` `test.sh` | 测试入口 | 是（加 `test:examples` 脚本与 test.sh 调用） |
-| `scripts/i18n-expand.mjs` | 一次性批量更新 76 个 i18n 文件 | 是（新建） |
-| `demo/index.js` `demo/index.pug` `demo/style.styl` `demo/theme.css` | UI 层 | **不动**（`buildCard` 已有回退逻辑） |
+| 文件                                                                | 责任                                | 本计划是否修改                               |
+| ------------------------------------------------------------------- | ----------------------------------- | -------------------------------------------- |
+| `demo/const/mermaidExamples.js`                                     | 示例源数据数组（24 条元组）         | 是（追加 16 条 + 改前 8 条 displayName）     |
+| `demo/i18n/zh.js` `demo/i18n/en.js`                                 | 完整翻译（24 项 names）             | 是（前 8 改名 + 追加后 16）                  |
+| `demo/i18n/{其余 76 种语言}.js`                                     | 渐进本地化                          | 是（前 8 保留 + 追加后 16 英文占位）         |
+| `test/render-examples.test.mjs`                                     | 全量示例渲染测试（防回归）          | 是（新建）                                   |
+| `test/lib/renderHarness.mjs`                                        | Playwright + Vite harness（已存在） | 否                                           |
+| `package.json` `test.sh`                                            | 测试入口                            | 是（加 `test:examples` 脚本与 test.sh 调用） |
+| `scripts/i18n-expand.mjs`                                           | 一次性批量更新 76 个 i18n 文件      | 是（新建）                                   |
+| `demo/index.js` `demo/index.pug` `demo/style.styl` `demo/theme.css` | UI 层                               | **不动**（`buildCard` 已有回退逻辑）         |
 
 ---
 
@@ -32,6 +32,7 @@
 防止后续追加示例时引入语法错误。基线为现有 8 条，后续 Task 自动覆盖新增示例。
 
 **Files:**
+
 - Create: `test/render-examples.test.mjs`
 - Modify: `package.json`（加 `test:examples` 脚本）
 - Modify: `test.sh`（加调用）
@@ -92,10 +93,7 @@ describe("render-examples", () => {
     test("render: " + name + " [" + type + "]", async () => {
       const [code, svg] = await renderOne(page, src);
       assert.equal(code, OK, "render failed for " + name + ": " + svg);
-      assert.ok(
-        typeof svg === "string" && svg.includes("<svg"),
-        "SVG root missing for " + name,
-      );
+      assert.ok(typeof svg === "string" && svg.includes("<svg"), "SVG root missing for " + name);
       assert.ok(/viewBox=/.test(svg), "viewBox missing for " + name);
     });
   }
@@ -142,6 +140,7 @@ git commit -m "test(examples): add render-examples test baseline for demo exampl
 把现有 8 条 `displayName` 改为场景化名称，与 spec 第 3 节表格对齐。同步更新 `zh.js` / `en.js` 的 names 前 8 项。
 
 **Files:**
+
 - Modify: `demo/const/mermaidExamples.js`（仅改元组第 2 项 displayName，源代码不动）
 - Modify: `demo/i18n/zh.js`（names 前 8 项改为新中文名）
 - Modify: `demo/i18n/en.js`（names 前 8 项改为新英文名）
@@ -214,6 +213,7 @@ git commit -m "refactor(demo): rename existing 8 examples to scenario-based name
 ## Task 3：flowchart 加中阶 + 复杂示例（#2 Order Approval + #3 CI/CD Pipeline）
 
 **Files:**
+
 - Modify: `demo/const/mermaidExamples.js`（追加 2 条元组）
 
 - [ ] **Step 1: 在 `mermaidExamples.js` 的 flowchart 常量定义之后、export default 之前，追加 2 个新常量**
@@ -290,6 +290,7 @@ git commit -m "feat(demo): add intermediate and complex flowchart examples"
 ## Task 4：sequenceDiagram 加中阶 + 复杂示例（#5 Retry Mechanism + #6 OAuth Flow）
 
 **Files:**
+
 - Modify: `demo/const/mermaidExamples.js`
 
 - [ ] **Step 1: 在 `sequence` 常量定义之后追加 2 个新常量**
@@ -370,6 +371,7 @@ git commit -m "feat(demo): add intermediate and complex sequenceDiagram examples
 ## Task 5：classDiagram 加中阶 + 复杂示例（#8 Animal Hierarchy + #9 Strategy Pattern）
 
 **Files:**
+
 - Modify: `demo/const/mermaidExamples.js`
 
 - [ ] **Step 1: 在 `classDiagram` 常量定义之后追加 2 个新常量**
@@ -457,6 +459,7 @@ git commit -m "feat(demo): add intermediate and complex classDiagram examples"
 ## Task 6：stateDiagram-v2 加中阶 + 复杂示例（#11 Order State Machine + #12 Elevator Dispatch）
 
 **Files:**
+
 - Modify: `demo/const/mermaidExamples.js`
 
 - [ ] **Step 1: 在 `stateDiagram` 常量定义之后追加 2 个新常量**
@@ -532,6 +535,7 @@ git commit -m "feat(demo): add intermediate and complex stateDiagram-v2 examples
 ## Task 7：erDiagram 加中阶 + 复杂示例（#14 E-commerce Core + #15 Banking System）
 
 **Files:**
+
 - Modify: `demo/const/mermaidExamples.js`
 
 - [ ] **Step 1: 在 `erDiagram` 常量定义之后追加 2 个新常量**
@@ -638,6 +642,7 @@ git commit -m "feat(demo): add intermediate and complex erDiagram examples"
 ## Task 8：pie 加中阶 + 复杂示例（#17 Device Share + #18 Browser Market）
 
 **Files:**
+
 - Modify: `demo/const/mermaidExamples.js`
 
 - [ ] **Step 1: 在 `pie` 常量定义之后追加 2 个新常量**
@@ -686,6 +691,7 @@ git commit -m "feat(demo): add intermediate and complex pie examples"
 ## Task 9：gantt 加中阶 + 复杂示例（#20 Software Project + #21 Quarterly Plan）
 
 **Files:**
+
 - Modify: `demo/const/mermaidExamples.js`
 
 - [ ] **Step 1: 在 `gantt` 常量定义之后追加 2 个新常量**
@@ -753,6 +759,7 @@ git commit -m "feat(demo): add intermediate and complex gantt examples"
 **注意：** Mermaid 11.15 的 `xychart-beta` 对多组 bar 的支持有限。如果 Step 3 测试失败，按 spec 第 7 节降级策略——把第二条 bar 删掉，改为更丰富的单组 bar + 长分类轴。
 
 **Files:**
+
 - Modify: `demo/const/mermaidExamples.js`
 
 - [ ] **Step 1: 在 `xychart` 常量定义之后追加 2 个新常量**
@@ -828,6 +835,7 @@ git commit -m "feat(demo): add intermediate and complex xychart-beta examples"
 ## Task 11：更新 `zh.js` / `en.js` 的 names 后 16 项
 
 **Files:**
+
 - Modify: `demo/i18n/zh.js`
 - Modify: `demo/i18n/en.js`
 
@@ -928,6 +936,7 @@ git commit -m "feat(i18n): add zh/en names for 24 demo examples"
 写一次性脚本，对每个非 zh/en 的语言文件：保留前 8 项本地化，追加 en.js 的后 16 项作为英文占位。
 
 **Files:**
+
 - Create: `scripts/i18n-expand.mjs`
 - Modify: `demo/i18n/{76 个文件}.js`
 
@@ -970,10 +979,7 @@ const extractFirst8 = async (file) => {
 // 替换源文件中的 names 数组为新数组
 const replaceNames = (content, newNames) => {
   // 缩进 4 空格，每行一项，符合现有风格
-  const body =
-    "names: [\n" +
-    newNames.map((n) => '    "' + n + '",').join("\n") +
-    "\n  ],";
+  const body = "names: [\n" + newNames.map((n) => '    "' + n + '",').join("\n") + "\n  ],";
   return content.replace(/names:\s*\[([\s\S]*?)\],?/, body);
 };
 
@@ -984,9 +990,7 @@ const main = async () => {
   }
   const enTail16 = enNames.slice(8); // 后 16 项英文占位
 
-  const files = (await readdir(I18N_DIR)).filter(
-    (f) => f.endsWith(".js") && !SKIP_FILES.has(f),
-  );
+  const files = (await readdir(I18N_DIR)).filter((f) => f.endsWith(".js") && !SKIP_FILES.has(f));
 
   console.log("Processing " + files.length + " files...");
   let processed = 0;
@@ -1028,6 +1032,7 @@ Expected: `24`
 
 Run: `bun -e 'import("./demo/i18n/ja.js").then(m => { const n = m.default().names; console.log("first8:", n.slice(0,8)); console.log("last16:", n.slice(8)); })'`
 Expected:
+
 - first8: 是日语（如 `フローチャート`）
 - last16: 是英文（如 `Order Approval`, `CI/CD Pipeline`...）
 
@@ -1069,6 +1074,7 @@ Run: `bun dev`（在另一个终端，或后台运行）
 - [ ] **Step 4: 切换语言验证**
 
 点击主题切换器旁的语言切换器（或下拉）：
+
 - 中文：24 张卡片标题全中文
 - 英文：24 张卡片标题全英文
 - 日语（或其他）：前 8 张本地化 + 后 16 张英文
@@ -1076,11 +1082,13 @@ Run: `bun dev`（在另一个终端，或后台运行）
 - [ ] **Step 5: 切换主题验证**
 
 点击主题切换器，切换 2-3 个主题：
+
 - 24 张卡片渲染样式应保持一致（颜色、字体）
 
 - [ ] **Step 6: 主预览交互验证**
 
 点击 3 张不同复杂度的卡片（如 #1 简单 flowchart、#3 复杂 CI/CD、#15 复杂 Banking System）：
+
 - 主预览区正确渲染对应 SVG
 - 输入框聚焦后光标位置正确
 
