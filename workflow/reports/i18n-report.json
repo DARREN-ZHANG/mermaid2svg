@@ -1,0 +1,892 @@
+{
+  "generatedAt": "2026-06-14T07:32:52.137Z",
+  "loop": "i18n-loop",
+  "totalLocales": 75,
+  "translationKeys": [
+    "title",
+    "subtitle",
+    "usage_title",
+    "benchmark_title",
+    "benchmark_tip",
+    "editor_title",
+    "editor_tip",
+    "editor_placeholder",
+    "examples_title",
+    "theme_label",
+    "empty_hint",
+    "err_parse",
+    "err_render",
+    "err_timeout",
+    "err_output",
+    "chart_raw",
+    "chart_gzip",
+    "chart_smaller",
+    "names"
+  ],
+  "keyCount": 19,
+  "fallbackStrategy": {
+    "description": "Languages without Mermaid-specific translations fall back to English text. All keys must exist in every locale file; missing keys are not acceptable.",
+    "fallbackLocale": "en",
+    "translatedLocales": [
+      "zh",
+      "ja",
+      "ko",
+      "de",
+      "fr",
+      "es",
+      "ru"
+    ],
+    "translatedCount": 7,
+    "fallbackCount": 67
+  },
+  "locales": [
+    {
+      "code": "en",
+      "name": "English",
+      "index": 0,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": false
+    },
+    {
+      "code": "zh",
+      "name": "中文",
+      "index": 1,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": false
+    },
+    {
+      "code": "de",
+      "name": "Deutsch",
+      "index": 2,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": false
+    },
+    {
+      "code": "hi",
+      "name": "हिन्दी",
+      "index": 3,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "ja",
+      "name": "日本語",
+      "index": 4,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": false
+    },
+    {
+      "code": "fr",
+      "name": "Français",
+      "index": 5,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": false
+    },
+    {
+      "code": "it",
+      "name": "Italiano",
+      "index": 6,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "ru",
+      "name": "Русский",
+      "index": 7,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": false
+    },
+    {
+      "code": "ko",
+      "name": "한국어",
+      "index": 8,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": false
+    },
+    {
+      "code": "es",
+      "name": "Español",
+      "index": 9,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": false
+    },
+    {
+      "code": "id",
+      "name": "Indonesia",
+      "index": 10,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "tr",
+      "name": "Türkçe",
+      "index": 11,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "ar",
+      "name": "العربية",
+      "index": 12,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "nl",
+      "name": "Nederlands",
+      "index": 13,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "pl",
+      "name": "Polski",
+      "index": 14,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "zh-TW",
+      "name": "正體中文",
+      "index": 15,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "sv",
+      "name": "Svenska",
+      "index": 16,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "no",
+      "name": "Norsk Bokmål",
+      "index": 17,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "th",
+      "name": "ไทย",
+      "index": 18,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "vi",
+      "name": "Tiếng Việt",
+      "index": 19,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "ceb",
+      "name": "Binisaya",
+      "index": 20,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "bn",
+      "name": "বাংলা",
+      "index": 21,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "fa",
+      "name": "فارسی",
+      "index": 22,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "ms",
+      "name": "Bahasa Melayu",
+      "index": 23,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "mr",
+      "name": "मরাठी",
+      "index": 24,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "af",
+      "name": "Afrikaans",
+      "index": 25,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "da",
+      "name": "Dansk",
+      "index": 26,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "ro",
+      "name": "Română",
+      "index": 27,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "ur",
+      "name": "اردو",
+      "index": 28,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "cs",
+      "name": "Čeština",
+      "index": 29,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "ta",
+      "name": "தமிழ்",
+      "index": 30,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "fi",
+      "name": "Suomi",
+      "index": 31,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "pt",
+      "name": "Português",
+      "index": 32,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "kn",
+      "name": "ಕನ್ನಡ",
+      "index": 33,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "ca",
+      "name": "Català",
+      "index": 34,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "gu",
+      "name": "ગુજરાતી",
+      "index": 35,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "kk",
+      "name": "Қазақ Тілі",
+      "index": 36,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "el",
+      "name": "Ελληνικά",
+      "index": 37,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "hu",
+      "name": "Magyar",
+      "index": 38,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "uk",
+      "name": "Українська",
+      "index": 39,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "te",
+      "name": "తెలుగు",
+      "index": 40,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "sk",
+      "name": "Slovenčina",
+      "index": 41,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "sw",
+      "name": "Kiswahili",
+      "index": 42,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "bg",
+      "name": "Български",
+      "index": 43,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "cy",
+      "name": "Cymraeg",
+      "index": 44,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "eu",
+      "name": "Euskara",
+      "index": 45,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "hr",
+      "name": "Hrvatski",
+      "index": 46,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "lb",
+      "name": "Lëtzebuergesch",
+      "index": 47,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "si",
+      "name": "සිංහල",
+      "index": 48,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "az",
+      "name": "Azərbaycanca",
+      "index": 49,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "lt",
+      "name": "Lietuvių Kalba",
+      "index": 50,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "or",
+      "name": "ଓଡ଼ିଆ",
+      "index": 51,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "sr",
+      "name": "Српски Језик",
+      "index": 52,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "be",
+      "name": "Беларуская",
+      "index": 53,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "gl",
+      "name": "Galego",
+      "index": 54,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "my",
+      "name": "မြန်မာစာ",
+      "index": 55,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "sd",
+      "name": "سنڌي",
+      "index": 56,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "sl",
+      "name": "Slovenščina",
+      "index": 57,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "as",
+      "name": "অসমীয়া",
+      "index": 58,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "et",
+      "name": "Eesti",
+      "index": 59,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "lv",
+      "name": "Latviešu Valoda",
+      "index": 60,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "km",
+      "name": "ភាសាខ្មែរ",
+      "index": 61,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "ne",
+      "name": "नेपाली",
+      "index": 62,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "hy",
+      "name": "Հայերեն",
+      "index": 63,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "bs",
+      "name": "Bosanski",
+      "index": 64,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "ka",
+      "name": "ქართული",
+      "index": 65,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "is",
+      "name": "Íslenska",
+      "index": 66,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "lo",
+      "name": "ພາສາລາວ",
+      "index": 67,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "mk",
+      "name": "Македонски Јазик",
+      "index": 68,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "mt",
+      "name": "Malti",
+      "index": 69,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "sq",
+      "name": "Shqip",
+      "index": 70,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "fil",
+      "name": "Wikang Filipino",
+      "index": 71,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "iw",
+      "name": "עברית",
+      "index": 72,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "jv",
+      "name": "Basa Jawa",
+      "index": 73,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    },
+    {
+      "code": "uz",
+      "name": "O'zbek",
+      "index": 74,
+      "hasAllKeys": true,
+      "missingKeys": [],
+      "namesCount": 8,
+      "namesExpected": 8,
+      "isEnglishFallback": true
+    }
+  ],
+  "coverage": {
+    "allKeysPresent": true,
+    "allNamesCorrect": true,
+    "translatedLocales": 7,
+    "fallbackLocales": 67,
+    "missingKeyLocales": [],
+    "wrongNamesLengthLocales": []
+  },
+  "sampleChecks": [
+    {
+      "code": "en",
+      "name": "English",
+      "allKeysPresent": true,
+      "namesCorrect": true,
+      "isFallback": false
+    },
+    {
+      "code": "zh",
+      "name": "中文",
+      "allKeysPresent": true,
+      "namesCorrect": true,
+      "isFallback": false
+    },
+    {
+      "code": "ja",
+      "name": "日本語",
+      "allKeysPresent": true,
+      "namesCorrect": true,
+      "isFallback": false
+    },
+    {
+      "code": "de",
+      "name": "Deutsch",
+      "allKeysPresent": true,
+      "namesCorrect": true,
+      "isFallback": false
+    },
+    {
+      "code": "fr",
+      "name": "Français",
+      "allKeysPresent": true,
+      "namesCorrect": true,
+      "isFallback": false
+    },
+    {
+      "code": "es",
+      "name": "Español",
+      "allKeysPresent": true,
+      "namesCorrect": true,
+      "isFallback": false
+    },
+    {
+      "code": "ru",
+      "name": "Русский",
+      "allKeysPresent": true,
+      "namesCorrect": true,
+      "isFallback": false
+    },
+    {
+      "code": "ko",
+      "name": "한국어",
+      "allKeysPresent": true,
+      "namesCorrect": true,
+      "isFallback": false
+    },
+    {
+      "code": "ar",
+      "name": "العربية",
+      "allKeysPresent": true,
+      "namesCorrect": true,
+      "isFallback": true
+    },
+    {
+      "code": "hi",
+      "name": "हिन्दी",
+      "allKeysPresent": true,
+      "namesCorrect": true,
+      "isFallback": true
+    }
+  ],
+  "verification": {
+    "checkScript": "sh/check.js",
+    "checkPassed": true,
+    "mechanism": "import.meta.glob in demo/index.js eagerly loads all locale modules; onLang callback applies translations to DOM elements by ID",
+    "localeSwitchTestPath": "Page loads at / with default English; language picker (c-i18n component) triggers onLang → getI18n → applyI18n",
+    "domElementIds": [
+      "ui-title",
+      "ui-subtitle",
+      "ui-usage-title",
+      "ui-benchmark-title",
+      "ui-benchmark-tip",
+      "ui-editor-title",
+      "ui-editor-tip",
+      "ui-examples-title",
+      "mermaid-input (placeholder)",
+      ".theme-switcher-label"
+    ]
+  }
+}
