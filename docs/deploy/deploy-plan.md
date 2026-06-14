@@ -80,6 +80,19 @@ demo/dist
 | Environment variables | 无必需；可选 `BUN_VERSION=1.3.14` |
 | Build watch paths | 默认（全仓库） |
 
+### 3.0 配置文件（机器可读）
+
+除控制台配置外，项目已提供以下 Cloudflare Pages 配置文件，供 Wrangler CLI / CI 部署与自动化验证使用：
+
+| 文件 | 位置 | 用途 |
+|---|---|---|
+| `wrangler.toml` | 项目根 | 声明 `pages_build_output_dir = "demo/dist"` 与 `compatibility_date`，供 `wrangler pages deploy` 使用 |
+| `_headers` | `demo/public/_headers` → 构建后拷贝到 `demo/dist/_headers` | 安全响应头（X-Content-Type-Options, X-Frame-Options, Referrer-Policy, Permissions-Policy）与缓存策略（hashed assets `1y immutable`, i18n JSON `1h`, HTML `no-cache`） |
+
+- `_headers` 由 Vite 从 `demo/public/` 自动拷贝到 dist 根目录，CF Pages 自动识别，无需手动上传。
+- `wrangler.toml` 为项目根机器可读配置，CI 可直接调用 `wrangler pages deploy` 部署。
+- 两者均已在本地构建验证中确认存在（见 `workflow/reports/deployment-report.json` readinessChecks）。
+
 ### 3.1 bun 可用性说明（待部署期验证）
 
 - 项目工具链为 bun（`bun.lock`、`package.json` scripts 使用 `bun`）
@@ -123,12 +136,13 @@ demo/dist
 |---|---|
 | 命令 | `bun run build` |
 | 退出码 | 0 |
-| 耗时 | 269ms |
+| 耗时 | ~300ms |
 | 输出目录 | `demo/dist` |
-| dist 总大小 | 3.9 MB |
+| dist 总大小 | 3.9 MB (4008 KB) |
 | asset chunk 数 | 77 |
+| `_headers` 拷贝到 dist | 是（782 bytes） |
 | chunk-size 警告 | >500kB（预期，已由 Size Loop 记录为体积 proxy，非阻断） |
-| 机器可读证据 | `workflow/runs/deploy/run-1/local-build-result.json` |
+| 机器可读证据 | `workflow/reports/deployment-report.json`、`workflow/runs/deploy/run-1/local-build-result.json` |
 
 构建产物关键文件（来自本次构建日志）：
 
@@ -176,7 +190,7 @@ demo/dist
 | 不新增服务端运行 / 数据库 / 队列 | 满足（纯静态） |
 | 不修改 `src/**`、`lib/**`、parent docs、`references/**` | 满足 |
 | 不做最终验收签发 | 满足（本 Loop 仅规划，不做 final sign-off） |
-| 改动范围限于 `docs/deploy/**`、`workflow/runs/deploy/**` | 满足 |
+| 改动范围限于 `docs/deploy/**`、`workflow/reports/deployment-report.json`、CF Pages 配置文件 | 满足 |
 
 ---
 
@@ -185,5 +199,8 @@ demo/dist
 | 产物 | 路径 |
 |---|---|
 | 部署计划（本文件） | `docs/deploy/deploy-plan.md` |
+| Wrangler 配置 | `wrangler.toml` |
+| 安全头与缓存配置 | `demo/public/_headers`（→ `demo/dist/_headers`） |
 | 本地构建证据（机器可读） | `workflow/runs/deploy/run-1/local-build-result.json` |
+| 部署就绪报告（机器可读） | `workflow/reports/deployment-report.json` |
 | 部署 Loop 最终报告 | `workflow/runs/deploy/run-1/final-report.md` |
