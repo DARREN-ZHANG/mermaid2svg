@@ -9,6 +9,8 @@ import {
   ERR_TIMEOUT,
 } from "../src/render/mermaid-to-svg.js";
 import { normalizeSvg, OK as NORM_OK } from "../src/render/normalize-svg.js";
+import { SIZE_DATA } from "./const/sizeData.js";
+import { renderSizeChart } from "./webc/js/sizeChart.js";
 import "./webc/Scroll.js";
 import "./webc/I18n.js";
 import { onLang } from "./webc/js/i18n.js";
@@ -185,6 +187,10 @@ const renderToSvg = async (mermaidText) => {
 
     // 用法代码
     document.getElementById("ui-usage-code").textContent = usage_code;
+
+    // 体积对比 SVG 柱状图
+    const size_chart = renderSizeChart(SIZE_DATA);
+    document.getElementById("size-chart").append(size_chart);
 
     // 示例图库：构建卡片 + 异步渲染
     grid.innerHTML = "";
