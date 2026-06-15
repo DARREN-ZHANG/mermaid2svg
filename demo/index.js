@@ -18,9 +18,10 @@ import { onLang } from "./webc/js/i18n.js";
 import CODE from "./webc/I18n/CODE.js";
 
 const translateMermaid = (src) => {
-  const labels = { ...DEFAULT_LABELS, ...i18n.labels };
-  return src.replace(/{{(\w+)}}/g, (_, key) => labels[key] || key);
-};
+    const labels = { ...DEFAULT_LABELS, ...i18n.labels };
+    return src.replace(/{{(\w+)}}/g, (_, key) => labels[key] || key);
+  },
+  translateWithLabels = (src, labels) => src.replace(/{{(\w+)}}/g, (_, key) => labels[key] || key);
 
 // 动态加载所有 locale 模块，语言切换时按 code 取对应翻译
 const I18N_MOD = import.meta.glob("./i18n/*.js", { eager: true }),
@@ -58,7 +59,6 @@ let i18n = getI18n(0),
   download_btn,
   copy_timer,
   dropdown_open = false,
-  current_lang_code = "en",
   // renderInput 调用序号：用于丢弃过期异步结果，避免旧输入覆盖新输入
   render_seq = 0;
 
@@ -274,7 +274,7 @@ const renderToSvg = async (mermaidText) => {
     }
   },
   selectExample = (src) => {
-    input.value = translateMermaid(src, current_lang_code);
+    input.value = translateMermaid(src);
     renderInput();
     adjustHeight();
     input.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -282,7 +282,7 @@ const renderToSvg = async (mermaidText) => {
     input.setSelectionRange(input.value.length, input.value.length);
   },
   renderExampleSvg = async (svg_box, src) => {
-    const [code, svg] = await renderToSvg(translateMermaid(src, current_lang_code));
+    const [code, svg] = await renderToSvg(translateMermaid(src));
     if (code === RENDER_OK) svg_box.innerHTML = svg;
   },
   buildCard = (entry, idx) => {
@@ -300,7 +300,7 @@ const renderToSvg = async (mermaidText) => {
     h3.textContent = name;
 
     code_div.className = "mermaid-code";
-    code_div.textContent = translateMermaid(src, current_lang_code);
+    code_div.textContent = translateMermaid(src);
 
     svg_box.className = "rendered-svg";
 
@@ -320,21 +320,20 @@ const renderToSvg = async (mermaidText) => {
 
     // 语言切换回调 —— 更新 i18n 数据、应用翻译、重新渲染预览
     onLang((langId) => {
-      current_lang_code = CODE[langId] || "en";
+      const prevLabels = { ...DEFAULT_LABELS, ...i18n.labels };
       i18n = getI18n(langId);
       applyI18n(i18n);
 
       const currentVal = input.value.trim();
       if (currentVal) {
         const found = MERMAID_EXAMPLES.find(([, , rawSrc]) => {
+          const rawTrim = rawSrc.trim();
           return (
-            rawSrc.trim() === currentVal ||
-            translateMermaid(rawSrc, "zh").trim() === currentVal ||
-            translateMermaid(rawSrc, "en").trim() === currentVal
+            rawTrim === currentVal || translateWithLabels(rawSrc, prevLabels).trim() === currentVal
           );
         });
         if (found) {
-          input.value = translateMermaid(found[2], current_lang_code);
+          input.value = translateMermaid(found[2]);
           adjustHeight();
         }
       }
@@ -350,7 +349,7 @@ const renderToSvg = async (mermaidText) => {
         if (h3 && i18n.names && i18n.names[idx]) h3.textContent = i18n.names[idx];
 
         const codeDiv = card.querySelector(".mermaid-code");
-        if (codeDiv) codeDiv.textContent = translateMermaid(entry[2], current_lang_code);
+        if (codeDiv) codeDiv.textContent = translateMermaid(entry[2]);
 
         const svgBox = card.querySelector(".rendered-svg");
         if (svgBox) renderExampleSvg(svgBox, entry[2]);
@@ -392,7 +391,7 @@ const renderToSvg = async (mermaidText) => {
     }
 
     // 默认输入第一个示例 —— 先渲染主预览，不被示例图库阻塞
-    input.value = translateMermaid(MERMAID_EXAMPLES[0][2], current_lang_code);
+    input.value = translateMermaid(MERMAID_EXAMPLES[0][2]);
     await renderInput();
     adjustHeight();
 
