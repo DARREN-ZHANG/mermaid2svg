@@ -38,6 +38,9 @@ export const renderMermaidToSvg = async (mermaidText) => {
       startOnLoad: false,
       securityLevel: "strict",
       suppressErrorRendering: true,
+      themeVariables: {
+        fontFamily: "'Outfit', 'Inter', system-ui, -apple-system, sans-serif",
+      },
     });
     initialized = true;
   }

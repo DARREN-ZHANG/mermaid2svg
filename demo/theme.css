@@ -18,6 +18,19 @@
  * mermaid-default 不设置 data-theme，自然回退为 Mermaid 原生外观。
  */
 
+/* 平滑的主题色彩过渡动画 */
+#mermaid-svg,
+#mermaid-svg * {
+  transition:
+    fill 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    stroke 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    stroke-width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    filter 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 /* 画布背景 + 根文本填充 */
 [data-theme] #mermaid-svg {
   background: var(--bg);
@@ -319,4 +332,84 @@ html:not([data-theme]) .svg-actions .Btn:hover {
   border-color: var(--m-arrow) !important;
   color: var(--m-arrow) !important;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.55) !important;
+}
+
+/* ==========================================
+ * SVG 元素动态交互、Hover微动效与边缘高亮
+ * ========================================== */
+
+/* 节点指针手势与交互过渡 */
+#mermaid-svg .node {
+  cursor: pointer;
+}
+
+#mermaid-svg .node rect,
+#mermaid-svg .node circle,
+#mermaid-svg .node ellipse,
+#mermaid-svg .node polygon,
+#mermaid-svg .node path,
+#mermaid-svg g.classGroup rect,
+#mermaid-svg g.stateGroup rect {
+  transition:
+    transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+    filter 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+    fill 0.25s ease,
+    stroke 0.25s ease;
+  transform-origin: center;
+}
+
+/* 节点悬浮：微缩放 + 软投影 */
+#mermaid-svg .node:hover rect,
+#mermaid-svg .node:hover circle,
+#mermaid-svg .node:hover ellipse,
+#mermaid-svg .node:hover polygon,
+#mermaid-svg .node:hover path,
+#mermaid-svg g.classGroup:hover rect,
+#mermaid-svg g.stateGroup:hover rect {
+  transform: scale(1.03);
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.15));
+}
+
+/* 节点悬浮边框高亮（仅在应用主题时生效，避免影响默认主题外观） */
+[data-theme] #mermaid-svg .node:hover rect,
+[data-theme] #mermaid-svg .node:hover circle,
+[data-theme] #mermaid-svg .node:hover ellipse,
+[data-theme] #mermaid-svg .node:hover polygon,
+[data-theme] #mermaid-svg .node:hover path,
+[data-theme] #mermaid-svg g.classGroup:hover rect,
+[data-theme] #mermaid-svg g.stateGroup:hover rect {
+  stroke: var(--m-arrow) !important;
+  stroke-width: 2px !important;
+}
+
+/* 连线与箭头悬浮高亮 */
+#mermaid-svg .edgePath {
+  cursor: pointer;
+}
+
+#mermaid-svg .edgePath .path {
+  transition:
+    stroke 0.25s ease,
+    stroke-width 0.25s ease;
+}
+
+[data-theme] #mermaid-svg .edgePath:hover .path {
+  stroke: var(--m-arrow) !important;
+  stroke-width: 2.5px !important;
+}
+
+[data-theme] #mermaid-svg .edgePath:hover .marker,
+[data-theme] #mermaid-svg .edgePath:hover .arrowheadPath,
+[data-theme] #mermaid-svg .edgePath:hover [id$="-barbEnd"] {
+  fill: var(--m-arrow) !important;
+  stroke: var(--m-arrow) !important;
+}
+
+/* 子图 (subgraph) 容器美化 */
+[data-theme] #mermaid-svg .cluster rect {
+  fill: color-mix(in srgb, var(--m-surface) 25%, transparent) !important;
+  stroke: var(--m-border) !important;
+  stroke-width: 1px !important;
+  rx: 12px;
+  ry: 12px;
 }

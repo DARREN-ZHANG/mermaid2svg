@@ -1,24 +1,24 @@
 {
-  "generatedAt": "2026-06-15T02:48:04.847Z",
+  "generatedAt": "2026-06-15T06:16:20.026Z",
   "caseCount": 99,
   "environment": {
     "browser": "chromium",
     "tool": "playwright"
   },
   "summary": {
-    "avgMs": 8.461,
-    "p50Ms": 6.8,
-    "p95Ms": 19.6,
-    "maxMs": 54.1
+    "avgMs": 7.617,
+    "p50Ms": 5.7,
+    "p95Ms": 19.7,
+    "maxMs": 45.3
   },
   "slowest": [
     {
       "id": "maid-019",
       "diagramType": "pie",
       "source": "probelabs/maid",
-      "renderMs": 54,
+      "renderMs": 45.2,
       "normalizeMs": 0.1,
-      "totalMs": 54.1,
+      "totalMs": 45.3,
       "code": 0
     },
     {
@@ -31,75 +31,75 @@
       "code": 0
     },
     {
-      "id": "bm-009",
-      "diagramType": "stateDiagram",
-      "source": "lukilabs/beautiful-mermaid",
-      "renderMs": 26.5,
-      "normalizeMs": 0.5,
-      "totalMs": 27,
-      "code": 0
-    },
-    {
       "id": "bm-007",
       "diagramType": "stateDiagram",
       "source": "lukilabs/beautiful-mermaid",
-      "renderMs": 22.1,
-      "normalizeMs": 0.4,
-      "totalMs": 22.5,
+      "renderMs": 22.3,
+      "normalizeMs": 0.3,
+      "totalMs": 22.6,
       "code": 0
     },
     {
-      "id": "bm-002",
-      "diagramType": "flowchart-v2",
+      "id": "bm-009",
+      "diagramType": "stateDiagram",
       "source": "lukilabs/beautiful-mermaid",
-      "renderMs": 18.9,
-      "normalizeMs": 0.7,
-      "totalMs": 19.6,
-      "code": 0
-    },
-    {
-      "id": "maid-003",
-      "diagramType": "flowchart-v2",
-      "source": "probelabs/maid",
-      "renderMs": 18.6,
-      "normalizeMs": 0.7,
-      "totalMs": 19.3,
-      "code": 0
-    },
-    {
-      "id": "mm-cls-002",
-      "diagramType": "class",
-      "source": "mermaid-js/mermaid",
-      "renderMs": 17.5,
-      "normalizeMs": 0.8,
-      "totalMs": 18.3,
+      "renderMs": 20.6,
+      "normalizeMs": 0.4,
+      "totalMs": 21,
       "code": 0
     },
     {
       "id": "bm-015",
       "diagramType": "class",
       "source": "lukilabs/beautiful-mermaid",
-      "renderMs": 17.3,
+      "renderMs": 19,
       "normalizeMs": 0.7,
-      "totalMs": 18,
+      "totalMs": 19.7,
       "code": 0
     },
     {
-      "id": "bm-020",
-      "diagramType": "xychart",
+      "id": "bm-002",
+      "diagramType": "flowchart-v2",
       "source": "lukilabs/beautiful-mermaid",
-      "renderMs": 17.3,
-      "normalizeMs": 0.3,
-      "totalMs": 17.6,
+      "renderMs": 18.4,
+      "normalizeMs": 0.8,
+      "totalMs": 19.2,
       "code": 0
     },
     {
       "id": "bm-008",
       "diagramType": "stateDiagram",
       "source": "lukilabs/beautiful-mermaid",
-      "renderMs": 16.4,
-      "normalizeMs": 0.5,
-      "totalMs": 16.9,
+      "renderMs": 16.3,
+      "normalizeMs": 0.4,
+      "totalMs": 16.7,
+      "code": 0
+    },
+    {
+      "id": "mm-cls-002",
+      "diagramType": "class",
+      "source": "mermaid-js/mermaid",
+      "renderMs": 15.6,
+      "normalizeMs": 0.7,
+      "totalMs": 16.3,
+      "code": 0
+    },
+    {
+      "id": "maid-003",
+      "diagramType": "flowchart-v2",
+      "source": "probelabs/maid",
+      "renderMs": 13.6,
+      "normalizeMs": 0.7,
+      "totalMs": 14.3,
+      "code": 0
+    },
+    {
+      "id": "bm-014",
+      "diagramType": "class",
+      "source": "lukilabs/beautiful-mermaid",
+      "renderMs": 13.2,
+      "normalizeMs": 0.2,
+      "totalMs": 13.4,
       "code": 0
     }
   ],
@@ -108,81 +108,81 @@
       "id": "bm-001",
       "diagramType": "flowchart-v2",
       "source": "lukilabs/beautiful-mermaid",
-      "renderMs": 7.5,
-      "normalizeMs": 0.6,
-      "totalMs": 8.1,
+      "renderMs": 7.3,
+      "normalizeMs": 0.5,
+      "totalMs": 7.8,
       "code": 0
     },
     {
       "id": "bm-002",
       "diagramType": "flowchart-v2",
       "source": "lukilabs/beautiful-mermaid",
-      "renderMs": 18.9,
-      "normalizeMs": 0.7,
-      "totalMs": 19.6,
+      "renderMs": 18.4,
+      "normalizeMs": 0.8,
+      "totalMs": 19.2,
       "code": 0
     },
     {
       "id": "bm-003",
       "diagramType": "flowchart-v2",
       "source": "lukilabs/beautiful-mermaid",
-      "renderMs": 7.2,
-      "normalizeMs": 0.2,
-      "totalMs": 7.4,
+      "renderMs": 6.6,
+      "normalizeMs": 0.3,
+      "totalMs": 6.9,
       "code": 0
     },
     {
       "id": "bm-004",
       "diagramType": "flowchart-v2",
       "source": "lukilabs/beautiful-mermaid",
-      "renderMs": 7.6,
+      "renderMs": 7.2,
       "normalizeMs": 0.3,
-      "totalMs": 7.9,
+      "totalMs": 7.5,
       "code": 0
     },
     {
       "id": "bm-005",
       "diagramType": "flowchart-v2",
       "source": "lukilabs/beautiful-mermaid",
-      "renderMs": 8.3,
-      "normalizeMs": 0.3,
-      "totalMs": 8.6,
+      "renderMs": 8.4,
+      "normalizeMs": 0.4,
+      "totalMs": 8.8,
       "code": 0
     },
     {
       "id": "bm-007",
       "diagramType": "stateDiagram",
       "source": "lukilabs/beautiful-mermaid",
-      "renderMs": 22.1,
-      "normalizeMs": 0.4,
-      "totalMs": 22.5,
+      "renderMs": 22.3,
+      "normalizeMs": 0.3,
+      "totalMs": 22.6,
       "code": 0
     },
     {
       "id": "bm-008",
       "diagramType": "stateDiagram",
       "source": "lukilabs/beautiful-mermaid",
-      "renderMs": 16.4,
-      "normalizeMs": 0.5,
-      "totalMs": 16.9,
+      "renderMs": 16.3,
+      "normalizeMs": 0.4,
+      "totalMs": 16.7,
       "code": 0
     },
     {
       "id": "bm-009",
       "diagramType": "stateDiagram",
       "source": "lukilabs/beautiful-mermaid",
-      "renderMs": 26.5,
-      "normalizeMs": 0.5,
-      "totalMs": 27,
+      "renderMs": 20.6,
+      "normalizeMs": 0.4,
+      "totalMs": 21,
       "code": 0
     },
     {
       "id": "bm-010",
       "diagramType": "sequence",
       "source": "lukilabs/beautiful-mermaid",
-      "renderMs": 11.4,
-      "normalizeMs": 0.3,
-      "totalMs": 11.7,
+      "renderMs": 12.9,
+      "normalizeMs": 0.4,
+      "totalMs": 13.3,
       "code": 0
     },
     {
@@ -198,306 +198,306 @@
       "id": "bm-014",
       "diagramType": "class",
       "source": "lukilabs/beautiful-mermaid",
-      "renderMs": 12.4,
-      "normalizeMs": 0.4,
-      "totalMs": 12.8,
+      "renderMs": 13.2,
+      "normalizeMs": 0.2,
+      "totalMs": 13.4,
       "code": 0
     },
     {
       "id": "bm-015",
       "diagramType": "class",
       "source": "lukilabs/beautiful-mermaid",
-      "renderMs": 17.3,
+      "renderMs": 19,
       "normalizeMs": 0.7,
-      "totalMs": 18,
+      "totalMs": 19.7,
       "code": 0
     },
     {
       "id": "bm-016",
       "diagramType": "class",
       "source": "lukilabs/beautiful-mermaid",
-      "renderMs": 6.7,
+      "renderMs": 6,
       "normalizeMs": 0.3,
-      "totalMs": 7,
+      "totalMs": 6.3,
       "code": 0
     },
     {
       "id": "bm-017",
       "diagramType": "er",
       "source": "lukilabs/beautiful-mermaid",
-      "renderMs": 9.5,
+      "renderMs": 7.9,
       "normalizeMs": 0.2,
-      "totalMs": 9.7,
+      "totalMs": 8.1,
       "code": 0
     },
     {
       "id": "bm-018",
       "diagramType": "er",
       "source": "lukilabs/beautiful-mermaid",
-      "renderMs": 8.8,
-      "normalizeMs": 0.5,
-      "totalMs": 9.3,
-      "code": 0
-    },
-    {
-      "id": "bm-020",
-      "diagramType": "xychart",
-      "source": "lukilabs/beautiful-mermaid",
-      "renderMs": 17.3,
-      "normalizeMs": 0.3,
-      "totalMs": 17.6,
-      "code": 0
-    },
-    {
-      "id": "bm-021",
-      "diagramType": "er",
-      "source": "lukilabs/beautiful-mermaid",
-      "renderMs": 6.3,
-      "normalizeMs": 0.4,
-      "totalMs": 6.7,
-      "code": 0
-    },
-    {
-      "id": "bm-022",
-      "diagramType": "sequence",
-      "source": "lukilabs/beautiful-mermaid",
-      "renderMs": 4.4,
-      "normalizeMs": 0.4,
-      "totalMs": 4.8,
-      "code": 0
-    },
-    {
-      "id": "bm-023",
-      "diagramType": "sequence",
-      "source": "lukilabs/beautiful-mermaid",
-      "renderMs": 6.5,
-      "normalizeMs": 0.4,
-      "totalMs": 6.9,
-      "code": 0
-    },
-    {
-      "id": "bm-024",
-      "diagramType": "flowchart-v2",
-      "source": "lukilabs/beautiful-mermaid",
-      "renderMs": 7.5,
-      "normalizeMs": 0.4,
-      "totalMs": 7.9,
-      "code": 0
-    },
-    {
-      "id": "bm-025",
-      "diagramType": "stateDiagram",
-      "source": "lukilabs/beautiful-mermaid",
-      "renderMs": 14.8,
-      "normalizeMs": 0.4,
-      "totalMs": 15.2,
-      "code": 0
-    },
-    {
-      "id": "maid-001",
-      "diagramType": "flowchart-v2",
-      "source": "probelabs/maid",
-      "renderMs": 4.8,
-      "normalizeMs": 0.2,
-      "totalMs": 5,
-      "code": 0
-    },
-    {
-      "id": "maid-002",
-      "diagramType": "flowchart-v2",
-      "source": "probelabs/maid",
-      "renderMs": 9.6,
-      "normalizeMs": 0.3,
-      "totalMs": 9.9,
-      "code": 0
-    },
-    {
-      "id": "maid-003",
-      "diagramType": "flowchart-v2",
-      "source": "probelabs/maid",
-      "renderMs": 18.6,
-      "normalizeMs": 0.7,
-      "totalMs": 19.3,
-      "code": 0
-    },
-    {
-      "id": "maid-004",
-      "diagramType": "flowchart-v2",
-      "source": "probelabs/maid",
-      "renderMs": 11,
-      "normalizeMs": 0.4,
-      "totalMs": 11.4,
-      "code": 0
-    },
-    {
-      "id": "maid-005",
-      "diagramType": "flowchart-v2",
-      "source": "probelabs/maid",
-      "renderMs": 9.3,
-      "normalizeMs": 0.4,
-      "totalMs": 9.7,
-      "code": 0
-    },
-    {
-      "id": "maid-006",
-      "diagramType": "flowchart-v2",
-      "source": "probelabs/maid",
-      "renderMs": 10.5,
-      "normalizeMs": 0.5,
-      "totalMs": 11,
-      "code": 0
-    },
-    {
-      "id": "maid-007",
-      "diagramType": "flowchart-v2",
-      "source": "probelabs/maid",
-      "renderMs": 10.4,
-      "normalizeMs": 0.4,
-      "totalMs": 10.8,
-      "code": 0
-    },
-    {
-      "id": "maid-008",
-      "diagramType": "flowchart-v2",
-      "source": "probelabs/maid",
-      "renderMs": 7.5,
-      "normalizeMs": 0.9,
-      "totalMs": 8.4,
-      "code": 0
-    },
-    {
-      "id": "maid-009",
-      "diagramType": "flowchart-v2",
-      "source": "probelabs/maid",
-      "renderMs": 9,
-      "normalizeMs": 0.3,
-      "totalMs": 9.3,
-      "code": 0
-    },
-    {
-      "id": "maid-010",
-      "diagramType": "sequence",
-      "source": "probelabs/maid",
-      "renderMs": 3.9,
-      "normalizeMs": 0.4,
-      "totalMs": 4.3,
-      "code": 0
-    },
-    {
-      "id": "maid-011",
-      "diagramType": "sequence",
-      "source": "probelabs/maid",
-      "renderMs": 3.8,
-      "normalizeMs": 0.3,
-      "totalMs": 4.1,
-      "code": 0
-    },
-    {
-      "id": "maid-012",
-      "diagramType": "sequence",
-      "source": "probelabs/maid",
-      "renderMs": 5.5,
-      "normalizeMs": 0.4,
-      "totalMs": 5.9,
-      "code": 0
-    },
-    {
-      "id": "maid-013",
-      "diagramType": "sequence",
-      "source": "probelabs/maid",
-      "renderMs": 3.5,
-      "normalizeMs": 0.4,
-      "totalMs": 3.9,
-      "code": 0
-    },
-    {
-      "id": "maid-014",
-      "diagramType": "sequence",
-      "source": "probelabs/maid",
-      "renderMs": 5,
-      "normalizeMs": 0.4,
-      "totalMs": 5.4,
-      "code": 0
-    },
-    {
-      "id": "maid-015",
-      "diagramType": "class",
-      "source": "probelabs/maid",
-      "renderMs": 12.4,
-      "normalizeMs": 0.6,
-      "totalMs": 13,
-      "code": 0
-    },
-    {
-      "id": "maid-016",
-      "diagramType": "class",
-      "source": "probelabs/maid",
-      "renderMs": 5.5,
-      "normalizeMs": 0.4,
-      "totalMs": 5.9,
-      "code": 0
-    },
-    {
-      "id": "maid-017",
-      "diagramType": "stateDiagram",
-      "source": "probelabs/maid",
-      "renderMs": 8.1,
-      "normalizeMs": 0.3,
-      "totalMs": 8.4,
-      "code": 0
-    },
-    {
-      "id": "maid-018",
-      "diagramType": "stateDiagram",
-      "source": "probelabs/maid",
-      "renderMs": 11.4,
-      "normalizeMs": 0.4,
-      "totalMs": 11.8,
-      "code": 0
-    },
-    {
-      "id": "maid-019",
-      "diagramType": "pie",
-      "source": "probelabs/maid",
-      "renderMs": 54,
-      "normalizeMs": 0.1,
-      "totalMs": 54.1,
-      "code": 0
-    },
-    {
-      "id": "maid-020",
-      "diagramType": "gantt",
-      "source": "probelabs/maid",
-      "renderMs": 10.1,
-      "normalizeMs": 0.2,
-      "totalMs": 10.3,
-      "code": 0
-    },
-    {
-      "id": "maid-021",
-      "diagramType": "sequence",
-      "source": "probelabs/maid",
-      "renderMs": 5.9,
-      "normalizeMs": 0.4,
-      "totalMs": 6.3,
-      "code": 0
-    },
-    {
-      "id": "maid-022",
-      "diagramType": "sequence",
-      "source": "probelabs/maid",
       "renderMs": 5.6,
       "normalizeMs": 0.5,
       "totalMs": 6.1,
       "code": 0
     },
     {
+      "id": "bm-020",
+      "diagramType": "xychart",
+      "source": "lukilabs/beautiful-mermaid",
+      "renderMs": 11.4,
+      "normalizeMs": 0.1,
+      "totalMs": 11.5,
+      "code": 0
+    },
+    {
+      "id": "bm-021",
+      "diagramType": "er",
+      "source": "lukilabs/beautiful-mermaid",
+      "renderMs": 5.4,
+      "normalizeMs": 0.3,
+      "totalMs": 5.7,
+      "code": 0
+    },
+    {
+      "id": "bm-022",
+      "diagramType": "sequence",
+      "source": "lukilabs/beautiful-mermaid",
+      "renderMs": 3.4,
+      "normalizeMs": 0.3,
+      "totalMs": 3.7,
+      "code": 0
+    },
+    {
+      "id": "bm-023",
+      "diagramType": "sequence",
+      "source": "lukilabs/beautiful-mermaid",
+      "renderMs": 4.3,
+      "normalizeMs": 0.4,
+      "totalMs": 4.7,
+      "code": 0
+    },
+    {
+      "id": "bm-024",
+      "diagramType": "flowchart-v2",
+      "source": "lukilabs/beautiful-mermaid",
+      "renderMs": 5.1,
+      "normalizeMs": 0.3,
+      "totalMs": 5.4,
+      "code": 0
+    },
+    {
+      "id": "bm-025",
+      "diagramType": "stateDiagram",
+      "source": "lukilabs/beautiful-mermaid",
+      "renderMs": 11.7,
+      "normalizeMs": 0.3,
+      "totalMs": 12,
+      "code": 0
+    },
+    {
+      "id": "maid-001",
+      "diagramType": "flowchart-v2",
+      "source": "probelabs/maid",
+      "renderMs": 3.3,
+      "normalizeMs": 0.2,
+      "totalMs": 3.5,
+      "code": 0
+    },
+    {
+      "id": "maid-002",
+      "diagramType": "flowchart-v2",
+      "source": "probelabs/maid",
+      "renderMs": 7,
+      "normalizeMs": 0.3,
+      "totalMs": 7.3,
+      "code": 0
+    },
+    {
+      "id": "maid-003",
+      "diagramType": "flowchart-v2",
+      "source": "probelabs/maid",
+      "renderMs": 13.6,
+      "normalizeMs": 0.7,
+      "totalMs": 14.3,
+      "code": 0
+    },
+    {
+      "id": "maid-004",
+      "diagramType": "flowchart-v2",
+      "source": "probelabs/maid",
+      "renderMs": 8.2,
+      "normalizeMs": 0.3,
+      "totalMs": 8.5,
+      "code": 0
+    },
+    {
+      "id": "maid-005",
+      "diagramType": "flowchart-v2",
+      "source": "probelabs/maid",
+      "renderMs": 7,
+      "normalizeMs": 0.3,
+      "totalMs": 7.3,
+      "code": 0
+    },
+    {
+      "id": "maid-006",
+      "diagramType": "flowchart-v2",
+      "source": "probelabs/maid",
+      "renderMs": 7.3,
+      "normalizeMs": 0.3,
+      "totalMs": 7.6,
+      "code": 0
+    },
+    {
+      "id": "maid-007",
+      "diagramType": "flowchart-v2",
+      "source": "probelabs/maid",
+      "renderMs": 8.5,
+      "normalizeMs": 0.3,
+      "totalMs": 8.8,
+      "code": 0
+    },
+    {
+      "id": "maid-008",
+      "diagramType": "flowchart-v2",
+      "source": "probelabs/maid",
+      "renderMs": 6.3,
+      "normalizeMs": 0.3,
+      "totalMs": 6.6,
+      "code": 0
+    },
+    {
+      "id": "maid-009",
+      "diagramType": "flowchart-v2",
+      "source": "probelabs/maid",
+      "renderMs": 8.8,
+      "normalizeMs": 0.3,
+      "totalMs": 9.1,
+      "code": 0
+    },
+    {
+      "id": "maid-010",
+      "diagramType": "sequence",
+      "source": "probelabs/maid",
+      "renderMs": 2.9,
+      "normalizeMs": 0.2,
+      "totalMs": 3.1,
+      "code": 0
+    },
+    {
+      "id": "maid-011",
+      "diagramType": "sequence",
+      "source": "probelabs/maid",
+      "renderMs": 2.9,
+      "normalizeMs": 0.2,
+      "totalMs": 3.1,
+      "code": 0
+    },
+    {
+      "id": "maid-012",
+      "diagramType": "sequence",
+      "source": "probelabs/maid",
+      "renderMs": 5.2,
+      "normalizeMs": 0.3,
+      "totalMs": 5.5,
+      "code": 0
+    },
+    {
+      "id": "maid-013",
+      "diagramType": "sequence",
+      "source": "probelabs/maid",
+      "renderMs": 3.4,
+      "normalizeMs": 0.3,
+      "totalMs": 3.7,
+      "code": 0
+    },
+    {
+      "id": "maid-014",
+      "diagramType": "sequence",
+      "source": "probelabs/maid",
+      "renderMs": 2.8,
+      "normalizeMs": 0.3,
+      "totalMs": 3.1,
+      "code": 0
+    },
+    {
+      "id": "maid-015",
+      "diagramType": "class",
+      "source": "probelabs/maid",
+      "renderMs": 10.9,
+      "normalizeMs": 0.4,
+      "totalMs": 11.3,
+      "code": 0
+    },
+    {
+      "id": "maid-016",
+      "diagramType": "class",
+      "source": "probelabs/maid",
+      "renderMs": 4.2,
+      "normalizeMs": 0.3,
+      "totalMs": 4.5,
+      "code": 0
+    },
+    {
+      "id": "maid-017",
+      "diagramType": "stateDiagram",
+      "source": "probelabs/maid",
+      "renderMs": 6.5,
+      "normalizeMs": 0.3,
+      "totalMs": 6.8,
+      "code": 0
+    },
+    {
+      "id": "maid-018",
+      "diagramType": "stateDiagram",
+      "source": "probelabs/maid",
+      "renderMs": 9.2,
+      "normalizeMs": 0.2,
+      "totalMs": 9.4,
+      "code": 0
+    },
+    {
+      "id": "maid-019",
+      "diagramType": "pie",
+      "source": "probelabs/maid",
+      "renderMs": 45.2,
+      "normalizeMs": 0.1,
+      "totalMs": 45.3,
+      "code": 0
+    },
+    {
+      "id": "maid-020",
+      "diagramType": "gantt",
+      "source": "probelabs/maid",
+      "renderMs": 9.2,
+      "normalizeMs": 0.3,
+      "totalMs": 9.5,
+      "code": 0
+    },
+    {
+      "id": "maid-021",
+      "diagramType": "sequence",
+      "source": "probelabs/maid",
+      "renderMs": 4.6,
+      "normalizeMs": 0.3,
+      "totalMs": 4.9,
+      "code": 0
+    },
+    {
+      "id": "maid-022",
+      "diagramType": "sequence",
+      "source": "probelabs/maid",
+      "renderMs": 4.4,
+      "normalizeMs": 0.3,
+      "totalMs": 4.7,
+      "code": 0
+    },
+    {
       "id": "maid-023",
       "diagramType": "stateDiagram",
       "source": "probelabs/maid",
-      "renderMs": 12.7,
+      "renderMs": 10.9,
       "normalizeMs": 0.3,
-      "totalMs": 13,
+      "totalMs": 11.2,
       "code": 0
     },
     {
@@ -505,16 +505,16 @@
       "diagramType": "pie",
       "source": "probelabs/maid",
       "renderMs": 1.9,
-      "normalizeMs": 0.2,
-      "totalMs": 2.1,
+      "normalizeMs": 0,
+      "totalMs": 1.9,
       "code": 0
     },
     {
       "id": "maid-025",
       "diagramType": "class",
       "source": "probelabs/maid",
-      "renderMs": 6.5,
-      "normalizeMs": 0.4,
+      "renderMs": 6.6,
+      "normalizeMs": 0.3,
       "totalMs": 6.9,
       "code": 0
     },
@@ -522,49 +522,94 @@
       "id": "mm-cls-001",
       "diagramType": "class",
       "source": "mermaid-js/mermaid",
-      "renderMs": 13.2,
-      "normalizeMs": 0.5,
-      "totalMs": 13.7,
+      "renderMs": 11.4,
+      "normalizeMs": 0.3,
+      "totalMs": 11.7,
       "code": 0
     },
     {
       "id": "mm-cls-002",
       "diagramType": "class",
       "source": "mermaid-js/mermaid",
-      "renderMs": 17.5,
-      "normalizeMs": 0.8,
-      "totalMs": 18.3,
+      "renderMs": 15.6,
+      "normalizeMs": 0.7,
+      "totalMs": 16.3,
       "code": 0
     },
     {
       "id": "mm-cls-003",
       "diagramType": "class",
       "source": "mermaid-js/mermaid",
-      "renderMs": 7.3,
-      "normalizeMs": 0.4,
-      "totalMs": 7.7,
+      "renderMs": 7,
+      "normalizeMs": 0.3,
+      "totalMs": 7.3,
       "code": 0
     },
     {
       "id": "mm-cls-008",
       "diagramType": "class",
       "source": "mermaid-js/mermaid",
-      "renderMs": 14.1,
-      "normalizeMs": 0.4,
-      "totalMs": 14.5,
+      "renderMs": 11.1,
+      "normalizeMs": 0.5,
+      "totalMs": 11.6,
       "code": 0
     },
     {
       "id": "mm-fc-001",
       "diagramType": "flowchart-v2",
       "source": "mermaid-js/mermaid",
-      "renderMs": 3.5,
-      "normalizeMs": 0.3,
-      "totalMs": 3.8,
+      "renderMs": 3.4,
+      "normalizeMs": 0.2,
+      "totalMs": 3.6,
       "code": 0
     },
     {
       "id": "mm-fc-002",
+      "diagramType": "flowchart-v2",
+      "source": "mermaid-js/mermaid",
+      "renderMs": 3,
+      "normalizeMs": 0.2,
+      "totalMs": 3.2,
+      "code": 0
+    },
+    {
+      "id": "mm-fc-003",
+      "diagramType": "flowchart-v2",
+      "source": "mermaid-js/mermaid",
+      "renderMs": 3.1,
+      "normalizeMs": 0.3,
+      "totalMs": 3.4,
+      "code": 0
+    },
+    {
+      "id": "mm-fc-004",
+      "diagramType": "flowchart-v2",
+      "source": "mermaid-js/mermaid",
+      "renderMs": 2.7,
+      "normalizeMs": 0.1,
+      "totalMs": 2.8,
+      "code": 0
+    },
+    {
+      "id": "mm-fc-005",
+      "diagramType": "flowchart-v2",
+      "source": "mermaid-js/mermaid",
+      "renderMs": 2.5,
+      "normalizeMs": 0.1,
+      "totalMs": 2.6,
+      "code": 0
+    },
+    {
+      "id": "mm-fc-006",
+      "diagramType": "flowchart-v2",
+      "source": "mermaid-js/mermaid",
+      "renderMs": 2.7,
+      "normalizeMs": 0.1,
+      "totalMs": 2.8,
+      "code": 0
+    },
+    {
+      "id": "mm-fc-007",
       "diagramType": "flowchart-v2",
       "source": "mermaid-js/mermaid",
       "renderMs": 2.9,
@@ -573,97 +618,61 @@
       "code": 0
     },
     {
-      "id": "mm-fc-003",
-      "diagramType": "flowchart-v2",
-      "source": "mermaid-js/mermaid",
-      "renderMs": 3.1,
-      "normalizeMs": 0.1,
-      "totalMs": 3.2,
-      "code": 0
-    },
-    {
-      "id": "mm-fc-004",
-      "diagramType": "flowchart-v2",
-      "source": "mermaid-js/mermaid",
-      "renderMs": 2.8,
-      "normalizeMs": 0.2,
-      "totalMs": 3,
-      "code": 0
-    },
-    {
-      "id": "mm-fc-005",
-      "diagramType": "flowchart-v2",
-      "source": "mermaid-js/mermaid",
-      "renderMs": 3.5,
-      "normalizeMs": 0.2,
-      "totalMs": 3.7,
-      "code": 0
-    },
-    {
-      "id": "mm-fc-006",
-      "diagramType": "flowchart-v2",
-      "source": "mermaid-js/mermaid",
-      "renderMs": 3.1,
-      "normalizeMs": 0.2,
-      "totalMs": 3.3,
-      "code": 0
-    },
-    {
-      "id": "mm-fc-007",
-      "diagramType": "flowchart-v2",
-      "source": "mermaid-js/mermaid",
-      "renderMs": 2.8,
-      "normalizeMs": 0.2,
-      "totalMs": 3,
-      "code": 0
-    },
-    {
       "id": "mm-fc-008",
       "diagramType": "flowchart-v2",
       "source": "mermaid-js/mermaid",
-      "renderMs": 6.5,
-      "normalizeMs": 0.3,
-      "totalMs": 6.8,
+      "renderMs": 7.5,
+      "normalizeMs": 0.4,
+      "totalMs": 7.9,
       "code": 0
     },
     {
       "id": "mm-fc-009",
       "diagramType": "flowchart-v2",
       "source": "mermaid-js/mermaid",
-      "renderMs": 3.7,
+      "renderMs": 2.9,
       "normalizeMs": 0.2,
-      "totalMs": 3.9,
+      "totalMs": 3.1,
       "code": 0
     },
     {
       "id": "mm-fc-010",
       "diagramType": "flowchart-v2",
       "source": "mermaid-js/mermaid",
-      "renderMs": 3.8,
-      "normalizeMs": 0.3,
-      "totalMs": 4.1,
+      "renderMs": 4,
+      "normalizeMs": 0.2,
+      "totalMs": 4.2,
       "code": 0
     },
     {
       "id": "mm-fc-011",
       "diagramType": "flowchart-v2",
       "source": "mermaid-js/mermaid",
-      "renderMs": 6.7,
+      "renderMs": 6,
       "normalizeMs": 0.5,
-      "totalMs": 7.2,
+      "totalMs": 6.5,
       "code": 0
     },
     {
       "id": "mm-fc-012",
       "diagramType": "flowchart-v2",
       "source": "mermaid-js/mermaid",
-      "renderMs": 2.4,
+      "renderMs": 1.9,
       "normalizeMs": 0.2,
-      "totalMs": 2.6,
+      "totalMs": 2.1,
       "code": 0
     },
     {
       "id": "mm-fc-014",
+      "diagramType": "flowchart-v2",
+      "source": "mermaid-js/mermaid",
+      "renderMs": 4.5,
+      "normalizeMs": 0.2,
+      "totalMs": 4.7,
+      "code": 0
+    },
+    {
+      "id": "mm-fc-015",
       "diagramType": "flowchart-v2",
       "source": "mermaid-js/mermaid",
       "renderMs": 4.2,
@@ -672,21 +681,12 @@
       "code": 0
     },
     {
-      "id": "mm-fc-015",
-      "diagramType": "flowchart-v2",
-      "source": "mermaid-js/mermaid",
-      "renderMs": 4.1,
-      "normalizeMs": 0.3,
-      "totalMs": 4.4,
-      "code": 0
-    },
-    {
       "id": "mm-fc-016",
       "diagramType": "flowchart-v2",
       "source": "mermaid-js/mermaid",
-      "renderMs": 4.8,
+      "renderMs": 4.4,
       "normalizeMs": 0.2,
-      "totalMs": 5,
+      "totalMs": 4.6,
       "code": 0
     },
     {
@@ -702,71 +702,71 @@
       "id": "mm-fc-018",
       "diagramType": "flowchart-v2",
       "source": "mermaid-js/mermaid",
-      "renderMs": 4.9,
+      "renderMs": 3.9,
       "normalizeMs": 0.3,
-      "totalMs": 5.2,
+      "totalMs": 4.2,
       "code": 0
     },
     {
       "id": "mm-fc-021",
       "diagramType": "flowchart-v2",
       "source": "mermaid-js/mermaid",
-      "renderMs": 4.5,
+      "renderMs": 4.1,
       "normalizeMs": 0.2,
-      "totalMs": 4.7,
+      "totalMs": 4.3,
       "code": 0
     },
     {
       "id": "mm-fc-022",
       "diagramType": "flowchart-v2",
       "source": "mermaid-js/mermaid",
-      "renderMs": 11,
+      "renderMs": 11.3,
       "normalizeMs": 0.4,
-      "totalMs": 11.4,
+      "totalMs": 11.7,
       "code": 0
     },
     {
       "id": "mm-fc-024",
       "diagramType": "flowchart-v2",
       "source": "mermaid-js/mermaid",
-      "renderMs": 3.1,
-      "normalizeMs": 0.2,
-      "totalMs": 3.3,
+      "renderMs": 3.5,
+      "normalizeMs": 0.3,
+      "totalMs": 3.8,
       "code": 0
     },
     {
       "id": "mm-fc-025",
       "diagramType": "flowchart-v2",
       "source": "mermaid-js/mermaid",
-      "renderMs": 4.5,
+      "renderMs": 4.1,
       "normalizeMs": 0.3,
-      "totalMs": 4.8,
+      "totalMs": 4.4,
       "code": 0
     },
     {
       "id": "mm-other-001",
       "diagramType": "er",
       "source": "mermaid-js/mermaid",
-      "renderMs": 4.3,
+      "renderMs": 4.8,
       "normalizeMs": 0.3,
-      "totalMs": 4.6,
+      "totalMs": 5.1,
       "code": 0
     },
     {
       "id": "mm-other-003",
       "diagramType": "gantt",
       "source": "mermaid-js/mermaid",
-      "renderMs": 2.3,
-      "normalizeMs": 0.2,
-      "totalMs": 2.5,
+      "renderMs": 2,
+      "normalizeMs": 0.3,
+      "totalMs": 2.3,
       "code": 0
     },
     {
       "id": "mm-other-005",
       "diagramType": "pie",
       "source": "mermaid-js/mermaid",
-      "renderMs": 1.4,
-      "normalizeMs": 0,
+      "renderMs": 1.3,
+      "normalizeMs": 0.1,
       "totalMs": 1.4,
       "code": 0
     },
@@ -783,9 +783,9 @@
       "id": "mm-other-008",
       "diagramType": "gitGraph",
       "source": "mermaid-js/mermaid",
-      "renderMs": 12.2,
+      "renderMs": 11.9,
       "normalizeMs": 0.2,
-      "totalMs": 12.4,
+      "totalMs": 12.1,
       "code": 0
     },
     {
@@ -801,58 +801,85 @@
       "id": "mm-other-012",
       "diagramType": "timeline",
       "source": "mermaid-js/mermaid",
-      "renderMs": 6.9,
-      "normalizeMs": 0.2,
-      "totalMs": 7.1,
+      "renderMs": 8,
+      "normalizeMs": 0.3,
+      "totalMs": 8.3,
       "code": 0
     },
     {
       "id": "mm-other-014",
       "diagramType": "quadrantChart",
       "source": "mermaid-js/mermaid",
-      "renderMs": 6.6,
-      "normalizeMs": 0.3,
-      "totalMs": 6.9,
+      "renderMs": 5.8,
+      "normalizeMs": 0.2,
+      "totalMs": 6,
       "code": 0
     },
     {
       "id": "mm-other-015",
       "diagramType": "xychart",
       "source": "mermaid-js/mermaid",
-      "renderMs": 2.7,
-      "normalizeMs": 0.3,
-      "totalMs": 3,
+      "renderMs": 3,
+      "normalizeMs": 0.2,
+      "totalMs": 3.2,
       "code": 0
     },
     {
       "id": "mm-other-017",
       "diagramType": "requirement",
       "source": "mermaid-js/mermaid",
-      "renderMs": 9.1,
-      "normalizeMs": 0.3,
-      "totalMs": 9.4,
+      "renderMs": 9.3,
+      "normalizeMs": 0.2,
+      "totalMs": 9.5,
       "code": 0
     },
     {
       "id": "mm-other-025",
       "diagramType": "er",
       "source": "mermaid-js/mermaid",
-      "renderMs": 6.6,
+      "renderMs": 6.5,
       "normalizeMs": 0.4,
-      "totalMs": 7,
+      "totalMs": 6.9,
       "code": 0
     },
     {
       "id": "mm-other-026",
       "diagramType": "gantt",
       "source": "mermaid-js/mermaid",
-      "renderMs": 2.7,
+      "renderMs": 3.2,
       "normalizeMs": 0.2,
-      "totalMs": 2.9,
+      "totalMs": 3.4,
       "code": 0
     },
     {
       "id": "mm-seq-001",
+      "diagramType": "sequence",
+      "source": "mermaid-js/mermaid",
+      "renderMs": 2.6,
+      "normalizeMs": 0.2,
+      "totalMs": 2.8,
+      "code": 0
+    },
+    {
+      "id": "mm-seq-002",
+      "diagramType": "sequence",
+      "source": "mermaid-js/mermaid",
+      "renderMs": 2.3,
+      "normalizeMs": 0.3,
+      "totalMs": 2.6,
+      "code": 0
+    },
+    {
+      "id": "mm-seq-003",
+      "diagramType": "sequence",
+      "source": "mermaid-js/mermaid",
+      "renderMs": 4,
+      "normalizeMs": 0.3,
+      "totalMs": 4.3,
+      "code": 0
+    },
+    {
+      "id": "mm-seq-004",
       "diagramType": "sequence",
       "source": "mermaid-js/mermaid",
       "renderMs": 2.5,
@@ -861,34 +888,34 @@
       "code": 0
     },
     {
-      "id": "mm-seq-002",
+      "id": "mm-seq-005",
       "diagramType": "sequence",
       "source": "mermaid-js/mermaid",
-      "renderMs": 2.6,
+      "renderMs": 3.1,
       "normalizeMs": 0.3,
-      "totalMs": 2.9,
+      "totalMs": 3.4,
       "code": 0
     },
     {
-      "id": "mm-seq-003",
+      "id": "mm-seq-006",
       "diagramType": "sequence",
       "source": "mermaid-js/mermaid",
-      "renderMs": 3.4,
-      "normalizeMs": 0.3,
+      "renderMs": 3.5,
+      "normalizeMs": 0.2,
       "totalMs": 3.7,
       "code": 0
     },
     {
-      "id": "mm-seq-004",
+      "id": "mm-seq-008",
       "diagramType": "sequence",
       "source": "mermaid-js/mermaid",
-      "renderMs": 2.4,
-      "normalizeMs": 0.4,
-      "totalMs": 2.8,
+      "renderMs": 3.5,
+      "normalizeMs": 0.3,
+      "totalMs": 3.8,
       "code": 0
     },
     {
-      "id": "mm-seq-005",
+      "id": "mm-seq-009",
       "diagramType": "sequence",
       "source": "mermaid-js/mermaid",
       "renderMs": 3.3,
@@ -897,39 +924,12 @@
       "code": 0
     },
     {
-      "id": "mm-seq-006",
-      "diagramType": "sequence",
-      "source": "mermaid-js/mermaid",
-      "renderMs": 3.2,
-      "normalizeMs": 0.2,
-      "totalMs": 3.4,
-      "code": 0
-    },
-    {
-      "id": "mm-seq-008",
-      "diagramType": "sequence",
-      "source": "mermaid-js/mermaid",
-      "renderMs": 3.2,
-      "normalizeMs": 0.3,
-      "totalMs": 3.5,
-      "code": 0
-    },
-    {
-      "id": "mm-seq-009",
-      "diagramType": "sequence",
-      "source": "mermaid-js/mermaid",
-      "renderMs": 3.2,
-      "normalizeMs": 0.3,
-      "totalMs": 3.5,
-      "code": 0
-    },
-    {
       "id": "mm-st-001",
       "diagramType": "stateDiagram",
       "source": "mermaid-js/mermaid",
-      "renderMs": 5,
-      "normalizeMs": 0.3,
-      "totalMs": 5.3,
+      "renderMs": 4.9,
+      "normalizeMs": 0.2,
+      "totalMs": 5.1,
       "code": 0
     },
     {
@@ -937,62 +937,62 @@
       "diagramType": "stateDiagram",
       "source": "mermaid-js/mermaid",
       "renderMs": 7.6,
-      "normalizeMs": 0.3,
-      "totalMs": 7.9,
+      "normalizeMs": 0.4,
+      "totalMs": 8,
       "code": 0
     },
     {
       "id": "mm-st-003",
       "diagramType": "stateDiagram",
       "source": "mermaid-js/mermaid",
-      "renderMs": 4,
+      "renderMs": 4.5,
       "normalizeMs": 0.1,
-      "totalMs": 4.1,
+      "totalMs": 4.6,
       "code": 0
     },
     {
       "id": "mm-st-004",
       "diagramType": "stateDiagram",
       "source": "mermaid-js/mermaid",
-      "renderMs": 4.3,
-      "normalizeMs": 0.1,
-      "totalMs": 4.4,
+      "renderMs": 4.6,
+      "normalizeMs": 0.2,
+      "totalMs": 4.8,
       "code": 0
     },
     {
       "id": "mm-st-005",
       "diagramType": "stateDiagram",
       "source": "mermaid-js/mermaid",
-      "renderMs": 8.2,
-      "normalizeMs": 0.1,
-      "totalMs": 8.3,
+      "renderMs": 7.8,
+      "normalizeMs": 0.3,
+      "totalMs": 8.1,
       "code": 0
     },
     {
       "id": "mm-st-007",
       "diagramType": "stateDiagram",
       "source": "mermaid-js/mermaid",
-      "renderMs": 6.4,
-      "normalizeMs": 0.2,
-      "totalMs": 6.6,
+      "renderMs": 5.4,
+      "normalizeMs": 0.1,
+      "totalMs": 5.5,
       "code": 0
     },
     {
       "id": "mm-st-008",
       "diagramType": "stateDiagram",
       "source": "mermaid-js/mermaid",
-      "renderMs": 11.3,
+      "renderMs": 10.2,
       "normalizeMs": 0.4,
-      "totalMs": 11.7,
+      "totalMs": 10.6,
       "code": 0
     },
     {
       "id": "mm-st-009",
       "diagramType": "stateDiagram",
       "source": "mermaid-js/mermaid",
-      "renderMs": 9.9,
-      "normalizeMs": 0.4,
-      "totalMs": 10.3,
+      "renderMs": 10.5,
+      "normalizeMs": 0.5,
+      "totalMs": 11,
       "code": 0
     }
   ]
