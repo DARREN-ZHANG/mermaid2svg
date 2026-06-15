@@ -7,11 +7,15 @@
 import assert from "node:assert/strict";
 import { test, describe, before, after } from "node:test";
 import MERMAID_EXAMPLES from "../demo/const/mermaidExamples.js";
+import DEFAULT_LABELS from "../demo/const/mermaidLabels.js";
 import { openHarness } from "./lib/renderHarness.mjs";
 
 const OK = 0,
   RENDERER_PATH = "/demo/render/mermaid-to-svg.js",
   NORMALIZER_PATH = "/demo/render/normalize-svg.js";
+
+// 把 {{label_key}} 占位符替换为默认英文标签，得到可渲染的 Mermaid 源码
+const renderTemplate = (src) => src.replace(/{{(\w+)}}/g, (_, key) => DEFAULT_LABELS[key] || key);
 
 // 渲染单条 mermaid 源：返回 [code, svg]
 const renderOne = async (page, src) => {
@@ -48,8 +52,9 @@ describe("render-examples", () => {
 
   // 每条独立测试，命名包含 displayName 便于定位失败
   for (const [type, name, src] of MERMAID_EXAMPLES) {
+    const renderedSrc = renderTemplate(src);
     test("render: " + name + " [" + type + "]", async () => {
-      const [code, svg] = await renderOne(page, src);
+      const [code, svg] = await renderOne(page, renderedSrc);
       assert.equal(code, OK, "render failed for " + name + ": " + svg);
       assert.ok(typeof svg === "string" && svg.includes("<svg"), "SVG root missing for " + name);
       assert.ok(/viewBox=/.test(svg), "viewBox missing for " + name);
