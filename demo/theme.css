@@ -35,7 +35,7 @@
   color: var(--m-text);
   fill: var(--m-text);
 }
-[data-theme] #mermaid-svg .slice,
+[data-theme] #mermaid-svg text.slice,
 [data-theme] #mermaid-svg .pieTitleText,
 [data-theme] #mermaid-svg .legend text,
 [data-theme] #mermaid-svg .messageText,
@@ -48,6 +48,9 @@
 [data-theme] #mermaid-svg .vertText,
 [data-theme] #mermaid-svg .grid .tick text {
   fill: var(--m-text);
+}
+[data-theme] #mermaid-svg text.slice {
+  fill: var(--bg);
 }
 
 /* 次要文本 (簇标签、边标签) */
@@ -64,6 +67,11 @@
 }
 
 /* 节点形状填充/描边 (flowchart/sequence/class/state/er) */
+[data-theme] #mermaid-svg .section,
+[data-theme] #mermaid-svg .section0,
+[data-theme] #mermaid-svg .section1,
+[data-theme] #mermaid-svg .section2,
+[data-theme] #mermaid-svg .section3,
 [data-theme] #mermaid-svg .node rect,
 [data-theme] #mermaid-svg .node circle,
 [data-theme] #mermaid-svg .node ellipse,
@@ -95,7 +103,220 @@
 /* 箭头/标记 */
 [data-theme] #mermaid-svg .marker,
 [data-theme] #mermaid-svg .arrowheadPath,
-[data-theme] #mermaid-svg [id$="-barbEnd"] {
+[data-theme] [id$="-barbEnd"] {
   fill: var(--m-line);
   stroke: var(--m-line);
+}
+
+/* ==========================================
+ * 全站主题自适应覆盖层
+ * ========================================== */
+
+/* 全局基础 CSS 变量覆盖 */
+[data-theme] {
+  --text-color: var(--fg);
+  --text-muted: var(--m-muted);
+  --border-color: var(--m-border);
+  --bg-color: var(--bg);
+
+  /* 按钮变量覆盖 */
+  --btnColor: var(--fg);
+  --btnColorHov: var(--m-text);
+  --btnBg: color-mix(in srgb, var(--m-surface) 60%, transparent);
+  --btnBgHov: color-mix(in srgb, var(--m-surface) 80%, transparent);
+  --btnBgAct: color-mix(in srgb, var(--bg) 90%, transparent);
+}
+
+/* 网页背景自适应 */
+[data-theme] body {
+  background: var(--bg) !important; /* 强制覆盖原本的背景图和背景色 */
+}
+
+/* 磨砂玻璃卡片背景自适应 */
+[data-theme] .Lg::before,
+[data-theme] .Input::before {
+  background: color-mix(in srgb, var(--m-surface) 70%, transparent);
+  backdrop-filter: blur(12px) saturate(160%);
+}
+
+/* 输入框自适应与聚焦高亮 */
+[data-theme] #mermaid-input {
+  background-color: color-mix(in srgb, var(--bg) 40%, transparent);
+  color: var(--fg);
+}
+[data-theme] #mermaid-input:focus {
+  background-color: color-mix(in srgb, var(--bg) 80%, transparent);
+  border-color: var(--m-arrow);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--m-arrow) 15%, transparent);
+}
+
+/* SVG 预览区自适应 */
+[data-theme] #svg-preview {
+  background-color: color-mix(in srgb, var(--bg) 40%, transparent);
+}
+
+/* 渲染错误提示框自适应 */
+[data-theme] .render-status.error {
+  background-color: color-mix(in srgb, #dc2626 12%, transparent);
+  color: #f87171;
+  border: 1px solid color-mix(in srgb, #dc2626 25%, transparent);
+}
+
+/* 示例图库卡片自适应 */
+[data-theme] .example-card .mermaid-code {
+  background-color: color-mix(in srgb, var(--bg) 60%, transparent);
+  color: var(--m-muted);
+}
+[data-theme] .example-card .rendered-svg {
+  background-color: color-mix(in srgb, var(--bg) 40%, transparent);
+}
+
+/* 用法代码块自适应 */
+[data-theme] .code-block {
+  background-color: color-mix(in srgb, var(--bg) 40%, transparent);
+}
+[data-theme] .code-block code {
+  color: var(--m-text);
+}
+
+/* 主题切换 Dropdown 样式自适应 */
+
+/* 默认主题下（无 data-theme 属性时），强制设置 trigger 表现 */
+html:not([data-theme]) .theme-trigger {
+  color: #0f172a !important;
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+/* 激活主题下，主题 Trigger 按钮自适应 */
+[data-theme] .theme-trigger {
+  color: var(--fg) !important;
+  background-color: color-mix(in srgb, var(--m-surface) 60%, transparent) !important;
+  border-color: var(--m-border) !important;
+}
+[data-theme] .theme-trigger:hover {
+  border-color: var(--m-arrow) !important;
+  color: var(--m-arrow) !important;
+}
+
+/* 默认主题下，下拉菜单及项样式 */
+html:not([data-theme]) .theme-dropdown {
+  background: linear-gradient(180deg, #fffffff2, #ffffffe6) !important;
+  border-color: #e2e8f0 !important;
+}
+html:not([data-theme]) .theme-dropdown-item {
+  color: #0f172a !important;
+}
+html:not([data-theme]) .theme-dropdown-item:hover {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+  color: var(--accent-color) !important;
+}
+html:not([data-theme]) .theme-dropdown-item.active {
+  background-color: var(--accent-color) !important;
+  color: #ffffff !important;
+}
+
+/* 激活主题下，下拉菜单及项样式 */
+[data-theme] .theme-dropdown {
+  background: color-mix(in srgb, var(--bg) 95%, transparent) !important;
+  border-color: var(--m-border) !important;
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.4),
+    0 1px 3px rgba(0, 0, 0, 0.2) !important;
+}
+[data-theme] .theme-dropdown-item {
+  color: var(--fg) !important;
+}
+[data-theme] .theme-dropdown-item:hover {
+  background-color: color-mix(in srgb, var(--m-surface) 80%, transparent) !important;
+  color: var(--m-arrow) !important;
+}
+[data-theme] .theme-dropdown-item.active {
+  background-color: var(--m-arrow) !important;
+  color: #ffffff !important;
+}
+
+/* 语言弹窗及对话框自适应 */
+[data-theme] dialog.Box > .Lg {
+  background-color: color-mix(in srgb, var(--bg) 95%, transparent);
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.45),
+    0 1px 3px rgba(0, 0, 0, 0.25);
+}
+[data-theme] dialog.Box > .Lg h3 {
+  color: var(--text-color);
+}
+[data-theme] dialog.Box > .Lg p {
+  color: var(--text-muted);
+}
+[data-theme] .I18n.Lg > h6 {
+  color: var(--text-color);
+}
+
+/* 关闭按钮自适应 */
+[data-theme] dialog.Box > .aX {
+  background: color-mix(in srgb, var(--m-surface) 80%, transparent);
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.35),
+    0 0 0 1px var(--m-border);
+}
+[data-theme] dialog.Box > .aX:hover {
+  background: var(--m-surface);
+}
+
+/* 体积对比图自适应 */
+[data-theme] #size-chart text {
+  fill: var(--text-muted);
+}
+[data-theme] #size-chart text[font-weight="600"],
+[data-theme] #size-chart text[font-weight="700"] {
+  fill: var(--text-color);
+}
+[data-theme] #size-chart line {
+  stroke: var(--border-color);
+}
+
+/* 暗色主题的特殊微调 (针对图标反色) */
+[data-theme="zinc-dark"] .BtnC.lang .Ico,
+[data-theme="tokyo-night"] .BtnC.lang .Ico,
+[data-theme="catppuccin-mocha"] .BtnC.lang .Ico,
+[data-theme="nord"] .BtnC.lang .Ico,
+[data-theme="github-dark"] .BtnC.lang .Ico,
+[data-theme="dracula"] .BtnC.lang .Ico {
+  filter: invert(1) opacity(0.85);
+}
+
+[data-theme="zinc-dark"] dialog.Box > .aX::before,
+[data-theme="tokyo-night"] dialog.Box > .aX::before,
+[data-theme="catppuccin-mocha"] dialog.Box > .aX::before,
+[data-theme="nord"] dialog.Box > .aX::before,
+[data-theme="github-dark"] dialog.Box > .aX::before,
+[data-theme="dracula"] dialog.Box > .aX::before {
+  filter: invert(1);
+}
+
+/* 悬浮操作按钮自适应 */
+html:not([data-theme]) .svg-actions .Btn {
+  background-color: rgba(255, 255, 255, 0.8) !important;
+  color: #0f172a !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05) !important;
+}
+html:not([data-theme]) .svg-actions .Btn:hover {
+  background-color: #ffffff !important;
+  border-color: var(--accent-color) !important;
+  color: var(--accent-color) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+}
+[data-theme] .svg-actions .Btn {
+  background-color: color-mix(in srgb, var(--m-surface) 80%, transparent) !important;
+  color: var(--fg) !important;
+  border-color: var(--m-border) !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35) !important;
+}
+[data-theme] .svg-actions .Btn:hover {
+  background-color: var(--m-surface) !important;
+  border-color: var(--m-arrow) !important;
+  color: var(--m-arrow) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.55) !important;
 }

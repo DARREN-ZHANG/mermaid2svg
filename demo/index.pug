@@ -11,15 +11,16 @@ html(lang="en")
     c-vs
       header
         .header-controls
+          .theme-switcher#theme-switcher
           c-i18n
-          a.BtnC.github-link(href="https://github.com/webc-site/math" target="_blank" aria-label="GitHub Repository")
+          a.BtnC.github-link(href="https://github.com/DARREN-ZHANG/mermaid2svg" target="_blank" aria-label="GitHub Repository")
             i.Ico
               include svg/github.svg
       main
         .container
           .header-main
             h1
-              a#ui-title(href="https://github.com/webc-site/math" target="_blank") Mermaid → SVG
+              a#ui-title(href="https://github.com/DARREN-ZHANG/mermaid2svg" target="_blank") Mermaid → SVG
             p#ui-subtitle.subtitle Browser-side Mermaid to SVG converter
           .main-grid
             .card.usage-card.Lg
@@ -38,14 +39,13 @@ html(lang="en")
               .editor-header
                 .editor-title-row
                   h2#ui-editor-title Interactive Editor
-                  .theme-switcher#theme-switcher
                 p#ui-editor-tip.tip Enter Mermaid source text to render SVG
               .editor-body
                 textarea#mermaid-input(placeholder="Enter Mermaid source here...")
                 .svg-preview-wrap
                   #svg-preview
                   .svg-actions
-                  #render-status.render-status
+              #render-status.render-status
           .examples-section
             h2#ui-examples-title Examples
             #examples-grid.examples-grid

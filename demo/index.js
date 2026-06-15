@@ -38,8 +38,8 @@ const I18N_MOD = import.meta.glob("./i18n/*.js", { eager: true }),
     set("ui-examples-title", t.examples_title);
     if (input) input.placeholder = t.editor_placeholder;
     // 主题标签
-    const labelEl = document.querySelector(".theme-switcher-label");
-    if (labelEl) labelEl.textContent = t.theme_label;
+    const triggerEl = document.querySelector(".theme-trigger");
+    if (triggerEl) triggerEl.title = t.theme_label;
     // SVG 操作按钮
     if (copy_btn) copy_btn.textContent = t.copy_svg;
     if (download_btn) download_btn.textContent = t.download_svg;
@@ -51,6 +51,7 @@ let i18n = getI18n(0),
   copy_btn,
   download_btn,
   copy_timer,
+  dropdown_open = false,
   // renderInput 调用序号：用于丢弃过期异步结果，避免旧输入覆盖新输入
   render_seq = 0;
 
@@ -90,34 +91,95 @@ const renderToSvg = async (mermaidText) => {
     try {
       localStorage.setItem(THEME_KEY, active);
     } catch {}
-    theme_switcher.querySelectorAll(".theme-btn").forEach((btn) => {
+
+    const triggerText = theme_switcher.querySelector(".theme-trigger-text"),
+      triggerSwatch = theme_switcher.querySelector(".theme-trigger-swatch"),
+      activeTheme = THEMES.find(([tid]) => tid === active);
+
+    if (triggerText && activeTheme) {
+      triggerText.textContent = activeTheme[1];
+      const palette = activeTheme[2];
+      if (palette) {
+        triggerSwatch.style.display = "inline-block";
+        triggerSwatch.style.background = palette.bg;
+        triggerSwatch.style.borderColor = palette.line || palette.fg;
+      } else {
+        triggerSwatch.style.display = "none";
+      }
+    }
+
+    theme_switcher.querySelectorAll(".theme-dropdown-item").forEach((btn) => {
       btn.classList.toggle("active", btn.dataset.theme === active);
     });
+
+    closeDropdown();
+  },
+  closeDropdown = () => {
+    const dropdown = theme_switcher.querySelector(".theme-dropdown");
+    if (dropdown) dropdown.classList.remove("is-open");
+    dropdown_open = false;
+  },
+  toggleDropdown = (e) => {
+    e.stopPropagation();
+    const dropdown = theme_switcher.querySelector(".theme-dropdown");
+    if (dropdown) {
+      dropdown.classList.toggle("is-open");
+      dropdown_open = dropdown.classList.contains("is-open");
+    }
   },
   buildThemeButtons = () => {
-    const label = document.createElement("span");
-    label.className = "theme-switcher-label";
-    label.textContent = i18n.theme_label;
-    theme_switcher.append(label);
+    theme_switcher.innerHTML = "";
+
+    const trigger = document.createElement("button");
+    trigger.type = "button";
+    trigger.className = "theme-trigger";
+
+    const swatch = document.createElement("span");
+    swatch.className = "theme-swatch theme-trigger-swatch";
+
+    const text = document.createElement("span");
+    text.className = "theme-trigger-text";
+    text.textContent = i18n.theme_label;
+
+    const arrow = document.createElement("span");
+    arrow.className = "theme-trigger-arrow";
+
+    trigger.append(swatch, text, arrow);
+    trigger.onclick = toggleDropdown;
+
+    const dropdown = document.createElement("div");
+    dropdown.className = "theme-dropdown";
+
     for (const [id, name, palette] of THEMES) {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "theme-btn";
-      btn.dataset.theme = id;
-      btn.textContent = name;
+      const item = document.createElement("button");
+      item.type = "button";
+      item.className = "theme-dropdown-item";
+      item.dataset.theme = id;
+      item.textContent = name;
+
+      const itemSwatch = document.createElement("span");
+      itemSwatch.className = "theme-swatch";
       if (palette) {
-        const sw = document.createElement("span");
-        sw.className = "theme-swatch";
-        sw.style.background = palette.bg;
-        sw.style.borderColor = palette.line || palette.fg;
-        sw.style.color = palette.fg;
-        btn.prepend(sw);
+        itemSwatch.style.background = palette.bg;
+        itemSwatch.style.borderColor = palette.line || palette.fg;
+        itemSwatch.style.color = palette.fg;
       } else {
-        btn.classList.add("is-default");
+        itemSwatch.classList.add("is-default");
       }
-      btn.onclick = () => applyTheme(id);
-      theme_switcher.append(btn);
+      item.prepend(itemSwatch);
+
+      item.onclick = (e) => {
+        e.stopPropagation();
+        applyTheme(id);
+      };
+      dropdown.append(item);
     }
+
+    theme_switcher.append(trigger, dropdown);
+
+    document.addEventListener("click", () => {
+      if (dropdown_open) closeDropdown();
+    });
   },
   adjustHeight = () => {
     const { style, scrollHeight } = input;

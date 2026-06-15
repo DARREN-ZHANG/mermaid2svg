@@ -236,6 +236,7 @@ main
   flex-direction column
   gap 8px
   min-width 0
+  position relative
 
 #svg-preview
   align-items center
@@ -265,29 +266,43 @@ main
 .render-status
   color var(--text-muted)
   font-size 14px
+  margin-top 16px
   min-height 20px
   transition color 0.2s
+  width 100%
 
   &.error
     background-color #fee2e2
-    border-radius 8px
+    border 1px solid #fecaca
+    border-radius 12px
     color #dc2626
-    padding 10px 14px
+    padding 12px 18px
 
 .svg-actions
   align-items center
   display flex
   gap 10px
-  justify-content flex-end
-  min-height 36px
+  position absolute
+  right 16px
+  top 16px
+  z-index 10
 
   &.is-hidden
     display none
 
   .Btn
-    font-size 13px
-    --btnPadding 8px 16px
-    --btnRadius 18px
+    background-color #ffffffd9
+    border 1px solid var(--border-color)
+    box-shadow 0 2px 6px #0000000d
+    font-size 12px
+    --btnPadding 6px 14px
+    --btnRadius 16px
+
+    &::after
+      display none
+
+    &:hover
+      box-shadow 0 4px 12px #00000014
 
 // ===== 示例图库 =====
 
@@ -305,7 +320,7 @@ main
 .examples-grid
   display grid
   gap 24px
-  grid-template-columns repeat(auto-fill, minmax(300px, 1fr))
+  grid-template-columns repeat(2, 1fr)
   width 100%
 
   .example-card
@@ -422,21 +437,13 @@ main
     height auto
     width 100%
 
-// ===== 主题切换器 =====
+// ===== 主题切换器 (Dropdown) =====
 
 .theme-switcher
-  align-items center
-  display flex
-  flex-wrap wrap
-  gap 6px
+  display inline-block
+  position relative
 
-.theme-switcher-label
-  color var(--text-muted)
-  font-size 13px
-  font-weight 400
-  margin-right 4px
-
-.theme-btn
+.theme-trigger
   align-items center
   background-color #ffffff
   border 1px solid var(--border-color)
@@ -447,8 +454,9 @@ main
   display inline-flex
   font-size 13px
   font-weight 500
-  gap 6px
-  padding 5px 12px
+  gap 8px
+  height 36px
+  padding 0 16px
   transition all 0.2s cubic-bezier(0.4, 0, 0.2, 1)
   white-space nowrap
 
@@ -457,10 +465,64 @@ main
     color var(--accent-color)
     transform translateY(-1px)
 
+.theme-trigger-arrow
+  border-left 4px solid transparent
+  border-right 4px solid transparent
+  border-top 4px solid currentColor
+  display inline-block
+  height 0
+  margin-left 2px
+  transition transform 0.2s
+  width 0
+
+.theme-dropdown
+  backdrop-filter blur(16px) saturate(160%)
+  background linear-gradient(180deg, #fffffff2, #ffffffe6)
+  border 1px solid var(--border-color)
+  border-radius 16px
+  box-shadow 0 10px 30px #0000001a, 0 1px 3px #0000000d
+  box-sizing border-box
+  display flex
+  flex-direction column
+  gap 2px
+  opacity 0
+  padding 6px
+  pointer-events none
+  position absolute
+  right 0
+  top calc(100% + 8px)
+  transform translateY(-10px) scale(0.95)
+  transition all 0.2s cubic-bezier(0.16, 1, 0.3, 1)
+  width 180px
+  z-index 200
+
+  &.is-open
+    opacity 1
+    pointer-events auto
+    transform translateY(0) scale(1)
+
+.theme-dropdown-item
+  align-items center
+  background none
+  border none
+  border-radius 10px
+  color var(--text-color)
+  cursor pointer
+  display flex
+  font-size 13px
+  font-weight 500
+  gap 8px
+  padding 8px 12px
+  text-align left
+  transition all 0.15s ease
+  width 100%
+
+  &:hover
+    background-color #0000000a
+    color var(--accent-color)
+
   &.active
     background-color var(--accent-color)
-    border-color var(--accent-color)
-    box-shadow 0 2px 6px -1px #2563eb40
     color #ffffff
 
     .theme-swatch
@@ -469,9 +531,15 @@ main
 .theme-swatch
   border 1px solid currentColor
   border-radius 9999px
+  box-sizing border-box
   display inline-block
+  flex-shrink 0
   height 12px
   width 12px
+
+  &.is-default
+    background conic-gradient(#ff453a, #ff9f0a, #ffd60a, #30d158, #0a84ff, #5e5ce6, #ff453a)
+    border none
 
 // ===== 响应式 =====
 
@@ -511,3 +579,6 @@ main
 
   .editor-body
     flex-direction column
+
+  .examples-grid
+    grid-template-columns 1fr
