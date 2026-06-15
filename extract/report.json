@@ -1,20 +1,20 @@
 {
-  "generatedAt": "2026-06-14T14:34:04.184Z",
+  "generatedAt": "2026-06-14T14:51:14.786Z",
   "sources": {
     "probelabs/maid": {
-      "scannedFiles": 0,
+      "scannedFiles": 211,
       "candidates": 25,
       "accepted": 25,
       "skipped": 0
     },
     "lukilabs/beautiful-mermaid": {
-      "scannedFiles": 0,
+      "scannedFiles": 24,
       "candidates": 25,
       "accepted": 22,
       "skipped": 3
     },
     "mermaid-js/mermaid": {
-      "scannedFiles": 0,
+      "scannedFiles": 271,
       "candidates": 77,
       "accepted": 54,
       "skipped": 23
